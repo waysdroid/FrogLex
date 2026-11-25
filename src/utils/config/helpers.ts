@@ -19,6 +19,7 @@ import {
   isTranslateProviderConfig,
 } from "@/types/config/provider"
 import { FEATURE_KEYS, FEATURE_PROVIDER_DEFS } from "@/utils/constants/feature-providers"
+import { UNCONFIGURED_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
 import { getSelectionToolbarActions, patchSelectionToolbarAction } from "@/utils/custom-actions"
 import {
   getUsableProviderIdsForCapability,
@@ -218,14 +219,9 @@ export function computeSelectionToolbarCustomActionFallbacksAfterDeletion(
     return null
   }
 
-  const fallbackProviderId = getUsableProviderIdsForCapability(
-    "customAction",
-    remainingProviders,
-    status,
-  )[0]
-  if (!fallbackProviderId) {
-    return null
-  }
+  const fallbackProviderId =
+    getUsableProviderIdsForCapability("customAction", remainingProviders, status)[0] ??
+    UNCONFIGURED_AI_PROVIDER_ID
 
   return affectedActions.reduce(
     (selectionToolbar, action) =>

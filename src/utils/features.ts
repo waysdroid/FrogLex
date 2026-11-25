@@ -50,11 +50,6 @@ export const FEATURES = {
   selectionToolbar: switchAt("selectionToolbar", "enabled"),
   "selectionToolbar.annotation": switchAt("selectionToolbar", "annotation", "enabled"),
   "selectionToolbar.translate": switchAt("selectionToolbar", "features", "translate", "enabled"),
-  "selectionToolbar.translate.noteSuggestion": switchAt(
-    "selectionToolbar",
-    "noteSuggestion",
-    "enabled",
-  ),
   "selectionToolbar.speak": switchAt("selectionToolbar", "features", "speak", "enabled"),
   contextMenu: switchAt("contextMenu", "enabled"),
   translationHub: switchAt("translationHub", "enabled"),

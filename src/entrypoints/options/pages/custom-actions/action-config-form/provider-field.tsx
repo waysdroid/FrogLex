@@ -4,8 +4,6 @@ import { useAtomValue } from "jotai"
 import { useMemo } from "react"
 import { useAutosaveContext } from "@/components/form/use-autosave"
 import ProviderSelector from "@/components/llm-providers/provider-selector"
-import { useBuiltInAiModels } from "@/components/llm-providers/use-built-in-ai-models"
-import { useHostedAiProviderOptions } from "@/components/llm-providers/use-hosted-ai-provider-options"
 import { Field, FieldTitle } from "@/components/ui/base-ui/field"
 import { configFieldsAtomMap } from "@/utils/atoms/config"
 import { i18n } from "@/utils/i18n"
@@ -21,7 +19,7 @@ export const ProviderField = withForm({
     const autosave = useAutosaveContext()
     const providersConfig = useAtomValue(configFieldsAtomMap.providersConfig)
 
-    const { models: builtInAiModels } = useBuiltInAiModels()
+    const builtInAiModels = null
     const selectedProviderId = useSelector(form.store, (state) => state.values.providerId)
 
     const baseCustomActionProviders = useMemo(
@@ -31,10 +29,7 @@ export const ProviderField = withForm({
         ]),
       [providersConfig, builtInAiModels, selectedProviderId],
     )
-    const customActionProviders = useHostedAiProviderOptions(
-      "customAction",
-      baseCustomActionProviders,
-    )
+    const customActionProviders = baseCustomActionProviders
 
     return (
       <form.AppField

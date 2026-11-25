@@ -2,7 +2,7 @@ import type { Config } from "@/types/config/config"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { isAPIProviderConfig } from "@/types/config/provider"
 import { CONFIG_SCHEMA_VERSION, DEFAULT_CONFIG } from "@/utils/constants/config"
-import { DEFAULT_BUILT_IN_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
+import { MICROSOFT_TRANSLATE_PROVIDER_ID } from "@/utils/constants/providers"
 
 const getItemMock = vi.fn<(...args: any[]) => any>()
 const getMetaMock = vi.fn<(...args: any[]) => any>()
@@ -99,11 +99,10 @@ describe("initializeConfig", () => {
     expect(setItemMock).toHaveBeenCalledTimes(1)
     expect(setItemMock).toHaveBeenCalledWith("local:config", expect.any(Object))
     const freshConfig = setItemMock.mock.calls[0]?.[1] as Config
-    for (const providerId of ["openai-default", "jalapenocloud-default", "deepseek-default"]) {
-      expect(freshConfig.providersConfig.find((provider) => provider.id === providerId)).toEqual(
-        expect.objectContaining({ description: expect.any(String) }),
-      )
-    }
+    expect(freshConfig.providersConfig.map((provider) => provider.provider)).toEqual([
+      "google-translate",
+      "microsoft-translate",
+    ])
     expect(setMetaMock).toHaveBeenCalledTimes(1)
     expect(setMetaMock).toHaveBeenCalledWith(
       "local:config",
@@ -114,7 +113,7 @@ describe("initializeConfig", () => {
     )
   })
 
-  it("starts every translate feature on Built-in AI's default model", async () => {
+  it("starts every translate feature on Microsoft Translator", async () => {
     getItemMock.mockResolvedValueOnce(null)
     getMetaMock.mockResolvedValueOnce(null)
 
@@ -124,10 +123,10 @@ describe("initializeConfig", () => {
     expect(isFreshInstall).toBe(true)
     const freshConfig = setItemMock.mock.calls[0]?.[1] as Config
     expect(translateProviderIdsOf(freshConfig)).toEqual([
-      DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-      DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-      DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-      DEFAULT_BUILT_IN_AI_PROVIDER_ID,
+      MICROSOFT_TRANSLATE_PROVIDER_ID,
+      MICROSOFT_TRANSLATE_PROVIDER_ID,
+      MICROSOFT_TRANSLATE_PROVIDER_ID,
+      MICROSOFT_TRANSLATE_PROVIDER_ID,
     ])
   })
 

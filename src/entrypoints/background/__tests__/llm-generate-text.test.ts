@@ -47,7 +47,7 @@ describe("llm-generate-text", () => {
     expect(result).toEqual({ text: "eng" })
   })
 
-  it("passes a system provider ref through untouched", async () => {
+  it("rejects a retired system provider before dispatch", async () => {
     generateTextForProviderRefMock.mockResolvedValue("cmn")
     const hostedPayload = {
       ...localPayload,
@@ -66,8 +66,10 @@ describe("llm-generate-text", () => {
     setupLLMGenerateTextMessageHandlers()
 
     const handler = getRegisteredMessageHandler("backgroundGenerateText")
-    await expect(handler({ data: hostedPayload })).resolves.toEqual({ text: "cmn" })
-    expect(generateTextForProviderRefMock).toHaveBeenCalledWith(hostedPayload)
+    await expect(handler({ data: hostedPayload })).rejects.toThrow(
+      "Configure a personal AI provider",
+    )
+    expect(generateTextForProviderRefMock).not.toHaveBeenCalled()
   })
 
   it("logs and rethrows handler errors", async () => {
@@ -104,7 +106,7 @@ describe("llm-generate-text", () => {
             hostedFeature,
           },
         }),
-      ).rejects.toThrow("valid hostedFeature is required")
+      ).rejects.toThrow("Configure a personal AI provider")
       expect(generateTextForProviderRefMock).not.toHaveBeenCalled()
     },
   )

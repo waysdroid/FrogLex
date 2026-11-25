@@ -2,8 +2,6 @@ import { IconSettings } from "@tabler/icons-react"
 import { useAtom, useAtomValue } from "jotai"
 import { browser } from "#imports"
 import { ProviderOptionContent } from "@/components/llm-providers/provider-selector"
-import { useBuiltInAiModels } from "@/components/llm-providers/use-built-in-ai-models"
-import { useHostedAiProviderOptions } from "@/components/llm-providers/use-hosted-ai-provider-options"
 import ProviderIcon from "@/components/provider-icon"
 import { useTheme } from "@/components/providers/theme-provider"
 import { Button } from "@/components/ui/base-ui/button"
@@ -36,7 +34,7 @@ const log = createLogger("translation-hub/translation-service-dropdown")
 export function TranslationServiceDropdown() {
   const { theme } = useTheme()
   const [selectedIds, setSelectedIds] = useAtom(selectedProviderIdsAtom)
-  const { models: builtInAiModels } = useBuiltInAiModels()
+  const builtInAiModels = null
   const providersConfig = useAtomValue(configFieldsAtomMap.providersConfig)
   const translateProviders = getTranslateProvidersConfig(providersConfig)
   const filteredProvidersConfig = filterEnabledProvidersConfig(translateProviders)
@@ -60,7 +58,7 @@ export function TranslationServiceDropdown() {
     builtInAiModels,
     selectedIds,
   )
-  const providerOptions = useHostedAiProviderOptions("pageTranslation", selectableProviders)
+  const providerOptions = selectableProviders
   const builtInProviders = providerOptions.filter(isSystemProviderSelectorItem)
 
   return (

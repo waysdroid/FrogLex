@@ -9,9 +9,6 @@ import { switchedOffFeature } from "@/utils/features"
 import { getRouteFeature, ROUTE_DEFS } from "./app-sidebar/nav-items"
 import { buildSimpleModeRowLink } from "./pages/advanced/simple-mode/links"
 
-const UsagePage = lazy(() =>
-  import("./pages/usage").then((module) => ({ default: module.UsagePage })),
-)
 const PreferencePage = lazy(() =>
   import("./pages/preference").then((module) => ({ default: module.PreferencePage })),
 )
@@ -69,9 +66,6 @@ const SimpleModePage = lazy(() =>
 function AdvancedRedirect() {
   return <Navigate to="/advanced/glossary" replace />
 }
-const HelpAndCommunityPage = lazy(() =>
-  import("./pages/help-and-community").then((module) => ({ default: module.HelpAndCommunityPage })),
-)
 const CustomCssPage = lazy(() =>
   import("./pages/translation/translation-style/custom-css").then((module) => ({
     default: module.CustomCssPage,
@@ -145,7 +139,6 @@ const SubtitlesQueuePage = lazy(() =>
 
 const ROUTE_COMPONENTS: Record<RoutePath, ComponentType> = {
   "/": PreferencePage,
-  "/usage": UsagePage,
   "/preference": PreferencePage,
   "/shortcuts": ShortcutsPage,
   "/api-providers": ApiProvidersPage,
@@ -159,7 +152,6 @@ const ROUTE_COMPONENTS: Record<RoutePath, ComponentType> = {
   "/input-translation": InputTranslationPage,
   "/tts": TextToSpeechPage,
   "/advanced": AdvancedRedirect,
-  "/help-and-community": HelpAndCommunityPage,
   "/advanced/glossary": GlossaryPage,
   "/advanced/glossary/:glossaryId": GlossaryEditorPage,
   "/advanced/simple-mode": SimpleModePage,
@@ -224,6 +216,7 @@ export default function App() {
             />
           )
         })}
+        <Route path="*" element={<Navigate to="/preference" replace />} />
       </Routes>
     </Suspense>
   )

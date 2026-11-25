@@ -158,19 +158,17 @@ describe("dEFAULT_CONFIG", () => {
     )
     expect(config.selectionToolbar.builtInActions.dictionary).toEqual({
       enabled: true,
-      providerId: "read-frog-ai:gpt-6-luna",
+      providerId: "unconfigured-local-ai",
+      shortcut: expect.any(String),
     })
     expect(config.selectionToolbar.customActions).toEqual([])
-    // Translation runs on Built-in AI; note suggestions keep their own default.
+    // Translation runs on an account-free provider.
     expect([
       config.pageTranslation.providerId,
       config.selectionToolbar.features.translate.providerId,
       config.inputTranslation.providerId,
       config.videoSubtitles.providerId,
-    ]).toEqual(Array.from({ length: 4 }, () => "read-frog-ai:gpt-6-luna"))
-    expect(config.selectionToolbar.noteSuggestion.providerId).toBe(
-      DEFAULT_CONFIG.selectionToolbar.noteSuggestion.providerId,
-    )
+    ]).toEqual(Array.from({ length: 4 }, () => "microsoft-translate-default"))
     expect(createDefaultDictionaryAction()).toEqual(
       expect.objectContaining({
         id: "default-dictionary",

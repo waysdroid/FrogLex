@@ -1,6 +1,5 @@
 import type { SubtitlesFragment } from "./types"
 import type { BackgroundStreamTextSerializablePayload } from "@/types/background-stream"
-import type { BuiltInAiConfig } from "@/types/config/built-in-ai"
 import type { Config } from "@/types/config/config"
 import type { ProviderRefForCapability } from "@/utils/providers/provider-registry"
 import { LANGUAGE_ENGLISH_NAMES } from "@read-frog/definitions"
@@ -46,30 +45,17 @@ export type VideoSummaryProviderRef = ProviderRefForCapability<"videoSubtitles">
 
 export const VIDEO_SUMMARY_QUERY_SCOPE = ["subtitles", "video-summary"] as const
 
-/**
- * The summary on screen for a video, language and provider. A local provider
- * keys on its whole config, so an edit under the same id asks again. A
- * Built-in AI model keys on its id and the reasoning level picked for it,
- * which every request sends: picking another level asks again too. A pick
- * that ends at the same level is served from the background's cache, which
- * keys on the level the request runs at.
- */
 export function videoSummaryQueryKey(
   videoId: string | null,
   targetCode: string,
   resolved: VideoSummaryProviderRef,
-  builtInAi: BuiltInAiConfig,
 ) {
-  const providerIdentity = !resolved
-    ? null
-    : resolved.kind === "local"
-      ? resolved.config
-      : {
-          providerId: resolved.id,
-          reasoning: builtInAi.models[resolved.model]?.reasoning ?? null,
-        }
-
-  return [...VIDEO_SUMMARY_QUERY_SCOPE, videoId, targetCode, providerIdentity] as const
+  return [
+    ...VIDEO_SUMMARY_QUERY_SCOPE,
+    videoId,
+    targetCode,
+    resolved?.kind === "local" ? resolved.config : null,
+  ] as const
 }
 
 const ZERO_WIDTH_CHARS_RE = /[\u200B-\u200D\uFEFF]/g

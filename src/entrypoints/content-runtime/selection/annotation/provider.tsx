@@ -26,7 +26,6 @@ import {
   getAnnotationShortcut,
   MAX_ANNOTATION_TEXT_LENGTH,
 } from "@/utils/constants/selection"
-import { promptForBuiltInAiRefusal } from "@/utils/content-runtime/built-in-ai-prompt"
 import { prepareTranslationText } from "@/utils/host/translate/text-preparation"
 import { i18n } from "@/utils/i18n"
 import { toSelectionPromptContext } from "@/utils/prompts/selection-context"
@@ -280,24 +279,11 @@ function useAnnotationController(): AnnotationContextValue {
           inFlight.current.delete(record.id)
           if (isAbortError(error)) return
           controller.remove(record.id)
-          // A guest is asked to log in and a spent pool to upgrade; either can switch
-          // selection translation, whose provider annotation runs on, to machine
-          // translation, and the word is annotated again.
-          void promptForBuiltInAiRefusal(error, {
-            feature: "selectionTranslation",
-            analyticsFeature: ANALYTICS_FEATURE.WORD_ANNOTATION,
-            trigger: "user",
-            retry: () => {
-              annotateSelection(session, surface)
-            },
-          }).then((prompted) => {
-            if (prompted) return
-            const message = error instanceof Error && error.message ? error.message : ""
-            toastManager.add({
-              type: "error",
-              title: i18n.t("annotation.failed"),
-              ...(message ? { description: message } : {}),
-            })
+          const message = error instanceof Error && error.message ? error.message : ""
+          toastManager.add({
+            type: "error",
+            title: i18n.t("annotation.failed"),
+            ...(message ? { description: message } : {}),
           })
           void trackFeatureUsed({
             ...analyticsContext,

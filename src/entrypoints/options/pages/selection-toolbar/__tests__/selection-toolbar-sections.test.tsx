@@ -75,7 +75,7 @@ vi.mock("@/hooks/use-feature-on", () => ({
 vi.mock("@/components/llm-providers/use-feature-providers", () => ({
   useFeatureProvider: () => ({
     providers: [],
-    providerId: "read-frog-ai:gpt-6-luna",
+    providerId: "unconfigured-local-ai",
     providerConfig: null,
     setProviderId: vi.fn<(id: string) => void>(),
   }),
@@ -120,8 +120,7 @@ describe("selection toolbar page sections", () => {
         <ActionsSection />
       </MemoryRouter>,
     )
-    // Save suggestions sit under translate, between the two.
-    const [translate, noteSuggestion, speak] = screen.getAllByRole("switch")
+    const [translate, speak] = screen.getAllByRole("switch")
 
     fireEvent.click(speak!)
 
@@ -129,24 +128,6 @@ describe("selection toolbar page sections", () => {
       setFeatureOn("selectionToolbar.speak", false),
     )
     expect(translate).toBeChecked()
-    expect(noteSuggestion).toBeChecked()
-  })
-
-  it("keeps save suggestions' own switch, disabled, while translate is off", () => {
-    const { features } = currentConfig().selectionToolbar
-    features.translate = { ...features.translate, enabled: false }
-
-    render(
-      <MemoryRouter>
-        <ActionsSection />
-      </MemoryRouter>,
-    )
-    const [translate, noteSuggestion, speak] = screen.getAllByRole("switch")
-
-    expect(translate).not.toBeChecked()
-    expect(noteSuggestion).toBeChecked()
-    expect(noteSuggestion).toHaveAttribute("aria-disabled", "true")
-    expect(speak).not.toHaveAttribute("aria-disabled", "true")
   })
 
   it("switches the annotation slot, leaving the toolbar's other settings alone", () => {

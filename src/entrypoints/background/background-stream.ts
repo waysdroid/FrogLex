@@ -1,21 +1,12 @@
-import type {
-  HostedAiFeature,
-  HostedAiRateLimitErrorData,
-  PublicAppErrorCode,
-} from "@read-frog/api-contract"
 import type { Browser } from "#imports"
 import type { BackgroundGenerateTextPayload } from "@/types/background-generate-text"
 import type {
-  BackgroundNoteSuggestionStreamSnapshot,
-  BackgroundStreamNoteSuggestionSerializablePayload,
   BackgroundStreamPortName,
   BackgroundStreamSnapshot,
   BackgroundStreamStructuredObjectSerializablePayload,
   BackgroundStreamTextSerializablePayload,
-  BackgroundStructuredObjectOutputField,
   BackgroundStructuredObjectStreamSnapshot,
   BackgroundTextStreamSnapshot,
-  HostedAiTextStreamRoute,
   StartMessageParseResult,
   StreamPortHandler,
   StreamPortRequestMessage,
@@ -26,19 +17,6 @@ import type {
 } from "@/types/background-stream"
 import type { TranslateProviderConfig } from "@/types/config/provider"
 import type { ErrorAction } from "@/utils/error-action"
-import type { HostedAiModel } from "@/utils/hosted-ai/models"
-import type { HostedAiModelTier, HostedAiReasoning } from "@/utils/hosted-ai/types"
-import {
-  HostedAiModelUnavailableDataSchema,
-  HostedAiNoteSuggestionObjectSchema,
-  HostedAiNoteSuggestionStreamInputSchema,
-  HostedAiOutputFieldTypeSchema,
-  HostedAiQuotaExhaustedDataSchema,
-  HostedAiRateLimitErrorDataSchema,
-  HostedAiStreamStructuredObjectInputSchema,
-  HostedAiStreamTextInputSchema,
-  HostedAiTierRestrictedDataSchema,
-} from "@read-frog/api-contract"
 import { generateText, Output, parsePartialJson, streamText } from "ai"
 import { z } from "zod"
 import { BACKGROUND_STREAM_PORTS } from "@/types/background-stream"
@@ -46,31 +24,11 @@ import { isLLMProviderConfig, llmProviderConfigItemSchema } from "@/types/config
 import { createStructuredObjectSchema } from "@/utils/ai/structured-object-schema"
 import { classifyFailureReason } from "@/utils/analytics-failure-reason"
 import { getBuiltInAiModelId } from "@/utils/constants/provider-ids"
-import { logInAction, upgradeAction } from "@/utils/error-action"
 import { extractAISDKErrorMessage } from "@/utils/error/extract-message"
-import { getAnalyticsFeatureForHostedFeature } from "@/utils/hosted-ai/analytics-feature"
-import {
-  chooseHostedAiModelAction,
-  getHostedAiModelBusyMessage,
-  getHostedAiModelUnavailableMessage,
-} from "@/utils/hosted-ai/model-errors"
-import {
-  findHostedAiModel,
-  getHostedAiModelName,
-  getRequestedHostedAiReasoning,
-  readHostedAiReasoningChoice,
-  readStoredHostedAiModels,
-} from "@/utils/hosted-ai/models"
-import { hostedTextStreamRouteSchema, requireHostedFeature } from "@/utils/hosted-ai/routing"
-import { i18n } from "@/utils/i18n"
 import { createLogger } from "@/utils/logging/logger"
-import { noteSuggestionEnvelopeSchema } from "@/utils/note-suggestion/types"
-import { backgroundOrpcClient } from "@/utils/orpc/background-client"
 import { buildLocalGenerateTextParams } from "@/utils/providers/generate-params"
 import { getLanguageModelForConfig, getModelById } from "@/utils/providers/model"
-import { getHostedFeatureForRoute } from "@/utils/providers/provider-ref"
 import { isBuiltInAiProviderId } from "@/utils/providers/provider-registry"
-import { attachRequestErrorMeta } from "@/utils/request/retry-policy"
 
 const log = createLogger("background/background-stream")
 
@@ -81,11 +39,6 @@ const aiOutputLengthLimitErrorMessage =
   "The AI output reached the length limit. Please reduce the requested output length and try again."
 
 type AiStreamPart = Record<string, unknown> & { type: string }
-
-type HostedStreamFn = (
-  input: Record<string, unknown>,
-  options?: { signal?: AbortSignal },
-) => Promise<AsyncIterable<unknown>>
 
 function createStreamAbortError(message: string) {
   return new DOMException(message, "AbortError")
@@ -106,35 +59,22 @@ const streamPortStartEnvelopeSchema = z.object({
 
 const baseStreamPayloadSchema = z.object({ providerId: z.string().trim().min(1) }).loose()
 
-const streamTextPayloadSchema = z.discriminatedUnion("providerKind", [
-  baseStreamPayloadSchema
-    .extend({
-      providerKind: z.literal("local"),
-      providerId: z
-        .string()
-        .trim()
-        .min(1)
-        .refine((id) => !isBuiltInAiProviderId(id)),
-      providerConfig: llmProviderConfigItemSchema.optional(),
-      hostedFeature: z.never().optional(),
-    })
-    .refine(
-      ({ providerId, providerConfig }) => !providerConfig || providerConfig.id === providerId,
-    ),
-  baseStreamPayloadSchema.extend({
-    providerKind: z.literal("system"),
-    providerId: z.string().refine(isBuiltInAiProviderId),
-    providerConfig: z.never().optional(),
-    hostedFeature: hostedTextStreamRouteSchema,
-  }),
-])
+const streamTextPayloadSchema = baseStreamPayloadSchema
+  .extend({
+    providerKind: z.literal("local"),
+    providerConfig: llmProviderConfigItemSchema.optional(),
+    hostedFeature: z.never().optional(),
+  })
+  .refine(
+    ({ providerId, providerConfig }) =>
+      !isBuiltInAiProviderId(providerId) && (!providerConfig || providerConfig.id === providerId),
+  )
 
-// Transport-level check for BOTH provider kinds, so only the enum comes from
-// the contract; hosted-only constraints (name length, field count) are applied
-// by the contract input schema right before the hosted call.
+const outputFieldTypeSchema = z.enum(["string", "number"])
+
 const structuredObjectFieldSchema = z.object({
   name: z.string().trim().min(1),
-  type: HostedAiOutputFieldTypeSchema,
+  type: outputFieldTypeSchema,
 })
 
 const structuredObjectPayloadSchema = z
@@ -362,21 +302,6 @@ class BackgroundStreamError extends Error {
   readonly action?: ErrorAction
 }
 
-function withRequestErrorMeta<T extends Error>(
-  error: T,
-  meta: {
-    statusCode?: number
-    isRetryable: boolean
-    kind: "rate-limit" | "bad-request" | "access-denied"
-  },
-): T {
-  // Keep enumerable top-level fields as well as the symbol metadata. This is
-  // robust across isolated extension/test realms where Symbol identities may
-  // differ, and RequestQueue reads both representations.
-  Object.assign(error, meta)
-  return attachRequestErrorMeta(error, meta)
-}
-
 function toAiStreamPart(part: unknown): AiStreamPart {
   if (!isRecord(part) || typeof part.type !== "string" || part.type.trim().length === 0) {
     throw new BackgroundStreamError("stream_protocol_error", aiStreamProtocolErrorMessage)
@@ -398,279 +323,6 @@ function getStreamPartError(part: Record<string, unknown>): unknown {
   return "error" in part
     ? part.error
     : new BackgroundStreamError("stream_protocol_error", aiStreamProtocolErrorMessage)
-}
-
-function isOrpcRateLimitError(error: unknown): boolean {
-  if (typeof error !== "object" || error === null) {
-    return false
-  }
-
-  const candidate = error as { code?: unknown }
-  return candidate.code === "TOO_MANY_REQUESTS"
-}
-
-function getOrpcErrorCode(error: unknown): string | undefined {
-  return isRecord(error) && typeof error.code === "string" ? error.code : undefined
-}
-
-/**
- * The server builds this payload `satisfies HostedAiRateLimitErrorData`; the
- * same contract schema parses it back here, so the two ends cannot drift.
- */
-function getHostedAiRateLimitData(error: unknown): HostedAiRateLimitErrorData | undefined {
-  if (!isRecord(error)) {
-    return undefined
-  }
-
-  const parsed = HostedAiRateLimitErrorDataSchema.safeParse(error.data)
-  return parsed.success ? parsed.data : undefined
-}
-
-function getHostedAiRateLimitMessage(
-  data: HostedAiRateLimitErrorData | undefined,
-  models: HostedAiModelCatalog,
-): string {
-  // The model is busy, not the caller: their own limits are fine, so the
-  // caller-scoped wording would blame them for it.
-  if (data?.model) {
-    return getHostedAiModelBusyMessage(
-      getHostedAiModelName(models, data.model),
-      (data.alternatives ?? []).map((id) => getHostedAiModelName(models, id)),
-    )
-  }
-  switch (data?.quotaScope) {
-    case "guest":
-      return i18n.t("hostedAi.errors.guestRateLimited")
-    case "user":
-      return i18n.t("hostedAi.errors.userRateLimited")
-    default:
-      return i18n.t("hostedAi.errors.rateLimited")
-  }
-}
-
-/** Offered only when the model is busy and another one could take the request now. */
-function getHostedAiRateLimitAction(
-  data: HostedAiRateLimitErrorData | undefined,
-): ErrorAction | undefined {
-  const alternative = data?.model ? data.alternatives?.[0] : undefined
-  return alternative ? chooseHostedAiModelAction(alternative) : undefined
-}
-
-// Pinned with `satisfies` so a code renamed in the contract fails this build
-// instead of silently falling through to the generic error path.
-const HOSTED_AI_TIER_RESTRICTED = "HOSTED_AI_TIER_RESTRICTED" satisfies PublicAppErrorCode
-const HOSTED_AI_QUOTA_EXHAUSTED = "HOSTED_AI_QUOTA_EXHAUSTED" satisfies PublicAppErrorCode
-const HOSTED_AI_MODEL_UNAVAILABLE = "HOSTED_AI_MODEL_UNAVAILABLE" satisfies PublicAppErrorCode
-
-/**
- * The model list a request was sent with, to name the models in its errors.
- * The server's error names models by id only; display names come from here.
- */
-type HostedAiModelCatalog = readonly HostedAiModel[] | null
-
-/**
- * The model cannot run: the server dropped it, or no provider of it has budget
- * left this week. Names what this account can run instead and offers to open
- * the first of them in the settings, but never switches by itself: another
- * model's output and price are the user's call. A payload that fails to parse
- * still names the model the request asked for.
- */
-function createHostedAiModelUnavailableError(
-  error: unknown,
-  context: HostedAiErrorContext,
-): BackgroundStreamError {
-  const parsed = HostedAiModelUnavailableDataSchema.safeParse(
-    isRecord(error) ? error.data : undefined,
-  )
-  const modelId = parsed.success ? parsed.data.model : context.model
-  const alternatives = parsed.success ? parsed.data.alternatives : []
-  if (modelId === undefined) {
-    return new BackgroundStreamError(
-      HOSTED_AI_MODEL_UNAVAILABLE,
-      i18n.t("hostedAi.availability.serviceUnavailable"),
-      { cause: error },
-    )
-  }
-  return new BackgroundStreamError(
-    HOSTED_AI_MODEL_UNAVAILABLE,
-    getHostedAiModelUnavailableMessage(
-      getHostedAiModelName(context.models, modelId),
-      alternatives.map((id) => getHostedAiModelName(context.models, id)),
-    ),
-    { cause: error, action: chooseHostedAiModelAction(alternatives[0] ?? modelId) },
-  )
-}
-
-/**
- * Every pool but Ultra's has a bigger plan above it, so running one dry offers
- * the upgrade. Ultra is the top of the ladder: pricing has nothing to sell a
- * subscriber there, so the message stands alone. A payload that fails to parse
- * still offers it — nearly everyone who hits a wall is below Ultra.
- */
-function getHostedAiQuotaExhaustedAction(
-  error: unknown,
-  context: HostedAiErrorContext,
-): ErrorAction | undefined {
-  const parsed = HostedAiQuotaExhaustedDataSchema.safeParse(
-    isRecord(error) ? error.data : undefined,
-  )
-  return parsed.success && parsed.data.policyId === "ultra-weekly-v1"
-    ? undefined
-    : upgradeAction(
-        "extension_quota_exhausted",
-        context.feature && getAnalyticsFeatureForHostedFeature(context.feature),
-      )
-}
-
-/**
- * Names the plan the wall asks for: "Pro or Ultra" when Pro is enough. A
- * payload that fails to parse, as from a server that predates `upgradeTo`,
- * reads as Ultra, the only plan that server walls behind.
- */
-function getHostedAiTierRestrictedMessage(error: unknown): string {
-  const parsed = HostedAiTierRestrictedDataSchema.safeParse(
-    isRecord(error) ? error.data : undefined,
-  )
-  return parsed.success && parsed.data.upgradeTo === "pro"
-    ? i18n.t("hostedAi.availability.proRequired")
-    : i18n.t("hostedAi.availability.ultraRequired")
-}
-
-/** What a hosted request named, for its errors to name back. */
-interface HostedAiErrorContext {
-  model?: string
-  models: HostedAiModelCatalog
-  /** The feature the request bills against; an upgrade link names it. */
-  feature?: HostedAiFeature
-}
-
-const NO_HOSTED_AI_ERROR_CONTEXT: HostedAiErrorContext = { models: null }
-
-function normalizeHostedAiError(
-  error: unknown,
-  context: HostedAiErrorContext = NO_HOSTED_AI_ERROR_CONTEXT,
-): unknown {
-  switch (getOrpcErrorCode(error)) {
-    case HOSTED_AI_MODEL_UNAVAILABLE:
-      // Kind "access-denied" drains the queue backlog: every request behind
-      // this one names the same model and would be refused the same way.
-      return withRequestErrorMeta(createHostedAiModelUnavailableError(error, context), {
-        isRetryable: false,
-        kind: "access-denied",
-      })
-    case HOSTED_AI_TIER_RESTRICTED:
-      return withRequestErrorMeta(
-        new BackgroundStreamError(
-          "HOSTED_AI_TIER_RESTRICTED",
-          getHostedAiTierRestrictedMessage(error),
-          { cause: error },
-        ),
-        { isRetryable: false, kind: "access-denied" },
-      )
-    case HOSTED_AI_QUOTA_EXHAUSTED:
-      // Quota exhaustion may also use HTTP 429, but it is a billing-period hard limit:
-      // never normalize it into the short-term pause-and-retry path. Kind
-      // "access-denied" (never a statusCode) drains the queue backlog without
-      // ever entering rate-limit classification.
-      return withRequestErrorMeta(
-        new BackgroundStreamError(
-          "HOSTED_AI_QUOTA_EXHAUSTED",
-          i18n.t("hostedAi.availability.quotaExhausted"),
-          { cause: error, action: getHostedAiQuotaExhaustedAction(error, context) },
-        ),
-        { isRetryable: false, kind: "access-denied" },
-      )
-    case "UNAUTHORIZED":
-      return withRequestErrorMeta(
-        new BackgroundStreamError(
-          "UNAUTHORIZED",
-          i18n.t("hostedAi.availability.authenticationRequired"),
-          { cause: error, action: logInAction() },
-        ),
-        { isRetryable: false, kind: "access-denied" },
-      )
-    default:
-      break
-  }
-
-  if (isOrpcRateLimitError(error)) {
-    // A busy model waits and retries like any rate limit: the same request
-    // succeeds once a provider frees up, so it never fails the queue.
-    const data = getHostedAiRateLimitData(error)
-    return withRequestErrorMeta(
-      new BackgroundStreamError("rate_limited", getHostedAiRateLimitMessage(data, context.models), {
-        cause: error,
-        retryAfterMs: data?.retryAfterMs,
-        action: getHostedAiRateLimitAction(data),
-      }),
-      { statusCode: 429, isRetryable: true, kind: "rate-limit" },
-    )
-  }
-
-  return error
-}
-
-async function* normalizeHostedPartStreamErrors(
-  stream: AsyncIterable<unknown>,
-  context: HostedAiErrorContext,
-): AsyncGenerator {
-  try {
-    for await (const part of stream) {
-      yield part
-    }
-  } catch (error) {
-    throw normalizeHostedAiError(error, context)
-  }
-}
-
-interface HostedModelRequest {
-  /** The fields every hosted request carries about its model. */
-  fields: { model: string; modelTier: HostedAiModelTier; reasoning?: HostedAiReasoning }
-  errorContext: HostedAiErrorContext
-}
-
-/**
- * What a Built-in AI request says about its model, decided here for every
- * feature so none can send a model without its level:
- * - `model`, from the provider id;
- * - `modelTier`, the model's tier in the last list this extension saw, for a
- *   server that reads tiers only (one that knows models goes by `model`);
- * - `reasoning`, the level a provider ref resolved for the cache entry this
- *   request fills, or, for a request no cache keeps, the level the user picked
- *   for the model. Language detection never carries one.
- */
-async function resolveHostedModelRequest(
-  providerId: string,
-  feature: HostedAiFeature,
-  resolvedReasoning: HostedAiReasoning | null | undefined,
-): Promise<HostedModelRequest> {
-  const modelId = getBuiltInAiModelId(providerId)
-  if (modelId === null) {
-    throw new BackgroundStreamError("invalid_request", "Invalid hosted AI request")
-  }
-
-  const languageDetection = feature === "languageDetection"
-  const [models, choice] = await Promise.all([
-    readStoredHostedAiModels(),
-    languageDetection || resolvedReasoning !== undefined
-      ? undefined
-      : readHostedAiReasoningChoice(modelId),
-  ])
-  const model = findHostedAiModel(models, modelId)
-  const reasoning = languageDetection
-    ? undefined
-    : resolvedReasoning !== undefined
-      ? (resolvedReasoning ?? undefined)
-      : getRequestedHostedAiReasoning(model, choice, { languageDetection })
-
-  return {
-    fields: {
-      model: modelId,
-      modelTier: model?.tier ?? "normal",
-      ...(reasoning !== undefined && { reasoning }),
-    },
-    errorContext: { model: modelId, models, feature },
-  }
 }
 
 function getStreamFinishReason(part: Record<string, unknown>): string | undefined {
@@ -898,105 +550,19 @@ async function createLocalTextPartStream(
   return result.stream
 }
 
-/**
- * One oRPC procedure per hosted text feature: the server derives the billing
- * feature from the route path, so the payload's `hostedFeature` never rides
- * the wire — it explicitly selects which procedure to call. Resolved lazily
- * so importing this module never touches the client proxy.
- */
-const HOSTED_TEXT_STREAM_PROCEDURES: Record<HostedAiTextStreamRoute, () => HostedStreamFn> = {
-  pageTranslation: () =>
-    backgroundOrpcClient.hostedAi.translate.streamText as unknown as HostedStreamFn,
-  selectionTranslation: () =>
-    backgroundOrpcClient.hostedAi.selectionTranslation.streamText as unknown as HostedStreamFn,
-  // Subtitle lines and the video summary share one route; both bill as
-  // videoSubtitles. Segmentation is the same feature on a wider-budget route.
-  videoSubtitles: () =>
-    backgroundOrpcClient.hostedAi.videoSubtitles.streamText as unknown as HostedStreamFn,
-  videoSubtitlesSegmentation: () =>
-    backgroundOrpcClient.hostedAi.videoSubtitles.streamSegmentation as unknown as HostedStreamFn,
-  inputTranslation: () =>
-    backgroundOrpcClient.hostedAi.inputTranslation.streamText as unknown as HostedStreamFn,
-  languageDetection: () =>
-    backgroundOrpcClient.hostedAi.languageDetection.streamText as unknown as HostedStreamFn,
-}
-
-async function createHostedTextPartStream(
-  serializablePayload: Extract<BackgroundStreamTextSerializablePayload, { providerKind: "system" }>,
-  signal?: AbortSignal,
-): Promise<AsyncIterable<unknown>> {
-  const { providerId, prompt, instructions, temperature, requestId, hostedFeature } =
-    serializablePayload
-  const route = requireHostedFeature(hostedFeature)
-  const { fields, errorContext } = await resolveHostedModelRequest(
-    providerId,
-    getHostedFeatureForRoute(route),
-    serializablePayload.builtInAiReasoning,
-  )
-
-  // The contract schema is the same one the server parses with, so a payload
-  // it rejects fails here as invalid_request instead of a round trip to a 400.
-  const input = HostedAiStreamTextInputSchema.safeParse({
-    instructions,
-    prompt,
-    temperature,
-    ...fields,
-    requestId,
-  })
-  if (!input.success) {
-    throw new BackgroundStreamError("invalid_request", "Invalid hosted AI request")
-  }
-
-  const procedure = HOSTED_TEXT_STREAM_PROCEDURES[route]()
-  try {
-    const stream = await procedure(input.data, { signal })
-    return normalizeHostedPartStreamErrors(stream, errorContext)
-  } catch (error) {
-    throw normalizeHostedAiError(error, errorContext)
-  }
-}
-
-/**
- * One text generation against either provider kind, collected into a string.
- *
- * Four callers are non-streaming `generateText` calls — the page summary, the
- * video summary, subtitle segmentation, and language detection — and the
- * hosted side has no non-streaming route, because quota reserve/settle, the
- * circuit breaker, and the ledger are stream-shaped end to end. Rather than
- * give each caller its own hosted branch, they all collapse onto this: the
- * hosted path reuses the same part stream and reader as page translation and
- * hands back the accumulated text.
- *
- * Lives here rather than beside its callers because it needs the
- * module-private `createHostedTextPartStream` (contract pre-validation, error
- * normalization, procedure lookup) and `consumeTextPartStream`.
- */
 export async function generateTextForProviderRef(
   payload: BackgroundGenerateTextPayload,
   options: { signal?: AbortSignal } = {},
 ): Promise<string> {
-  const { providerRef, hostedFeature, instructions, prompt, requestId, maxRetries } = payload
+  const { providerRef, instructions, prompt, maxRetries } = payload
   const { signal } = options
 
   if (signal?.aborted) {
     throw new DOMException("stream aborted", "AbortError")
   }
 
-  if (providerRef.kind === "system") {
-    const partStream = await createHostedTextPartStream(
-      {
-        providerKind: "system",
-        providerId: providerRef.providerId,
-        builtInAiReasoning: providerRef.reasoning,
-        requestId,
-        hostedFeature: requireHostedFeature(hostedFeature),
-        instructions,
-        prompt,
-      },
-      signal,
-    )
-    const snapshot = await consumeTextPartStream(partStream, { signal })
-    return snapshot.output.trim()
+  if (providerRef.kind !== "local") {
+    throw new BackgroundStreamError("invalid_request", "Configure a personal AI provider")
   }
 
   // Local text generation needs a real LLM: pure translate providers (DeepLX,
@@ -1041,10 +607,10 @@ export async function runStreamTextInBackground(
     throw new DOMException("stream aborted", "AbortError")
   }
 
-  const partStream =
-    serializablePayload.providerKind === "system"
-      ? await createHostedTextPartStream(serializablePayload, signal)
-      : await createLocalTextPartStream(serializablePayload, options)
+  if (serializablePayload.providerKind !== "local") {
+    throw new BackgroundStreamError("invalid_request", "Configure a personal AI provider")
+  }
+  const partStream = await createLocalTextPartStream(serializablePayload, options)
 
   return consumeTextPartStream(partStream, {
     onChunk,
@@ -1053,9 +619,7 @@ export async function runStreamTextInBackground(
 }
 
 async function createLocalStructuredObjectPartStream<TOutput extends Record<string, unknown>>(
-  serializablePayload: BackgroundStreamNoteSuggestionSerializablePayload & {
-    outputSchema?: BackgroundStructuredObjectOutputField[]
-  },
+  serializablePayload: BackgroundStreamStructuredObjectSerializablePayload,
   objectSchema: z.ZodType<TOutput>,
   options: StreamRuntimeOptions<BackgroundStructuredObjectStreamSnapshot> = {},
 ): Promise<AsyncIterable<unknown>> {
@@ -1078,43 +642,6 @@ async function createLocalStructuredObjectPartStream<TOutput extends Record<stri
   return result.stream
 }
 
-async function createHostedStructuredObjectPartStream(
-  serializablePayload: BackgroundStreamStructuredObjectSerializablePayload,
-  signal?: AbortSignal,
-): Promise<AsyncIterable<unknown>> {
-  const { providerId, outputSchema, prompt, instructions, temperature, requestId } =
-    serializablePayload
-  const { fields, errorContext } = await resolveHostedModelRequest(
-    providerId,
-    "customAction",
-    serializablePayload.builtInAiReasoning,
-  )
-
-  // Contract-schema parse converges the hosted-only constraints (field-name
-  // length, field count) the transport check deliberately leaves loose for
-  // BYOK, and fails locally instead of as a server 400.
-  const input = HostedAiStreamStructuredObjectInputSchema.safeParse({
-    instructions,
-    prompt,
-    outputSchema,
-    temperature,
-    ...fields,
-    requestId,
-  })
-  if (!input.success) {
-    throw new BackgroundStreamError("invalid_request", "Invalid hosted AI request")
-  }
-
-  try {
-    const stream = await (
-      backgroundOrpcClient.hostedAi.customAction.streamStructuredObject as unknown as HostedStreamFn
-    )(input.data, { signal })
-    return normalizeHostedPartStreamErrors(stream, errorContext)
-  } catch (error) {
-    throw normalizeHostedAiError(error, errorContext)
-  }
-}
-
 export async function runStructuredObjectStreamInBackground(
   serializablePayload: BackgroundStreamStructuredObjectSerializablePayload,
   options: StreamRuntimeOptions<BackgroundStructuredObjectStreamSnapshot> = {},
@@ -1126,100 +653,18 @@ export async function runStructuredObjectStreamInBackground(
   }
 
   const objectSchema = createStructuredObjectSchema(serializablePayload.outputSchema)
-  const partStream = isBuiltInAiProviderId(serializablePayload.providerId)
-    ? await createHostedStructuredObjectPartStream(serializablePayload, signal)
-    : await createLocalStructuredObjectPartStream(serializablePayload, objectSchema, options)
+  if (isBuiltInAiProviderId(serializablePayload.providerId)) {
+    throw new BackgroundStreamError("invalid_request", "Configure a personal AI provider")
+  }
+  const partStream = await createLocalStructuredObjectPartStream(
+    serializablePayload,
+    objectSchema,
+    options,
+  )
 
   return consumeStructuredObjectPartStream(partStream, {
     objectSchema,
     onChunk,
-    signal,
-  })
-}
-
-async function createHostedNoteSuggestionPartStream(
-  serializablePayload: BackgroundStreamNoteSuggestionSerializablePayload,
-  signal?: AbortSignal,
-): Promise<AsyncIterable<unknown>> {
-  const { providerId, prompt, instructions, temperature, requestId } = serializablePayload
-  const { fields, errorContext } = await resolveHostedModelRequest(
-    providerId,
-    "noteSuggestion",
-    serializablePayload.builtInAiReasoning,
-  )
-
-  const input = HostedAiNoteSuggestionStreamInputSchema.safeParse({
-    instructions,
-    prompt,
-    temperature,
-    ...fields,
-    requestId,
-  })
-  if (!input.success) {
-    throw new BackgroundStreamError("invalid_request", "Invalid hosted AI request")
-  }
-
-  try {
-    const stream = await (
-      backgroundOrpcClient.hostedAi.noteSuggestion
-        .streamStructuredObject as unknown as HostedStreamFn
-    )(input.data, { signal })
-    return normalizeHostedPartStreamErrors(stream, errorContext)
-  } catch (error) {
-    throw normalizeHostedAiError(error, errorContext)
-  }
-}
-
-export async function runNoteSuggestionStreamInBackground(
-  serializablePayload: BackgroundStreamNoteSuggestionSerializablePayload,
-  options: StreamRuntimeOptions<BackgroundNoteSuggestionStreamSnapshot> = {},
-): Promise<BackgroundNoteSuggestionStreamSnapshot> {
-  const { signal, onError } = options
-  const { providerId, prompt, instructions } = serializablePayload
-
-  if (signal?.aborted) {
-    throw new DOMException("stream aborted", "AbortError")
-  }
-
-  if (!instructions || !prompt) {
-    throw new BackgroundStreamError(
-      "invalid_request",
-      "Note suggestion requires instructions and prompt",
-    )
-  }
-
-  // The card renders only the final result, so neither branch forwards onChunk.
-  if (isBuiltInAiProviderId(providerId)) {
-    // Hosted note suggestions stream the fixed contract object (the server
-    // enforces it via Output.object). Its `action.createNewDictionaryAction`
-    // and `action.targetActionId` fields belong to a richer server-driven flow
-    // this client does not implement yet, so they are dropped in the envelope
-    // adaptation below.
-    const partStream = await createHostedNoteSuggestionPartStream(serializablePayload, signal)
-    const hostedSnapshot = await consumeStructuredObjectPartStream(partStream, {
-      objectSchema: HostedAiNoteSuggestionObjectSchema,
-      signal,
-    })
-    const envelope = noteSuggestionEnvelopeSchema.safeParse({
-      summaryFieldName: hostedSnapshot.output.action.summaryFieldName,
-      notes: hostedSnapshot.output.notes,
-    })
-    if (!envelope.success) {
-      throw new BackgroundStreamError("output_validation_failed", aiOutputValidationErrorMessage, {
-        cause: envelope.error,
-      })
-    }
-    return createStreamSnapshot(envelope.data, hostedSnapshot.thinking)
-  }
-
-  const partStream = await createLocalStructuredObjectPartStream(
-    serializablePayload,
-    noteSuggestionEnvelopeSchema,
-    { signal, onError },
-  )
-
-  return consumeStructuredObjectPartStream(partStream, {
-    objectSchema: noteSuggestionEnvelopeSchema,
     signal,
   })
 }
@@ -1230,11 +675,6 @@ const parseStructuredObjectStartMessage =
   createStartMessageParser<BackgroundStreamStructuredObjectSerializablePayload>(
     structuredObjectPayloadSchema,
   )
-const parseNoteSuggestionStartMessage =
-  createStartMessageParser<BackgroundStreamNoteSuggestionSerializablePayload>(
-    baseStreamPayloadSchema,
-  )
-
 export const handleStreamTextPort = createStreamPortHandler<
   BackgroundStreamTextSerializablePayload,
   BackgroundTextStreamSnapshot
@@ -1245,17 +685,11 @@ export const handleStreamStructuredObjectPort = createStreamPortHandler<
   BackgroundStructuredObjectStreamSnapshot
 >(runStructuredObjectStreamInBackground, parseStructuredObjectStartMessage)
 
-export const handleStreamNoteSuggestionPort = createStreamPortHandler<
-  BackgroundStreamNoteSuggestionSerializablePayload,
-  BackgroundNoteSuggestionStreamSnapshot
->(runNoteSuggestionStreamInBackground, parseNoteSuggestionStartMessage)
-
 export const BACKGROUND_STREAM_PORT_HANDLERS: Readonly<
-  Record<BackgroundStreamPortName, StreamPortHandler>
+  Partial<Record<BackgroundStreamPortName, StreamPortHandler>>
 > = {
   [BACKGROUND_STREAM_PORTS.streamText]: handleStreamTextPort,
   [BACKGROUND_STREAM_PORTS.streamStructuredObject]: handleStreamStructuredObjectPort,
-  [BACKGROUND_STREAM_PORTS.streamNoteSuggestion]: handleStreamNoteSuggestionPort,
 }
 
 export function dispatchBackgroundStreamPort(port: Browser.runtime.Port): boolean {

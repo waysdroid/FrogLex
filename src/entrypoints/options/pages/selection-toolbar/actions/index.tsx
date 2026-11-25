@@ -3,9 +3,7 @@ import { getFeatureTitle } from "@/utils/feature-text"
 import { i18n } from "@/utils/i18n"
 import { ConfigItem } from "../../../components/config-item"
 import { ConfigSection } from "../../../components/config-section"
-import { NestedFeatureItems } from "../../../components/nested-feature-items"
 import { ShortcutLink } from "../../../components/shortcut-link"
-import { NoteSuggestionItems } from "./note-suggestion-items"
 
 /**
  * What the toolbar can do with a selection: the two built-in buttons, and under translate, the
@@ -29,9 +27,6 @@ export function ActionsSection() {
       >
         <FeatureSwitch id="selectionToolbar.translate" />
       </ConfigItem>
-      <NestedFeatureItems feature="selectionToolbar.translate">
-        <NoteSuggestionItems />
-      </NestedFeatureItems>
       <ConfigItem
         id="selection-toolbar-speak"
         title={getFeatureTitle("selectionToolbar.speak")}

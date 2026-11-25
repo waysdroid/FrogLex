@@ -6,12 +6,13 @@ import type {
 } from "@/types/config/selection-toolbar"
 import type { PageTranslateRange } from "@/types/config/translate"
 import { DEFAULT_LAYOUT } from "@read-frog/layout-engine/presets"
+import { isNonAPIProviderConfig } from "@/types/config/provider"
+import { UNCONFIGURED_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
 import {
   buildDictionaryActionLayout,
   buildImproveWritingActionLayout,
   buildSentenceAnalysisActionLayout,
 } from "@/utils/layout-host/slots"
-import { DEFAULT_BUILT_IN_AI_PROVIDER_ID } from "@/utils/providers/provider-registry"
 import {
   BUILT_IN_ACTION_DEFAULT_SHORTCUTS,
   BUILT_IN_ACTION_IDS,
@@ -32,7 +33,6 @@ import {
 } from "./prompt"
 import {
   buildDefaultProviderConfigList,
-  DEFAULT_PROVIDER_CONFIG,
   DEFAULT_PROVIDER_CONFIG_LIST,
   MICROSOFT_TRANSLATE_PROVIDER_ID,
 } from "./providers"
@@ -78,7 +78,7 @@ export const GOOGLE_DRIVE_TOKEN_STORAGE_KEY = "__googleDriveToken"
 
 export const THEME_STORAGE_KEY = "theme"
 export const DEFAULT_DETECTED_CODE = "en" as const
-export const CONFIG_SCHEMA_VERSION = 130
+export const CONFIG_SCHEMA_VERSION = 131
 
 export const DEFAULT_FLOATING_BUTTON_POSITION = 0.66
 export const DEFAULT_FLOATING_BUTTON_SIDE: FloatingButtonSide = "right"
@@ -109,7 +109,7 @@ const getBuiltInImproveWritingLayout = memoizeBuiltInLayout(buildImproveWritingA
  * (never persisted), so it always follows the current locale's field names.
  */
 export function createDefaultDictionaryAction(): SelectionToolbarCustomAction {
-  const action = createDictionaryDefinition(DEFAULT_BUILT_IN_AI_PROVIDER_ID)
+  const action = createDictionaryDefinition(UNCONFIGURED_AI_PROVIDER_ID)
   const outputSchema = action.outputSchema.map((field) => ({
     ...field,
     id: field.id.startsWith("dictionary-")
@@ -133,7 +133,7 @@ export function createDefaultDictionaryAction(): SelectionToolbarCustomAction {
  * enabled/provider/Notebase state persisted.
  */
 export function createDefaultSentenceAnalysisAction(): SelectionToolbarCustomAction {
-  const action = createSentenceAnalysisDefinition(DEFAULT_BUILT_IN_AI_PROVIDER_ID)
+  const action = createSentenceAnalysisDefinition(UNCONFIGURED_AI_PROVIDER_ID)
   const outputSchema = action.outputSchema.map((field) => ({
     ...field,
     id: `default-${field.id}`,
@@ -153,7 +153,7 @@ export function createDefaultSentenceAnalysisAction(): SelectionToolbarCustomAct
  * config without its state reads it as off, as the schema does.
  */
 export function createDefaultImproveWritingAction(): SelectionToolbarCustomAction {
-  const action = createImproveWritingDefinition(DEFAULT_BUILT_IN_AI_PROVIDER_ID)
+  const action = createImproveWritingDefinition(UNCONFIGURED_AI_PROVIDER_ID)
   const outputSchema = action.outputSchema.map((field) => ({
     ...field,
     id: `default-${field.id}`,
@@ -254,31 +254,23 @@ export const DEFAULT_CONFIG: Config = {
     builtInActions: {
       dictionary: {
         enabled: true,
-        providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
+        providerId: UNCONFIGURED_AI_PROVIDER_ID,
         shortcut: BUILT_IN_ACTION_DEFAULT_SHORTCUTS[BUILT_IN_DICTIONARY_ACTION_ID],
       },
       sentenceAnalysis: {
         enabled: true,
-        providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
+        providerId: UNCONFIGURED_AI_PROVIDER_ID,
         shortcut: BUILT_IN_ACTION_DEFAULT_SHORTCUTS[BUILT_IN_SENTENCE_ANALYSIS_ACTION_ID],
       },
       improveWriting: {
         enabled: true,
-        providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
+        providerId: UNCONFIGURED_AI_PROVIDER_ID,
         shortcut: BUILT_IN_ACTION_DEFAULT_SHORTCUTS[BUILT_IN_IMPROVE_WRITING_ACTION_ID],
       },
     },
     customActions: [],
     order: [...SELECTION_TOOLBAR_FEATURE_IDS, ...BUILT_IN_ACTION_IDS],
     unpinned: [BUILT_IN_IMPROVE_WRITING_ACTION_ID],
-    noteSuggestion: {
-      enabled: true,
-      actionId: BUILT_IN_DICTIONARY_ACTION_ID,
-      // Fresh installs always carry the OpenAI default provider; suggestions
-      // start working the moment the user adds their key, with no hosted plan
-      // requirement attached.
-      providerId: DEFAULT_PROVIDER_CONFIG.openai.id,
-    },
   },
   sideContent: {
     width: DEFAULT_SIDE_CONTENT_WIDTH,
@@ -366,57 +358,12 @@ export const DEFAULT_CONFIG: Config = {
     promptId: DEFAULT_TRANSLATE_PROMPTS_CONFIG.promptId,
   },
   glossary: { ...DEFAULT_GLOSSARY_CONFIG },
-  builtInAi: { models: {} },
 }
 
-/**
- * A fresh install translates pages, selections, inputs and video subtitles with Built-in AI,
- * on its default model. A guest cannot run it there: the first try asks them to log in, or
- * to switch to a machine translator that needs no account. Note suggestions and language
- * detection keep their defaults. Existing configs never read this: they keep the providers
- * they have.
- */
 export function buildFreshDefaultConfig(): Config {
   return {
-    ...DEFAULT_CONFIG,
-    providersConfig: buildDefaultProviderConfigList(),
-    pageTranslation: {
-      ...DEFAULT_CONFIG.pageTranslation,
-      providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-    },
-    inputTranslation: {
-      ...DEFAULT_CONFIG.inputTranslation,
-      providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-    },
-    videoSubtitles: {
-      ...DEFAULT_CONFIG.videoSubtitles,
-      providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-    },
-    selectionToolbar: {
-      ...DEFAULT_CONFIG.selectionToolbar,
-      features: {
-        ...DEFAULT_CONFIG.selectionToolbar.features,
-        translate: {
-          ...DEFAULT_CONFIG.selectionToolbar.features.translate,
-          providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-        },
-      },
-      builtInActions: {
-        dictionary: {
-          enabled: true,
-          providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-        },
-        sentenceAnalysis: {
-          enabled: true,
-          providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-        },
-        improveWriting: {
-          enabled: true,
-          providerId: DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-        },
-      },
-      customActions: [],
-    },
+    ...structuredClone(DEFAULT_CONFIG),
+    providersConfig: buildDefaultProviderConfigList().filter(isNonAPIProviderConfig),
   }
 }
 

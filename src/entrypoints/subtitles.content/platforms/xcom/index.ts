@@ -3,7 +3,7 @@ import {
   XCOM_AUTO_GENERATED_TRACK_MARK,
   XCOM_RENDER_TRACK_LABEL,
 } from "@/utils/constants/subtitles"
-import { AiSubtitlesFetcher, TextTrackFetcher } from "@/utils/subtitles/fetchers"
+import { TextTrackFetcher } from "@/utils/subtitles/fetchers"
 import { UniversalVideoAdapter } from "../../universal-adapter"
 import { getCurrentXcomSubtitlesVideo, getCurrentXcomVideoId } from "./dom"
 
@@ -14,7 +14,6 @@ export function isXcomSourceTrack(track: Pick<TextTrack, "kind" | "label">): boo
 }
 
 export function createXcomSubtitlesAdapter(config: PlatformConfig) {
-  const { createAiSubtitlesContext } = config
   return new UniversalVideoAdapter({
     config,
     fetchers: {
@@ -25,9 +24,6 @@ export function createXcomSubtitlesAdapter(config: PlatformConfig) {
           isSourceTrack: isXcomSourceTrack,
           isBroadcastTimed: (track) => !track.label.includes(XCOM_AUTO_GENERATED_TRACK_MARK),
         }),
-      ...(createAiSubtitlesContext
-        ? { ai: () => new AiSubtitlesFetcher(createAiSubtitlesContext) }
-        : {}),
     },
   })
 }

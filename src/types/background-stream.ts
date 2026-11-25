@@ -6,7 +6,6 @@ import type { AISDKReasoning, LLMProviderConfig } from "@/types/config/provider"
 import type { SelectionToolbarCustomActionOutputType } from "@/types/config/selection-toolbar"
 import type { BuiltInAiProviderId, HostedAiReasoning } from "@/utils/constants/provider-ids"
 import type { ErrorAction } from "@/utils/error-action"
-import type { NoteSuggestionEnvelope } from "@/utils/note-suggestion/types"
 
 interface BaseBackgroundStreamSerializablePayload {
   providerId: string
@@ -97,16 +96,9 @@ export type BackgroundStreamStructuredObjectSerializablePayload =
     outputSchema: BackgroundStructuredObjectOutputField[]
   }
 
-export type BackgroundStreamNoteSuggestionSerializablePayload =
-  BaseBackgroundStreamSerializablePayload
-
-export type BackgroundNoteSuggestionStreamSnapshot =
-  BackgroundStreamSnapshot<NoteSuggestionEnvelope>
-
 export const BACKGROUND_STREAM_PORTS = {
   streamText: "stream-text",
   streamStructuredObject: "stream-structured-object",
-  streamNoteSuggestion: "stream-note-suggestion",
 } as const
 
 export type BackgroundStreamChannel = keyof typeof BACKGROUND_STREAM_PORTS
@@ -115,7 +107,6 @@ export type BackgroundStreamPortName = (typeof BACKGROUND_STREAM_PORTS)[Backgrou
 export interface BackgroundStreamResponseMap {
   streamText: BackgroundTextStreamSnapshot
   streamStructuredObject: BackgroundStructuredObjectStreamSnapshot
-  streamNoteSuggestion: BackgroundNoteSuggestionStreamSnapshot
 }
 
 export interface StreamPortErrorPayload {

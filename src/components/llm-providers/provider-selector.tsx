@@ -1,7 +1,6 @@
 import type { ComponentProps } from "react"
 import type { Theme } from "@/types/config/theme"
 import type { ProviderSelectorOption } from "@/utils/providers/provider-display"
-import { UpgradePlanBadge } from "@/components/badges/upgrade-plan-badge"
 import {
   Select,
   SelectContent,
@@ -37,7 +36,7 @@ type ProviderSelectorTriggerSize = ComponentProps<typeof SelectTrigger>["size"]
  * selection popover they paint on its overlay layer, not under it.
  */
 interface TooltipLayer {
-  container?: ComponentProps<typeof UpgradePlanBadge>["tooltipContainer"]
+  container?: ComponentProps<typeof SelectContent>["container"]
   positionerClassName?: string
 }
 
@@ -114,7 +113,6 @@ export function ProviderOptionContent({
   theme: Theme
   tooltipLayer?: TooltipLayer
 }) {
-  const upgradeTo = isSystemProviderSelectorItem(provider) ? provider.upgradeTo : undefined
   const unavailableReason = getUnavailableReason(provider, providers)
 
   return (
@@ -124,19 +122,12 @@ export function ProviderOptionContent({
         theme={theme}
         textClassName={cn(unavailableReason && "text-muted-foreground")}
       />
-      {(unavailableReason || upgradeTo) && (
+      {unavailableReason && (
         <div className="flex shrink-0 items-center gap-1.5">
           {/* Still selectable: picking it is the user's call, and it fails with this reason when it runs. */}
           {unavailableReason && (
             <ModelUnavailableIcon
               reason={unavailableReason}
-              tooltipContainer={tooltipLayer?.container}
-              tooltipPositionerClassName={tooltipLayer?.positionerClassName}
-            />
-          )}
-          {upgradeTo && (
-            <UpgradePlanBadge
-              plan={upgradeTo}
               tooltipContainer={tooltipLayer?.container}
               tooltipPositionerClassName={tooltipLayer?.positionerClassName}
             />

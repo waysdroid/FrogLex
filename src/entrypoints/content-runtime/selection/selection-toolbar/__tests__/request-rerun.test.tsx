@@ -17,7 +17,6 @@ import { configAtom } from "@/utils/atoms/config"
 import { CONFIG_STORAGE_KEY, DEFAULT_CONFIG } from "@/utils/constants/config"
 import { GOOGLE_TRANSLATE_PROVIDER_ID } from "@/utils/constants/providers"
 import { getBuiltInDictionaryAction } from "@/utils/custom-actions"
-import { prepareTranslationText } from "@/utils/host/translate/text-preparation"
 import { buildContextSnapshot, createRangeSnapshot, normalizeSelectedText } from "../../utils"
 import { setSelectionStateAtom } from "../atoms"
 import { SelectionCustomActionProvider } from "../custom-action-button/provider"
@@ -36,7 +35,9 @@ const toastAddMock = vi.fn<(...args: any[]) => any>()
 const onMessageMock = vi.fn<(...args: any[]) => any>()
 const maybeFireNoteSuggestionMock = vi.fn<(...args: any[]) => any>()
 const originalGetSelection = window.getSelection
-const DEFAULT_DICTIONARY_ACTION = getBuiltInDictionaryAction(DEFAULT_CONFIG.selectionToolbar)
+const DEFAULT_DICTIONARY_ACTION = getBuiltInDictionaryAction(
+  cloneConfig(DEFAULT_CONFIG).selectionToolbar,
+)
 
 // The slot follows its switch in the config, like the real hook.
 vi.mock("../../annotation/provider", async () => {
@@ -404,7 +405,11 @@ vi.mock("@/utils/message", () => ({
 }))
 
 function cloneConfig(config: Config): Config {
-  return JSON.parse(JSON.stringify(config)) as Config
+  const clone = structuredClone(config)
+  for (const action of Object.values(clone.selectionToolbar.builtInActions)) {
+    if (action.providerId === "unconfigured-local-ai") action.providerId = "openai-default"
+  }
+  return clone
 }
 
 function createRangeFor(node: Node) {
@@ -659,13 +664,15 @@ async function openTooltip(trigger: HTMLElement) {
 }
 
 describe("selection toolbar requests", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    await fakeBrowser.storage.local.set({ [CONFIG_STORAGE_KEY]: cloneConfig(DEFAULT_CONFIG) })
     getOrCreateWebPageContextMock.mockResolvedValue(null)
     getOrGenerateWebPageSummaryMock.mockResolvedValue(undefined)
   })
 
-  afterEach(() => {
+  afterEach(async () => {
     cleanup()
+    await fakeBrowser.storage.local.remove(CONFIG_STORAGE_KEY)
     document.body.innerHTML = ""
     window.getSelection = originalGetSelection
     vi.resetAllMocks()
@@ -732,37 +739,6 @@ describe("selection toolbar requests", () => {
     })
     // Speaking the translation uses the voice for the language it is in.
     expect(screen.getByTestId("translation-language").textContent).toBe("ja")
-  })
-
-  it("asks for the Built-in AI status only once the translation popover opens", async () => {
-    translateTextCoreMock.mockResolvedValue("translated once")
-    const { sendMessage } = await import("@/utils/message")
-    const statusRequests = () =>
-      vi
-        .mocked(sendMessage)
-        .mock.calls.filter(
-          ([name, data]) =>
-            name === "backgroundFetch" &&
-            String((data as { url?: unknown } | undefined)?.url).includes("hostedAi/status"),
-        )
-
-    const store = createStore()
-    store.set(configAtom, cloneConfig(DEFAULT_CONFIG))
-    setSelectionState(store, { text: "Selected text" })
-    renderWithProviders(<TranslateButton />, store)
-
-    // The selection app mounts on every page and in every frame: loading a
-    // page alone must not reach the server.
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-    })
-    expect(statusRequests()).toHaveLength(0)
-
-    fireEvent.click(screen.getByRole("button", { name: "action.translation" }))
-
-    await waitFor(() => {
-      expect(statusRequests().length).toBeGreaterThan(0)
-    })
   })
 
   it("renders the translation tooltip as non-interactive and closes it on hover leave", async () => {
@@ -1157,27 +1133,6 @@ describe("selection toolbar requests", () => {
   // A note keeps the selection as a custom action run keeps it. Translation
   // prepares its own copy, which drops invisible joiners such as the one that
   // holds an emoji sequence together.
-  it("hands the note suggestion the selection as a custom action run saves it", async () => {
-    translateTextCoreMock.mockResolvedValue("I am a coder.")
-    const coder = String.fromCodePoint(0x1f469, 0x200d, 0x1f4bb)
-    const selected = `I am a ${coder}.`
-    const config = cloneConfig(DEFAULT_CONFIG)
-    const store = createStore()
-    store.set(configAtom, config)
-    setSelectionState(store, { text: selected })
-    renderWithProviders(<TranslateButton />, store)
-
-    fireEvent.click(screen.getByRole("button", { name: "action.translation" }))
-
-    await waitFor(() => {
-      expect(maybeFireNoteSuggestionMock).toHaveBeenCalledTimes(1)
-    })
-    const input = maybeFireNoteSuggestionMock.mock.calls[0]![0]
-    expect(input.savedSelectionText).toBe(normalizeSelectedText(selected))
-    expect(input.savedSelectionText).toContain(coder)
-    expect(input.selectionText).toBe(prepareTranslationText(selected))
-    expect(input.selectionText).not.toContain(coder)
-  })
 
   it("opens selection translation from the context menu and tracks the context-menu surface", async () => {
     translateTextCoreMock.mockResolvedValue("Context menu result")
@@ -1952,7 +1907,7 @@ describe("selection toolbar requests", () => {
       expect(streamBackgroundStructuredObjectMock).toHaveBeenCalledTimes(1)
     })
     expect(streamBackgroundStructuredObjectMock.mock.calls[0]?.[0]).toMatchObject({
-      providerId: "read-frog-ai:gpt-6-luna",
+      providerId: "openai-default",
       requestId: expect.stringMatching(/^[0-9a-f-]{36}$/i),
     })
 

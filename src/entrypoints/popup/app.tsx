@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react"
-import { UserAccountMenuPopup } from "@/components/user-account-menu"
+import { browser } from "#imports"
 import { useFeatureOn } from "@/hooks/use-feature-on"
 import { i18n } from "@/utils/i18n"
 import { openOptionsPage } from "@/utils/navigation"
@@ -12,7 +12,6 @@ import Hotkey from "./components/node-translation-hotkey-selector"
 import ProvidersField from "./components/providers-field"
 import { SimpleModeButton } from "./components/simple-mode-button"
 import { SiteControlToggle } from "./components/site-control-toggle"
-import { StoreReviewPrompt } from "./components/store-review-prompt"
 import TranslateButton from "./components/translate-button"
 import TranslatePromptSelector from "./components/translate-prompt-selector"
 import { TranslationHubButton } from "./components/translation-hub-button"
@@ -26,11 +25,10 @@ function App() {
     <>
       <div className="relative">
         <div className="flex flex-col gap-4 bg-background px-6 pt-5 pb-4">
-          {/* gap-2 + a non-shrinking icon rail is what bounds the account menu:
-              whatever is left of the 320px popup is its width, and a long display
-              name ellipses inside that instead of pushing the icons off. */}
           <div className="flex items-center justify-between gap-2">
-            <UserAccountMenuPopup />
+            <span className="truncate text-sm font-semibold">
+              {i18n.t("personalVocabulary.title")}
+            </span>
             <div className="flex shrink-0 items-center gap-1">
               {translationHubOn && <TranslationHubButton />}
               <SimpleModeButton />
@@ -56,9 +54,6 @@ function App() {
             </>
           )}
         </div>
-        {/* Out of flow on purpose: the card appears on its own schedule, and letting it
-            grow the popup would shift every control out from under the user's cursor. */}
-        <StoreReviewPrompt />
       </div>
       <div className="flex items-center justify-between bg-neutral-200 px-2 py-1 dark:bg-neutral-800">
         <button
@@ -71,7 +66,9 @@ function App() {
           <Icon icon="tabler:settings" className="size-4" strokeWidth={1.6} />
           <span className="text-[13px] font-medium">{i18n.t("popup.options")}</span>
         </button>
-        <span className="text-sm text-neutral-500 dark:text-neutral-400">{version}</span>
+        <span className="text-sm text-neutral-500 dark:text-neutral-400">
+          {browser.runtime.getManifest().version_name ?? version}
+        </span>
         <MoreMenu />
       </div>
     </>

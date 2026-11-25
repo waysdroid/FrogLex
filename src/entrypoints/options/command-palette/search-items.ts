@@ -1,10 +1,6 @@
 import type { GeneratedI18nStructure } from "#i18n"
 import type { FeatureTag } from "@/utils/features"
-import {
-  CUSTOM_ACTION_LAYOUT_SECTION_ID,
-  CUSTOM_ACTION_NOTEBASE_SECTION_ID,
-  SIMPLE_MODE_SECTION_ID,
-} from "@/utils/navigation"
+import { CUSTOM_ACTION_LAYOUT_SECTION_ID, SIMPLE_MODE_SECTION_ID } from "@/utils/navigation"
 
 type I18nKey = keyof GeneratedI18nStructure
 
@@ -52,21 +48,6 @@ export const SEARCH_ITEMS: SearchItem[] = [
     descriptionKey: "options.advanced.glossary.library.description",
     pageKey: "options.advanced.glossary.title",
   },
-  // Usage page
-  {
-    sectionId: "built-in-ai-usage",
-    route: "/usage",
-    titleKey: "options.apiProviders.builtInAiUsage.title",
-    pageKey: "options.usage.title",
-  },
-  {
-    sectionId: "subtitles-ai-quota",
-    route: "/usage",
-    feature: "videoSubtitles",
-    titleKey: "options.videoSubtitles.aiQuota.title",
-    descriptionKey: "options.videoSubtitles.aiQuota.description",
-    pageKey: "options.usage.title",
-  },
   // Preference page
   {
     // Titled with the section, so "appearance" still finds a row that reads "Theme".
@@ -103,13 +84,6 @@ export const SEARCH_ITEMS: SearchItem[] = [
     route: "/preference/extension-activation",
     titleKey: "options.preference.extensionActivation.mode.title",
     descriptionKey: "options.preference.extensionActivation.mode.description",
-    pageKey: "options.preference.title",
-  },
-  {
-    sectionId: "google-drive-sync",
-    route: "/preference",
-    titleKey: "options.preference.config.googleDrive.title",
-    descriptionKey: "options.preference.config.googleDrive.description",
     pageKey: "options.preference.title",
   },
   {
@@ -251,14 +225,6 @@ export const SEARCH_ITEMS: SearchItem[] = [
     route: "/custom-actions",
     titleKey: "options.selectionToolbar.customActions.form.layout.title",
     descriptionKey: "options.selectionToolbar.customActions.form.layout.description",
-    pageKey: "options.selectionToolbar.customActions.title",
-  },
-  {
-    // The Notebase tab trigger itself; the scroll activates it.
-    sectionId: CUSTOM_ACTION_NOTEBASE_SECTION_ID,
-    route: "/custom-actions",
-    titleKey: "options.selectionToolbar.customActions.form.notebase.title",
-    descriptionKey: "options.selectionToolbar.customActions.form.notebase.description",
     pageKey: "options.selectionToolbar.customActions.title",
   },
 
@@ -435,13 +401,6 @@ export const SEARCH_ITEMS: SearchItem[] = [
     route: "/selection-toolbar",
     titleKey: "options.selectionToolbar.actions.title",
     descriptionKey: "options.selectionToolbar.actions.translate.description",
-    pageKey: "options.selectionToolbar.title",
-  },
-  {
-    sectionId: "selection-toolbar-note-suggestion",
-    route: "/selection-toolbar",
-    titleKey: "options.simpleMode.features.selectionToolbar.translate.noteSuggestion.title",
-    descriptionKey: "options.selectionToolbar.actions.noteSuggestion.description",
     pageKey: "options.selectionToolbar.title",
   },
   {

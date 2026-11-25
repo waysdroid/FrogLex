@@ -10,8 +10,6 @@ import { sanitizeHostedAiModels } from "@/utils/hosted-ai/models"
 import {
   doesProviderSupportsCapability,
   getBuiltInAiSelectorItems,
-  getProviderIdsForCapability,
-  getSelectableProvidersForCapability,
   resolveProviderRefForCapability,
 } from "../provider-registry"
 
@@ -94,36 +92,5 @@ describe("capabilities and resolution", () => {
     expect(
       doesProviderSupportsCapability("customAction", providersConfig, "read-frog-free-ai"),
     ).toBe(false)
-  })
-
-  it("lists the models after the user's providers", () => {
-    const ids = getProviderIdsForCapability("customAction", [], { builtInAiModels: MODELS })
-
-    expect(ids).toEqual(MODELS.map((model) => getBuiltInAiProviderId(model.id)))
-  })
-
-  it("resolves a model with its display name when the list is at hand, by id otherwise", () => {
-    expect(
-      resolveProviderRefForCapability(
-        "selectionTranslation",
-        providersConfig,
-        "read-frog-ai:gpt-6.2-sol",
-        MODELS,
-      ),
-    ).toEqual({
-      kind: "system",
-      id: "read-frog-ai:gpt-6.2-sol",
-      name: "GPT-6.2 Sol",
-      model: "gpt-6.2-sol",
-    })
-    expect(
-      resolveProviderRefForCapability("selectionTranslation", providersConfig, LUNA_PROVIDER_ID),
-    ).toMatchObject({ name: "gpt-6-luna", model: "gpt-6-luna" })
-  })
-
-  it("puts the models in every menu that can run Built-in AI", () => {
-    const options = getSelectableProvidersForCapability("pageTranslation", providersConfig, MODELS)
-
-    expect(options.filter((option) => "kind" in option)).toHaveLength(5)
   })
 })

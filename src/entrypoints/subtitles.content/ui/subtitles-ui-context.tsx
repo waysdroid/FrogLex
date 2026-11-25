@@ -12,7 +12,6 @@ import { subtitlesStore } from "../atoms"
 interface SubtitlesUIContextValue {
   platform: SubtitlesPlatform
   toggleSubtitles: (enabled: boolean) => void
-  requestAiSubtitles: () => Promise<void>
   supportsAiSubtitles: boolean
   supportsSidebar: boolean
   generateVideoSummary: (config: Config, videoId?: string | null) => Promise<string | null>
@@ -52,7 +51,6 @@ export function SubtitlesProviders({
     () => ({
       platform: adapter.platform,
       toggleSubtitles: adapter.toggleSubtitlesManually,
-      requestAiSubtitles: adapter.requestAiSubtitles,
       supportsAiSubtitles: adapter.supportsAiSubtitles,
       supportsSidebar: adapter.supportsSidebar,
       generateVideoSummary: adapter.generateVideoSummary,

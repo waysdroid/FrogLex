@@ -1,19 +1,7 @@
 import type { ProviderConfig } from "@/types/config/provider"
-import type { HostedAiStatus, HostedAiTierStatus } from "@/utils/hosted-ai/types"
 import { describe, expect, it } from "vitest"
 import { DEFAULT_CONFIG } from "@/utils/constants/config"
 import { buildFeatureProviderPatch } from "@/utils/constants/feature-providers"
-import {
-  LUNA_PROVIDER_ID,
-  SOL_PROVIDER_ID,
-  testHostedAiModels,
-} from "@/utils/hosted-ai/__tests__/test-models"
-import { sanitizeHostedAiModels } from "@/utils/hosted-ai/models"
-import { isSystemProviderSelectorItem } from "@/utils/providers/provider-display"
-import {
-  BUILT_IN_AI_PROVIDER_LOGO,
-  getSelectableProvidersForCapability,
-} from "@/utils/providers/provider-registry"
 import {
   computeLanguageDetectionFallbackAfterDeletion,
   computeProviderFallbacksAfterDeletion,
@@ -29,22 +17,6 @@ function getProviderById(id: string): ProviderConfig {
 }
 
 /** Every hosted feature reporting the same verdict on both tiers. */
-function statusWithAllTiers(tier: HostedAiTierStatus): HostedAiStatus {
-  const entry = { normal: tier, advance: tier }
-  return {
-    pools: [],
-    models: testHostedAiModels(),
-    features: {
-      pageTranslation: entry,
-      customAction: entry,
-      noteSuggestion: entry,
-      selectionTranslation: entry,
-      videoSubtitles: entry,
-      inputTranslation: entry,
-      languageDetection: entry,
-    },
-  }
-}
 
 describe("feature providers", () => {
   describe("buildFeatureProviderPatch", () => {
@@ -56,20 +28,6 @@ describe("feature providers", () => {
       expect(patch).toEqual({
         pageTranslation: {
           providerId: "openai-default",
-        },
-      })
-    })
-
-    it("builds patch for the note suggestion feature", () => {
-      const patch = buildFeatureProviderPatch({
-        noteSuggestion: LUNA_PROVIDER_ID,
-      })
-
-      expect(patch).toEqual({
-        selectionToolbar: {
-          noteSuggestion: {
-            providerId: LUNA_PROVIDER_ID,
-          },
         },
       })
     })
@@ -92,33 +50,6 @@ describe("feature providers", () => {
           },
         },
       })
-    })
-  })
-
-  describe("getSelectableProvidersForCapability", () => {
-    it("marks registry-backed system providers for selector grouping", () => {
-      const providers = getSelectableProvidersForCapability(
-        "customAction",
-        [],
-        sanitizeHostedAiModels(testHostedAiModels()),
-      )
-
-      expect(providers).toHaveLength(5)
-      expect(providers).toContainEqual(
-        expect.objectContaining({
-          kind: "system",
-          id: LUNA_PROVIDER_ID,
-          name: "GPT-6 Luna",
-          logo: expect.any(Function),
-        }),
-      )
-
-      const builtInAiProvider = providers[0]
-      expect(builtInAiProvider && isSystemProviderSelectorItem(builtInAiProvider)).toBe(true)
-      if (!builtInAiProvider || !isSystemProviderSelectorItem(builtInAiProvider)) {
-        throw new Error("Built-in AI provider selector item was not returned")
-      }
-      expect(builtInAiProvider.logo("light")).toBe(BUILT_IN_AI_PROVIDER_LOGO)
     })
   })
 
@@ -189,87 +120,6 @@ describe("feature providers", () => {
 
       expect(fallbacks.pageTranslation).toBe("google-translate-default")
     })
-
-    it("uses the system Normal tier when page translation has no local fallback", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        pageTranslation: {
-          ...DEFAULT_CONFIG.pageTranslation,
-          providerId: "deleted-provider",
-        },
-      }
-
-      const remainingProviders: ProviderConfig[] = []
-
-      const fallbacks = computeProviderFallbacksAfterDeletion(
-        "deleted-provider",
-        config,
-        remainingProviders,
-      )
-
-      expect(fallbacks.pageTranslation).toBe(LUNA_PROVIDER_ID)
-    })
-
-    it("skips disabled local providers before using the system Normal tier", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        pageTranslation: {
-          ...DEFAULT_CONFIG.pageTranslation,
-          providerId: "deleted-provider",
-        },
-      }
-
-      const remainingProviders = [
-        {
-          ...getProviderById("openai-default"),
-          enabled: false,
-        },
-      ]
-
-      const fallbacks = computeProviderFallbacksAfterDeletion(
-        "deleted-provider",
-        config,
-        remainingProviders,
-      )
-
-      expect(fallbacks.pageTranslation).toBe(LUNA_PROVIDER_ID)
-    })
-
-    it("falls back to the system Normal tier for selection toolbar translation when no local provider is available", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        selectionToolbar: {
-          ...DEFAULT_CONFIG.selectionToolbar,
-          features: {
-            ...DEFAULT_CONFIG.selectionToolbar.features,
-            translate: { enabled: true, providerId: "deleted-provider", shortcut: "Alt+T" },
-          },
-        },
-      }
-
-      const fallbacks = computeProviderFallbacksAfterDeletion("deleted-provider", config, [])
-
-      expect(fallbacks).toEqual({ selectionTranslation: LUNA_PROVIDER_ID })
-    })
-
-    it("falls back to the system Normal tier for note suggestion when no local llm provider remains", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        selectionToolbar: {
-          ...DEFAULT_CONFIG.selectionToolbar,
-          noteSuggestion: {
-            ...DEFAULT_CONFIG.selectionToolbar.noteSuggestion,
-            providerId: "deleted-provider",
-          },
-        },
-      }
-
-      const fallbacks = computeProviderFallbacksAfterDeletion("deleted-provider", config, [
-        getProviderById("google-translate-default"),
-      ])
-
-      expect(fallbacks).toEqual({ noteSuggestion: LUNA_PROVIDER_ID })
-    })
   })
 
   describe("findFeatureMissingProvider", () => {
@@ -279,11 +129,6 @@ describe("feature providers", () => {
     // report a feature missing. These cases used to report videoSubtitles
     // missing; that was only true while the built-ins lacked the capability.
     // The status-aware cases below cover when they do not count.
-    it("returns null even with no local providers left", () => {
-      const remainingProviders: ProviderConfig[] = []
-
-      expect(findFeatureMissingProvider(remainingProviders)).toBeNull()
-    })
 
     it("returns null when all features have at least one compatible provider", () => {
       const remainingProviders = [getProviderById("google-translate-default")]
@@ -291,191 +136,12 @@ describe("feature providers", () => {
       expect(findFeatureMissingProvider(remainingProviders)).toBeNull()
     })
 
-    it("does not report a feature missing just because every local provider is disabled", () => {
-      const remainingProviders = [
-        {
-          ...getProviderById("openai-default"),
-          enabled: false,
-        },
-      ]
-
-      expect(findFeatureMissingProvider(remainingProviders)).toBeNull()
-    })
-
-    it("keeps llm language detection available on Built-in AI alone", () => {
-      // Deleting the last BYOK LLM used to force detection back to basic. It
-      // no longer does: the built-ins declare the languageDetection capability,
-      // so a hosted provider is always a legal target.
-      const config = {
-        ...DEFAULT_CONFIG,
-        languageDetection: {
-          mode: "llm" as const,
-          providerId: "deleted-provider",
-        },
-      }
-      const remainingProviders = [getProviderById("google-translate-default")]
-
-      expect(findFeatureMissingProvider(remainingProviders, config)).toBeNull()
-    })
-
     // The built-ins are in every capability list, so "a provider exists" is
     // always true and cannot gate anything. Judged against a status that walls
     // them off, the guard becomes able to fire again.
-    describe("when the account cannot run Built-in AI", () => {
-      const walledOffTier: HostedAiTierStatus = {
-        accessAllowed: true,
-        available: false,
-        unavailableReason: "ultra_required",
-        upgradeTo: "ultra",
-        modelRevision: "r1",
-      }
-      const walledOff = statusWithAllTiers(walledOffTier)
-
-      it("reports the first feature left with nothing that can run it", () => {
-        expect(findFeatureMissingProvider([], DEFAULT_CONFIG, walledOff)).toBe("pageTranslation")
-      })
-
-      it("stays null while a local provider still covers every feature", () => {
-        // Keyless translate providers cover the translation features, so a free
-        // account deleting its last LLM key is not left with nothing.
-        const remainingProviders = [
-          getProviderById("google-translate-default"),
-          getProviderById("openai-default"),
-        ]
-
-        expect(findFeatureMissingProvider(remainingProviders, DEFAULT_CONFIG, walledOff)).toBeNull()
-      })
-
-      it("reports the LLM-only feature when only keyless translate providers remain", () => {
-        // Google/Microsoft cover the four translate features; note suggestion
-        // needs an LLM, so it is what the guard trips on.
-        const remainingProviders = [
-          getProviderById("google-translate-default"),
-          getProviderById("microsoft-translate-default"),
-        ]
-
-        expect(findFeatureMissingProvider(remainingProviders, DEFAULT_CONFIG, walledOff)).toBe(
-          "noteSuggestion",
-        )
-      })
-
-      it("guards a feature the user has switched off, because its providerId is still stored", () => {
-        // computeProviderFallbacksAfterDeletion can only reassign a slot when a
-        // replacement exists. Letting this through would leave
-        // noteSuggestion.providerId pointing at a provider that no longer
-        // exists, which resolves to null the moment it is switched back on.
-        const config = {
-          ...DEFAULT_CONFIG,
-          selectionToolbar: {
-            ...DEFAULT_CONFIG.selectionToolbar,
-            noteSuggestion: { ...DEFAULT_CONFIG.selectionToolbar.noteSuggestion, enabled: false },
-          },
-        }
-        const remainingProviders = [
-          getProviderById("google-translate-default"),
-          getProviderById("microsoft-translate-default"),
-        ]
-
-        expect(findFeatureMissingProvider(remainingProviders, config, walledOff)).toBe(
-          "noteSuggestion",
-        )
-      })
-
-      it("reports languageDetection when only its own tier is walled off", () => {
-        // Reachable only because funding is per feature: an LLM provider covers
-        // note suggestion, and the built-ins cover it too, while hosted
-        // languageDetection is the one tier this account cannot run.
-        const languageDetectionWalledOff = statusWithAllTiers({
-          accessAllowed: true,
-          available: true,
-          unavailableReason: null,
-          upgradeTo: null,
-          modelRevision: "r1",
-        })
-        languageDetectionWalledOff.features.languageDetection = {
-          normal: walledOffTier,
-          advance: walledOffTier,
-        }
-        const config = {
-          ...DEFAULT_CONFIG,
-          languageDetection: { mode: "llm" as const, providerId: "deleted-provider" },
-        }
-
-        expect(findFeatureMissingProvider([], config, languageDetectionWalledOff)).toBe(
-          "languageDetection",
-        )
-      })
-
-      it("does not fire on a merely exhausted quota", () => {
-        // Transient: the account can run Built-in AI, just not this minute.
-        const exhausted = statusWithAllTiers({
-          accessAllowed: true,
-          available: false,
-          unavailableReason: "quota_exhausted",
-          upgradeTo: null,
-          modelRevision: "r1",
-        })
-
-        expect(findFeatureMissingProvider([], DEFAULT_CONFIG, exhausted)).toBeNull()
-      })
-    })
   })
 
   describe("computeSelectionToolbarCustomActionFallbacksAfterDeletion", () => {
-    it("reassigns the built-in Dictionary provider without changing custom actions", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        selectionToolbar: {
-          ...DEFAULT_CONFIG.selectionToolbar,
-          builtInActions: {
-            ...DEFAULT_CONFIG.selectionToolbar.builtInActions,
-            dictionary: {
-              ...DEFAULT_CONFIG.selectionToolbar.builtInActions.dictionary,
-              providerId: "deleted-provider",
-            },
-          },
-        },
-      }
-
-      const result = computeSelectionToolbarCustomActionFallbacksAfterDeletion(
-        "deleted-provider",
-        config,
-        [getProviderById("jalapenocloud-default")],
-      )
-
-      expect(result?.builtInActions.dictionary.providerId).toBe("jalapenocloud-default")
-      expect(result?.customActions).toEqual([])
-    })
-
-    it("reassigns the built-in Sentence Analysis provider and leaves the Dictionary's", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        selectionToolbar: {
-          ...DEFAULT_CONFIG.selectionToolbar,
-          builtInActions: {
-            ...DEFAULT_CONFIG.selectionToolbar.builtInActions,
-            sentenceAnalysis: { enabled: false, providerId: "deleted-provider" },
-          },
-        },
-      }
-
-      const result = computeSelectionToolbarCustomActionFallbacksAfterDeletion(
-        "deleted-provider",
-        config,
-        [getProviderById("jalapenocloud-default")],
-      )
-
-      expect(result?.builtInActions).toEqual({
-        dictionary: DEFAULT_CONFIG.selectionToolbar.builtInActions.dictionary,
-        sentenceAnalysis: {
-          enabled: false,
-          providerId: "jalapenocloud-default",
-          notebaseConnection: undefined,
-        },
-        improveWriting: DEFAULT_CONFIG.selectionToolbar.builtInActions.improveWriting,
-      })
-    })
-
     it("reassigns affected custom actions to the first enabled llm provider", () => {
       const config = {
         ...DEFAULT_CONFIG,
@@ -524,54 +190,6 @@ describe("feature providers", () => {
         }),
       ])
     })
-
-    it("falls back to built-in AI when no enabled llm provider is available", () => {
-      const config = {
-        ...DEFAULT_CONFIG,
-        selectionToolbar: {
-          ...DEFAULT_CONFIG.selectionToolbar,
-          customActions: [
-            {
-              id: "action-a",
-              name: "Action A",
-              enabled: true,
-              icon: "tabler:sparkles",
-              providerId: "deleted-provider",
-              systemPrompt: "",
-              prompt: "{{selection}}",
-              outputSchema: [
-                {
-                  id: "field-a",
-                  name: "summary",
-                  type: "string" as const,
-                  description: "",
-                },
-              ],
-            },
-          ],
-        },
-      }
-
-      const remainingProviders = [
-        {
-          ...getProviderById("openai-default"),
-          enabled: false,
-        },
-      ]
-
-      const result = computeSelectionToolbarCustomActionFallbacksAfterDeletion(
-        "deleted-provider",
-        config,
-        remainingProviders,
-      )
-
-      expect(result?.customActions).toEqual([
-        expect.objectContaining({
-          id: "action-a",
-          providerId: LUNA_PROVIDER_ID,
-        }),
-      ])
-    })
   })
 
   describe("resolveLanguageDetectionConfigForModeChange", () => {
@@ -601,82 +219,6 @@ describe("feature providers", () => {
       expect(result).toEqual({
         mode: "llm",
         providerId: "jalapenocloud-default",
-      })
-    })
-
-    it("falls back to Built-in AI when no enabled local llm provider remains", () => {
-      const result = resolveLanguageDetectionConfigForModeChange(
-        DEFAULT_CONFIG.languageDetection,
-        "llm",
-        [
-          {
-            ...getProviderById("openai-default"),
-            enabled: false,
-          },
-          {
-            ...getProviderById("jalapenocloud-default"),
-            enabled: false,
-          },
-        ],
-      )
-
-      // Switching to llm mode used to be impossible without a BYOK LLM. Built-in
-      // AI is always capability-compatible, so the mode is now always reachable
-      // and seeds itself with the hosted provider.
-      expect(result).toEqual({ mode: "llm", providerId: LUNA_PROVIDER_ID })
-    })
-
-    describe("with a Built-in AI model stored", () => {
-      const allowedTier: HostedAiTierStatus = {
-        accessAllowed: true,
-        available: true,
-        unavailableReason: null,
-        upgradeTo: null,
-        modelRevision: "r1",
-      }
-      const walledOffTier: HostedAiTierStatus = {
-        accessAllowed: true,
-        available: false,
-        unavailableReason: "ultra_required",
-        upgradeTo: "ultra",
-        modelRevision: "r1",
-      }
-
-      it("keeps the model while status is loading or could not be fetched", () => {
-        // With no status the usable ids name the default model alone.
-        const result = resolveLanguageDetectionConfigForModeChange(
-          { mode: "basic", providerId: SOL_PROVIDER_ID },
-          "llm",
-          DEFAULT_CONFIG.providersConfig,
-          undefined,
-        )
-
-        expect(result).toEqual({ mode: "llm", providerId: SOL_PROVIDER_ID })
-      })
-
-      it("keeps a model the status list does not name", () => {
-        const result = resolveLanguageDetectionConfigForModeChange(
-          { mode: "basic", providerId: "read-frog-ai:retired-model" },
-          "llm",
-          DEFAULT_CONFIG.providersConfig,
-          statusWithAllTiers(allowedTier),
-        )
-
-        expect(result).toEqual({ mode: "llm", providerId: "read-frog-ai:retired-model" })
-      })
-
-      it("replaces a model whose tier the account cannot run", () => {
-        const status = statusWithAllTiers(allowedTier)
-        status.features.languageDetection = { normal: allowedTier, advance: walledOffTier }
-
-        const result = resolveLanguageDetectionConfigForModeChange(
-          { mode: "basic", providerId: SOL_PROVIDER_ID },
-          "llm",
-          DEFAULT_CONFIG.providersConfig,
-          status,
-        )
-
-        expect(result).toEqual({ mode: "llm", providerId: "openai-default" })
       })
     })
   })

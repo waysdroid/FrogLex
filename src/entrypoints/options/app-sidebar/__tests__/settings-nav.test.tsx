@@ -48,20 +48,16 @@ function renderAt(pathname: string) {
 }
 
 describe("SettingsNav", () => {
-  it("lists Usage first, ahead of the existing pages in their old order", () => {
+  it("lists the local options in order", () => {
     renderAt("/usage")
 
     expect(screen.getAllByRole("link").map((link) => link.getAttribute("href"))).toEqual([
-      "/usage",
       "/api-providers",
       "/preference",
       "/shortcuts",
       "/personal-vocabulary",
     ])
-    expect(screen.getByRole("link", { name: "options.usage.title" })).toHaveAttribute(
-      "aria-current",
-      "page",
-    )
+    expect(screen.queryByRole("link", { name: "options.usage.title" })).toBeNull()
   })
 
   it("marks Preference as the page the options page opens on", () => {
@@ -71,9 +67,7 @@ describe("SettingsNav", () => {
       "aria-current",
       "page",
     )
-    expect(screen.getByRole("link", { name: "options.usage.title" })).not.toHaveAttribute(
-      "aria-current",
-    )
+    expect(screen.queryByRole("link", { name: "options.usage.title" })).toBeNull()
     expect(screen.getByRole("link", { name: "options.apiProviders.title" })).not.toHaveAttribute(
       "aria-current",
     )

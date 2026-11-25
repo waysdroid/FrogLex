@@ -9,7 +9,6 @@ import { getSourceDocumentTitle } from "@/utils/content/document-title"
 import { getDocumentDescription } from "@/utils/content/metadata"
 import { resolveLanguageCodeFromLocale } from "@/utils/content/page-language"
 import { canProviderRefGenerateText } from "@/utils/providers/provider-ref"
-import { promptForSubtitlesRefusal } from "@/utils/subtitles/built-in-ai-refusal"
 import {
   buildSubtitlesSummaryContextHash,
   resolveSubtitlesProvider,
@@ -189,13 +188,6 @@ export class SubtitlesSession {
       batchLimits: config ? getSubtitlesPassLimits(config) : undefined,
       machinePlaceholder: !!config && shouldUseMachinePlaceholder(config),
       onMachineTranslationsDropped: () => scheduler.removeMachineTranslations(),
-      onBuiltInAiRefused: (error) => {
-        promptForSubtitlesRefusal(error, {
-          videoKey: this.config.getVideoId?.() ?? window.location.href,
-          trigger: this.translationTrigger,
-          retry: () => this.translationCoordinator?.retryFailed(),
-        })
-      },
     })
     this.translationCoordinator.start(videoContext)
     // The hash and the summary must share one ref — the promptable one — or

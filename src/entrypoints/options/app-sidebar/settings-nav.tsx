@@ -21,17 +21,6 @@ export function SettingsNav() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              render={<Link to="/usage" />}
-              isActive={pathname === "/usage"}
-              tooltip={i18n.t("options.usage.title")}
-            >
-              <Icon icon="tabler:gauge" />
-              <span>{i18n.t("options.usage.title")}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton
               render={<Link to="/api-providers" />}
               isActive={pathname === "/api-providers"}
               tooltip={i18n.t("options.apiProviders.title")}

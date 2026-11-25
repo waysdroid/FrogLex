@@ -1,6 +1,6 @@
 name: 陪读蛙
-extName: "陪读蛙 - AI 双语翻译、视频字幕与背单词"
-extDescription: "用 AI 双语对照翻译网页，以及 YouTube、Netflix、X 的视频字幕。遇到生词一键保存，用闪卡复习。"
+extName: "陪读蛙 · 个人词库版"
+extDescription: "网页和视频字幕翻译，支持自配 AI 模型。划词收录生词，保存在本地个人词库。"
 account:
   login: 登录
   webApp: 网页应用

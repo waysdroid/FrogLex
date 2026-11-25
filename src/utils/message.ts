@@ -1,5 +1,4 @@
 import type { LanguageTag } from "@read-frog/definitions"
-import type { GuideDictionaryNotebaseCompletionInput } from "./guide/dictionary-notebase"
 import type { FeatureUsageContext, FeatureUsedEventProperties } from "@/types/analytics"
 import type {
   BackgroundGenerateTextPayload,
@@ -19,11 +18,9 @@ import type {
   TTSPlaybackStartResponse,
   TTSPlaybackStopRequest,
 } from "@/types/tts-playback"
-import type { FreeTranslateProviderId } from "@/utils/config/free-translate-provider"
 import type { DiagnosticsReport } from "@/utils/diagnostics/report"
 import type { GlossarySnapshot } from "@/utils/glossary/active-matcher"
 import type { MatchedTerm } from "@/utils/glossary/types"
-import type { HostedAiStatus } from "@/utils/hosted-ai/types"
 import type { LogRecord } from "@/utils/logging/logger"
 import type { ForwardingLogContext } from "@/utils/logging/stored-record"
 import type { VocabularyReceipt } from "@/utils/personal-vocabulary/repository"
@@ -61,10 +58,8 @@ interface ProtocolMap {
   getInitialConfig: () => Config | null
   // The machine translator a guest can use instead of Built-in AI: Google where this
   // network reaches it, Microsoft otherwise. Probed in the background, once a session.
-  getFreeTranslateProviderId: () => FreeTranslateProviderId
   // Automatic page translation may ask to upgrade in a dialog once a browser session; the
   // first ask gets true. Kept in the background: content scripts can't read session storage.
-  claimBuiltInAiAutoPrompt: () => boolean
   // glossary — the terms live in IndexedDB, which a content script cannot open,
   // so it asks the background once per page and compiles a matcher locally.
   // `url` says which page is asking; glossaries scoped to other sites are left
@@ -136,8 +131,6 @@ interface ProtocolMap {
   pinStateChanged: (data: { isPinned: boolean }) => void
   getPinState: () => boolean
   returnPinState: (data: { isPinned: boolean }) => void
-  guideDictionaryNotebaseStateChanged: (data: { completed: boolean }) => void
-  completeGuideDictionaryNotebase: (data: GuideDictionaryNotebaseCompletionInput) => void
   // request
   enqueueTranslateRequest: (
     data: ProviderRequestRouting & {
@@ -231,7 +224,6 @@ interface ProtocolMap {
   // every feature and tier — so it can be cached and shared across tabs — and
   // because content scripts cannot read the session storage that cache lives in.
   // Null means "no verdict" (fetch failed); callers fail open on it.
-  getHostedAiStatus: () => Promise<HostedAiStatus | null>
   // network proxy
   backgroundFetch: (data: ProxyRequest) => Promise<ProxyResponse>
   // local log — the background owns it; every other context hands it its
@@ -245,7 +237,6 @@ interface ProtocolMap {
   // cookie, so the background's cookie listener never fires — without this the
   // "signed out" entry cached while the permission was missing would outlive
   // the grant. Awaiting it before refetching keeps the two ordered.
-  invalidateAuthCache: () => Promise<void>
   // edge tts
   edgeTtsSynthesize: (data: EdgeTTSSynthesizeRequest) => Promise<EdgeTTSSynthesizeWireResponse>
   edgeTtsListVoices: () => Promise<EdgeTTSVoice[]>

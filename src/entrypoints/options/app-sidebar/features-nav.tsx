@@ -5,7 +5,6 @@ import { useAtomValue } from "jotai"
 import { useState } from "react"
 import { Link, useLocation } from "react-router"
 import { browser } from "#imports"
-import { NewBadge } from "@/components/badges/new-badge"
 import {
   Collapsible,
   CollapsibleContent,
@@ -22,7 +21,6 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/base-ui/sidebar"
-import { env } from "@/env"
 import { configAtom } from "@/utils/atoms/config"
 import { TRANSLATION_HUB_PAGE_PATH } from "@/utils/constants/translation-hub"
 import { isFeatureOn, isShown } from "@/utils/features"
@@ -120,20 +118,6 @@ export function FeaturesNav() {
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   )}
-                  <SidebarMenuSubItem>
-                    <SidebarMenuSubButton
-                      render={
-                        <a
-                          href={`${env.WXT_WEBSITE_URL}/pdf-translation`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        />
-                      }
-                    >
-                      <span className="truncate">{i18n.t("options.tools.pdfTranslation")}</span>
-                      <NewBadge size="sm" className="ml-auto" />
-                    </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

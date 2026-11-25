@@ -5,13 +5,8 @@ import type { SubtitlesPlatform } from "@/types/config/subtitles"
 import { ANALYTICS_FEATURE, ANALYTICS_SURFACE } from "@/types/analytics"
 import { createFeatureUsageContext } from "@/utils/analytics"
 import { getLocalConfig } from "@/utils/config/storage"
-import { SUBTITLES_SOURCE } from "@/utils/constants/subtitles"
 import { isFeatureOn } from "@/utils/features"
-import { i18n } from "@/utils/i18n"
-import { ensureAiSubtitlesAccess } from "@/utils/subtitles/ai/access-guard"
-import { showAiSubtitlesWallToast } from "@/utils/subtitles/toast"
 import { subtitlesSidebarOpenAtom, subtitlesStore } from "../atoms"
-import { createOperationGeneration } from "./operation-generation"
 
 type SubtitlesToggleSource = "manual" | "auto" | "shortcut"
 
@@ -37,10 +32,6 @@ export class SubtitlesStartRequests {
   private readonly getScheduler: SubtitlesStartRequestsDeps["getScheduler"]
   private readonly subtitlesSwitch: SubtitlesStartRequestsDeps["subtitlesSwitch"]
   private firstPlayStartAbortController: AbortController | null = null
-  // AI requests still in their access and live checks, before the switch starts the load.
-  private pendingAiRequestChecks = 0
-  // Moves on whenever the reader turns subtitles off, which drops an AI request still in its checks.
-  private readonly turnOffGeneration = createOperationGeneration()
 
   constructor({ config, lifecycle, getScheduler, subtitlesSwitch }: SubtitlesStartRequestsDeps) {
     this.config = config
@@ -90,7 +81,6 @@ export class SubtitlesStartRequests {
 
   toggleSubtitlesWithSource(enabled: boolean, source: SubtitlesToggleSource) {
     if (source !== "auto") this.cancelFirstPlayStart()
-    if (!enabled) this.turnOffGeneration.next()
     this.subtitlesSwitch.handleToggleSubtitles(enabled, {
       analyticsContext: enabled
         ? createFeatureUsageContext(
@@ -101,29 +91,5 @@ export class SubtitlesStartRequests {
       // Only an automatic start goes quiet: a reader who asked still hears why nothing came.
       quiet: source === "auto" && QUIET_AUTO_START_PLATFORMS.has(this.config.platform),
     })
-  }
-
-  isCheckingAiRequest(): boolean {
-    return this.pendingAiRequestChecks > 0
-  }
-
-  requestAiSubtitles = async (): Promise<void> => {
-    const turnOff = this.turnOffGeneration.current()
-    this.pendingAiRequestChecks++
-    try {
-      if (!(await ensureAiSubtitlesAccess())) return
-      if (await this.config.isLiveContent?.()) {
-        showAiSubtitlesWallToast(
-          this.config.liveContentMessage?.() ?? i18n.t("subtitles.errors.aiLiveReplayUnsupported"),
-        )
-        return
-      }
-    } finally {
-      this.pendingAiRequestChecks--
-    }
-    // Subtitles the reader turned off while the checks ran stay off.
-    if (!this.turnOffGeneration.isCurrent(turnOff)) return
-    this.cancelFirstPlayStart()
-    return this.subtitlesSwitch.switchSubtitlesFetcher(SUBTITLES_SOURCE.AI)
   }
 }

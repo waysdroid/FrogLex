@@ -164,65 +164,9 @@ describe("getUsableProviderIdsForCapability", () => {
     // is non-empty (the built-ins are always in it) but nothing in it can run.
     expect(getUsableProviderIdsForCapability("pageTranslation", [], walledOff)).toEqual([])
   })
-
-  it("counts the default model when there is no status to judge or list models by", () => {
-    expect(getUsableProviderIdsForCapability("pageTranslation", [], undefined)).toEqual([
-      LUNA_PROVIDER_ID,
-    ])
-  })
-
-  it("lists every model the plan reaches, the default model ahead of the rest", () => {
-    const advanceWalled = statusWith(tier(), tier({ unavailableReason: "ultra_required" }))
-
-    expect(
-      getUsableProviderIdsForCapability(
-        "pageTranslation",
-        [providerById("google-translate-default")],
-        advanceWalled,
-      ),
-    ).toEqual([
-      "google-translate-default",
-      LUNA_PROVIDER_ID,
-      "read-frog-ai:claude-haiku-5-5",
-      "read-frog-ai:deepseek-v4.1-flash",
-    ])
-  })
-
-  it("gives a guest the models signing in would run, so a deleted provider falls back to one", () => {
-    expect(
-      getUsableProviderIdsForCapability(
-        "pageTranslation",
-        [],
-        statusWith(guestNormal, guestAdvance),
-      ),
-    ).toEqual([
-      LUNA_PROVIDER_ID,
-      "read-frog-ai:claude-haiku-5-5",
-      "read-frog-ai:deepseek-v4.1-flash",
-    ])
-  })
 })
 
 describe("canProviderRefGenerateText", () => {
-  it("accepts a local LLM and the built-ins", () => {
-    expect(
-      canProviderRefGenerateText({
-        kind: "local",
-        config: providerById("openai-default") as never,
-      }),
-    ).toBe(true)
-    expect(
-      canProviderRefGenerateText({
-        kind: "system",
-        providerId: LUNA_PROVIDER_ID,
-        model: "gpt-6-luna",
-        modelTier: "normal",
-        modelRevision: "r1",
-        reasoning: null,
-      }),
-    ).toBe(true)
-  })
-
   it("rejects a translate-only provider even though it can run subtitles", () => {
     // The videoSubtitles capability admits Google, so it resolves into a
     // perfectly valid ref — it just has no model to prompt for a summary.

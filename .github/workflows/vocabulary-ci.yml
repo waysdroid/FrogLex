@@ -52,8 +52,13 @@ jobs:
             assert.ok(existsSync(`${root}/${manifest.background.service_worker}`))
             assert.ok(existsSync(`${root}/${manifest.options_ui.page}`))
             const telemetry = /posthog|x-read-frog-client-context|tally\.so\/r\//i
+            const officialAccount = /api\.readfrog\.app|better-auth|\/log-in/i
+            assert.ok(!manifest.permissions.includes("cookies"))
+            assert.ok(!manifest.permissions.includes("identity"))
             for (const file of globSync(`${root}/**/*.js`)) {
-              assert.ok(!telemetry.test(readFileSync(file, "utf8")), `Remote telemetry found in ${file}`)
+              const code = readFileSync(file, "utf8")
+              assert.ok(!telemetry.test(code), `Remote telemetry found in ${file}`)
+              assert.ok(!officialAccount.test(code), `Official account code found in ${file}`)
             }
             console.log(`${platform} MV3 extension build verified`)
           }

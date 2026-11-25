@@ -54,7 +54,6 @@ import {
 } from "@/utils/constants/custom-action"
 import { i18n } from "@/utils/i18n"
 import { CUSTOM_ACTION_LAYOUT_HOST } from "@/utils/layout-host/host"
-import { sanitizeCustomActionNotebaseConnection } from "@/utils/notebase/connection"
 import { withForm } from "./form"
 
 type CustomActionFormKey =
@@ -493,15 +492,6 @@ export const OutputSchemaField = withForm({
                         const nextOutputSchema = field.state.value.filter(
                           (item) => item.id !== deletingFieldId,
                         )
-                        const connection = form.state.values.notebaseConnection
-                        if (connection) {
-                          // Drop references before field validation runs; the persistence
-                          // sanitizer cannot repair a draft rejected by handleSubmit.
-                          form.setFieldValue(
-                            "notebaseConnection",
-                            sanitizeCustomActionNotebaseConnection(connection, nextOutputSchema),
-                          )
-                        }
                         field.handleChange(nextOutputSchema)
                       },
                       { immediate: true },

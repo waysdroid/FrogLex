@@ -2,10 +2,6 @@
 
 import { act, cleanup, fireEvent, renderHook } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import {
-  closeBuiltInAiPrompt,
-  useBuiltInAiPrompt,
-} from "@/utils/content-runtime/built-in-ai-prompt"
 import { useInputTranslation } from "../use-input-translation"
 
 const {
@@ -232,93 +228,5 @@ describe("input translation across editors", () => {
     await act(async () => pending.resolve("First reply"))
     expect(post).not.toHaveBeenCalled()
     expect(document.activeElement).toBe(second)
-  })
-})
-
-describe("input translation when Built-in AI refuses", () => {
-  beforeEach(() => {
-    translate.mockReset()
-    toastAddMock.mockReset()
-    sendMessageMock.mockReset().mockResolvedValue(undefined)
-    getUpgradePlanMock.mockReset().mockResolvedValue("free")
-    config.enableCycle = false
-    sessionStorage.clear()
-    Object.defineProperty(document, "execCommand", {
-      configurable: true,
-      value: vi.fn<() => boolean>(() => true),
-    })
-    Object.defineProperty(HTMLElement.prototype, "animate", {
-      configurable: true,
-      value: vi.fn<() => void>(),
-    })
-  })
-
-  afterEach(() => {
-    cleanup()
-    closeBuiltInAiPrompt()
-    document.body.replaceChildren()
-    vi.restoreAllMocks()
-  })
-
-  async function translateWithSpaces() {
-    const element = textarea()
-    // The selection UI draws the dialog in this frame.
-    const dialog = renderHook(() => useBuiltInAiPrompt()).result
-    renderHook(useInputTranslation)
-    await act(async () => {
-      space(element)
-      space(element)
-      space(element)
-    })
-    return dialog
-  }
-
-  it("asks to upgrade when the server refuses mid-run, instead of saying nothing", async () => {
-    // The server's refusal, relayed from the background with its code still on it.
-    translate.mockRejectedValue(
-      Object.assign(new Error("Built-in AI quota used up"), { code: "HOSTED_AI_QUOTA_EXHAUSTED" }),
-    )
-
-    const dialog = await translateWithSpaces()
-
-    await vi.waitFor(() =>
-      expect(dialog.current).toEqual({
-        kind: "upgrade",
-        plan: "free",
-        feature: "inputTranslation",
-        analyticsFeature: "input_translation",
-        trigger: "user",
-        retry: undefined,
-      }),
-    )
-    expect(toastAddMock).not.toHaveBeenCalled()
-  })
-
-  it("tells Ultra its pool is spent in a toast", async () => {
-    getUpgradePlanMock.mockResolvedValue(null)
-    translate.mockRejectedValue(
-      Object.assign(new Error("Built-in AI quota used up"), { code: "HOSTED_AI_QUOTA_EXHAUSTED" }),
-    )
-
-    const dialog = await translateWithSpaces()
-
-    await vi.waitFor(() =>
-      expect(toastAddMock).toHaveBeenCalledWith({
-        type: "error",
-        title: "Built-in AI quota used up",
-        id: "input-translation-hosted-unavailable",
-      }),
-    )
-    expect(dialog.current).toBeNull()
-  })
-
-  it("keeps quiet about a failure that is not Built-in AI's", async () => {
-    translate.mockRejectedValue(new Error("Failed to fetch"))
-
-    const dialog = await translateWithSpaces()
-    await new Promise((resolve) => setTimeout(resolve, 0))
-
-    expect(dialog.current).toBeNull()
-    expect(toastAddMock).not.toHaveBeenCalled()
   })
 })

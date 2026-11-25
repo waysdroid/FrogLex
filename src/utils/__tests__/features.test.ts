@@ -23,7 +23,7 @@ function withFeatures(...patches: Partial<Config>[]): Config {
 
 describe("feature tree", () => {
   it("reads parents and children off the dotted ids", () => {
-    expect(parentOf("selectionToolbar.translate.noteSuggestion")).toBe("selectionToolbar.translate")
+    expect(parentOf("selectionToolbar.translate")).toBe("selectionToolbar")
     expect(parentOf("selectionToolbar.translate")).toBe("selectionToolbar")
     expect(parentOf("selectionToolbar")).toBeUndefined()
     expect(childrenOf("selectionToolbar")).toEqual([
@@ -59,14 +59,14 @@ describe("isFeatureOn", () => {
   it("is on only while its own switch and every one above it are on", () => {
     const config = withFeatures(setFeatureOn("selectionToolbar", false))
 
-    expect(isFeatureSwitchOn(config, "selectionToolbar.translate.noteSuggestion")).toBe(true)
-    expect(isFeatureOn(config, "selectionToolbar.translate.noteSuggestion")).toBe(false)
+    expect(isFeatureSwitchOn(config, "selectionToolbar.translate")).toBe(true)
+    expect(isFeatureOn(config, "selectionToolbar.translate")).toBe(false)
     expect(isFeatureOn(config, "selectionToolbar.speak")).toBe(false)
     expect(isFeatureOn(config, "contextMenu")).toBe(true)
 
     const translateOff = withFeatures(setFeatureOn("selectionToolbar.translate", false))
     expect(isFeatureOn(translateOff, "selectionToolbar")).toBe(true)
-    expect(isFeatureOn(translateOff, "selectionToolbar.translate.noteSuggestion")).toBe(false)
+    expect(isFeatureOn(translateOff, "selectionToolbar.translate")).toBe(false)
     expect(isFeatureOn(translateOff, "selectionToolbar.speak")).toBe(true)
   })
 
@@ -114,11 +114,11 @@ describe("switchedOffFeature", () => {
   it("names the highest switch that is off, through the tag's features in order", () => {
     const config = withFeatures(
       setFeatureOn("selectionToolbar.translate", false),
-      setFeatureOn("selectionToolbar.translate.noteSuggestion", false),
+      setFeatureOn("selectionToolbar.translate", false),
       setFeatureOn("customActions", false),
     )
 
-    expect(switchedOffFeature(config, "selectionToolbar.translate.noteSuggestion")).toBe(
+    expect(switchedOffFeature(config, "selectionToolbar.translate")).toBe(
       "selectionToolbar.translate",
     )
     expect(switchedOffFeature(config, ["selectionToolbar", "customActions"])).toBe("customActions")
@@ -126,8 +126,6 @@ describe("switchedOffFeature", () => {
     expect(switchedOffFeature(config, undefined)).toBeUndefined()
 
     const toolbarOff = withFeatures(config, setFeatureOn("selectionToolbar", false))
-    expect(switchedOffFeature(toolbarOff, "selectionToolbar.translate.noteSuggestion")).toBe(
-      "selectionToolbar",
-    )
+    expect(switchedOffFeature(toolbarOff, "selectionToolbar.translate")).toBe("selectionToolbar")
   })
 })

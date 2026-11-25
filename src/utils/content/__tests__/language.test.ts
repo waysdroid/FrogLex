@@ -38,18 +38,9 @@ vi.mock("@/utils/providers/provider-ref", async () => {
   return { ...actual, serializeProviderRef: serializeProviderRefMock }
 })
 
-const { HostedAiProviderUnavailableError } = await import("@/utils/providers/provider-ref")
-const { logInAction, logInUrl } = await import("@/utils/error-action")
 const { detectLanguageWithSource } = await import("../language")
 
 const mockFranc = vi.mocked(franc)
-
-const BUILT_IN_PROVIDER = {
-  kind: "system" as const,
-  id: "read-frog-ai:gpt-6-luna" as const,
-  name: "GPT-6 Luna",
-  model: "gpt-6-luna",
-}
 
 describe("detectLanguageWithSource", () => {
   beforeEach(() => {
@@ -111,140 +102,5 @@ describe("detectLanguageWithSource", () => {
     }
 
     await expect(`${lines.join("\n")}\n`).toMatchFileSnapshot("./__snapshots__/franc-languages.txt")
-  })
-
-  describe("when LLM detection is enabled but the account cannot run it", () => {
-    beforeEach(() => {
-      toastAddMock.mockReset()
-      sendMessageMock.mockReset()
-      serializeProviderRefMock.mockReset()
-      getLocalConfigMock.mockResolvedValue({
-        languageDetection: { mode: "llm", providerId: "read-frog-ai:gpt-6-luna" },
-        providersConfig: [],
-      })
-    })
-
-    it("says so instead of quietly resolving with franc", async () => {
-      serializeProviderRefMock.mockRejectedValue(
-        new HostedAiProviderUnavailableError(BUILT_IN_PROVIDER, "Ultra plan required"),
-      )
-      mockFranc.mockReturnValue("eng")
-
-      // franc still answers — the degrade is deliberate. What changed is that
-      // the user is now told why, instead of a denial being folded into the
-      // same null that means "no LLM detection is configured".
-      await expect(
-        detectLanguageWithSource("This is enough text to detect language.", { enableLLM: true }),
-      ).resolves.toEqual({ code: "en", source: "franc" })
-
-      expect(toastAddMock).toHaveBeenCalledWith(
-        expect.objectContaining({ type: "warning", title: "Ultra plan required" }),
-      )
-    })
-
-    it("explains the fallback for speaking without presenting it as a login gate", async () => {
-      serializeProviderRefMock.mockRejectedValue(
-        new HostedAiProviderUnavailableError(BUILT_IN_PROVIDER, "Log in to use this provider"),
-      )
-      mockFranc.mockReturnValue("eng")
-
-      await expect(
-        detectLanguageWithSource("This is enough text to detect language.", {
-          enableLLM: true,
-          llmFallbackToastContext: "speak",
-        }),
-      ).resolves.toEqual({ code: "en", source: "franc" })
-
-      expect(toastAddMock).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: "warning",
-          title: "speak.languageDetectionFallback",
-          description: "speak.languageDetectionSettingsHint",
-        }),
-      )
-    })
-
-    describe("for a guest on a Built-in model", () => {
-      // What the status pre-flight throws for a guest: the reason says sign in.
-      const guestRefusal = () =>
-        new HostedAiProviderUnavailableError(
-          BUILT_IN_PROVIDER,
-          "Log in to use this provider",
-          logInAction(),
-          "authentication_required",
-        )
-
-      it("offers to log in with the fallback warning", async () => {
-        serializeProviderRefMock.mockRejectedValue(guestRefusal())
-        mockFranc.mockReturnValue("eng")
-
-        await expect(
-          detectLanguageWithSource("This is enough text to detect language.", { enableLLM: true }),
-        ).resolves.toEqual({ code: "en", source: "franc" })
-
-        const toast = toastAddMock.mock.calls[0]?.[0]
-        expect(toast).toMatchObject({
-          type: "warning",
-          title: "Log in to use this provider",
-          actionProps: { children: logInAction().label },
-        })
-
-        // The button opens the log-in page through the background; it never navigates by itself.
-        expect(sendMessageMock).not.toHaveBeenCalled()
-        toast.actionProps.onClick()
-        expect(sendMessageMock).toHaveBeenCalledWith("openPage", { url: logInUrl(), active: true })
-      })
-
-      it("asks a guest who is speaking to log in rather than to pick another LLM", async () => {
-        serializeProviderRefMock.mockRejectedValue(guestRefusal())
-        mockFranc.mockReturnValue("eng")
-
-        await detectLanguageWithSource("This is enough text to detect language.", {
-          enableLLM: true,
-          llmFallbackToastContext: "speak",
-        })
-
-        // Settings already lists the model as available, so its hint would not help.
-        expect(toastAddMock).toHaveBeenCalledWith(
-          expect.objectContaining({
-            title: "speak.languageDetectionFallback",
-            description: "hostedAi.builtInAiPrompt.logInTitle",
-            actionProps: expect.objectContaining({ children: logInAction().label }),
-          }),
-        )
-      })
-    })
-
-    it("offers no button for a refusal logging in would not fix", async () => {
-      serializeProviderRefMock.mockRejectedValue(
-        new HostedAiProviderUnavailableError(
-          BUILT_IN_PROVIDER,
-          "Ultra plan required",
-          undefined,
-          "ultra_required",
-        ),
-      )
-      mockFranc.mockReturnValue("eng")
-
-      await detectLanguageWithSource("This is enough text to detect language.", { enableLLM: true })
-
-      expect(toastAddMock.mock.calls[0]?.[0]).not.toHaveProperty("actionProps")
-    })
-
-    it("stays silent when no provider is configured at all", async () => {
-      getLocalConfigMock.mockResolvedValue({
-        languageDetection: { mode: "llm", providerId: "" },
-        providersConfig: [],
-      })
-      mockFranc.mockReturnValue("eng")
-
-      // Not the same condition: nothing was denied, so there is nothing to
-      // report. This is the meaning the denial used to collapse into.
-      await expect(
-        detectLanguageWithSource("This is enough text to detect language.", { enableLLM: true }),
-      ).resolves.toEqual({ code: "en", source: "franc" })
-
-      expect(toastAddMock).not.toHaveBeenCalled()
-    })
   })
 })

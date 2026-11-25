@@ -9,14 +9,14 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Tag of an existing release
+        description: Tag to build and publish
         required: true
-        default: v1.0.0
+        default: v1.1.0
 
 permissions:
   contents: write
 
-concurrency: vocabulary-installers-${{ inputs.tag || 'v1.0.0' }}
+concurrency: vocabulary-installers-${{ inputs.tag || 'v1.1.0' }}
 
 jobs:
   publish:
@@ -24,17 +24,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
+      RELEASE_TAG: ${{ inputs.tag || 'v1.1.0' }}
       HUSKY: "0"
       WXT_SKIP_ENV_VALIDATION: "true"
+      SKIP_FREE_API: "true"
     steps:
-      - name: Verify the existing release
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Verify the release tag
         shell: bash
         run: |
           [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
-          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json tagName,isDraft
       - uses: actions/checkout@v7
         with:
           ref: refs/tags/${{ env.RELEASE_TAG }}
@@ -50,6 +48,8 @@ jobs:
         shell: bash
         run: |
           pnpm install --frozen-lockfile
+          pnpm type-check
+          pnpm test --pool=threads --maxWorkers=2 src/utils/personal-vocabulary src/utils/config/__tests__/migration-scripts
           pnpm zip
           pnpm zip:edge
           mkdir release-assets
@@ -70,6 +70,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            notes="$RUNNER_TEMP/vocabulary-new-release-notes.md"
+            version="V${RELEASE_TAG#v}"
+            awk -v version="$version" '
+              $1 == "##" { if (found) exit; found = ($2 == version) }
+              found { print }
+            ' CHANGELOG.personal-vocabulary.md > "$notes"
+            test -s "$notes"
+            gh release create "$RELEASE_TAG" release-assets/*.zip --verify-tag \
+              --repo "$GITHUB_REPOSITORY" --title "个人词库 $version" --notes-file "$notes"
+            exit 0
+          fi
           existing=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
           pending=()
           for archive in release-assets/*.zip; do

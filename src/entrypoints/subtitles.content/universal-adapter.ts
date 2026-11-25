@@ -271,8 +271,5 @@ export class UniversalVideoAdapter implements SubtitlesProvidersAdapter {
     this.player.removeTranslateButton()
   }
 
-  requestAiSubtitles = () => this.startRequests.requestAiSubtitles()
-
-  isAwaitingAiSubtitles = () =>
-    this.startRequests.isCheckingAiRequest() || this.subtitlesSwitch.isAwaitingAiSubtitles()
+  isAwaitingAiSubtitles = () => false
 }

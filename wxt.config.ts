@@ -39,6 +39,7 @@ export default defineConfig({
     : {},
   manifest: ({ mode, browser }) => ({
     name: "__MSG_extName__",
+    version_name: "1.1.0",
     description: "__MSG_extDescription__",
     default_locale: "en",
     // Fixed extension ID for development
@@ -56,9 +57,7 @@ export default defineConfig({
       "unlimitedStorage",
       "tabs",
       "alarms",
-      "cookies",
       "contextMenus",
-      "identity",
       "scripting",
       "webNavigation",
       ...(browser !== "firefox" ? ["offscreen", "sidePanel"] : []),

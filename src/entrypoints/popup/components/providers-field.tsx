@@ -7,8 +7,6 @@ import { useMemo } from "react"
 import { HelpTooltip } from "@/components/help-tooltip"
 import { FeatureProviderSelectorList } from "@/components/llm-providers/feature-provider-selector-list"
 import { getModelVendorLogo } from "@/components/llm-providers/model-icon"
-import { useBuiltInAiModels } from "@/components/llm-providers/use-built-in-ai-models"
-import { useHostedAiStatus } from "@/components/llm-providers/use-hosted-ai-status"
 import { useTheme } from "@/components/providers/theme-provider"
 import { Avatar, AvatarGroup, AvatarGroupCount, AvatarImage } from "@/components/ui/base-ui/avatar"
 import { Button } from "@/components/ui/base-ui/button"
@@ -79,7 +77,7 @@ function getSelectedProviderOptions(
 
 function ProviderAvatarSummary({ slots }: { slots: SelectedProviderSlot[] }) {
   const { theme } = useTheme()
-  const { status } = useHostedAiStatus()
+  const status = undefined
   const visibleSlots = slots.slice(0, VISIBLE_PROVIDER_COUNT)
   const remainingCount = slots.length - visibleSlots.length
   const providerKeyCounts = new Map<string, number>()
@@ -126,7 +124,7 @@ function ProviderAvatarSummary({ slots }: { slots: SelectedProviderSlot[] }) {
 export default function ProvidersField() {
   const config = useAtomValue(configAtom)
   const providersConfig = useAtomValue(configFieldsAtomMap.providersConfig)
-  const { models: builtInAiModels } = useBuiltInAiModels()
+  const builtInAiModels = null
 
   const selectedProviders = useMemo(
     () => getSelectedProviderOptions(config, providersConfig, builtInAiModels),

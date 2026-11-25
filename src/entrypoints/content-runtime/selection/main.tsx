@@ -29,7 +29,6 @@ import {
 import { queryClient } from "@/utils/tanstack-query"
 import { getLocalThemeMode } from "@/utils/theme"
 import App from "./app"
-import { setupExternalSelectionSource } from "./external-selection-source"
 
 function HydrateAtoms({
   initialValues,
@@ -136,12 +135,6 @@ export async function runSelectionContent(ctx: ContentScriptContext) {
   // narrowing it; `glossary` itself is always present once config is, since
   // its schema carries a default.
   if (config?.glossary.enabled) primeGlossaryMatcher(config.language.targetCode)
-
-  // Answer ebook bridge handshakes before the React UI finishes mounting
-  const cleanupExternalSelectionSource = setupExternalSelectionSource()
-  if (cleanupExternalSelectionSource) {
-    ctx.onInvalidated(cleanupExternalSelectionSource)
-  }
 
   await initI18n(config?.uiLanguage)
 

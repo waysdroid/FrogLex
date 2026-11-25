@@ -94,45 +94,6 @@ describe("universalVideoAdapter before the first play of an embedded video", () 
     expect(switchedSources()).toEqual([SUBTITLES_SOURCE.NATIVE])
   })
 
-  it("keeps the AI subtitles a reader asked for before the first play", async () => {
-    const { adapter, play, switchedSources } = await setUpPausedEmbeddedVideo()
-
-    await adapter.requestAiSubtitles()
-    play()
-
-    expect(switchedSources()).toEqual([SUBTITLES_SOURCE.AI])
-  })
-
-  it("keeps subtitles off after an AI request refused before the first play", async () => {
-    const { adapter, play, switchedSources } = await setUpPausedEmbeddedVideo({
-      translationStarts: false,
-    })
-
-    await adapter.requestAiSubtitles()
-    play()
-
-    expect(switchedSources()).toEqual([SUBTITLES_SOURCE.AI])
-  })
-
-  it("keeps the first-play start after an AI request refused as live", async () => {
-    const { adapter, play, switchedSources } = await setUpPausedEmbeddedVideo({ isLive: true })
-
-    await adapter.requestAiSubtitles()
-    play()
-
-    expect(switchedSources()).toEqual([SUBTITLES_SOURCE.NATIVE])
-  })
-
-  it("keeps the first-play start after an AI request stopped by the sign-in, plan or quota wall", async () => {
-    const { adapter, play, switchedSources } = await setUpPausedEmbeddedVideo()
-    mocks.ensureAiSubtitlesAccess.mockResolvedValueOnce(false)
-
-    await adapter.requestAiSubtitles()
-    play()
-
-    expect(switchedSources()).toEqual([SUBTITLES_SOURCE.NATIVE])
-  })
-
   it.each(["toggleSubtitlesManually", "toggleSubtitlesByShortcut"] as const)(
     "keeps subtitles off when the reader turns them off before the first play (%s)",
     async (toggle) => {

@@ -10,7 +10,6 @@ import { AutosaveNavigation } from "@/components/form/autosave-navigation"
 import { ToastProvider } from "@/components/ui/base-ui/toast"
 import { TooltipProvider } from "@/components/ui/base-ui/tooltip"
 import { configSchema } from "@/types/config/config"
-import { selectionToolbarCustomActionSchema } from "@/types/config/selection-toolbar"
 import { configAtom } from "@/utils/atoms/config"
 import { CONFIG_STORAGE_KEY, DEFAULT_CONFIG } from "@/utils/constants/config"
 import { CustomActionConfigForm } from ".."
@@ -42,17 +41,6 @@ function createAction(): SelectionToolbarCustomAction {
       selection: "A word",
       targetCode: "en",
       values: { meaning: "Its meaning", example: "An example" },
-    },
-    notebaseConnection: {
-      notebaseId: "words",
-      notebaseNameSnapshot: "Words",
-      connectedAccount: { id: "reader", name: "Reader", email: "reader@example.com" },
-      mappings: ["meaning", "example"].map((id) => ({
-        id: `${id}-mapping`,
-        localFieldId: id,
-        notebaseColumnId: `${id}-column`,
-        notebaseColumnNameSnapshot: id,
-      })),
     },
   }
 }
@@ -122,66 +110,6 @@ async function getPersistedAction(): Promise<SelectionToolbarCustomAction> {
 
 describe("output schema autosave", () => {
   afterEach(() => vi.restoreAllMocks())
-  it("persists mapped-field deletion and removes its mapping before form validation", async () => {
-    const action = createAction()
-    const { router, store } = await setup(action)
-    const writes = vi.spyOn(fakeBrowser.storage.local, "set")
-    const expected: SelectionToolbarCustomAction = {
-      ...action,
-      outputSchema: [action.outputSchema[1]!],
-      // The deleted field's sample value goes in the same write.
-      sampleData: { ...action.sampleData!, values: { example: "An example" } },
-      notebaseConnection: {
-        ...action.notebaseConnection!,
-        mappings: [action.notebaseConnection!.mappings[1]!],
-      },
-    }
-
-    await deleteMeaning()
-
-    await waitFor(async () => expect(await getPersistedAction()).toEqual(expected))
-    expect(selectionToolbarCustomActionSchema.safeParse(await getPersistedAction()).success).toBe(
-      true,
-    )
-    expect(store.get(configAtom).selectionToolbar.customActions[0]).toEqual(expected)
-    const configWrites = writes.mock.calls.filter(([items]) =>
-      Object.hasOwn(items, CONFIG_STORAGE_KEY),
-    )
-    expect(configWrites).toHaveLength(1)
-    expect(configWrites[0]![0]).toMatchObject({
-      [CONFIG_STORAGE_KEY]: { selectionToolbar: { customActions: [expected] } },
-    })
-
-    fireEvent.click(screen.getByRole("link", { name: "Leave editor" }))
-    await waitFor(() => expect(router.state.location.pathname).toBe("/done"))
-    expect(screen.queryByText("options.autosave.leaveTitle")).not.toBeInTheDocument()
-  })
-
-  it("preserves the connection and remaining mapping when deleting an unmapped field", async () => {
-    const action = createAction()
-    action.notebaseConnection!.mappings = [action.notebaseConnection!.mappings[1]!]
-    await setup(action)
-
-    await deleteMeaning()
-
-    await waitFor(async () =>
-      expect((await getPersistedAction()).outputSchema).toEqual([action.outputSchema[1]!]),
-    )
-    expect((await getPersistedAction()).notebaseConnection).toEqual(action.notebaseConnection)
-  })
-
-  it("deletes a field normally when no Notebase is connected", async () => {
-    const action = createAction()
-    delete action.notebaseConnection
-    await setup(action)
-
-    await deleteMeaning()
-
-    await waitFor(async () =>
-      expect((await getPersistedAction()).outputSchema).toEqual([action.outputSchema[1]!]),
-    )
-    expect((await getPersistedAction()).notebaseConnection).toBeUndefined()
-  })
 
   it("moves the layout's references in the same write as a field rename", async () => {
     const action = createAction()

@@ -1,14 +1,13 @@
 // @vitest-environment jsdom
 import { createStore } from "jotai"
 import { describe, expect, it } from "vitest"
-import { DEFAULT_BUILT_IN_AI_PROVIDER_ID } from "@/utils/providers/provider-registry"
 import { selectedProviderIdAtom } from "../atoms"
 
 describe("selectedProviderIdAtom", () => {
-  it("opens on the normal Built-in AI provider", () => {
+  it("opens with no provider selected", () => {
     const store = createStore()
 
-    expect(store.get(selectedProviderIdAtom)).toBe(DEFAULT_BUILT_IN_AI_PROVIDER_ID)
+    expect(store.get(selectedProviderIdAtom)).toBeUndefined()
   })
 
   it("keeps the provider picked afterwards", async () => {

@@ -161,46 +161,6 @@ describe("config persistence and invalidation", () => {
     })
   })
 
-  it("removes a built-in action connection rather than deep-merging the old value back", async () => {
-    storage.value.selectionToolbar.builtInActions.dictionary.notebaseConnection = {
-      notebaseId: "table",
-      notebaseNameSnapshot: "Words",
-      connectedAccount: { id: "user", name: "Reader", email: "reader@example.com" },
-      mappings: [],
-    }
-    const store = mountStore()
-    await tick()
-    await store.set(patchActionConfigAtom, {
-      id: "default-dictionary",
-      changes: { notebaseConnection: undefined },
-    })
-    expect(
-      storage.value.selectionToolbar.builtInActions.dictionary.notebaseConnection,
-    ).toBeUndefined()
-  })
-
-  it("replaces a built-in action connection rather than merging its old skipped fields back", async () => {
-    const connection = {
-      notebaseId: "table",
-      notebaseNameSnapshot: "Words",
-      connectedAccount: { id: "user", name: "Reader", email: "reader@example.com" },
-      mappings: [],
-    }
-    storage.value.selectionToolbar.builtInActions.dictionary.notebaseConnection = {
-      ...connection,
-      skippedFieldIds: ["default-dictionary-phonetic"],
-    }
-    const store = mountStore()
-    await tick()
-    await store.set(patchActionConfigAtom, {
-      id: "default-dictionary",
-      changes: { notebaseConnection: { ...connection, notebaseId: "other-table" } },
-    })
-    expect(
-      storage.value.selectionToolbar.builtInActions.dictionary.notebaseConnection?.skippedFieldIds,
-    ).toBeUndefined()
-  })
-
   it("rejects an entity deleted before the queued update instead of recreating it", async () => {
     const store = mountStore()
     await tick()

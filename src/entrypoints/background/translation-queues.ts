@@ -41,13 +41,10 @@ type QueuedTranslationRouting =
 export function getQueuedTranslationRouting(
   request: ProviderRequestRouting,
 ): QueuedTranslationRouting {
-  if (request.providerRef.kind === "local" && request.hostedFeature === undefined) {
-    return { provider: request.providerRef }
+  if (request.providerRef.kind !== "local") {
+    throw new Error("Configure a personal AI provider")
   }
-  return {
-    provider: request.providerRef,
-    hostedFeature: requireHostedFeature(request.hostedFeature),
-  }
+  return { provider: request.providerRef }
 }
 
 function isSerializedPageProvider(

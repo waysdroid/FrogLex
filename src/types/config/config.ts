@@ -1,10 +1,6 @@
 import { langLevel } from "@read-frog/definitions"
 import { z } from "zod"
-import {
-  BUILT_IN_ACTION_IDS,
-  BUILT_IN_ACTION_KEYS,
-  isBuiltInActionId,
-} from "@/utils/constants/custom-action"
+import { BUILT_IN_ACTION_IDS, BUILT_IN_ACTION_KEYS } from "@/utils/constants/custom-action"
 import { FEATURE_KEYS, FEATURE_PROVIDER_DEFS } from "@/utils/constants/feature-providers"
 import {
   MAX_SELECTION_OVERLAY_OPACITY,
@@ -17,7 +13,6 @@ import {
   getProviderIdsForCapability,
 } from "@/utils/providers/provider-registry"
 import { normalizeSelectionToolbarLists } from "@/utils/selection-toolbar-order"
-import { builtInAiConfigSchema } from "./built-in-ai"
 import { floatingButtonSchema } from "./floating-button"
 import { glossaryConfigSchema } from "./glossary"
 import { languageDetectionConfigSchema } from "./language-detection"
@@ -100,25 +95,6 @@ const selectionToolbarSchema = z
     // Every other item is pinned. Independent of an item's enabled switch,
     // so a pin survives the item being turned off and on.
     unpinned: z.array(z.string().min(1)).default([]),
-    noteSuggestion: z.object({
-      enabled: z.boolean(),
-      actionId: z.string().nonempty(),
-      providerId: storedProviderIdSchema,
-    }),
-  })
-  .superRefine((selectionToolbar, ctx) => {
-    const actionId = selectionToolbar.noteSuggestion.actionId
-    const actionExists =
-      isBuiltInActionId(actionId) ||
-      selectionToolbar.customActions.some((action) => action.id === actionId)
-
-    if (!actionExists) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Note suggestion action "${actionId}" not found.`,
-        path: ["noteSuggestion", "actionId"],
-      })
-    }
   })
   // Every parse brings `order` and `unpinned` in step with the actions there
   // are, so adding or deleting an action never has to update them itself.
@@ -234,7 +210,6 @@ export const configSchema = z
     uiLanguage: uiLanguageSchema,
     translationHub: translationHubSchema,
     glossary: glossaryConfigSchema,
-    builtInAi: builtInAiConfigSchema,
   })
   .superRefine((data, ctx) => {
     for (const featureKey of FEATURE_KEYS) {

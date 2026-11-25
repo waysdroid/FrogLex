@@ -3,7 +3,6 @@ import type { MatchedTerm } from "@/utils/glossary/types"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { DEFAULT_CONFIG } from "@/utils/constants/config"
 import { BATCH_SEPARATOR, NO_TRANSLATION_SENTINEL } from "@/utils/constants/prompt"
-import { isTranslationCancelledError } from "@/utils/request/cancellation"
 
 const onMessageMock = vi.fn<(...args: any[]) => any>()
 const ensureInitializedConfigMock = vi.fn<(...args: any[]) => any>()
@@ -257,125 +256,6 @@ describe("translation queue helpers", () => {
       expect.objectContaining({ key: "machine-hash", translation: "你好" }),
     )
   })
-
-  it("reuses the hosted requestId when RequestQueue retries the same model call", async () => {
-    vi.useFakeTimers()
-    runStreamTextInBackgroundMock
-      .mockRejectedValueOnce(new Error("network error"))
-      .mockResolvedValueOnce({
-        output: "hosted translation",
-        thinking: { status: "complete", text: "" },
-      })
-
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-    const handler = getRegisteredMessageHandler("enqueueTranslateRequest")
-
-    await expect(
-      fastForward(
-        handler({
-          data: {
-            text: "hello",
-            langConfig: DEFAULT_CONFIG.language,
-            providerRef: {
-              kind: "system",
-              providerId: "read-frog-ai:gpt-6-luna",
-              model: "gpt-6-luna",
-              modelTier: "normal",
-              modelRevision: "normal-r1",
-              reasoning: null,
-            },
-            scheduleAt: Date.now(),
-            hash: "hosted-retry-hash",
-            hostedFeature: "pageTranslation",
-          },
-        }),
-      ),
-    ).resolves.toBe("hosted translation")
-
-    expect(runStreamTextInBackgroundMock).toHaveBeenCalledTimes(2)
-    const firstPayload = runStreamTextInBackgroundMock.mock.calls[0]![0]
-    const secondPayload = runStreamTextInBackgroundMock.mock.calls[1]![0]
-    expect(firstPayload).toMatchObject({
-      providerId: "read-frog-ai:gpt-6-luna",
-      // The level the ref resolved with its cache identity, so the entry holds what it asked for.
-      builtInAiReasoning: null,
-      instructions: "Translate accurately",
-      prompt: "Source text",
-      requestId: expect.stringMatching(/^[0-9a-f-]{36}$/i),
-    })
-    expect(secondPayload.requestId).toBe(firstPayload.requestId)
-    expect(putBatchRequestRecordMock).not.toHaveBeenCalled()
-  }, 5_000)
-
-  it("routes hosted tasks through the shared user-configured request queue", async () => {
-    ensureInitializedConfigMock.mockResolvedValue({
-      ...DEFAULT_CONFIG,
-      pageTranslation: {
-        ...DEFAULT_CONFIG.pageTranslation,
-        requestQueueConfig: { rate: 0.1, capacity: 1, timeoutMs: 20_000 },
-        batchQueueConfig: { maxCharactersPerBatch: 1000, maxItemsPerBatch: 1 },
-      },
-    })
-    const abortSignals: (AbortSignal | undefined)[] = []
-    runStreamTextInBackgroundMock.mockImplementation(
-      (_payload: unknown, options?: { signal?: AbortSignal }) => {
-        abortSignals.push(options?.signal)
-        return new Promise(() => {})
-      },
-    )
-
-    // Imported after the module reset, so the capture sees the queues' logger.
-    const { captureLogs } = await import("@/utils/logging/testing")
-    const logs = captureLogs("warn")
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-    const enqueue = getRegisteredMessageHandler("enqueueTranslateRequest")
-    const cancel = getRegisteredMessageHandler("cancelPageTranslationRequests")
-
-    const sender = { tab: { id: 7 } }
-    const requests = ["shared-queue-one", "shared-queue-two"].map((hash) =>
-      enqueue({
-        data: {
-          text: `text for ${hash}`,
-          langConfig: DEFAULT_CONFIG.language,
-          providerRef: {
-            kind: "system",
-            providerId: "read-frog-ai:gpt-6-luna",
-            model: "gpt-6-luna",
-            modelTier: "normal",
-            modelRevision: "normal-r1",
-            reasoning: null,
-          },
-          scheduleAt: Date.now(),
-          hash,
-          sessionId: "session-a",
-          hostedFeature: "pageTranslation",
-        },
-        sender,
-      }),
-    )
-    for (const request of requests) request.catch(() => {})
-
-    // capacity 1 admits exactly one in-flight hosted call; the second waits
-    // ~10s (rate 0.1) for the next token. The former dedicated hosted queue
-    // (rate 2 / capacity 2) would have started both immediately.
-    await vi.waitFor(() => expect(runStreamTextInBackgroundMock).toHaveBeenCalledTimes(1))
-    await new Promise((resolve) => setTimeout(resolve, 200))
-    expect(runStreamTextInBackgroundMock).toHaveBeenCalledTimes(1)
-
-    await cancel({ data: { sessionId: "session-a" }, sender })
-
-    const settled = await Promise.allSettled(requests)
-    expect(settled.map((result) => result.status)).toEqual(["rejected", "rejected"])
-    const cancelledReasons = settled.map(
-      (result) => result.status === "rejected" && isTranslationCancelledError(result.reason),
-    )
-    expect(cancelledReasons).toEqual([true, true])
-    expect(abortSignals[0]?.aborted).toBe(true)
-    // Cancelled on purpose, so no failure goes to the local log.
-    expect(logs).toEqual([])
-  }, 5_000)
 
   it("keeps request-local marker zero isolated across LLM batch items", async () => {
     ensureInitializedConfigMock.mockResolvedValue({
@@ -1192,37 +1072,6 @@ describe("translation queue helpers", () => {
     )
   })
 
-  it("bills a hosted request against its explicit route", async () => {
-    // Input translation shares the webpage queue; without the per-request
-    // route it would bill the page-translation quota it never gated on.
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("enqueueTranslateRequest")
-    await handler({
-      data: {
-        text: "hello",
-        langConfig: DEFAULT_CONFIG.language,
-        providerRef: {
-          kind: "system" as const,
-          providerId: "read-frog-ai:gpt-6-luna",
-          model: "gpt-6-luna",
-          modelTier: "normal",
-          modelRevision: "normal-r1",
-          reasoning: null,
-        },
-        scheduleAt: Date.now(),
-        hash: "hosted-input-route-hash",
-        hostedFeature: "inputTranslation",
-      },
-    })
-
-    expect(runStreamTextInBackgroundMock).toHaveBeenCalledWith(
-      expect.objectContaining({ hostedFeature: "inputTranslation" }),
-      expect.anything(),
-    )
-  })
-
   it.each([undefined, null, "", "unknownFeature", "toString"])(
     "rejects invalid hosted routing (%s) before reading caches or enqueueing",
     async (hostedFeature) => {
@@ -1249,7 +1098,7 @@ describe("translation queue helpers", () => {
       }
       for (const name of ["enqueueTranslateRequest", "getOrGenerateWebPageSummary"]) {
         const handler = getRegisteredMessageHandler(name)
-        await expect(handler({ data })).rejects.toThrow("valid hostedFeature is required")
+        await expect(handler({ data })).rejects.toThrow("Configure a personal AI provider")
       }
       expect(translationCacheGetMock).not.toHaveBeenCalled()
       expect(articleSummaryCacheGetMock).not.toHaveBeenCalled()
@@ -1257,183 +1106,6 @@ describe("translation queue helpers", () => {
       expect(generateArticleSummaryMock).not.toHaveBeenCalled()
     },
   )
-
-  it("keeps requests for different hosted routes in separate billing batches", async () => {
-    ensureInitializedConfigMock.mockResolvedValue({
-      ...DEFAULT_CONFIG,
-      pageTranslation: {
-        ...DEFAULT_CONFIG.pageTranslation,
-        batchQueueConfig: { maxCharactersPerBatch: 1000, maxItemsPerBatch: 4 },
-      },
-    })
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("enqueueTranslateRequest")
-    const base = {
-      langConfig: DEFAULT_CONFIG.language,
-      providerRef: {
-        kind: "system" as const,
-        providerId: "read-frog-ai:gpt-6-luna",
-        model: "gpt-6-luna",
-        modelTier: "normal",
-        modelRevision: "normal-r1",
-        reasoning: null,
-      },
-      scheduleAt: Date.now(),
-    }
-    await Promise.all([
-      handler({
-        data: {
-          ...base,
-          text: "page paragraph",
-          hash: "route-batch-page-hash",
-          hostedFeature: "pageTranslation",
-        },
-      }),
-      handler({
-        data: {
-          ...base,
-          text: "typed input",
-          hash: "route-batch-input-hash",
-          hostedFeature: "inputTranslation",
-        },
-      }),
-    ])
-
-    // A batch bills as one unit, so the route is part of the batch key: one
-    // merged batch here would bill the input request to the page quota.
-    expect(runStreamTextInBackgroundMock).toHaveBeenCalledTimes(2)
-    const billedFeatures = runStreamTextInBackgroundMock.mock.calls
-      .map((call) => (call[0] as { hostedFeature?: string }).hostedFeature)
-      .sort((a, b) => (a ?? "").localeCompare(b ?? ""))
-    expect(billedFeatures).toEqual(["inputTranslation", "pageTranslation"])
-  })
-
-  it("keeps a Built-in AI model's requests at different reasoning levels in separate batches", async () => {
-    ensureInitializedConfigMock.mockResolvedValue({
-      ...DEFAULT_CONFIG,
-      pageTranslation: {
-        ...DEFAULT_CONFIG.pageTranslation,
-        batchQueueConfig: { maxCharactersPerBatch: 1000, maxItemsPerBatch: 4 },
-      },
-    })
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-
-    // Answer every segment, so a merged batch would succeed as one request
-    // rather than fail and fall back to one request per item.
-    getTranslatePromptMock.mockImplementation(async (_targetLangName: string, text: string) => ({
-      systemPrompt: "Translate accurately",
-      prompt: text,
-    }))
-    runStreamTextInBackgroundMock.mockImplementation(async ({ prompt }: { prompt: string }) => ({
-      output: prompt
-        .split(BATCH_SEPARATOR)
-        .map((_, index) => `translated ${index}`)
-        .join(`\n\n${BATCH_SEPARATOR}\n\n`),
-      thinking: { status: "complete", text: "" },
-    }))
-
-    const handler = getRegisteredMessageHandler("enqueueTranslateRequest")
-    const providerRef = {
-      kind: "system" as const,
-      providerId: "read-frog-ai:gpt-6-luna",
-      model: "gpt-6-luna",
-      modelTier: "normal",
-      modelRevision: "normal-r1",
-    }
-    const base = {
-      langConfig: DEFAULT_CONFIG.language,
-      scheduleAt: Date.now(),
-      hostedFeature: "pageTranslation",
-    }
-    await Promise.all([
-      handler({
-        data: {
-          ...base,
-          providerRef: { ...providerRef, reasoning: "low" },
-          text: "first paragraph",
-          hash: "reasoning-batch-low-hash",
-        },
-      }),
-      handler({
-        data: {
-          ...base,
-          providerRef: { ...providerRef, reasoning: "high" },
-          text: "second paragraph",
-          hash: "reasoning-batch-high-hash",
-        },
-      }),
-    ])
-
-    // A batch is sent at its first item's level, and each item is cached
-    // under its own: one merged batch would cache "high" output made at "low".
-    expect(runStreamTextInBackgroundMock).toHaveBeenCalledTimes(2)
-    const levels = runStreamTextInBackgroundMock.mock.calls
-      .map((call) => (call[0] as { builtInAiReasoning?: string }).builtInAiReasoning)
-      .sort((a, b) => (a ?? "").localeCompare(b ?? ""))
-    expect(levels).toEqual(["high", "low"])
-  })
-
-  it("bills the webpage summary against the sender's route and stamps an idempotency key", async () => {
-    generateTextForProviderRefMock.mockResolvedValue("hosted summary")
-    generateArticleSummaryMock.mockImplementation(
-      async (
-        _title: string,
-        _text: string,
-        routing: { providerRef: unknown; hostedFeature: string },
-        options: {
-          generate: (payload: unknown, runOptions: unknown) => Promise<string>
-        },
-      ) =>
-        options.generate(
-          {
-            ...routing,
-            instructions: "sys",
-            prompt: "user",
-          },
-          { signal: undefined },
-        ),
-    )
-    const hostedRef = {
-      kind: "system" as const,
-      providerId: "read-frog-ai:gpt-6.2-sol",
-      model: "gpt-6.2-sol",
-      modelTier: "advance",
-      modelRevision: "advance-r1",
-      reasoning: null,
-    }
-    const { setupPageTranslationHandlers } = await import("../page-translation")
-    setupPageTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("getOrGenerateWebPageSummary")
-    const result = await handler({
-      data: {
-        webTitle: "Page title",
-        webContent: "page body",
-        providerRef: hostedRef,
-        hostedFeature: "inputTranslation",
-      },
-    })
-
-    expect(result).toBe("hosted summary")
-    // The summary is a sub-call of the triggering feature: gate (content side)
-    // and billing (here) must name the same route.
-    expect(generateArticleSummaryMock).toHaveBeenCalledWith(
-      "Page title",
-      "page body",
-      { providerRef: hostedRef, hostedFeature: "inputTranslation" },
-      expect.objectContaining({ signal: expect.any(AbortSignal) }),
-    )
-    expect(generateTextForProviderRefMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        hostedFeature: "inputTranslation",
-        requestId: expect.stringMatching(/^[0-9a-f]{8}-[0-9a-f-]{27}$/i),
-      }),
-      expect.anything(),
-    )
-  })
 
   it("exposes webpage summary generation as a separate background handler", async () => {
     const { setupPageTranslationHandlers } = await import("../page-translation")
@@ -1459,30 +1131,6 @@ describe("translation queue helpers", () => {
     )
   })
 
-  it("exposes subtitle summary generation as a separate background handler", async () => {
-    const { setupSubtitlesTranslationHandlers } = await import("../subtitles-translation")
-    setupSubtitlesTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("getSubtitlesSummary")
-    const result = await handler({
-      data: {
-        videoTitle: "Video title",
-        subtitlesContext: "subtitle transcript",
-        providerRef: { kind: "local" as const, config: llmProvider },
-      },
-    })
-
-    expect(result).toBe("Generated summary")
-    expect(generateArticleSummaryMock).toHaveBeenCalledWith(
-      "Video title",
-      "subtitle transcript",
-      { providerRef: { kind: "local", config: llmProvider }, hostedFeature: "videoSubtitles" },
-      expect.objectContaining({
-        signal: expect.any(AbortSignal),
-      }),
-    )
-  })
-
   it("refuses a summary for a provider with no model to prompt", async () => {
     const { setupSubtitlesTranslationHandlers } = await import("../subtitles-translation")
     setupSubtitlesTranslationHandlers()
@@ -1502,84 +1150,6 @@ describe("translation queue helpers", () => {
 
     expect(result).toBeNull()
     expect(generateArticleSummaryMock).not.toHaveBeenCalled()
-  })
-
-  it("returns null for invalid subtitle summary requests", async () => {
-    const { setupSubtitlesTranslationHandlers } = await import("../subtitles-translation")
-    setupSubtitlesTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("getSubtitlesSummary")
-    const result = await handler({
-      data: {
-        videoTitle: "",
-        subtitlesContext: "subtitle transcript",
-        providerRef: { kind: "local" as const, config: llmProvider },
-      },
-    })
-
-    expect(result).toBeNull()
-    expect(generateArticleSummaryMock).not.toHaveBeenCalled()
-  })
-
-  it("returns null when subtitle summary generation has no result", async () => {
-    generateArticleSummaryMock.mockResolvedValue(null)
-
-    const { setupSubtitlesTranslationHandlers } = await import("../subtitles-translation")
-    setupSubtitlesTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("getSubtitlesSummary")
-    const result = await handler({
-      data: {
-        videoTitle: "Video title",
-        subtitlesContext: "subtitle transcript",
-        providerRef: { kind: "local" as const, config: llmProvider },
-      },
-    })
-
-    expect(result).toBeNull()
-  })
-
-  it("deduplicates concurrent subtitle summary generation requests", async () => {
-    let resolveSummary: ((summary: string) => void) | undefined
-    generateArticleSummaryMock.mockImplementation(
-      () =>
-        new Promise((resolve: (summary: string) => void) => {
-          resolveSummary = resolve
-        }),
-    )
-
-    const { setupSubtitlesTranslationHandlers } = await import("../subtitles-translation")
-    setupSubtitlesTranslationHandlers()
-
-    const handler = getRegisteredMessageHandler("getSubtitlesSummary")
-    const firstRequest = handler({
-      data: {
-        videoTitle: "Video title",
-        subtitlesContext: "subtitle transcript",
-        providerRef: { kind: "local" as const, config: llmProvider },
-      },
-    })
-    const secondRequest = handler({
-      data: {
-        videoTitle: "Video title",
-        subtitlesContext: "subtitle transcript",
-        providerRef: { kind: "local" as const, config: llmProvider },
-      },
-    })
-
-    // The handler chain awaits queue init + cache lookups before the summary
-    // thunk runs; poll until the mock's resolver is captured.
-    for (let i = 0; i < 100; i++) {
-      if (resolveSummary) break
-      await Promise.resolve()
-    }
-    resolveSummary!("Generated summary")
-
-    await expect(Promise.all([firstRequest, secondRequest])).resolves.toEqual([
-      "Generated summary",
-      "Generated summary",
-    ])
-    expect(generateArticleSummaryMock).toHaveBeenCalledTimes(1)
   })
 
   describe("batch glossary term merge", () => {

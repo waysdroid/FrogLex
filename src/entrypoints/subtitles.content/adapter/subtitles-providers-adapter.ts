@@ -19,7 +19,6 @@ export interface SubtitlesProvidersAdapter {
   getVideoPageUrl: () => string | null
   toggleSubtitlesManually: (enabled: boolean) => void
   toggleSubtitlesByShortcut: (enabled: boolean) => void
-  requestAiSubtitles: () => Promise<void>
   downloadSourceSubtitles: () => Promise<void>
   downloadTranslatedSubtitles: () => Promise<void>
 }

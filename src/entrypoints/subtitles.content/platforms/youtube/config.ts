@@ -5,7 +5,6 @@ import {
   YOUTUBE_NAVIGATE_FINISH_EVENT,
   YOUTUBE_NAVIGATE_START_EVENT,
 } from "@/utils/constants/subtitles"
-import { resolveAiSubtitlesContext } from "@/utils/subtitles/ai/ai-subtitles-context"
 import { requestPlayerData } from "@/utils/subtitles/fetchers/youtube"
 import { getYoutubeVideoId } from "@/utils/subtitles/video-id"
 
@@ -23,14 +22,6 @@ const NAVIGATE_EVENTS = {
 const SHORTS_ACTIVE_PLAYER = "#reel-overlay-container .html5-video-player"
 const WATCH_PLAYER = "#movie_player.html5-video-player"
 const ABOVE_PLAYER_CHROME_BELOW_PLAYER_MENUS = 60
-
-function createYoutubeAiSubtitlesContext() {
-  // YouTube's claim is never checked against the transcript, so an ad's length here is harmless.
-  return resolveAiSubtitlesContext({
-    url: location.href,
-    video: document.querySelector<HTMLVideoElement>("video.html5-main-video"),
-  })
-}
 
 async function isYoutubeLiveContent(): Promise<boolean> {
   const videoId = getYoutubeVideoId()
@@ -74,7 +65,6 @@ const YOUTUBE_MODE_CONFIGS: Record<YoutubeMode, PlatformConfig> = {
     },
     supportsSidebar: true,
     getVideoId: getYoutubeVideoId,
-    createAiSubtitlesContext: createYoutubeAiSubtitlesContext,
     isAdPlaying: isYoutubeAdPlaying,
     isLiveContent: isYoutubeLiveContent,
   },
@@ -102,7 +92,6 @@ const YOUTUBE_MODE_CONFIGS: Record<YoutubeMode, PlatformConfig> = {
       checkVisibility: () => true,
     },
     getVideoId: getYoutubeVideoId,
-    createAiSubtitlesContext: createYoutubeAiSubtitlesContext,
     isAdPlaying: isYoutubeAdPlaying,
     isLiveContent: isYoutubeLiveContent,
   },
@@ -130,7 +119,6 @@ const YOUTUBE_MODE_CONFIGS: Record<YoutubeMode, PlatformConfig> = {
       checkVisibility: () => true,
     },
     getVideoId: getYoutubeVideoId,
-    createAiSubtitlesContext: createYoutubeAiSubtitlesContext,
     isAdPlaying: isYoutubeAdPlaying,
     isLiveContent: isYoutubeLiveContent,
   },

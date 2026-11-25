@@ -14,7 +14,6 @@ on:
         type: boolean
 
 env:
-  WXT_GOOGLE_CLIENT_ID: ${{ secrets.WXT_GOOGLE_CLIENT_ID || vars.WXT_GOOGLE_CLIENT_ID }}
 
 jobs:
   submit:

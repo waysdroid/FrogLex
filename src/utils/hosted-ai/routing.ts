@@ -21,9 +21,9 @@ export function requireHostedFeature(value: unknown): HostedAiTextStreamRoute {
 
 export function validateProviderHostedFeature(
   providerRef: SerializableProviderRef,
-  hostedFeature: unknown,
+  _hostedFeature: unknown,
 ): void {
-  if (providerRef.kind === "system" || hostedFeature !== undefined) {
-    requireHostedFeature(hostedFeature)
+  if (providerRef.kind !== "local") {
+    throw new Error("Configure a personal AI provider")
   }
 }

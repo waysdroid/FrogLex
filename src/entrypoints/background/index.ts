@@ -2,7 +2,6 @@ import "@/utils/zod-config"
 import type { Config, UiLanguage } from "@/types/config/config"
 import { browser, defineBackground } from "#imports"
 import { storageAdapter } from "@/utils/atoms/storage-adapter"
-import { getFreeTranslateProviderId } from "@/utils/config/free-translate-provider"
 import { CONFIG_STORAGE_KEY } from "@/utils/constants/config"
 import { initI18n, setUiLanguage } from "@/utils/i18n"
 import { ensureInstalledAtRecorded } from "@/utils/install-time"
@@ -10,13 +9,10 @@ import { createLogger } from "@/utils/logging/logger"
 import { setupBackgroundLogging } from "@/utils/logging/setup-background"
 import { onMessage } from "@/utils/message"
 import { openOptionsPage } from "@/utils/navigation"
-import { SessionCacheGroupRegistry } from "@/utils/session-cache/session-cache-group-registry"
-import { ensureRemoteSiteRulesLoaded } from "@/utils/site-rules/active"
 import { runAiSegmentSubtitles } from "./ai-segmentation"
 import { dispatchBackgroundStreamPort } from "./background-stream"
 import { initializeActionIcons, registerActionIconListeners } from "./browser-action-icon"
-import { claimBuiltInAiAutoPrompt } from "./built-in-ai-auto-prompt"
-import { ensureInitializedConfig, isFreshInstalledConfig } from "./config"
+import { ensureInitializedConfig } from "./config"
 import { setUpConfigBackup } from "./config-backup"
 import { initializeContextMenu, registerContextMenuListeners } from "./context-menu"
 import {
@@ -29,18 +25,14 @@ import { setupDiagnosticsHandlers } from "./diagnostics"
 import { setupEdgeTTSMessageHandlers } from "./edge-tts"
 import { setupFeatureUsedEventHandlers } from "./feature-used-event"
 import { setupGlossaryMessageHandlers } from "./glossary"
-import { setupHostedAiStatusHandler } from "./hosted-ai-status"
 import { setupIframeInjection } from "./iframe-injection"
 import { setupLLMGenerateTextMessageHandlers } from "./llm-generate-text"
 import { initMockData } from "./mock-data"
-import { newUserGuide } from "./new-user-guide"
-import { setupNotebasePendingSaveProcessor } from "./notebase-pending-save"
 import { setupPageTranslationHandlers } from "./page-translation"
 import { setupPersonalVocabularyMessageHandlers } from "./personal-vocabulary"
 import { proxyFetch } from "./proxy-fetch"
 import { setupSelectionToolbarHiddenUntilReload } from "./selection-toolbar-hidden"
 import { setupSidePanelMessageHandler } from "./side-panel"
-import { setUpSiteRulesUpdate } from "./site-rules-update"
 import { setupSubtitlesTranslationHandlers } from "./subtitles-translation"
 import { translationMessage } from "./translation-signal"
 import { setupTTSPlaybackMessageHandlers } from "./tts-playback"
@@ -57,36 +49,11 @@ export default defineBackground({
     setupPersonalVocabularyMessageHandlers()
     log.debug("Hello background!", { id: browser.runtime.id })
 
-    browser.runtime.onInstalled.addListener(async (details) => {
-      // First, and for every reason rather than just "install": this is the only place the
-      // install time is ever recorded, and it must not be lost to a service worker dying
-      // during the slower work below.
+    browser.runtime.onInstalled.addListener(async () => {
       await ensureInstalledAtRecorded()
-
       await ensureInitializedConfig()
-
-      // Clear any uninstall destination carried over from an upstream build.
       await browser.runtime.setUninstallURL("").catch(() => {})
-
-      // Deliberately last: probing Google Translate can hang for seconds on networks that
-      // block it, and nothing above should wait for that. Awaiting inside the listener
-      // keeps the service worker alive until the probe settles. A fresh config translates
-      // with Built-in AI, which a guest cannot run, so the guide tab opened above and the
-      // guest's sign-in prompt both need the free provider soon: probe now, while the user
-      // reads the guide, rather than when they first click translate.
-      if (await isFreshInstalledConfig()) {
-        await getFreeTranslateProviderId()
-      }
-
-      // Clear blog cache on extension update to fetch latest blog posts
-      if (details.reason === "update") {
-        log.info("Extension updated, clearing blog cache")
-        await SessionCacheGroupRegistry.removeCacheGroup("blog-fetch")
-      }
     })
-
-    onMessage("getFreeTranslateProviderId", () => getFreeTranslateProviderId())
-    onMessage("claimBuiltInAiAutoPrompt", () => claimBuiltInAiAutoPrompt())
 
     onMessage("openPage", async (message) => {
       const { url, active } = message.data
@@ -126,7 +93,6 @@ export default defineBackground({
       await cleanupAllAiSegmentationCache()
     })
 
-    newUserGuide()
     setupFeatureUsedEventHandlers()
     translationMessage()
     registerActionIconListeners()
@@ -141,8 +107,6 @@ export default defineBackground({
     setupVideoSummaryHandlers()
     void setUpDatabaseCleanup()
     setUpConfigBackup()
-    setUpSiteRulesUpdate()
-    void ensureRemoteSiteRulesLoaded()
 
     // Start config and i18n initialization without delaying synchronous listener
     // registration. Consumers that materialize localized config-derived data await
@@ -159,9 +123,7 @@ export default defineBackground({
     registerContextMenuListeners(() => backgroundReady)
 
     proxyFetch()
-    setupHostedAiStatusHandler()
     setupGlossaryMessageHandlers()
-    setupNotebasePendingSaveProcessor(() => backgroundReady)
     setupEdgeTTSMessageHandlers()
     setupLLMGenerateTextMessageHandlers()
     setupTTSPlaybackMessageHandlers()

@@ -1,6 +1,6 @@
-# 个人词库 V1.0
+# 个人词库 V1.1
 
-基于 Read Frog 1.61.2，源自上游提交 `284a532712ec9cfd139cfe4e783f5932ca3ab661`。扩展清单沿用上游版本号，Fork 发布使用独立的 `v1.0.0` 标签。
+基于 Read Frog 1.61.2，源自上游提交 `284a532712ec9cfd139cfe4e783f5932ca3ab661`。Fork 发布使用 `v1.1.0` 标签，扩展清单版本 `1.61.3` 用于兼容升级，显示版本为 `1.1.0`。
 
 ## 使用
 
@@ -12,7 +12,7 @@
 
 ## 隐私
 
-个人词库写入浏览器 IndexedDB。已移除远程遥测 SDK、远程调查、卸载调查和官方 API 客户端的遥测头。用于商店评价提示的使用天数仅在浏览器本地计算。模型请求、翻译、官方账号和用户主动使用的 Notebase 仍通过各自服务处理。保存的网页来源去除用户名、密码、查询参数和片段。
+个人词库写入浏览器 IndexedDB。已移除远程遥测 SDK、远程调查、卸载调查和官方 API 客户端的遥测头。用于商店评价提示的使用天数仅在浏览器本地计算。已移除官方登录、内置 AI、Notebase、官方 AI 字幕及 Google Drive 同步。模型请求和翻译发往已选服务商。保存的网页来源去除用户名、密码、查询参数和片段。
 
 数据库升级从版本 1 迁移到版本 2。解包安装时，应使用同一个浏览器配置、同一个扩展 ID 和同一个解包目录更新，以访问已有词库。完整备份可用于更换配置或浏览器时迁移数据。
 
@@ -30,4 +30,4 @@ SKIP_FREE_API=true pnpm test --pool=threads --maxWorkers=2
 
 编译会在 `.output/` 生成 `*-chrome.zip` 和 `*-edge.zip`。解压 ZIP，在对应浏览器的扩展管理页打开开发者模式，选择「加载已解压的扩展程序」，并选择包含 `manifest.json` 的目录。也可直接加载 `.output/chrome-mv3` 或 `.output/edge-mv3`。
 
-GitHub Actions 在主分支更新、Pull Request、推送 `v*` 标签和手动运行时，两端都自动编译、打包并校验。运行摘要显示生成的两个包名。发布流程从对应标签重新编译，并将包含许可声明的两份 ZIP 添加到已有 Release 的 Assets。[V1.0.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0)
+GitHub Actions 在主分支更新、Pull Request、推送 `v*` 标签和手动运行时，两端都自动编译、打包并校验。运行摘要显示生成的两个包名。发布流程从对应标签重新编译，并将包含许可声明的两份 ZIP 添加到已有 Release 的 Assets。[V1.1.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.1.0)

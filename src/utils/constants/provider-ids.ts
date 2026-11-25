@@ -1,3 +1,5 @@
+export const UNCONFIGURED_AI_PROVIDER_ID = "unconfigured-local-ai"
+
 /**
  * Every Built-in AI model is a provider of its own: this prefix and the model's
  * id in the server's catalog (`hostedAi.status.models`). The server decides

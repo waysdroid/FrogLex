@@ -48,7 +48,7 @@ function renderWithConfig(config: Config) {
 }
 
 describe("featureProviderSelectorList feature rows", () => {
-  it("renders one provider row per feature key, including note suggestion", () => {
+  it("renders one provider row per feature key", () => {
     renderWithConfig(cloneConfig(DEFAULT_CONFIG))
 
     // The test i18n facade resolves keys to themselves, so the row labels are
@@ -58,7 +58,6 @@ describe("featureProviderSelectorList feature rows", () => {
       "videoSubtitles",
       "selectionTranslation",
       "inputTranslation",
-      "noteSuggestion",
     ]) {
       expect(
         screen.getByText(`options.apiProviders.featureProviders.features.${featureKey}`),

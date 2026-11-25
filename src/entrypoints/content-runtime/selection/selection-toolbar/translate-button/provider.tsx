@@ -1,10 +1,9 @@
 import type { ComponentProps, ReactNode } from "react"
-import type { NoteSuggestionProviderRef, SelectionSession } from "../atoms"
+import type { SelectionSession } from "../atoms"
 import type { ContextMenuSelection } from "../use-selection-open-request"
 import type { SelectionPopoverActions } from "@/components/ui/selection-popover"
 import type { SelectionToolbarInlineError } from "@/components/ui/selection-popover/inline-error"
 import type { ThinkingSnapshot } from "@/types/background-stream"
-import { LANGUAGE_ENGLISH_NAMES } from "@read-frog/definitions"
 import { useAtomValue, useSetAtom } from "jotai"
 import {
   createContext,
@@ -16,9 +15,6 @@ import {
   useRef,
   useState,
 } from "react"
-import { isSaveToNotebaseDialogOpenAtom } from "@/components/custom-action/save-to-notebase-dialog-atom"
-import { useBuiltInAiModels } from "@/components/llm-providers/use-built-in-ai-models"
-import { useHostedAiProviderOptions } from "@/components/llm-providers/use-hosted-ai-provider-options"
 import { toastManager } from "@/components/ui/base-ui/toast"
 import { SelectionPopover } from "@/components/ui/selection-popover"
 import {
@@ -26,7 +22,6 @@ import {
   createSelectionToolbarRuntimeError,
   isAbortError,
 } from "@/components/ui/selection-popover/inline-error"
-import { ReviewDueTab } from "@/components/ui/selection-popover/review-due-tab"
 import { SelectionToolbarErrorAlert } from "@/components/ui/selection-popover/selection-toolbar-error-alert"
 import { SelectionToolbarFooterContent } from "@/components/ui/selection-popover/selection-toolbar-footer-content"
 import { SelectionToolbarTitleContent } from "@/components/ui/selection-popover/selection-toolbar-title-content"
@@ -44,15 +39,11 @@ import { onMessage } from "@/utils/message"
 import { toSelectionPromptContext } from "@/utils/prompts/selection-context"
 import { getSelectableProvidersForCapability } from "@/utils/providers/provider-registry"
 import { shadowWrapper } from "../../main"
-import { normalizeSelectedText } from "../../utils"
 import {
   isSelectionToolbarOpenAtom,
-  noteSuggestionProviderAtom,
   selectionSessionAtom,
   selectionToolbarTranslateRequestAtom,
 } from "../atoms"
-import { NoteSuggestionCard } from "../note-suggestion/note-suggestion-card"
-import { useNoteSuggestion } from "../note-suggestion/use-note-suggestion"
 import { useSelectionOpenRequestResolver } from "../use-selection-open-request"
 import { useSelectionShortcuts } from "../use-selection-shortcuts"
 import { checkSelectionTranslateProvider, translateSelection } from "./dispatch"
@@ -78,7 +69,7 @@ function TranslateFooterContent({
   providers,
   ...props
 }: ComponentProps<typeof SelectionToolbarFooterContent>) {
-  const translateProviders = useHostedAiProviderOptions("selectionTranslation", providers)
+  const translateProviders = providers
   return <SelectionToolbarFooterContent providers={translateProviders} {...props} />
 }
 
@@ -123,7 +114,6 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
   const [activeSession, setActiveSession] = useState<SelectionSession | null>(null)
   const selectionSession = useAtomValue(selectionSessionAtom)
   const translateRequest = useAtomValue(selectionToolbarTranslateRequestAtom)
-  const noteSuggestionProvider = useAtomValue(noteSuggestionProviderAtom)
   const providersConfig = useAtomValue(configFieldsAtomMap.providersConfig)
   const selectionToolbar = useAtomValue(configFieldsAtomMap.selectionToolbar)
   const translateOn = useFeatureOn("selectionToolbar.translate")
@@ -150,7 +140,7 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
   // This provider mounts on every page and in every frame, so status is asked
   // for only once the popover opens. Closed, the stored list is enough: it only
   // names the models, and a model resolves without it.
-  const { models: builtInAiModels } = useBuiltInAiModels({ enabled: isOpen })
+  const builtInAiModels = null
   const selectedTranslateProviderId = selectionToolbar.features.translate.providerId
   const translateProviders = useMemo(
     () =>
@@ -163,37 +153,6 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
     [providersConfig, builtInAiModels, selectedTranslateProviderId],
   )
   const translateRequestKey = useMemo(() => JSON.stringify(translateRequest), [translateRequest])
-  const isSaveToNotebaseDialogOpen = useAtomValue(isSaveToNotebaseDialogOpenAtom)
-  const {
-    suggestion: noteSuggestion,
-    maybeFire: maybeFireNoteSuggestion,
-    cancel: cancelNoteSuggestion,
-    resetSession: resetNoteSuggestionSession,
-    markShownOnce: markNoteSuggestionShownOnce,
-  } = useNoteSuggestion()
-
-  // Suggestion identity must change whenever a translation re-run would produce
-  // different notes (target language / provider change bumps translateRequestKey;
-  // regenerate bumps rerunNonce). Keying only on popoverSessionKey would leave a
-  // stale old-language suggestion rendered after the new translation.
-  const noteSuggestionSessionKey = `${popoverSessionKey}:${translateRequestKey}:${rerunNonce}`
-
-  const fireNoteSuggestion = useEffectEvent(
-    (preparedText: string, provider: NoteSuggestionProviderRef) => {
-      maybeFireNoteSuggestion({
-        sessionKey: noteSuggestionSessionKey,
-        selectionText: preparedText,
-        // Kept in the note's selection fields as a custom action run keeps it,
-        // not as prepared for translation.
-        savedSelectionText: normalizeSelectedText(selectionText),
-        paragraphsText: paragraphsText ?? preparedText,
-        targetLangName: LANGUAGE_ENGLISH_NAMES[translateRequest.language.targetCode],
-        webTitle: titleText ?? "",
-        provider,
-      })
-    },
-  )
-
   const resetPopoverSession = useCallback((options?: { clearAnchor?: boolean }) => {
     setActiveSession(null)
     if (options?.clearAnchor) {
@@ -208,19 +167,15 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
     setError(null)
   }, [])
 
-  const cancelCurrentTranslation = useCallback(
-    (runId?: number) => {
-      if (runId !== undefined && runIdRef.current !== runId) {
-        return
-      }
+  const cancelCurrentTranslation = useCallback((runId?: number) => {
+    if (runId !== undefined && runIdRef.current !== runId) {
+      return
+    }
 
-      runIdRef.current += 1
-      abortControllerRef.current?.abort()
-      abortControllerRef.current = null
-      cancelNoteSuggestion()
-    },
-    [cancelNoteSuggestion],
-  )
+    runIdRef.current += 1
+    abortControllerRef.current?.abort()
+    abortControllerRef.current = null
+  }, [])
 
   // Anchor application is owned by SelectionPopover.Root (via requestOpen) so
   // a pinned popover reused in place never moves.
@@ -353,23 +308,6 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
   )
 
   const startTranslation = useEffectEvent((runId: number) => {
-    // Kick off the note suggestion together with a translation run. The
-    // suggestion runs on its own configured provider (independent of the
-    // translate provider, which may be Google/Microsoft): a local provider
-    // must be enabled + LLM; a hosted (system) ref is availability-gated
-    // inside the hook via hosted status. The card renders only after the
-    // translation stream finishes.
-    const preparedText = prepareTranslationText(selectionText)
-    const suggestionProvider = noteSuggestionProvider
-    if (
-      preparedText !== "" &&
-      suggestionProvider &&
-      (suggestionProvider.kind === "system" ||
-        (suggestionProvider.config.enabled && isLLMProviderConfig(suggestionProvider.config)))
-    ) {
-      fireNoteSuggestion(preparedText, suggestionProvider)
-    }
-
     void runTranslation(runId)
   })
 
@@ -419,18 +357,11 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
           clearAnchor: pendingOpenRequestRef.current === null,
         })
         lastTranslationRunKeyRef.current = null
-        resetNoteSuggestionSession()
       }
 
       setIsOpen(nextOpen)
     },
-    [
-      applyPendingSession,
-      cancelCurrentTranslation,
-      resetPopoverSession,
-      resetNoteSuggestionSession,
-      resetTranslationState,
-    ],
+    [applyPendingSession, cancelCurrentTranslation, resetPopoverSession, resetTranslationState],
   )
 
   // Pinned popovers are reused in place for a new selection: the window keeps
@@ -440,17 +371,11 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
   const handleReuseRequest = useCallback(() => {
     cancelCurrentTranslation()
     resetTranslationState()
-    resetNoteSuggestionSession()
     applyPendingSession()
     // Forces a rerun even when the same selection session is retriggered, and
     // rotates the note-suggestion session key (which has no session id).
     setRerunNonce((prev) => prev + 1)
-  }, [
-    applyPendingSession,
-    cancelCurrentTranslation,
-    resetNoteSuggestionSession,
-    resetTranslationState,
-  ])
+  }, [applyPendingSession, cancelCurrentTranslation, resetTranslationState])
 
   const prepareToolbarOpen = useCallback(() => {
     if (!selectionSession) {
@@ -577,7 +502,6 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
         onAnchorChange={setAnchor}
         actionsRef={popoverActionsRef}
         onReuseRequest={handleReuseRequest}
-        disablePointerDismissal={isSaveToNotebaseDialogOpen}
       >
         {children}
         <SelectionPopover.Content
@@ -602,20 +526,8 @@ export function SelectionTranslationProvider({ children }: { children: ReactNode
               isTranslating={isTranslating}
               thinking={thinking}
             />
-            {!isTranslating &&
-              !!translatedText &&
-              !error &&
-              noteSuggestion?.sessionKey === noteSuggestionSessionKey && (
-                <NoteSuggestionCard
-                  key={noteSuggestion.sessionKey}
-                  suggestion={noteSuggestion}
-                  markShownOnce={markNoteSuggestionShownOnce}
-                  noteOrigin={activeSession?.noteOrigin ?? null}
-                />
-              )}
             <SelectionToolbarErrorAlert error={error} className="-mt-3" />
           </SelectionPopover.Body>
-          <ReviewDueTab source="extension_selection_translation" />
           <TranslateFooterContent
             paragraphsText={paragraphsText}
             providers={translateProviders}

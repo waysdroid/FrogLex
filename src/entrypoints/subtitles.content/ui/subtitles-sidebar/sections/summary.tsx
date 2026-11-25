@@ -56,12 +56,7 @@ export function SummarySection() {
 
   // oxlint-disable-next-line query/exhaustive-deps -- Only the target language, the resolved provider and a Built-in AI model's reasoning level affect generation; the rest of this config snapshot must not invalidate the summary.
   const query = useQuery({
-    queryKey: videoSummaryQueryKey(
-      videoId,
-      config.language.targetCode,
-      providerRef,
-      config.builtInAi,
-    ),
+    queryKey: videoSummaryQueryKey(videoId, config.language.targetCode, providerRef),
     queryFn: async () => {
       const summary = await generateVideoSummary(config, videoId)
       if (!summary) {

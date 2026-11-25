@@ -1,7 +1,7 @@
 import type { Config } from "@/types/config/config"
 import type { ProviderConfig } from "@/types/config/provider"
 import type { FeatureTag } from "@/utils/features"
-import { isLLMProvider, isTranslateProvider } from "@/types/config/provider"
+import { isTranslateProvider } from "@/types/config/provider"
 import { isShown } from "@/utils/features"
 import { mergeWithArrayOverwrite } from "../atoms/config"
 import { getProviderConfigById } from "../config/helpers"
@@ -11,7 +11,6 @@ export const FEATURE_KEYS = [
   "videoSubtitles",
   "selectionTranslation",
   "inputTranslation",
-  "noteSuggestion",
 ] as const
 
 export type FeatureKey = (typeof FEATURE_KEYS)[number]
@@ -52,12 +51,6 @@ export const FEATURE_PROVIDER_DEFS = {
     configPath: ["inputTranslation", "providerId"],
     feature: "inputTranslation",
   },
-  noteSuggestion: {
-    isProvider: isLLMProvider,
-    getProviderId: (c: Config) => c.selectionToolbar.noteSuggestion.providerId,
-    configPath: ["selectionToolbar", "noteSuggestion", "providerId"],
-    feature: "selectionToolbar.translate.noteSuggestion",
-  },
 } as const satisfies Record<FeatureKey, FeatureProviderDef>
 
 /** The features whose provider pickers show: a feature that is off takes its picker with it. */
@@ -73,7 +66,6 @@ export const FEATURE_KEY_I18N_MAP = {
   videoSubtitles: "videoSubtitles",
   selectionTranslation: "selectionTranslation",
   inputTranslation: "inputTranslation",
-  noteSuggestion: "noteSuggestion",
 } as const satisfies Record<FeatureKey, string>
 
 export type FeatureLabelI18nKey =

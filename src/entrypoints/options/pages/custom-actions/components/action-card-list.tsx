@@ -5,7 +5,6 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { useMemo, useState } from "react"
 import { useLocation } from "react-router"
 import { requestEditorNavigationAtom } from "@/components/form/autosave-navigation"
-import { useBuiltInAiModels } from "@/components/llm-providers/use-built-in-ai-models"
 import { SortableList } from "@/components/sortable-list"
 import { Button } from "@/components/ui/base-ui/button"
 import { Dialog, DialogTrigger } from "@/components/ui/base-ui/dialog"
@@ -16,15 +15,13 @@ import {
   BUILT_IN_SENTENCE_ANALYSIS_ACTION_ID,
   DEFAULT_ACTION_NAME,
 } from "@/utils/constants/custom-action"
+import { UNCONFIGURED_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
 import { getBuiltInActions, patchSelectionToolbarAction } from "@/utils/custom-actions"
 import { i18n } from "@/utils/i18n"
 import { createLayoutSampleData } from "@/utils/layout-host/sample"
 import { getUniqueName } from "@/utils/name"
 import { CUSTOM_ACTION_ADD_QUERY_PARAM } from "@/utils/navigation"
-import {
-  DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-  getSelectableProvidersForCapability,
-} from "@/utils/providers/provider-registry"
+import { getSelectableProvidersForCapability } from "@/utils/providers/provider-registry"
 import { setSelectionToolbarCustomActions } from "@/utils/selection-toolbar-items"
 import { EntityListItem } from "../../../components/entity-list-item"
 import { EntityListRail } from "../../../components/entity-list-rail"
@@ -49,21 +46,14 @@ export function CustomActionCardList() {
   const customActions = selectionToolbarConfig.customActions
   const builtInActions = getBuiltInActions(selectionToolbarConfig)
 
-  const { models: builtInAiModels } = useBuiltInAiModels()
+  const builtInAiModels = null
   const customActionProviders = useMemo(
     () => getSelectableProvidersForCapability("customAction", providersConfig, builtInAiModels),
     [providersConfig, builtInAiModels],
   )
-  // A new action starts on the model new installs start on, not on whichever
-  // model the server happens to list first.
-  const newActionProviderId = customActionProviders.some(
-    (provider) => provider.id === DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-  )
-    ? DEFAULT_BUILT_IN_AI_PROVIDER_ID
-    : customActionProviders[0]?.id
+  const newActionProviderId = customActionProviders[0]?.id ?? UNCONFIGURED_AI_PROVIDER_ID
 
   const handleTemplateSelect = (template: CustomActionTemplate) => {
-    if (newActionProviderId === undefined) return
     void requestNavigation(async () => {
       const newAction = template.createAction(newActionProviderId)
       const baseName = template.id === "blank" ? DEFAULT_ACTION_NAME : newAction.name

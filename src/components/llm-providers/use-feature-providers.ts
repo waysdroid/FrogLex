@@ -15,8 +15,6 @@ import { isFeatureOn } from "@/utils/features"
 import { isSystemProviderSelectorItem } from "@/utils/providers/provider-display"
 import { getSelectableProvidersForCapability } from "@/utils/providers/provider-registry"
 import { providerSupportsTranslationOnlyMode } from "@/utils/providers/translation-only-gate"
-import { useBuiltInAiModels } from "./use-built-in-ai-models"
-import { useHostedAiProviderOptions } from "./use-hosted-ai-provider-options"
 
 export interface FeatureProviderBinding {
   providers: ProviderSelectorOption[]
@@ -39,7 +37,7 @@ export function useFeatureProvider(featureKey: FeatureKey): FeatureProviderBindi
   // the full list.
   const hideTranslationOnlyUnsupported =
     featureKey === "pageTranslation" && translationMode === "translationOnly"
-  const { models: builtInAiModels } = useBuiltInAiModels()
+  const builtInAiModels = null
   const baseProviders = useMemo(() => {
     const candidates = getSelectableProvidersForCapability(
       featureKey,
@@ -56,7 +54,7 @@ export function useFeatureProvider(featureKey: FeatureKey): FeatureProviderBindi
         providerSupportsTranslationOnlyMode(option.provider),
     )
   }, [featureKey, providersConfig, builtInAiModels, providerId, hideTranslationOnlyUnsupported])
-  const providers = useHostedAiProviderOptions(featureKey, baseProviders)
+  const providers = baseProviders
 
   const setProviderId = useCallback(
     (id: string) => void setConfig(buildFeatureProviderPatch({ [featureKey]: id })),
@@ -88,7 +86,7 @@ export function useCustomActionProviders(): CustomActionProvidersBinding {
   const setConfig = useSetAtom(writeConfigAtom)
   const providersConfig = useAtomValue(configFieldsAtomMap.providersConfig)
 
-  const { models: builtInAiModels } = useBuiltInAiModels()
+  const builtInAiModels = null
   const customActionsOn = isFeatureOn(config, "customActions")
   const actions = useMemo(
     () =>
@@ -110,7 +108,7 @@ export function useCustomActionProviders(): CustomActionProvidersBinding {
       ),
     [providersConfig, builtInAiModels, actions],
   )
-  const providers = useHostedAiProviderOptions("customAction", baseProviders)
+  const providers = baseProviders
 
   const setActionProviderId = useCallback(
     (actionId: string, providerId: string) =>

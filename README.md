@@ -1,10 +1,10 @@
 # 陪读蛙 · 个人词库版
 
-基于 Read Frog 1.61.2 二次开发的 Chrome 和 Edge 扩展。在阅读网页时划词查询，一键收录到本地词库。
+基于 Read Frog 二次开发的 Chrome 和 Edge 扩展，V1.1 可脱离官方账号使用。在阅读网页时划词查询，一键收录到本地词库。
 
 ## 安装
 
-[V1.0.0 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.0.0/read-frog-personal-vocabulary-v1.0.0-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.0.0/read-frog-personal-vocabulary-v1.0.0-edge.zip)
+[V1.1.0 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.0) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.0/read-frog-personal-vocabulary-v1.1.0-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.0/read-frog-personal-vocabulary-v1.1.0-edge.zip)
 
 1. 下载并解压对应的 ZIP。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
@@ -15,7 +15,7 @@
 - 划词时可预览编辑并收录，保存原句和来源，重复收录会累计遇见次数。
 - 在「扩展设置 → 个人词库」管理词库、标签、收藏和笔记，支持搜索筛选、批量移动和删除。
 - 支持 TXT、CSV、JSON 和粘贴文本导入，以及 TXT、CSV、JSON 导出和完整备份恢复。
-- 个人词库无需登录，数据保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译和 AI 查询仍使用所选服务商。
+- 个人词库无需登录，数据保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译可使用免登录服务，AI 查询使用自己配置的 API 和模型。
 
 [使用与备份说明](./PERSONAL_VOCABULARY.md) · [更新日志](./CHANGELOG.personal-vocabulary.md)
 

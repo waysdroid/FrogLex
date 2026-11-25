@@ -7,10 +7,10 @@ import type {
 } from "@/utils/providers/provider-display"
 import readFrogLogo from "@/assets/providers/read-frog-provider.png?url&no-inline"
 import { isLLMProviderConfig, isTranslateProviderConfig } from "@/types/config/provider"
+import { UNCONFIGURED_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
 import {
   type BuiltInAiProviderId,
   DEFAULT_BUILT_IN_AI_MODEL_ID,
-  DEFAULT_BUILT_IN_AI_PROVIDER_ID,
   getBuiltInAiModelId,
   getBuiltInAiProviderId,
 } from "@/utils/constants/provider-ids"
@@ -38,7 +38,6 @@ const BUILT_IN_AI_CAPABILITIES: readonly ProviderCapability[] = [
   "selectionTranslation",
   "videoSubtitles",
   "inputTranslation",
-  "noteSuggestion",
   "customAction",
   "languageDetection",
 ]
@@ -69,7 +68,6 @@ const LOCAL_PROVIDER_CAPABILITY_PREDICATES = {
   videoSubtitles: isTranslateProviderConfig,
   selectionTranslation: isTranslateProviderConfig,
   inputTranslation: isTranslateProviderConfig,
-  noteSuggestion: isLLMProviderConfig,
   customAction: isLLMProviderConfig,
   languageDetection: isLLMProviderConfig,
 } as const satisfies Record<ProviderCapability, ProviderConfigPredicate>
@@ -196,40 +194,32 @@ export function isLocalProviderConfigCompatibleWithCapability<C extends Provider
  * list, or, with no list at hand, the default model's, so a caller that only
  * needs "some Built-in AI" still has one to offer.
  */
+
+/** Built-in account models are recognized only by the legacy config reader. */
 export function getSystemProviderIdsForCapability(
-  capability: ProviderCapability,
-  models?: BuiltInAiModelList,
+  _capability: ProviderCapability,
+  _models?: BuiltInAiModelList,
 ): string[] {
-  if (!isBuiltInAiCapability(capability)) {
-    return []
-  }
-  return models
-    ? models.map((model) => getBuiltInAiProviderId(model.id))
-    : [DEFAULT_BUILT_IN_AI_PROVIDER_ID]
+  return []
 }
 
-/**
- * Whether a stored provider id can serve a capability. Any well-formed Built-in
- * AI id passes, whether or not a model list names it: the list comes from the
- * network, and a config must not stop parsing because the server dropped a
- * model or could not be reached. A model that cannot run fails at run time, and
- * the UI marks it unavailable.
- */
 export function doesProviderSupportsCapability(
   capability: ProviderCapability,
   providersConfig: ProvidersConfig,
   providerId: string,
   options: { requireEnable?: boolean } = {},
 ): boolean {
-  const providerConfig = providersConfig.find((provider) => provider.id === providerId)
-  if (providerConfig) {
+  const provider = providersConfig.find((item) => item.id === providerId)
+  if (!provider) {
     return (
-      (!options.requireEnable || providerConfig.enabled) &&
-      isLocalProviderConfigCompatibleWithCapability(capability, providerConfig)
+      (capability === "customAction" && providerId === UNCONFIGURED_AI_PROVIDER_ID) ||
+      (isSystemProviderId(providerId) && isBuiltInAiCapability(capability))
     )
   }
-
-  return isSystemProviderId(providerId) && isBuiltInAiCapability(capability)
+  return (
+    (!options.requireEnable || provider.enabled) &&
+    isLocalProviderConfigCompatibleWithCapability(capability, provider)
+  )
 }
 
 export function getProviderIdsForCapability(
@@ -237,74 +227,36 @@ export function getProviderIdsForCapability(
   providersConfig: ProvidersConfig,
   options: { requireEnable?: boolean; builtInAiModels?: BuiltInAiModelList } = {},
 ): string[] {
-  const localIds = providersConfig
+  return providersConfig
     .filter(
       (provider) =>
         (!options.requireEnable || provider.enabled) &&
         isLocalProviderConfigCompatibleWithCapability(capability, provider),
     )
     .map((provider) => provider.id)
-
-  return [...localIds, ...getSystemProviderIdsForCapability(capability, options.builtInAiModels)]
 }
 
-/**
- * The options a provider menu offers: one per Built-in AI model (see
- * `getBuiltInAiSelectorItems` for the ones the list does not name), then the
- * user's own.
- */
 export function getSelectableProvidersForCapability(
   capability: ProviderCapability,
   providersConfig: ProvidersConfig,
-  builtInAiModels: BuiltInAiModelList,
-  selectedProviderIds: Iterable<string> = [],
+  _models?: BuiltInAiModelList,
+  _selectedProviderIds?: Iterable<string>,
 ): ProviderSelectorOption[] {
-  const systemProviders = isBuiltInAiCapability(capability)
-    ? getBuiltInAiSelectorItems(builtInAiModels, selectedProviderIds)
-    : []
-
-  const localProviders = providersConfig.filter(
+  return providersConfig.filter(
     (provider) =>
       provider.enabled && isLocalProviderConfigCompatibleWithCapability(capability, provider),
   )
-
-  return [...systemProviders, ...localProviders]
 }
 
-/**
- * `builtInAiModels` only names a Built-in AI ref: resolution itself never
- * depends on a model list, so a stored model resolves (and runs, or fails with
- * the server's own answer) even while the list is unknown.
- */
 export function resolveProviderRefForCapability<C extends ProviderCapability>(
   capability: C,
   providersConfig: ProvidersConfig,
   providerId: string,
-  builtInAiModels?: BuiltInAiModelList,
+  _models?: BuiltInAiModelList,
 ): ProviderRefForCapability<C> | null {
-  const providerConfig = providersConfig.find((provider) => provider.id === providerId)
-  if (providerConfig) {
-    if (!isLocalProviderConfigCompatibleWithCapability(capability, providerConfig)) {
-      return null
-    }
-
-    return {
-      kind: "local",
-      config: providerConfig,
-      id: providerConfig.id,
-      name: providerConfig.name,
-    }
-  }
-
-  const model = getBuiltInAiModelId(providerId)
-  if (model === null || !isBuiltInAiCapability(capability)) {
+  const provider = providersConfig.find((item) => item.id === providerId)
+  if (!provider || !isLocalProviderConfigCompatibleWithCapability(capability, provider)) {
     return null
   }
-
-  return {
-    kind: "system",
-    id: getBuiltInAiProviderId(model),
-    name: getBuiltInAiModelName(builtInAiModels, model),
-    model,
-  }
+  return { kind: "local", config: provider, id: provider.id, name: provider.name }
 }

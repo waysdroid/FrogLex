@@ -1,7 +1,6 @@
 import type { Config as SeedConfig } from "@/types/config/config"
 import type { APIProviderConfig } from "@/types/config/provider"
 // @vitest-environment jsdom
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { createStore, Provider } from "jotai"
 import { describe, expect, it } from "vitest"
@@ -10,22 +9,14 @@ import { ThemeProvider } from "@/components/providers/theme-provider"
 import { isAPIProviderConfig } from "@/types/config/provider"
 import { configAtom } from "@/utils/atoms/config"
 import { DEFAULT_CONFIG } from "@/utils/constants/config"
-import { BUILT_IN_DICTIONARY_ACTION_ID } from "@/utils/constants/custom-action"
-import { DEFAULT_BUILT_IN_AI_PROVIDER_ID } from "@/utils/constants/provider-ids"
 import { getBuiltInDictionaryAction } from "@/utils/custom-actions"
 import {
-  BuiltInProviderEditor,
   CustomProviderEditor,
   ProviderEditor,
   useProviderForm,
   useProviderEditor,
 } from "../api-providers/providers-config/provider-editor"
-import {
-  ActionEditor,
-  BuiltInActionEditor,
-  CustomActionEditor,
-  useActionEditor,
-} from "../custom-actions/action-config-form/action-editor"
+import { useActionEditor } from "../custom-actions/action-config-form/action-editor"
 
 function seedConfig(store: ReturnType<typeof createStore>, config: SeedConfig) {
   void fakeBrowser.storage.local.set({ config })
@@ -40,19 +31,6 @@ function ActionContextProbe() {
 function ProviderContextProbe() {
   useProviderEditor()
   return null
-}
-
-function DeleteActionProbe() {
-  const deleteAction = useActionEditor().actions.delete
-  if (!deleteAction) {
-    throw new Error("Expected custom action delete command")
-  }
-
-  return (
-    <button type="button" onClick={() => void deleteAction()}>
-      Delete action
-    </button>
-  )
 }
 
 function createConfigStore() {
@@ -89,79 +67,6 @@ describe("editor compound component contexts", () => {
     expect(() => render(<ProviderContextProbe />)).toThrow(
       "ProviderEditor components must be rendered inside a ProviderEditor Provider",
     )
-  })
-
-  it("fails fast when Delete is composed for a built-in action", () => {
-    const store = createConfigStore()
-    const action = getBuiltInDictionaryAction(store.get(configAtom).selectionToolbar)
-
-    expect(() =>
-      render(
-        <Provider store={store}>
-          <BuiltInActionEditor.Provider action={action}>
-            <ActionEditor.DeleteButton />
-          </BuiltInActionEditor.Provider>
-        </Provider>,
-      ),
-    ).toThrow("ActionEditor.delete is unavailable in this composition")
-  })
-
-  it("fails fast when Duplicate is composed for the built-in provider", () => {
-    const store = createConfigStore()
-
-    expect(() =>
-      render(
-        // The built-in editor names its model from the model list, which status serves.
-        <QueryClientProvider client={new QueryClient()}>
-          <Provider store={store}>
-            <BuiltInProviderEditor.Provider providerId={DEFAULT_BUILT_IN_AI_PROVIDER_ID}>
-              <ProviderEditor.DuplicateButton />
-            </BuiltInProviderEditor.Provider>
-          </Provider>
-        </QueryClientProvider>,
-      ),
-    ).toThrow("ProviderEditor.duplicate is unavailable in this composition")
-  })
-
-  it("resets Note suggestions to Dictionary when deleting its selected custom action", async () => {
-    const store = createConfigStore()
-    const config = structuredClone(store.get(configAtom))
-    const action = {
-      id: "note-suggestion-action",
-      name: "Note suggestion Action",
-      enabled: false,
-      icon: "tabler:sparkles",
-      providerId: config.selectionToolbar.builtInActions.dictionary.providerId,
-      systemPrompt: "System prompt",
-      prompt: "Prompt",
-      outputSchema: [
-        {
-          id: "result",
-          name: "result",
-          type: "string" as const,
-          description: "Result",
-        },
-      ],
-    }
-    config.selectionToolbar.customActions = [action]
-    config.selectionToolbar.noteSuggestion.actionId = action.id
-    seedConfig(store, config)
-
-    render(
-      <Provider store={store}>
-        <CustomActionEditor.Provider action={action}>
-          <DeleteActionProbe />
-        </CustomActionEditor.Provider>
-      </Provider>,
-    )
-
-    fireEvent.click(screen.getByRole("button", { name: "Delete action" }))
-
-    await waitFor(() => {
-      const selectionToolbar = store.get(configAtom).selectionToolbar
-      expect(selectionToolbar.customActions).toEqual([])
-      expect(selectionToolbar.noteSuggestion.actionId).toBe(BUILT_IN_DICTIONARY_ACTION_ID)
-    })
   })
 
   it("assigns an action and enables a disabled custom provider through context actions", async () => {

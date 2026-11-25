@@ -3,11 +3,7 @@ import type { ProvidersConfig } from "@/types/config/provider"
 import type { HostedAiFeature, HostedAiStatus, HostedAiTierStatus } from "@/utils/hosted-ai/types"
 import { findHostedAiModel, getHostedAiModelsFromStatus } from "@/utils/hosted-ai/models"
 import { getHostedAiTierStatus } from "@/utils/hosted-ai/status"
-import {
-  DEFAULT_BUILT_IN_AI_PROVIDER_ID,
-  getBuiltInAiModelId,
-  getProviderIdsForCapability,
-} from "./provider-registry"
+import { getBuiltInAiModelId, getProviderIdsForCapability } from "./provider-registry"
 
 /**
  * Capability -> hosted feature. They share names today, but a capability is a
@@ -20,7 +16,6 @@ const CAPABILITY_HOSTED_FEATURES = {
   selectionTranslation: "selectionTranslation",
   videoSubtitles: "videoSubtitles",
   inputTranslation: "inputTranslation",
-  noteSuggestion: "noteSuggestion",
   customAction: "customAction",
   languageDetection: "languageDetection",
 } as const satisfies Record<ProviderCapability, HostedAiFeature>
@@ -93,35 +88,10 @@ export function isProviderIdPlanWalled(
   return model !== undefined && isPlanWalledTier(getHostedAiTierStatus(status, feature, model.tier))
 }
 
-/**
- * The provider ids this account can run this capability on, signing in if it
- * has to: the user's own first, then the Built-in AI models not behind a plan,
- * the default model ahead of the rest. Callers that fall back to the first id
- * (a deleted provider's features, language detection's mode switch) then land
- * on the user's own provider or on the model new installs start with, never on
- * a pricier model that happens to be listed first.
- *
- * `getProviderIdsForCapability` appends the built-ins unconditionally — its
- * `requireEnable` filters only local rows — so a bare length check on it is
- * always satisfied and cannot tell "a provider exists" from "a provider that
- * works exists". Every caller that gates an action on having a provider wants
- * this one instead.
- */
 export function getUsableProviderIdsForCapability(
   capability: ProviderCapability,
   providersConfig: ProvidersConfig,
-  status: HostedAiStatus | undefined,
+  _status?: HostedAiStatus,
 ): string[] {
-  const usableIds = getProviderIdsForCapability(capability, providersConfig, {
-    requireEnable: true,
-    builtInAiModels: getHostedAiModelsFromStatus(status),
-  }).filter((providerId) => !isProviderIdPlanWalled(providerId, capability, status))
-
-  const defaultIndex = usableIds.indexOf(DEFAULT_BUILT_IN_AI_PROVIDER_ID)
-  const firstBuiltInIndex = usableIds.findIndex((id) => getBuiltInAiModelId(id) !== null)
-  if (defaultIndex > firstBuiltInIndex && firstBuiltInIndex !== -1) {
-    usableIds.splice(defaultIndex, 1)
-    usableIds.splice(firstBuiltInIndex, 0, DEFAULT_BUILT_IN_AI_PROVIDER_ID)
-  }
-  return usableIds
+  return getProviderIdsForCapability(capability, providersConfig, { requireEnable: true })
 }

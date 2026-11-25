@@ -25,7 +25,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/base-ui
 import { configFieldsAtomMap } from "@/utils/atoms/config"
 import { patchActionConfigAtom } from "@/utils/atoms/entity-config"
 import {
-  BUILT_IN_DICTIONARY_ACTION_ID,
   getSelectionToolbarCustomActionTokenCellText,
   SELECTION_TOOLBAR_CUSTOM_ACTION_TOKENS,
 } from "@/utils/constants/custom-action"
@@ -38,7 +37,6 @@ import { formOpts, useAppForm } from "./form"
 import { IconField as IconFormField } from "./icon-field"
 import { LayoutField as EditableLayoutFormField, ReadOnlyLayoutField } from "./layout-field"
 import { NameField as NameFormField } from "./name-field"
-import { NotebaseConnectionField as NotebaseConnectionFormField } from "./notebase-connection-field"
 import {
   OutputSchemaField as EditableOutputSchemaFormField,
   ReadOnlyOutputSchemaField,
@@ -209,13 +207,6 @@ function CustomProvider({
     await setSelectionToolbar({
       ...selectionToolbar,
       customActions: updatedActions,
-      noteSuggestion:
-        selectionToolbar.noteSuggestion.actionId === action.id
-          ? {
-              ...selectionToolbar.noteSuggestion,
-              actionId: BUILT_IN_DICTIONARY_ACTION_ID,
-            }
-          : selectionToolbar.noteSuggestion,
     })
     await setSelectedActionId(nextSelectedAction?.id)
   }
@@ -314,11 +305,6 @@ function ReadOnlyLayout() {
   return <ReadOnlyLayoutField action={action} customizeButton={<CustomizeButton />} />
 }
 
-function NotebaseConnectionField({ variant }: { variant?: "card" | "tab" }) {
-  const { form } = useActionEditor().state
-  return <NotebaseConnectionFormField form={form} variant={variant} />
-}
-
 function DuplicateButton() {
   const { duplicate } = useActionEditor().actions
   return (
@@ -403,7 +389,6 @@ export const ActionEditor = {
     Editable: EditableLayout,
     ReadOnly: ReadOnlyLayout,
   },
-  NotebaseConnectionField,
   CustomizeButton,
   AiConfigHelperButton,
   DuplicateButton,

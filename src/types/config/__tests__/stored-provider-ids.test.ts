@@ -22,7 +22,6 @@ describe("configSchema on a config from before Built-in AI models", () => {
     config.languageDetection = { mode: "llm", providerId: "read-frog-free-ai" }
     config.selectionToolbar.features.translate.providerId = "read-frog-advance-ai"
     config.selectionToolbar.builtInActions.dictionary.providerId = "read-frog-advance-ai"
-    config.selectionToolbar.noteSuggestion.providerId = "read-frog-free-ai"
     config.translationHub = {
       ...config.translationHub,
       selectedProviderIds: [
@@ -43,7 +42,6 @@ describe("configSchema on a config from before Built-in AI models", () => {
     expect(parsed.selectionToolbar.builtInActions.dictionary.providerId).toBe(
       "read-frog-ai:gpt-6-luna",
     )
-    expect(parsed.selectionToolbar.noteSuggestion.providerId).toBe("read-frog-ai:gpt-6-luna")
     expect(parsed.translationHub.selectedProviderIds).toEqual([
       "read-frog-ai:gpt-6-luna",
       "google-translate-default",
