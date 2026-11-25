@@ -1,287 +1,35 @@
-<div align="center"><a name="readme-top"></a>
+# 陪读蛙 · 个人词库版
 
-[![Read Frog banner][image-banner]][website]
+基于 Read Frog 1.61.2 二次开发的 Chrome 和 Edge 扩展。在阅读网页时划词查询，一键收录到本地词库。
 
-<p align="center">
-  <a href="https://trendshift.io/repositories/22377" target="_blank"><img src="https://trendshift.io/api/badge/repositories/22377" alt="mengxi-ream%2Fread-frog | Trendshift" width="250" height="55" /></a>
-  <a href="https://www.star-history.com/mengxi-ream/read-frog">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=mengxi-ream/read-frog&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=mengxi-ream/read-frog" />
-      <img alt="Star History Rank" src="https://api.star-history.com/badge?repo=mengxi-ream/read-frog" width="260" height="55" />
-    </picture>
-  </a>
-</p>
+## 安装
 
-An AI language-learning extension for browsers, and an open-source alternative to Immersive Translate.<br/>
-Translate web pages, the sentences you select, and subtitles on YouTube, X, and Netflix. Then save the words you meet and review them as flashcards on an FSRS schedule.<br/>
-Master languages effortlessly and deeply with AI, right in your browser.
+[V1.0.0 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.0.0/read-frog-personal-vocabulary-v1.0.0-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.0.0/read-frog-personal-vocabulary-v1.0.0-edge.zip)
 
-[![English][english-shield]](./README.md) [![简体中文][chinese-shield]](./readmes/README.zh-CN.md) [![繁體中文][traditional-chinese-shield]](./readmes/README.zh-TW.md) [![日本語][japanese-shield]](./readmes/README.ja.md) [![한국어][korean-shield]](./readmes/README.ko.md) [![Español][spanish-shield]](./readmes/README.es.md) [![Русский][russian-shield]](./readmes/README.ru.md) [![Türkçe][turkish-shield]](./readmes/README.tr.md) [![Tiếng Việt][vietnamese-shield]](./readmes/README.vi.md)
-
-[Official Website](https://www.readfrog.app/en?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en) · [All Features](https://www.readfrog.app/en/features?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en) · [Tutorial](https://www.readfrog.app/en/docs?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en) · [Changelog][github-release-link] · [Blog](https://www.readfrog.app/en/blog?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en) · [vs Immersive Translate](https://www.readfrog.app/en/compare/immersive-translate?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en)
-
-<!-- SHIELD GROUP -->
-
-[![Latest Version badge][extension-release-shield]][github-release-link]
-[![Chrome Version badge][chrome-version-shield]][chrome-store-link]
-[![Edge Version badge][edge-version-shield]][edge-store-link]
-[![Firefox Version badge][firefox-version-shield]][firefox-store-link]<br/>
-[![Discord badge][discord-shield]][discord-link]
-[![Chrome Users badge][chrome-users-shield]][chrome-store-link]
-[![Edge Users badge][edge-users-shield]][edge-store-link]
-[![Firefox Users badge][firefox-users-shield]][firefox-store-link]<br/>
-[![Stars badge][star-history-shield]][star-history-link]
-[![Contributors badge][contributors-shield]][contributors-link]
-![Last Commit badge][last-commit-shield]
-[![Issues badge][issues-shield]][issues-link]<br/>
-[![Sponsor badge][sponsor-shield]][sponsor-link]
-
-</div>
+1. 下载并解压对应的 ZIP。
+2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
+3. 选择「加载已解压的扩展程序」，打开包含 `manifest.json` 的目录。
 
 ## 中文二开说明
 
-本仓库基于 [Read Frog（陪读蛙）1.61.2](https://github.com/mengxi-ream/read-frog/commit/284a532712ec9cfd139cfe4e783f5932ca3ab661) 二次开发。V1.0 提供独立的个人词库，优先支持 Chrome 和 Edge。
+- 划词时可预览编辑并收录，保存原句和来源，重复收录会累计遇见次数。
+- 在「扩展设置 → 个人词库」管理词库、标签、收藏和笔记，支持搜索筛选、批量移动和删除。
+- 支持 TXT、CSV、JSON 和粘贴文本导入，以及 TXT、CSV、JSON 导出和完整备份恢复。
+- 个人词库无需登录，数据保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译和 AI 查询仍使用所选服务商。
 
-- 在网页选中英文单词或短语，打开内置 AI 词典，即可一键收录或预览编辑。词典结果尚未返回或查询失败时，也可保存选词。
-- 保存单词原形、原始选词和可用释义。可验证的网页原句与来源会随词条保存，预览时可选择省略来源链接。
-- 重复收录会合并到同一词条、累计遇见次数，并保留不同的阅读语境。打开「扩展设置 → 个人词库」即可查看词条和详情。
-- 个人词库通过 IndexedDB 保存在当前浏览器，收录无需登录。上游翻译、AI 词典、自有模型配置和官方 Notebase 继续沿用原有流程。
+[使用与备份说明](./PERSONAL_VOCABULARY.md) · [更新日志](./CHANGELOG.personal-vocabulary.md)
 
-- 管理多个词库和标签，添加笔记、收藏和重点标记，支持搜索、筛选、排序和批量操作。
-- 支持 TXT、CSV、JSON 和粘贴文本批量导入，支持 TXT、CSV、JSON 导出和完整备份恢复。
-- 已移除远程使用遥测、调查和卸载反馈。翻译与 AI 词典仍按所选服务商处理请求。
+## 构建
 
-二开版本的记录和本地构建方式见 [更新日志](./CHANGELOG.personal-vocabulary.md)与[构建说明](./PERSONAL_VOCABULARY.md)。[Fork 发布页](https://github.com/waysdroid/read-frog/releases)
+使用 Node.js 26.13.1 和 pnpm 12.21.0。
 
-GitHub Actions 自动编译并校验 Chrome 和 Edge 的安装 ZIP。V1.0.0 的二开安装包可在 GitHub Release 的 Assets 下载，内含上游布局引擎的许可声明。下文的浏览器商店链接指向上游官方版本。[V1.0.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [自动构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
+```sh
+pnpm install --frozen-lockfile
+WXT_SKIP_ENV_VALIDATION=true pnpm zip
+WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
+```
 
-<details>
-<summary><kbd>Table of contents</kbd></summary>
-
-#### TOC
-
-- [中文二开说明](#中文二开说明)
-- [📺 Demo](#-demo)
-- [👋🏻 Getting Started \& Join Our Community](#-getting-started--join-our-community)
-  - [Download](#download)
-  - [Community](#community)
-- [✨ Features](#-features)
-  - [🪄 Custom AI Actions](#-custom-ai-actions)
-  - [🧠 Flashcards \& Spaced Repetition](#-flashcards--spaced-repetition)
-  - [🔄 Bilingual / Translation Only](#-bilingual--translation-only)
-  - [✨ Selection Translation](#-selection-translation)
-  - [🧠 Context-Aware Translation](#-context-aware-translation)
-  - [🎬 Subtitle Translation](#-subtitle-translation)
-  - [🔊 Text-to-Speech (TTS)](#-text-to-speech-tts)
-  - [📦 Batch Requests](#-batch-requests)
-  - [🤖 20+ AI Providers](#-20-ai-providers)
-- [🤝 Contribute](#-contribute)
-  - [Contribute Code](#contribute-code)
-- [Contributors](#contributors)
-- [📜 Commercial License Grant](#-commercial-license-grant)
-- [❤️ Sponsors](#️-sponsors)
-
-<br/>
-
-</details>
-
-## 📺 Demo
-
-🔊 The player starts muted — turn the sound on.
-
-https://github.com/user-attachments/assets/c000c3e7-40af-4621-8a7f-72a685732c31
-
-## 👋🏻 Getting Started & Join Our Community
-
-Read Frog's vision is to provide an easy-to-use, intelligent, and personalized language learning experience for language learners of all levels. This has become possible in the AI era, but there are few products on the market that meet this demand. Therefore, we decided to take matters into our own hands and ultimately make the world no longer reliant on human language instructors.
-
-Whether you are a user or a developer, Read Frog will be an important part of your journey toward this vision. Please be aware that Read Frog is currently under active development, and feedback is welcome for any [issues][issues-link] encountered.
-
-### Download
-
-| Browser | Version                                                                | Download                                                          |
-| ------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Chrome  | [![Chrome Version badge][chrome-version-shield]][chrome-store-link]    | [Chrome Web Store][chrome-store-link] or [中国镜像][crxsoso-link] |
-| Edge    | [![Edge Version badge][edge-version-shield]][edge-store-link]          | [Microsoft Edge Addons][edge-store-link]                          |
-| Firefox | [![Firefox Version badge][firefox-version-shield]][firefox-store-link] | [Firefox Add-ons][firefox-store-link]                             |
-
-### Community
-
-| [![Discord badge][discord-shield-badge]][discord-link] | In Discord ask questions, and connect with developers.                                 |
-| :----------------------------------------------------- | :------------------------------------------------------------------------------------- |
-| [![WeChat badge][wechat-shield-badge]][wechat-link]    | If you are in mainland China, you can add the WeChat account to join the WeChat group. |
-
-> \[!IMPORTANT]
->
-> **⭐️ Star Us**, You will receive all release notifications from GitHub without any delay \~
-
-[![Star Read Frog on GitHub][image-star]][github-star-link]
-
-<details>
-<summary>
-  <kbd>Star History</kbd>
-</summary>
-
-<a href="https://www.star-history.com/?type=timeline&repos=mengxi-ream%2Fread-frog">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=mengxi-ream/read-frog&type=timeline&theme=dark&legend=top-left&sealed_token=vUW24BwE2sgnq-CzlWEAT6gnzZqNrXl9ai4A05Pc3CQcPGdBqbts3tq5VRWEerfrqVdonsJasb04WcKd5AKSSCjlsdj_TwyI3j9xytMG4FQNw7yXDe9IUA" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=mengxi-ream/read-frog&type=timeline&legend=top-left&sealed_token=vUW24BwE2sgnq-CzlWEAT6gnzZqNrXl9ai4A05Pc3CQcPGdBqbts3tq5VRWEerfrqVdonsJasb04WcKd5AKSSCjlsdj_TwyI3j9xytMG4FQNw7yXDe9IUA" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=mengxi-ream/read-frog&type=timeline&legend=top-left&sealed_token=vUW24BwE2sgnq-CzlWEAT6gnzZqNrXl9ai4A05Pc3CQcPGdBqbts3tq5VRWEerfrqVdonsJasb04WcKd5AKSSCjlsdj_TwyI3j9xytMG4FQNw7yXDe9IUA" />
- </picture>
-</a>
-
-</details>
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-## ✨ Features
-
-Transform your everyday web reading into an immersive language learning journey with Read Frog's powerful features.
-
-### 🪄 [Custom AI Actions][docs-custom-actions]
-
-Turn selected text into reusable AI tools that match the way you read and learn. Define your own prompts and structured output fields, choose a provider, model, and icon, then run the action directly from the selection toolbar for dictionary lookups, rewriting, summaries, explanations, or any workflow you design.
-
-Start with the built-in **Dictionary** and **Improve Writing** templates, or build an action from scratch. Structured results can also be mapped and saved to Notebase for later study.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-### 🧠 [Flashcards & Spaced Repetition][docs-learning]
-
-Save vocabulary, definitions, example sentences, translations, and reading notes to Notebase, then turn them into flashcards with customizable card templates. Content you discover while reading becomes study material without interrupting your flow.
-
-Review due cards online and rate each one **Again**, **Hard**, **Good**, or **Easy**. Read Frog's spaced-repetition scheduler uses your feedback to decide when each card should appear again—right before you are likely to forget it.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-bilingual] -->
-
-### 🔄 [Bilingual / Translation Only][docs-page-translation]
-
-Switch seamlessly between two translation display modes. **Bilingual mode** shows the original text alongside its translation, perfect for learning and comparison. **Translation-only mode** replaces the original text entirely for a cleaner reading experience.
-
-The extension automatically re-translates all visible content when you switch modes while translation is active, ensuring a smooth transition without needing to refresh the page.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-selection] -->
-
-### ✨ [Selection Translation][docs-selection-translation]
-
-Select any text on a webpage to reveal a smart toolbar with powerful options. **Translate** streams the translation in real-time. **Explain** provides detailed explanations tailored to your language level. **Speak** reads the text aloud using text-to-speech.
-
-The toolbar intelligently positions itself to stay within the viewport, supports drag interactions, and works across all websites. Perfect for quick lookups while reading.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-context] -->
-
-### 🧠 [Context-Aware Translation][blog-context-translation]
-
-Enable AI to understand the full context of what you're reading. When activated, Read Frog extracts the page title and a concise Markdown version of the page content, providing this context to the AI for more accurate, contextually-appropriate translations.
-
-This means technical terms get translated correctly within their domain, literary expressions maintain their nuance, and ambiguous phrases are interpreted based on the surrounding content rather than in isolation.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-subtitle] -->
-
-### 🎬 [Subtitle Translation][video-subtitles]
-
-Translate subtitles on YouTube, X, and Netflix right in the video player. The translation appears with the original line, in sync with the video. For YouTube videos without captions, AI can transcribe the audio and show the result as the same bilingual subtitles (included in Pro and Ultra). Select any word in the subtitles to look it up and save it for review.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-tts] -->
-
-### 🔊 [Text-to-Speech (TTS)][docs-tts]
-
-Listen to any selected text with high-quality AI voices. It is completely free, with 300+ voices across 70+ languages including Chinese, English, Japanese, Korean, and many more. Adjust rate, pitch, and volume to your preference.
-
-Automatic language detection (basic or LLM-powered) with per-language voice mapping ensures the right voice for every language. Smart sentence-aware chunking handles long text by splitting at natural boundaries and prefetching the next chunk for seamless playback. Perfect for pronunciation practice and auditory learning.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-batch] -->
-
-### 📦 [Batch Requests][docs-request-control]
-
-Save up to 70% on API costs with intelligent request batching. Read Frog groups multiple translation requests into single API calls, reducing overhead and token usage while maintaining translation quality.
-
-The system includes smart retry logic with exponential backoff and automatic fallback to individual requests if batch processing fails. All handled transparently in the background.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- ![][image-feat-providers] -->
-
-### 🤖 [20+ AI Providers][docs-providers]
-
-Connect to 20+ AI providers through Vercel AI SDK: OpenAI, DeepSeek, Anthropic Claude, Google Gemini, xAI Grok, Groq, Mistral, Ollama, and many more. Configure custom endpoints, API keys, and model settings for each provider.
-
-Plus free translation options: Google Translate, Microsoft Translate, and DeepLX for cost-free basic translations.
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-## 🤝 Contribute
-
-Contributions of all types are more than welcome.
-
-1. Promote Read Frog to your friends and family.
-2. Report [issues][issues-link] and feedback.
-3. Contribute code.
-
-### Contribute Code
-
-Project Structure: [DeepWiki](https://deepwiki.com/mengxi-ream/read-frog)
-
-Ask AI to understand the project: [Dosu](https://app.dosu.dev/29569286-71ba-47dd-b038-c7ab1b9d0df7/documents)
-
-Check out the [Contribution Guide](https://www.readfrog.app/en/docs/contributing?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en) for more details.
-
-ReadFrog is dual-licensed under GPLv3 and a commercial license.
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for contributor licensing terms.
+两份 ZIP 生成在 `.output/`。[GitHub Actions 构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
 
 ## Contributors
 
@@ -289,98 +37,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for contributor licensing terms.
   <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
 </a>
 
-Fork maintainer [@waysdroid](https://github.com/waysdroid)
+二开维护者 [@waysdroid](https://github.com/waysdroid)。原项目由 [@mengxi-ream](https://github.com/mengxi-ream) 和上游社区开发。[Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
 
-<a href="https://github.com/mengxi-ream/read-frog/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mengxi-ream/read-frog" alt="Read Frog contributors" />
-</a>
+## 许可证
 
-Made with [contrib.rocks](https://contrib.rocks).
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-## 📜 Commercial License Grant
-
-<img src="assets/tabbit.avif" alt="Tabbit" height="20" /> **Meituan Tabbit Browser Team**: Free license (at no cost) for closed-source commercial use, limited to v1.21.3 and earlier versions (commit [`724863f`](https://github.com/mengxi-ream/read-frog/commit/724863fdbc2d777766cada6c111235534ee03ca0)). Granted on March 3, 2026, 9:00 AM (Vancouver Time, UTC-8).
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-## ❤️ Sponsors
-
-Every donation helps us build a better language learning experience. Thank you for supporting our mission!
-
-[![Sponsors][sponsor-image]][sponsor-link]
-
-<a href="https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=readme">
-  <img src="assets/promotion/ifapi.png" alt="IF API: GPT, Claude, Gemini and more from one key. Read Frog users get +10% credit with code READFROG">
-</a>
-
-<div align="right">
-
-[![Back to top][back-to-top]](#readme-top)
-
-</div>
-
-<!-- LINK GROUP -->
-
-[back-to-top]: https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square
-[chrome-store-link]: https://chromewebstore.google.com/detail/read-frog-open-source-ai/modkelfkcfjpgbfmnbnllalkiogfofhb
-[chrome-users-shield]: https://img.shields.io/chrome-web-store/users/modkelfkcfjpgbfmnbnllalkiogfofhb?style=flat-square&label=Chrome%20Users&color=yellow&labelColor=black
-[chrome-version-shield]: https://img.shields.io/chrome-web-store/v/modkelfkcfjpgbfmnbnllalkiogfofhb?style=flat-square&label=Chrome%20Version&labelColor=black&color=yellow
-[contributors-link]: https://github.com/mengxi-ream/read-frog/graphs/contributors
-[contributors-shield]: https://img.shields.io/github/contributors/mengxi-ream/read-frog?style=flat-square&labelColor=black
-[crxsoso-link]: https://www.crxsoso.com/webstore/detail/modkelfkcfjpgbfmnbnllalkiogfofhb
-[chinese-shield]: https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-gray?style=flat-square
-[discord-link]: https://discord.gg/ej45e3PezJ
-[discord-shield]: https://img.shields.io/discord/1371229720942874646?style=flat-square&label=Discord&logo=discord&logoColor=white&color=5865F2&labelColor=black
-[discord-shield-badge]: https://img.shields.io/badge/chat-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=black
-[edge-store-link]: https://microsoftedge.microsoft.com/addons/detail/read-frog-open-source-a/cbcbomlgikfbdnoaohcjfledcoklcjbo
-[english-shield]: https://img.shields.io/badge/English-gray?style=flat-square
-[firefox-store-link]: https://addons.mozilla.org/firefox/addon/read-frog-open-ai-translator/
-[firefox-version-shield]: https://img.shields.io/amo/v/read-frog-open-ai-translator?style=flat-square&label=Firefox%20Version&labelColor=black&color=orange
-[firefox-users-shield]: https://img.shields.io/amo/users/read-frog-open-ai-translator?style=flat-square&label=Firefox%20Users&color=orange&labelColor=black
-[edge-users-shield]: https://img.shields.io/badge/dynamic/json?style=flat-square&logo=microsoft-edge&label=Edge%20Users&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fcbcbomlgikfbdnoaohcjfledcoklcjbo&labelColor=black
-[edge-version-shield]: https://img.shields.io/badge/dynamic/json?style=flat-square&logo=microsoft-edge&label=Edge%20Version&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fcbcbomlgikfbdnoaohcjfledcoklcjbo&labelColor=black&prefix=v
-[extension-release-shield]: https://img.shields.io/github/package-json/v/mengxi-ream/read-frog?filename=package.json&style=flat-square&label=Latest%20Version&color=brightgreen&labelColor=black
-[github-release-link]: https://github.com/mengxi-ream/read-frog/releases
-[github-star-link]: https://github.com/mengxi-ream/read-frog/stargazers
-[image-banner]: /assets/banner.png
-[image-star]: ./assets/star.png
-[issues-link]: https://github.com/mengxi-ream/read-frog/issues
-[issues-shield]: https://img.shields.io/github/issues/mengxi-ream/read-frog?style=flat-square&labelColor=black
-[japanese-shield]: https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-gray?style=flat-square
-[korean-shield]: https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EC%96%B4-gray?style=flat-square
-[last-commit-shield]: https://img.shields.io/github/last-commit/mengxi-ream/read-frog?style=flat-square&label=commit&labelColor=black
-[russian-shield]: https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-gray?style=flat-square
-[sponsor-image]: https://cdn.jsdelivr.net/gh/mengxi-ream/static/sponsorkit/sponsors.svg
-[sponsor-link]: https://github.com/sponsors/mengxi-ream
-[sponsor-shield]: https://img.shields.io/github/sponsors/mengxi-ream?style=flat-square&label=Sponsor&color=EA4AAA&labelColor=black
-[spanish-shield]: https://img.shields.io/badge/Espa%C3%B1ol-gray?style=flat-square
-[star-history-link]: https://www.star-history.com/#mengxi-ream/read-frog&Timeline
-[star-history-shield]: https://img.shields.io/github/stars/mengxi-ream/read-frog?style=flat-square&label=stars&color=yellow&labelColor=black
-[traditional-chinese-shield]: https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-gray?style=flat-square
-[turkish-shield]: https://img.shields.io/badge/T%C3%BCrk%C3%A7e-gray?style=flat-square
-[vietnamese-shield]: https://img.shields.io/badge/Ti%E1%BA%BFng%20Vi%E1%BB%87t-gray?style=flat-square
-[website]: https://www.readfrog.app/en?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[wechat-link]: ./assets/wechat-account.jpg
-[wechat-shield-badge]: https://img.shields.io/badge/chat-WeChat-07C160?style=for-the-badge&logo=wechat&logoColor=white&labelColor=black
-
-<!-- Feature links -->
-
-[blog-context-translation]: https://www.readfrog.app/en/blog/smart-context-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-custom-actions]: https://www.readfrog.app/en/docs/custom-actions?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-learning]: https://www.readfrog.app/en/docs/learning?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-page-translation]: https://www.readfrog.app/en/docs/page-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-providers]: https://www.readfrog.app/en/docs/providers/overview?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-request-control]: https://www.readfrog.app/en/docs/request-control?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-selection-translation]: https://www.readfrog.app/en/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[docs-tts]: https://www.readfrog.app/en/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
-[video-subtitles]: https://www.readfrog.app/en/features/youtube-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=en
+本仓库源码沿用 [GPL-3.0](./LICENSE)。安装包中的上游布局引擎沿用其独立许可证，声明随 ZIP 附带。
