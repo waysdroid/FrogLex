@@ -1,14 +1,9 @@
-import type {
-  AnalyticsFeature,
-  BuiltInAiPromptKind as AnalyticsPromptKind,
-  BuiltInAiPromptTrigger,
-} from "@/types/analytics"
+import type { AnalyticsFeature, BuiltInAiPromptTrigger } from "@/types/analytics"
 import type { FeatureKey } from "@/utils/constants/feature-providers"
 import type { BuiltInAiRefusalKind } from "@/utils/hosted-ai/refusal"
 import type { BuiltInAiUpgradePlan } from "@/utils/hosted-ai/upgrade-plan"
 import { useSyncExternalStore } from "react"
 import { toastManager } from "@/components/ui/base-ui/toast"
-import { trackBuiltInAiPromptAction, trackBuiltInAiPromptShown } from "@/utils/analytics"
 import { logInAction, upgradeAction } from "@/utils/error-action"
 import { getBuiltInAiRefusalKind } from "@/utils/hosted-ai/refusal"
 import { getBuiltInAiUpgradePlan } from "@/utils/hosted-ai/upgrade-plan"
@@ -95,10 +90,6 @@ function hasBuiltInAiPromptHost(): boolean {
   return listeners.size > 0
 }
 
-export function toAnalyticsPromptKind(kind: BuiltInAiRefusalKind): AnalyticsPromptKind {
-  return kind === "logIn" ? "log_in" : "upgrade"
-}
-
 export interface BuiltInAiRefusalPromptOptions {
   feature: BuiltInAiPromptFeature
   analyticsFeature: AnalyticsFeature
@@ -146,7 +137,6 @@ function showRefusalToast(
   title: string,
   kind: BuiltInAiRefusalKind,
   analyticsFeature: AnalyticsFeature,
-  trigger: BuiltInAiPromptTrigger,
 ): void {
   const action =
     kind === "upgrade"
@@ -160,13 +150,6 @@ function showRefusalToast(
       children: action.label,
       onClick: () => {
         toastManager.close(toastId)
-        void trackBuiltInAiPromptAction({
-          feature: analyticsFeature,
-          kind: toAnalyticsPromptKind(kind),
-          presentation: "toast",
-          trigger,
-          action: kind === "upgrade" ? "upgrade" : "log_in",
-        })
         // Content scripts cannot use chrome.tabs: route through the background.
         void sendMessage("openPage", { url: action.url, active: true })
       },
@@ -239,14 +222,8 @@ export async function promptForBuiltInAiRefusal(
         : { ...base, kind: "logIn" },
     )
   } else {
-    showRefusalToast(getRefusalMessage(error, kind), kind, analyticsFeature, trigger)
+    showRefusalToast(getRefusalMessage(error, kind), kind, analyticsFeature)
   }
 
-  void trackBuiltInAiPromptShown({
-    feature: analyticsFeature,
-    kind: toAnalyticsPromptKind(kind),
-    presentation,
-    trigger,
-  })
   return true
 }

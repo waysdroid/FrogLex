@@ -1,10 +1,6 @@
 import type { LanguageTag } from "@read-frog/definitions"
 import type { GuideDictionaryNotebaseCompletionInput } from "./guide/dictionary-notebase"
-import type {
-  BuiltInAiPromptEvent,
-  FeatureUsageContext,
-  FeatureUsedEventProperties,
-} from "@/types/analytics"
+import type { FeatureUsageContext, FeatureUsedEventProperties } from "@/types/analytics"
 import type {
   BackgroundGenerateTextPayload,
   BackgroundGenerateTextResponse,
@@ -134,9 +130,8 @@ interface ProtocolMap {
   selectionToolbarHiddenUntilReload: () => void
   // popup → the tab's top frame: open or close the "Diagnose this page" panel
   togglePageTranslationDiagnostics: () => void
-  // analytics
+  // local activity counter
   trackFeatureUsedEvent: (data: FeatureUsedEventProperties) => void
-  trackBuiltInAiPromptEvent: (data: BuiltInAiPromptEvent) => void
   // user guide
   pinStateChanged: (data: { isPinned: boolean }) => void
   getPinState: () => boolean

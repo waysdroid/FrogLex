@@ -1,0 +1,91 @@
+name: Build personal vocabulary
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v1.0.0
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.repository == 'waysdroid/read-frog'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HUSKY: "0"
+      SKIP_FREE_API: "true"
+      WXT_SKIP_ENV_VALIDATION: "true"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26.13.1
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Type check
+        run: pnpm type-check
+      - name: Run tests
+        run: pnpm test --pool=threads --maxWorkers=2
+      - name: Build Chrome and Edge
+        run: |
+          pnpm build
+          pnpm build:edge
+          node --input-type=module <<'JS'
+          import assert from "node:assert/strict"
+          import { existsSync, globSync, readFileSync } from "node:fs"
+          for (const platform of ["chrome", "edge"]) {
+            const root = `.output/${platform}-mv3`
+            const manifest = JSON.parse(readFileSync(`${root}/manifest.json`, "utf8"))
+            assert.equal(manifest.manifest_version, 3)
+            assert.ok(existsSync(`${root}/${manifest.background.service_worker}`))
+            assert.ok(existsSync(`${root}/${manifest.options_ui.page}`))
+            const telemetry = /posthog|x-read-frog-client-context|tally\.so\/r\//i
+            for (const file of globSync(`${root}/**/*.js`)) {
+              assert.ok(!telemetry.test(readFileSync(file, "utf8")), `Remote telemetry found in ${file}`)
+            }
+            console.log(`${platform} MV3 extension build verified`)
+          }
+          JS
+      # The upstream layout engine has redistribution restrictions. The public
+      # workflow verifies both builds and keeps the release source-only.
+
+  publish-source:
+    if: github.repository == 'waysdroid/read-frog' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency: personal-vocabulary-source-v1.0.0
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Publish the verified V1.0 source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=v1.0.0
+          if ! git rev-parse --verify --quiet "refs/tags/${version}^{}" >/dev/null; then
+            exit 0
+          fi
+          if [ "$(git rev-parse "refs/tags/${version}^{}")" != "$(git rev-parse HEAD)" ]; then
+            exit 0
+          fi
+          if gh release view "$version" >/dev/null 2>&1; then
+            exit 0
+          fi
+          notes=$(mktemp)
+          awk '/^## V0\.1\.0 / { exit } { print }' CHANGELOG.personal-vocabulary.md > "$notes"
+          gh release create "$version" --verify-tag --title "个人词库 V1.0.0" --notes-file "$notes"

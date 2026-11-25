@@ -70,13 +70,13 @@ function getInstalledStore(): "chrome" | "edge" | "firefox" {
  * Slugs are cosmetic — the extension id resolves the listing — but they are kept current
  * so the click does not eat a redirect hop.
  */
-export function getReviewUrl(utmSource: string = "extension"): string {
+export function getReviewUrl(_utmSource: string = "extension"): string {
   const store = getInstalledStore()
   if (store === "edge") {
-    return `https://microsoftedge.microsoft.com/addons/detail/read-frog-translate-l/${EDGE_ADD_ONS_EXTENSION_ID}?form=MA13IW&utm_source=${utmSource}`
+    return `https://microsoftedge.microsoft.com/addons/detail/read-frog-translate-l/${EDGE_ADD_ONS_EXTENSION_ID}`
   }
   if (store === "firefox") {
-    return `https://addons.mozilla.org/firefox/addon/read-frog-open-ai-translator/reviews/?utm_source=${utmSource}`
+    return `https://addons.mozilla.org/firefox/addon/read-frog-open-ai-translator/reviews/`
   }
-  return `https://chromewebstore.google.com/detail/read-frog-translate-learn/${CHROME_WEB_STORE_EXTENSION_ID}/reviews?utm_source=${utmSource}`
+  return `https://chromewebstore.google.com/detail/read-frog-translate-learn/${CHROME_WEB_STORE_EXTENSION_ID}/reviews`
 }

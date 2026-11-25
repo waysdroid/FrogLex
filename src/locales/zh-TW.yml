@@ -1,7 +1,6 @@
 name: 陪讀蛙
 extName: "陪讀蛙 - AI 雙語翻譯、影片字幕與背單字"
 extDescription: "用 AI 雙語對照翻譯網頁，以及 YouTube、Netflix、X 的影片字幕。遇到生字一鍵儲存，用閃卡複習。"
-uninstallSurveyUrl: https://tally.so/r/3E9XDL
 account:
   login: 登入
   webApp: 網頁應用程式
@@ -124,6 +123,105 @@ personalVocabulary:
     storage: "無法存取本機詞庫，請重試。"
     quota: "瀏覽器剩餘儲存空間不足，無法收錄。"
     navigation: "無法開啟個人詞庫。"
+    conflict: "已有同名記錄，請使用其他名稱。"
+    import: "請檢查檔案格式、編碼或備份版本。"
+  collections: "詞庫"
+  tags: "標籤"
+  manageGroups: "管理詞庫與標籤"
+  groupName: "名稱"
+  rename: "重新命名"
+  add: "新增"
+  cancel: "取消"
+  delete: "刪除"
+  move: "移動"
+  addEntry: "新增詞條"
+  editEntry: "編輯詞條"
+  addContext: "新增閱讀語境"
+  transfer: "匯入、匯出與備份"
+  filters: "詞條篩選"
+  search: "搜尋單字、釋義、標籤和筆記"
+  allCollections: "所有詞庫"
+  allTags: "所有標籤"
+  allLevels: "所有難度"
+  completeness: "全部資訊完整度"
+  withDefinition: "已有釋義"
+  withoutDefinition: "缺少釋義"
+  markers: "所有標記"
+  order: "排序"
+  selectPage: "全選本頁"
+  selectEntry: "選取 $1"
+  selectedCount: "已選 $1 項"
+  targetCollection: "目標詞庫"
+  confirmMove: "將 $1 個詞條移到目標詞庫並替換目前的詞庫歸屬？"
+  confirmDelete: "永久刪除 $1 個詞條及其閱讀語境和遇見記錄？"
+  confirmCollectionDelete: "刪除詞庫「$1」？詞條會保留，無其他詞庫歸屬的詞條會移到預設詞庫。"
+  confirmTagDelete: "從所有詞條中移除標籤「$1」？詞條會保留。"
+  noMatches: "沒有符合篩選條件的詞條。"
+  emptyValue: "無"
+  created: "新增於 $1"
+  conflictStrategy: "重複詞條處理"
+  importEntries: "匯入詞條"
+  exportEntries: "匯出詞條"
+  chooseFile: "選擇檔案"
+  clearFile: "清除檔案選擇"
+  fileFormat: "檔案格式"
+  encoding: "文字編碼"
+  autoEncoding: "自動偵測"
+  csvHeader: "第一列為欄位名稱"
+  pasteText: "貼上文字"
+  importHint: "TXT 每行一個詞條，可用定位字元分隔單字和釋義。"
+  emptyImport: "沒有可預覽的記錄。"
+  previewImport: "預覽資料"
+  fieldMapping: "設定欄位對應"
+  checkImport: "驗證資料與重複詞條"
+  runImport: "開始匯入"
+  confirmOverwrite: "使用檔案中的值覆蓋已有欄位？未對應欄位和現有閱讀記錄會保留。"
+  processing: "正在本機處理…"
+  importComplete: "匯入完成。"
+  importCanceled: "已取消，完成的批次會保留。"
+  importStats: "有效 $1 項，重複 $2 項，無效 $3 項，已寫入 $4 項，失敗 $5 項"
+  backup: "完整備份與還原"
+  createBackup: "下載完整 JSON 備份"
+  restore: "選擇備份檔案進行預覽"
+  backupStats: "備份版本 $1，詞條 $2 個，詞庫 $3 個，標籤 $4 個，語境 $5 筆，重複 $6 個"
+  restoreBehavior: "還原會保留其他本機詞條，並為參與合併的詞條合併語境和關聯關係。"
+  confirmRestore: "確認還原此備份？"
+  restoreComplete: "已還原 $1 個詞條，發現 $2 個重複詞條。"
+  strategy:
+    skip: "跳過重複"
+    merge: "合併並補齊空欄位"
+    overwrite: "覆蓋檔案中對應的欄位"
+  sort:
+    updated: "最近更新"
+    added: "最近新增"
+    alphabetical: "字母順序"
+    encounters: "遇見次數最多"
+  fields:
+    term: "單字原形"
+    originalTerm: "原始詞形"
+    definition: "釋義"
+    definitionLanguage: "釋義語言（如 zh-TW）"
+    meaningsZh: "中文釋義"
+    meaningsEn: "英文釋義"
+    phonetic: "通用音標"
+    phoneticUk: "英式音標"
+    phoneticUs: "美式音標"
+    partOfSpeech: "詞性"
+    difficulty: "難度"
+    note: "個人筆記"
+    examples: "補充例句"
+    collocations: "常用搭配"
+    synonyms: "近義詞"
+    antonyms: "反義詞"
+    derivatives: "派生詞"
+    favorite: "收藏"
+    important: "重點"
+    sentence: "原始句子"
+    sentenceTranslation: "原句翻譯"
+    contextMeaning: "語境釋義"
+    sourceTitle: "來源標題"
+    sourceUrl: "來源連結"
+
 options:
   autosave:
     invalid: 請修正標示的欄位後再離開。
@@ -588,10 +686,6 @@ options:
       beta:
         title: Beta 體驗
         description: 開啟可能還不穩定的實驗性功能
-      analytics:
-        title: 幫助改進使用者體驗
-        tooltip: 開啟後，陪讀蛙會傳送匿名的產品使用訊號，用於發現 bug、驗證功能是否穩定、最佳化效能與互動細節，並協助決定接下來優先投入的方向。
-        description: 透過協助我們定位 bug、最佳化介面配置等改善陪讀蛙
   shortcuts:
     title: 快速鍵
     pageDescription: 設定閱讀時觸發翻譯、朗讀和 AI 指令的按鍵。

@@ -50,7 +50,6 @@ const strictCookieDomainSchema = strictStringSchema
   })
 
 const optionalNonEmptyStringSchema = z.string().min(1).optional()
-const optionalStrictUrlSchema = strictUrlSchema.optional()
 
 function parseCommaSeparatedEntries(
   value: string,
@@ -127,9 +126,5 @@ export function createExtensionClientEnvSchema(isProd: boolean, skipRequiredProd
       .string()
       .transform((value, ctx) => parseCommaSeparatedEntries(value, ctx, strictCookieDomainSchema)),
     WXT_GOOGLE_CLIENT_ID: requiresProductionEnv ? z.string().min(1) : optionalNonEmptyStringSchema,
-    WXT_POSTHOG_HOST: requiresProductionEnv ? strictUrlSchema : optionalStrictUrlSchema,
-    WXT_POSTHOG_API_KEY: requiresProductionEnv ? z.string().min(1) : optionalNonEmptyStringSchema,
-    WXT_POSTHOG_TEST_UUID: optionalNonEmptyStringSchema,
-    WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: rawBooleanSchema.default(false),
   } satisfies Record<string, z.ZodType>
 }

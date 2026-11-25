@@ -240,13 +240,13 @@ export const PROVIDER_ITEMS: Record<
   ifapi: {
     logo: (theme: Theme) => (theme === "light" ? ifapiLogoLight : ifapiLogoDark),
     name: "IF API",
-    website: "https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=app",
+    website: "https://ifapi.org/",
     // The sign-up page sends someone already signed in straight to their console, so one link
     // serves both new and returning users.
-    apiKeyUrl: "https://ifapi.org/sign-up?aff=readfrog&utm_source=readfrog&utm_medium=app",
+    apiKeyUrl: "https://ifapi.org/sign-up",
     sponsor: {
       sponsoring: true,
-      referUrl: "https://ifapi.org/sign-up?aff=readfrog&utm_source=readfrog&utm_medium=app",
+      referUrl: "https://ifapi.org/sign-up",
       badgeI18nKey: "options.apiProviders.badges.sponsorIfapi",
       ctaI18nKey: "options.apiProviders.sponsorCtaIfapi",
     },

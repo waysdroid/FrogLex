@@ -19,14 +19,13 @@ import type {
 import { AUTH_COOKIE_PATTERNS } from "@read-frog/definitions"
 import { browser } from "#imports"
 import { env } from "@/env"
-import { buildFeatureUsedEventProperties } from "@/utils/analytics"
 import { classifyFailureReason } from "@/utils/analytics-failure-reason"
 import { backgroundAuthClient } from "@/utils/auth/background-auth-client"
 import { getLocalConfig, setLocalConfig } from "@/utils/config/storage"
 import { patchSelectionToolbarAction } from "@/utils/custom-actions"
+import { recordFeatureActiveDay } from "@/utils/feature-active-days"
 import { createLogger } from "@/utils/logging/logger"
 import { buildCustomActionOptionsRoute } from "@/utils/navigation"
-import { createNoteSaveCompletedEvent } from "@/utils/note-save/analytics"
 import {
   classifyConnectedNotebaseOwnership,
   createNotebaseConnectedAccountSnapshot,
@@ -55,7 +54,6 @@ import {
   validateStillCanSavePendingCreateNotebaseSave,
 } from "@/utils/notebase/pending-save"
 import { backgroundOrpcClient } from "@/utils/orpc/background-client"
-import { captureFeatureUsedEventInBackground } from "./analytics"
 import { completeGuideDictionaryNotebaseAndNotify } from "./new-user-guide"
 
 const log = createLogger("background/notebase-pending-save")
@@ -731,11 +729,7 @@ export function setupNotebasePendingSaveProcessor(waitUntilReady: () => Promise<
     getSchema: (id) => backgroundOrpcClient.notebase.getSchema({ id }),
     completeGuideDictionaryNotebase: completeGuideDictionaryNotebaseAndNotify,
     reportNoteSave: (completion) => {
-      void captureFeatureUsedEventInBackground(
-        buildFeatureUsedEventProperties(createNoteSaveCompletedEvent(completion)),
-      ).catch((error) => {
-        log.warn("Failed to report the save outcome", { error })
-      })
+      if (!completion.failureReason) void recordFeatureActiveDay()
     },
     openNotebasePage: async (notebaseId) => {
       await browser.tabs.create({

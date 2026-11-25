@@ -396,8 +396,8 @@ describe("serializeProviderRef per model", () => {
     expect(action?.label).toBe("action.upgrade")
     const url = new URL(action!.url)
     expect(url.pathname).toBe("/pricing")
-    expect(url.searchParams.get("entry")).toBe("extension_quota_exhausted")
-    expect(url.searchParams.get("feature")).toBe("video_subtitles")
+    expect(url.searchParams.get("entry")).toBe(null)
+    expect(url.searchParams.get("feature")).toBe(null)
   })
 
   it("offers Ultra's spent pool nothing: no plan sits above it", async () => {

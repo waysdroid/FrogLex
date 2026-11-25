@@ -1,26 +1,33 @@
-# Personal vocabulary V0.1
+# 个人词库 V1.0
 
-The feature is based on upstream Read Frog 1.61.2, commit `284a532712ec9cfd139cfe4e783f5932ca3ab661`. The built-in Dictionary card accepts English words and phrases selected in ordinary webpages. Its Personal vocabulary controls save through extension messaging to a dedicated IndexedDB database. The options sidebar opens the default collection and the entry details.
+基于 Read Frog 1.61.2，源自上游提交 `284a532712ec9cfd139cfe4e783f5932ca3ab661`。扩展清单沿用上游版本号，Fork 发布使用独立的 `v1.0.0` 标签。
 
-The selection adapter uses the current Dictionary request. When generation completes it can use the model's base form and optional fields. When generation is pending or unavailable, the entry can use the selected form. A sentence comes from the captured reading passage when a unique match is available. The app removes query strings and fragments from saved source links. The preview lets the user omit the link. Repeating a save with the same operation ID is idempotent. Saving from a new lookup can add an encounter and a distinct reading context.
+## 使用
 
-The database begins at version 1 and is independent of upstream config, Glossary, translation caches and official Notebase. It uses the existing extension permissions. The new repository, dictionary adapter and schema live in `src/utils/personal-vocabulary`. The selection card and options route each have a dedicated UI component. The selection overlay uses a closed shadow root so webpage scripts cannot directly read vocabulary status or interact with save controls. The sole additional dependency, `fake-indexeddb`, is for tests.
+- 在普通网页选取英文单词或短语，打开内置词典，点击「收录到个人词库」。查询失败时仍可保存选词，预览时可编辑原形或释义、选择省略来源链接。
+- 打开「扩展设置 → 个人词库」管理词条、词库、标签和个人笔记。一个词条可属于多个词库。批量移动会替换所选词条的词库归属。删除词库时保留词条，失去最后一个词库归属的词条会移到默认词库。
+- 「导入、导出与备份」支持 TXT、CSV、JSON 以及粘贴文本。TXT 每行一个词条，可用制表符附加释义。CSV 可配置列标题，支持引号和多行字段。常规 JSON 导入接收由字符串或对象组成的数组。文件可自动识别 UTF-8、带 BOM 的 UTF-16 或回退到 GB18030，也可手动选择编码。
+- 导入先预览和映射字段，再校验数据和重复词条。跳过策略保留重复项，合并策略填充缺失字段，覆盖策略更新文件中提供的字段。写入以批次提交，取消或出错时保留已提交批次。
+- 完整 JSON 备份保存词条、词库、标签、个人笔记、语境、原形、遇见记录及关联关系。恢复前检查备份版本和引用，并显示重复词条数量。恢复操作使用事务，保留其他词条。备份从词库专用数据库导出，API Key、账号凭据和扩展配置独立存放。
 
-## Build and smoke test
+## 隐私
 
-Use the Node.js and pnpm versions pinned in `package.json`.
+个人词库写入浏览器 IndexedDB。已移除远程遥测 SDK、远程调查、卸载调查和官方 API 客户端的遥测头。用于商店评价提示的使用天数仅在浏览器本地计算。模型请求、翻译、官方账号和用户主动使用的 Notebase 仍通过各自服务处理。保存的网页来源去除用户名、密码、查询参数和片段。
+
+数据库升级从版本 1 迁移到版本 2。解包安装时，应使用同一个浏览器配置、同一个扩展 ID 和同一个解包目录更新，以访问已有词库。完整备份可用于更换配置或浏览器时迁移数据。
+
+## 构建与验证
+
+使用 `package.json` 指定的 Node.js 和 pnpm。
 
 ```sh
 pnpm install --frozen-lockfile
 WXT_SKIP_ENV_VALIDATION=true pnpm build
 WXT_SKIP_ENV_VALIDATION=true pnpm build:edge
 pnpm type-check
-SKIP_FREE_API=true pnpm test
+SKIP_FREE_API=true pnpm test --pool=threads --maxWorkers=2
 ```
 
-Load `.output/chrome-mv3` or `.output/edge-mv3` in a browser profile that allows unpacked extensions. Use a stable directory and profile so the installed extension keeps access to the same IndexedDB database.
+在允许加载未打包扩展的浏览器中，加载 `.output/chrome-mv3` 或 `.output/edge-mv3`。验证划词收录、重启持久化、旧版数据迁移、TXT/CSV/JSON 导入和备份恢复。
 
-1. Open Dictionary on an English word or phrase in a webpage. Save it and open the entry from the card.
-2. Select the same word in a different sentence, open Dictionary again, and record the encounter. Check that the two contexts and both encounters appear in the same entry.
-3. Open Dictionary with an unavailable model, then save the selection. Use the preview to edit the base form or definition and omit the source link.
-4. Restart the browser and open Personal vocabulary from the options sidebar. Confirm the entries remain. Check that the official Notebase button still behaves as before.
+GitHub Actions 在主分支更新、Pull Request、发布标签和手动运行时自动验证两端构建，测试通过后可发布对应标签的源码。上游专有布局引擎的许可证要求取得书面授权后才能再分发含该依赖的安装包。

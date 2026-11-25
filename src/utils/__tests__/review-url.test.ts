@@ -21,23 +21,19 @@ describe("getReviewUrl", () => {
   it("sends an Edge Add-ons install to Edge even when it runs the Chrome build", () => {
     vi.stubEnv("BROWSER", "chrome")
     installedWithId("cbcbomlgikfbdnoaohcjfledcoklcjbo")
-    expect(getReviewUrl("popup")).toBe(
-      `${EDGE_LISTING}cbcbomlgikfbdnoaohcjfledcoklcjbo?form=MA13IW&utm_source=popup`,
-    )
+    expect(getReviewUrl("popup")).toBe(`${EDGE_LISTING}cbcbomlgikfbdnoaohcjfledcoklcjbo`)
   })
 
   it("sends a Chrome Web Store install to Chrome even when it runs the Edge build", () => {
     vi.stubEnv("BROWSER", "edge")
     installedWithId("modkelfkcfjpgbfmnbnllalkiogfofhb")
-    expect(getReviewUrl("popup")).toBe(
-      `${CHROME_LISTING}modkelfkcfjpgbfmnbnllalkiogfofhb/reviews?utm_source=popup`,
-    )
+    expect(getReviewUrl("popup")).toBe(`${CHROME_LISTING}modkelfkcfjpgbfmnbnllalkiogfofhb/reviews`)
   })
 
   it.each([
-    ["chrome", `${CHROME_LISTING}modkelfkcfjpgbfmnbnllalkiogfofhb/reviews?utm_source=extension`],
-    ["edge", `${EDGE_LISTING}cbcbomlgikfbdnoaohcjfledcoklcjbo?form=MA13IW&utm_source=extension`],
-    ["firefox", `${AMO_LISTING}reviews/?utm_source=extension`],
+    ["chrome", `${CHROME_LISTING}modkelfkcfjpgbfmnbnllalkiogfofhb/reviews`],
+    ["edge", `${EDGE_LISTING}cbcbomlgikfbdnoaohcjfledcoklcjbo`],
+    ["firefox", `${AMO_LISTING}reviews/`],
   ])("falls back to the %s build target for any other id", (target, expected) => {
     vi.stubEnv("BROWSER", target)
     installedWithId("unpacked-dev-build-id")

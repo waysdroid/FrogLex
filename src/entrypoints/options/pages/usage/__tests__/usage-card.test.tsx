@@ -31,7 +31,7 @@ vi.mock("@/entrypoints/options/pages/usage/ai-subtitles-usage", () => ({
 
 vi.mock("@/utils/error-action", () => ({
   billingUrl: () => "https://readfrog.test/home",
-  pricingUrl: (entry: string) => `https://readfrog.test/pricing?entry=${entry}`,
+  pricingUrl: () => "https://readfrog.test/pricing",
 }))
 
 vi.mock("@/utils/i18n", () => ({
@@ -108,10 +108,7 @@ describe("UsageCard", () => {
     expect(screen.queryByText("options.usage.manageSubscription")).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole("button", { name: "options.usage.footer.upgradeAction" }))
-    expect(openSpy).toHaveBeenCalledWith(
-      "https://readfrog.test/pricing?entry=extension_upgrade",
-      "_blank",
-    )
+    expect(openSpy).toHaveBeenCalledWith("https://readfrog.test/pricing", "_blank")
   })
 
   it.each(["pro", "ultra"] as const)(

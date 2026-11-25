@@ -10,7 +10,7 @@ import { buildExtensionORPCHeaders } from "./client-context"
 
 const link = new RPCLink<ExtensionORPCClientContext>({
   url: `${env.WXT_API_URL}${ORPC_PREFIX}`,
-  headers: ({ context }) => buildExtensionORPCHeaders(context),
+  headers: buildExtensionORPCHeaders,
   // Proxy fetch through background to avoid CORS in content scripts
   fetch: async (request, init) => {
     const url = request.url

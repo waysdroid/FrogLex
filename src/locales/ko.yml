@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - AI 이중 번역·동영상 자막·단어장"
 extDescription: "웹페이지와 YouTube·Netflix·X 동영상 자막을 AI로 이중 번역합니다. 모르는 단어는 저장해 플래시카드로 복습하세요."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: 로그인
   webApp: 웹 앱
@@ -553,10 +552,6 @@ options:
       beta:
         title: Beta 체험
         description: 아직 불안정할 수 있는 실험적 기능을 켭니다
-      analytics:
-        title: 사용자 경험 개선에 기여
-        tooltip: 켜면 Read Frog가 익명 사용 신호를 전송하여 버그를 찾아내고, 기능 안정성을 검증하고, 성능과 UX 디테일을 개선하며, 앞으로 무엇을 우선적으로 만들지 결정하는 데 활용합니다.
-        description: 버그를 찾고 UI 레이아웃을 다듬는 등 Read Frog 개선에 기여합니다
   shortcuts:
     title: 단축키
     pageDescription: 읽는 중에 번역, 읽기, AI 액션을 실행하는 키를 설정합니다.

@@ -480,10 +480,7 @@ describe("background-stream", () => {
         action: {
           label: "action.upgrade",
           // Named after the feature that ran dry, for the website's attribution.
-          url: new URL(
-            "/pricing?entry=extension_quota_exhausted&feature=custom_ai_action",
-            env.WXT_WEBSITE_URL,
-          ).toString(),
+          url: new URL("/pricing", env.WXT_WEBSITE_URL).toString(),
         },
         // Classified in the background, where the hosted-AI error code still exists.
         reason: "quota_exceeded",
@@ -520,9 +517,9 @@ describe("background-stream", () => {
     hostedSelectionStreamTextMock.mockRejectedValueOnce(quotaExhausted())
     const selectionUrl = await upgradeUrlFor("selectionTranslation")
 
-    expect(pageUrl.searchParams.get("entry")).toBe("extension_quota_exhausted")
-    expect(pageUrl.searchParams.get("feature")).toBe("page_translation")
-    expect(selectionUrl.searchParams.get("feature")).toBe("selection_translation")
+    expect(pageUrl.searchParams.get("entry")).toBe(null)
+    expect(pageUrl.searchParams.get("feature")).toBe(null)
+    expect(selectionUrl.searchParams.get("feature")).toBe(null)
   })
 
   it("offers no upgrade when the Ultra pool itself runs dry", async () => {

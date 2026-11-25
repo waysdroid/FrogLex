@@ -54,9 +54,6 @@ vi.mock("@/components/ui/base-ui/toast", () => ({
 vi.mock("@/utils/analytics", () => ({
   createFeatureUsageContext: () => ({}),
   trackFeatureUsed: trackFeatureUsedMock,
-  trackBuiltInAiPromptShown: (properties: unknown) =>
-    sendMessageMock("trackBuiltInAiPromptEvent", { event: "built_in_ai_prompt_shown", properties }),
-  trackBuiltInAiPromptAction: vi.fn<() => void>(),
 }))
 vi.mock("@/utils/message", () => ({ sendMessage: sendMessageMock }))
 vi.mock("@/utils/hosted-ai/upgrade-plan", () => ({ getBuiltInAiUpgradePlan: getUpgradePlanMock }))
@@ -295,15 +292,6 @@ describe("input translation when Built-in AI refuses", () => {
       }),
     )
     expect(toastAddMock).not.toHaveBeenCalled()
-    expect(sendMessageMock).toHaveBeenCalledWith("trackBuiltInAiPromptEvent", {
-      event: "built_in_ai_prompt_shown",
-      properties: {
-        feature: "input_translation",
-        kind: "upgrade",
-        presentation: "dialog",
-        trigger: "user",
-      },
-    })
   })
 
   it("tells Ultra its pool is spent in a toast", async () => {

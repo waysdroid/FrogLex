@@ -141,13 +141,6 @@ export const SEARCH_ITEMS: SearchItem[] = [
     descriptionKey: "options.preference.userExperience.beta.description",
     pageKey: "options.preference.title",
   },
-  {
-    sectionId: "analytics",
-    route: "/preference",
-    titleKey: "options.preference.userExperience.analytics.title",
-    descriptionKey: "options.preference.userExperience.analytics.description",
-    pageKey: "options.preference.title",
-  },
 
   // Shortcuts page
   {

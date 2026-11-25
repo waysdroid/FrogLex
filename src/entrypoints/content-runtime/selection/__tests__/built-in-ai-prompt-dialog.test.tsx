@@ -8,17 +8,11 @@ import {
 } from "@/utils/content-runtime/built-in-ai-prompt"
 import { BuiltInAiPromptDialog } from "../built-in-ai-prompt-dialog"
 
-const { mockSendMessage, mockTrackAction } = vi.hoisted(() => ({
+const { mockSendMessage } = vi.hoisted(() => ({
   mockSendMessage: vi.fn<(...args: any[]) => any>(),
-  mockTrackAction: vi.fn<(...args: any[]) => any>(),
 }))
 
 vi.mock("@/utils/message", () => ({ sendMessage: mockSendMessage }))
-
-vi.mock("@/utils/analytics", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@/utils/analytics")>()),
-  trackBuiltInAiPromptAction: mockTrackAction,
-}))
 
 function openUpgradePrompt() {
   act(() => {
@@ -42,35 +36,21 @@ describe("BuiltInAiPromptDialog", () => {
     act(() => closeBuiltInAiPrompt())
   })
 
-  it("records an upgrade as the dialog's, with the prompt's trigger, and opens pricing for the feature", () => {
+  it("opens pricing without feature attribution", () => {
     render(<BuiltInAiPromptDialog />)
     openUpgradePrompt()
 
     fireEvent.click(screen.getByRole("button", { name: "action.upgrade" }))
 
-    expect(mockTrackAction).toHaveBeenCalledWith({
-      feature: "page_translation",
-      kind: "upgrade",
-      presentation: "dialog",
-      trigger: "auto",
-      action: "upgrade",
-    })
     const [, { url }] = mockSendMessage.mock.calls.find(([type]) => type === "openPage")!
-    expect(new URL(url).searchParams.get("feature")).toBe("page_translation")
+    expect(new URL(url).searchParams.get("feature")).toBe(null)
   })
 
-  it("records a close as dismissed", () => {
+  it("closes the dialog on Escape", () => {
     render(<BuiltInAiPromptDialog />)
     openUpgradePrompt()
 
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" })
-
-    expect(mockTrackAction).toHaveBeenCalledWith({
-      feature: "page_translation",
-      kind: "upgrade",
-      presentation: "dialog",
-      trigger: "auto",
-      action: "dismissed",
-    })
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
   })
 })

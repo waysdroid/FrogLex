@@ -20,7 +20,7 @@ const COUNT_MARK = "\uE000"
  * out of both. Like the queue, it counts one card per note at a time.
  * Renders nothing for guests, on errors, or when nothing is due.
  */
-export function ReviewDueTab({ source }: { source: ReviewEntrySource }) {
+export function ReviewDueTab(_props: { source: ReviewEntrySource }) {
   const { data: session, isPending: isSessionPending } = authClient.useSession()
   const userId = session?.user?.id
   const prefersReducedMotion = useReducedMotion() ?? false
@@ -66,7 +66,6 @@ export function ReviewDueTab({ source }: { source: ReviewEntrySource }) {
     .t(count === 1 ? "action.reviewDueOne" : "action.reviewDueOther", [COUNT_MARK])
     .split(COUNT_MARK)
   const reviewUrl = new URL("/review", env.WXT_WEBSITE_URL)
-  reviewUrl.searchParams.set("source", source)
 
   return (
     <LazyMotion features={domAnimation}>

@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - AI対訳翻訳・二重字幕・単語帳"
 extDescription: "ウェブページと YouTube・Netflix・X の動画字幕を AI で対訳翻訳。知らない単語は保存して、フラッシュカードで復習できます。"
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: ログイン
   webApp: ウェブアプリ
@@ -553,10 +552,6 @@ options:
       beta:
         title: Beta 体験
         description: まだ不安定な可能性がある実験的機能を有効にします
-      analytics:
-        title: ユーザー体験の改善に協力する
-        tooltip: 有効にすると、Read Frog は匿名の利用シグナルを送信し、不具合の発見、機能の安定性確認、性能や UX の改善、今後優先すべき機能の判断に役立てます。
-        description: バグの特定や UI レイアウトの改善などを通じて Read Frog をより良くします
   shortcuts:
     title: ショートカット
     pageDescription: 読みながら翻訳・読み上げ・AI アクションを実行するキーを設定します。

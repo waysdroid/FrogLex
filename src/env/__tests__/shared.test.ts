@@ -9,8 +9,6 @@ import {
 
 const PRODUCTION_REQUIRED_ENV = {
   WXT_GOOGLE_CLIENT_ID: "test-google-client-id",
-  WXT_POSTHOG_HOST: "https://us.i.posthog.com",
-  WXT_POSTHOG_API_KEY: "phc_test",
 } as const
 
 function parseResolvedExtensionEnv(
@@ -65,13 +63,11 @@ describe("extension env resolution", () => {
   it("passes through unrelated env vars untouched", () => {
     expect(
       resolveExtensionEnv({
-        WXT_POSTHOG_API_KEY: "phc_test",
-        WXT_POSTHOG_TEST_UUID: "00000000-0000-0000-0000-000000000001",
+        WXT_TEST_VALUE: "example",
       }),
     ).toMatchObject({
       ...PRODUCTION_EXTENSION_ENV_DEFAULTS,
-      WXT_POSTHOG_API_KEY: "phc_test",
-      WXT_POSTHOG_TEST_UUID: "00000000-0000-0000-0000-000000000001",
+      WXT_TEST_VALUE: "example",
     })
   })
 })
@@ -90,10 +86,6 @@ describe("extension env parsing", () => {
       WXT_OFFICIAL_SITE_ORIGINS: ["https://readfrog.app", "https://www.readfrog.app"],
       WXT_AUTH_COOKIE_DOMAINS: ["readfrog.app", "localhost"],
       WXT_GOOGLE_CLIENT_ID: undefined,
-      WXT_POSTHOG_HOST: undefined,
-      WXT_POSTHOG_API_KEY: undefined,
-      WXT_POSTHOG_TEST_UUID: undefined,
-      WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: false,
     })
   })
 
@@ -135,19 +127,13 @@ describe("extension env parsing", () => {
     ).toThrowError("must not include leading or trailing whitespace")
   })
 
-  it("requires Google and PostHog env vars when PROD is true", () => {
-    expect(() =>
-      parseResolvedExtensionEnv(
-        {
-          WXT_GOOGLE_CLIENT_ID: "test-google-client-id",
-          WXT_POSTHOG_HOST: "https://us.i.posthog.com",
-        },
-        true,
-      ),
-    ).toThrowError("expected string, received undefined")
+  it("requires the Google client ID when PROD is true", () => {
+    expect(() => parseResolvedExtensionEnv({}, true)).toThrowError(
+      "expected string, received undefined",
+    )
   })
 
-  it("accepts Google and PostHog env vars when PROD is true", () => {
+  it("accepts the Google client ID when PROD is true", () => {
     expect(
       parseResolvedExtensionEnv(
         {
@@ -161,14 +147,10 @@ describe("extension env parsing", () => {
       WXT_OFFICIAL_SITE_ORIGINS: ["https://readfrog.app", "https://www.readfrog.app"],
       WXT_AUTH_COOKIE_DOMAINS: ["readfrog.app"],
       WXT_GOOGLE_CLIENT_ID: PRODUCTION_REQUIRED_ENV.WXT_GOOGLE_CLIENT_ID,
-      WXT_POSTHOG_HOST: PRODUCTION_REQUIRED_ENV.WXT_POSTHOG_HOST,
-      WXT_POSTHOG_API_KEY: PRODUCTION_REQUIRED_ENV.WXT_POSTHOG_API_KEY,
-      WXT_POSTHOG_TEST_UUID: undefined,
-      WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: false,
     })
   })
 
-  it("lets production parsing skip only the required Google and PostHog env vars", () => {
+  it("lets production parsing skip the required Google client ID", () => {
     expect(
       parseResolvedExtensionEnv(
         {
@@ -183,10 +165,6 @@ describe("extension env parsing", () => {
       WXT_OFFICIAL_SITE_ORIGINS: ["https://readfrog.app", "https://www.readfrog.app"],
       WXT_AUTH_COOKIE_DOMAINS: ["readfrog.app"],
       WXT_GOOGLE_CLIENT_ID: undefined,
-      WXT_POSTHOG_HOST: undefined,
-      WXT_POSTHOG_API_KEY: undefined,
-      WXT_POSTHOG_TEST_UUID: undefined,
-      WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: false,
     })
   })
 
@@ -203,24 +181,6 @@ describe("extension env parsing", () => {
     expect(() =>
       resolveExtensionEnv({
         WXT_USE_LOCAL_PACKAGES: "yes",
-      }),
-    ).toThrowError(/Invalid/)
-  })
-
-  it("parses the analytics daily feature cache flag strictly", () => {
-    expect(
-      parseResolvedExtensionEnv({
-        WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: "true",
-      }).WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED,
-    ).toBe(true)
-    expect(
-      parseResolvedExtensionEnv({
-        WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: "false",
-      }).WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED,
-    ).toBe(false)
-    expect(() =>
-      parseResolvedExtensionEnv({
-        WXT_ANALYTICS_DAILY_FEATURE_CACHE_ENABLED: "yes",
       }),
     ).toThrowError(/Invalid/)
   })

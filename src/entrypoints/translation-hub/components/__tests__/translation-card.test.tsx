@@ -504,7 +504,7 @@ describe("TranslationCard when Built-in AI refuses", () => {
     )
   }
 
-  it("offers the upgrade in the card, with the feature on the link", () => {
+  it("offers the upgrade in the card without URL attribution", () => {
     const open = vi.spyOn(window, "open").mockReturnValue(null)
     // The background's refusal for a spent pool below Ultra carries its action.
     renderWithError(
@@ -512,7 +512,7 @@ describe("TranslationCard when Built-in AI refuses", () => {
         code: "HOSTED_AI_QUOTA_EXHAUSTED",
         action: {
           label: "Upgrade",
-          url: "https://readfrog.app/pricing?entry=extension_quota_exhausted",
+          url: "https://readfrog.app/pricing",
         },
       }),
     )
@@ -521,8 +521,7 @@ describe("TranslationCard when Built-in AI refuses", () => {
 
     const url = new URL(open.mock.calls[0]![0] as string)
     expect(url.pathname).toBe("/pricing")
-    expect(url.searchParams.get("entry")).toBe("extension_quota_exhausted")
-    expect(url.searchParams.get("feature")).toBe("translation_hub")
+    expect(url.search).toBe("")
     open.mockRestore()
   })
 

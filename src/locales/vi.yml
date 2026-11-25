@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - Dịch AI và thẻ ghi nhớ"
 extDescription: "Dịch song ngữ bằng AI cho trang web và phụ đề YouTube, Netflix, X. Lưu từ mới và ôn tập bằng thẻ ghi nhớ."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: Đăng nhập
   webApp: Ứng dụng web
@@ -553,10 +552,6 @@ options:
       beta:
         title: Trải nghiệm Beta
         description: Bật các tính năng thử nghiệm có thể chưa ổn định
-      analytics:
-        title: Giúp cải thiện trải nghiệm người dùng
-        tooltip: Khi bật, Read Frog sẽ gửi các tín hiệu sử dụng ẩn danh để phát hiện lỗi, xác minh tính ổn định của tính năng, tối ưu hiệu năng và độ tinh chỉnh UX, đồng thời giúp chúng tôi ưu tiên những gì cần xây tiếp theo.
-        description: Cải thiện Read Frog bằng cách giúp chúng tôi tìm lỗi, tinh chỉnh giao diện và hơn thế nữa
   shortcuts:
     title: Phím tắt
     pageDescription: Đặt các phím để dịch, đọc to và chạy hành động AI khi bạn đọc.

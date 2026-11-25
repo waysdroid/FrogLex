@@ -14,7 +14,6 @@ import {
 const WXT_API_KEY_PATTERN = /^WXT_.*API_KEY/
 // entrypoints/content-runtime, the ES module behind every page's content scripts
 const CONTENT_RUNTIME_NAME = "content-runtime"
-const ALLOWED_BUNDLED_API_KEYS = new Set(["WXT_POSTHOG_API_KEY"])
 const useLocalPackages = isLocalPackagesEnabled(process.env)
 const shouldSkipEnvValidation = process.env.WXT_SKIP_ENV_VALIDATION === "true"
 // Root of the read-frog monorepo whose source is aliased in when developing
@@ -98,7 +97,7 @@ export default defineConfig({
           strict_min_version: "140.0",
           data_collection_permissions: {
             required: ["none"],
-            optional: ["technicalAndInteraction"],
+            optional: [],
           },
         },
       },
@@ -205,9 +204,9 @@ export default defineConfig({
                   ),
                 ).parse(resolveExtensionEnv(process.env))
 
-                const apiKeyVars = Object.keys(process.env)
-                  .filter((key) => WXT_API_KEY_PATTERN.test(key))
-                  .filter((key) => !ALLOWED_BUNDLED_API_KEYS.has(key))
+                const apiKeyVars = Object.keys(process.env).filter((key) =>
+                  WXT_API_KEY_PATTERN.test(key),
+                )
 
                 if (apiKeyVars.length > 0) {
                   throw new Error(

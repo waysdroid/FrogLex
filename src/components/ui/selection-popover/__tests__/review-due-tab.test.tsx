@@ -191,7 +191,7 @@ describe("reviewDueTab", () => {
 
       fireEvent.click(await screen.findByRole("button", { name: "7 cards to review" }))
 
-      const reviewUrl = new URL(`/review?source=${source}`, env.WXT_WEBSITE_URL).toString()
+      const reviewUrl = new URL("/review", env.WXT_WEBSITE_URL).toString()
       expect(sendMessage).toHaveBeenCalledExactlyOnceWith("openPage", {
         url: reviewUrl,
         active: true,

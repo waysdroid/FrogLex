@@ -55,12 +55,6 @@ const OPTIONS: BuiltInAiRefusalPromptOptions = {
   trigger: "user",
 }
 
-function trackedEvents() {
-  return mockSendMessage.mock.calls
-    .filter(([type]) => type === "trackBuiltInAiPromptEvent")
-    .map(([, event]) => event)
-}
-
 /** Renders what the selection UI's dialog reads, so this frame has a dialog host. */
 function renderDialogHost() {
   return renderHook(() => useBuiltInAiPrompt())
@@ -96,7 +90,6 @@ describe("promptForBuiltInAiRefusal", () => {
     ).resolves.toBe(false)
 
     expect(mockToastAdd).not.toHaveBeenCalled()
-    expect(trackedEvents()).toEqual([])
   })
 
   it("asks a guest the status check refused to log in, without reading the plan", async () => {
@@ -118,17 +111,6 @@ describe("promptForBuiltInAiRefusal", () => {
     )
     expect(mockGetBuiltInAiUpgradePlan).not.toHaveBeenCalled()
     expect(mockToastAdd).not.toHaveBeenCalled()
-    expect(trackedEvents()).toEqual([
-      {
-        event: "built_in_ai_prompt_shown",
-        properties: {
-          feature: "input_translation",
-          kind: "log_in",
-          presentation: "dialog",
-          trigger: "user",
-        },
-      },
-    ])
   })
 
   it.each(["free", "pro"] as const)(
@@ -146,17 +128,6 @@ describe("promptForBuiltInAiRefusal", () => {
           feature: "inputTranslation",
         }),
       )
-      expect(trackedEvents()).toEqual([
-        {
-          event: "built_in_ai_prompt_shown",
-          properties: {
-            feature: "input_translation",
-            kind: "upgrade",
-            presentation: "dialog",
-            trigger: "user",
-          },
-        },
-      ])
     },
   )
 
@@ -168,7 +139,6 @@ describe("promptForBuiltInAiRefusal", () => {
 
     expect(host.result.current).toBeNull()
     expect(mockToastAdd).not.toHaveBeenCalled()
-    expect(trackedEvents()).toEqual([])
   })
 
   it("leaves a kind the caller doesn't ask about to the caller", async () => {
@@ -177,7 +147,6 @@ describe("promptForBuiltInAiRefusal", () => {
     await expect(
       promptForBuiltInAiRefusal(guestRefusal(), { ...OPTIONS, kinds: ["upgrade"] }),
     ).resolves.toBe(false)
-    expect(trackedEvents()).toEqual([])
   })
 
   it("shows a toast with the upgrade button, carrying the feature, where no dialog is drawn", async () => {
@@ -197,17 +166,6 @@ describe("promptForBuiltInAiRefusal", () => {
       type: "error",
       title: "Built-in AI quota used up",
     })
-    expect(trackedEvents()).toEqual([
-      {
-        event: "built_in_ai_prompt_shown",
-        properties: {
-          feature: "video_subtitles",
-          kind: "upgrade",
-          presentation: "toast",
-          trigger: "auto",
-        },
-      },
-    ])
 
     toast.actionProps.onClick()
 
@@ -215,18 +173,8 @@ describe("promptForBuiltInAiRefusal", () => {
     const opened = mockSendMessage.mock.calls.find(([type]) => type === "openPage")
     const url = new URL(opened![1].url)
     expect(url.pathname).toBe("/pricing")
-    expect(url.searchParams.get("entry")).toBe("extension_quota_exhausted")
-    expect(url.searchParams.get("feature")).toBe("video_subtitles")
-    expect(trackedEvents()).toContainEqual({
-      event: "built_in_ai_prompt_action",
-      properties: {
-        feature: "video_subtitles",
-        kind: "upgrade",
-        presentation: "toast",
-        trigger: "auto",
-        action: "upgrade",
-      },
-    })
+    expect(url.searchParams.get("entry")).toBe(null)
+    expect(url.searchParams.get("feature")).toBe(null)
   })
 
   it("gives a guest's toast the log-in button", async () => {
@@ -237,16 +185,6 @@ describe("promptForBuiltInAiRefusal", () => {
 
     const opened = mockSendMessage.mock.calls.find(([type]) => type === "openPage")
     expect(new URL(opened![1].url).pathname).toBe("/log-in")
-    expect(trackedEvents()).toContainEqual({
-      event: "built_in_ai_prompt_action",
-      properties: {
-        feature: "input_translation",
-        kind: "log_in",
-        presentation: "toast",
-        trigger: "user",
-        action: "log_in",
-      },
-    })
   })
 
   it("shows the toast when mayOpenDialog says no, and the dialog when it says yes", async () => {
@@ -327,7 +265,6 @@ describe("promptForBuiltInAiRefusal", () => {
 
     expect(host.result.current).toBeNull()
     expect(mockToastAdd).not.toHaveBeenCalled()
-    expect(trackedEvents()).toEqual([])
   })
 
   it("asks once while the same question is on screen", async () => {
@@ -335,7 +272,5 @@ describe("promptForBuiltInAiRefusal", () => {
 
     await promptForBuiltInAiRefusal(spentPoolError(), OPTIONS)
     await expect(promptForBuiltInAiRefusal(spentPoolError(), OPTIONS)).resolves.toBe(true)
-
-    expect(trackedEvents()).toHaveLength(1)
   })
 })

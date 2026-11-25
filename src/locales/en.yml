@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - AI Translation & Flashcards"
 extDescription: "Bilingual AI translation for web pages and YouTube, Netflix and X subtitles. Save new words and review them as flashcards."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: Log in
   webApp: Web app
@@ -124,6 +123,105 @@ personalVocabulary:
     storage: "Could not access local vocabulary. Please try again."
     quota: "There is not enough browser storage for this entry."
     navigation: "Could not open personal vocabulary."
+    conflict: "A vocabulary record with this name already exists."
+    import: "Check the file format, encoding, or backup version."
+  collections: "Collections"
+  tags: "Tags"
+  manageGroups: "Manage collections and tags"
+  groupName: "Name"
+  rename: "Rename"
+  add: "Add"
+  cancel: "Cancel"
+  delete: "Delete"
+  move: "Move"
+  addEntry: "Add entry"
+  editEntry: "Edit entry"
+  addContext: "Add reading context"
+  transfer: "Import, export and backup"
+  filters: "Vocabulary filters"
+  search: "Search words, meanings, tags and notes"
+  allCollections: "All collections"
+  allTags: "All tags"
+  allLevels: "All levels"
+  completeness: "All levels of detail"
+  withDefinition: "With a definition"
+  withoutDefinition: "Missing a definition"
+  markers: "All markers"
+  order: "Sort by"
+  selectPage: "Select this page"
+  selectEntry: "Select $1"
+  selectedCount: "$1 selected"
+  targetCollection: "Target collection"
+  confirmMove: "Move $1 entries to the selected collection and replace their current collection memberships?"
+  confirmDelete: "Permanently delete $1 entries, their reading contexts and encounter history?"
+  confirmCollectionDelete: "Delete the collection “$1”? Entries are kept. Entries with no other collection go to the default collection."
+  confirmTagDelete: "Remove the tag “$1” from all entries? Entries are kept."
+  noMatches: "No entries match these filters."
+  emptyValue: "None"
+  created: "Added $1"
+  conflictStrategy: "On duplicate"
+  importEntries: "Import vocabulary"
+  exportEntries: "Export vocabulary"
+  chooseFile: "Choose file"
+  clearFile: "Clear file"
+  fileFormat: "File format"
+  encoding: "Text encoding"
+  autoEncoding: "Detect automatically"
+  csvHeader: "First row contains column names"
+  pasteText: "Paste text"
+  importHint: "For TXT, enter one word per line. To include a definition, separate it from the word with a tab."
+  emptyImport: "There are no rows to preview."
+  previewImport: "Preview data"
+  fieldMapping: "Map columns to fields"
+  checkImport: "Validate and check duplicates"
+  runImport: "Start import"
+  confirmOverwrite: "Replace existing fields with values from the file? Unmapped fields and existing reading history are kept."
+  processing: "Processing locally…"
+  importComplete: "Import complete."
+  importCanceled: "Import canceled. Completed batches are kept."
+  importStats: "$1 valid · $2 duplicates · $3 invalid · $4 written · $5 failed"
+  backup: "Full backup and restore"
+  createBackup: "Download complete JSON backup"
+  restore: "Select a backup to preview"
+  backupStats: "Version $1 · $2 entries · $3 collections · $4 tags · $5 contexts · $6 duplicates"
+  restoreBehavior: "Restore preserves other local entries and combines reading contexts and relationships for entries that are merged."
+  confirmRestore: "Restore this backup?"
+  restoreComplete: "Restored $1 entries. Found $2 duplicates."
+  strategy:
+    skip: "Skip duplicates"
+    merge: "Fill missing fields"
+    overwrite: "Overwrite mapped fields"
+  sort:
+    updated: "Recently updated"
+    added: "Recently added"
+    alphabetical: "Alphabetical"
+    encounters: "Most encounters"
+  fields:
+    term: "Base form"
+    originalTerm: "Original form"
+    definition: "Definition"
+    definitionLanguage: "Definition language (e.g. zh-CN)"
+    meaningsZh: "Chinese meanings"
+    meaningsEn: "English meanings"
+    phonetic: "Phonetic"
+    phoneticUk: "British phonetic"
+    phoneticUs: "American phonetic"
+    partOfSpeech: "Parts of speech"
+    difficulty: "Difficulty"
+    note: "Personal notes"
+    examples: "Additional examples"
+    collocations: "Collocations"
+    synonyms: "Synonyms"
+    antonyms: "Antonyms"
+    derivatives: "Derived words"
+    favorite: "Favorite"
+    important: "Important"
+    sentence: "Original sentence"
+    sentenceTranslation: "Sentence translation"
+    contextMeaning: "Meaning in context"
+    sourceTitle: "Source title"
+    sourceUrl: "Source URL"
+
 options:
   autosave:
     invalid: Please correct the highlighted fields before leaving.
@@ -588,10 +686,6 @@ options:
       beta:
         title: Beta experience
         description: Turn on experimental features that may still be unstable
-      analytics:
-        title: Help improve user experience
-        tooltip: When enabled, Read Frog sends anonymous product usage signals so we can catch bugs, verify feature reliability, improve performance and UX polish, and prioritize future work.
-        description: Improve Read Frog by helping us locate bugs, refine layouts, and more
   shortcuts:
     title: Shortcuts
     pageDescription: Set the keys that translate, read aloud and run AI actions while you read.

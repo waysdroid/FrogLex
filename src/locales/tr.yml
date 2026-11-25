@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - Yapay Zekâ Çeviri ve Kartlar"
 extDescription: "Web sayfaları ve YouTube, Netflix, X altyazıları için yapay zekâ ile iki dilli çeviri. Yeni kelimeleri kaydedip kartlarla çalışın."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: Giriş yap
   webApp: Web uygulaması
@@ -553,10 +552,6 @@ options:
       beta:
         title: Beta deneyimi
         description: Henüz kararsız olabilecek deneysel özellikleri açın
-      analytics:
-        title: Kullanıcı deneyimini geliştirmemize yardımcı ol
-        tooltip: Açık olduğunda Read Frog, hataları yakalamak, özelliklerin güvenilir çalıştığını doğrulamak, performansı ve UX ayrıntılarını iyileştirmek ve sıradaki önceliklerimizi belirlemek için anonim kullanım sinyalleri gönderir.
-        description: Hataları bulmamıza, arayüzü iyileştirmemize ve daha fazlasına yardım ederek Read Frog'u geliştirin
   shortcuts:
     title: Kısayollar
     pageDescription: Okurken çeviri, sesli okuma ve AI eylemlerini başlatan tuşları belirleyin.

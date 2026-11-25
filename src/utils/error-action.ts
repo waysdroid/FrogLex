@@ -35,21 +35,8 @@ export type ExtensionPricingEntry =
   | "extension_plan_badge"
   | "extension_notebase_limit"
 
-/**
- * `feature` names the feature that hit the wall, by its analytics name, so the website
- * can tell which features send people to pricing. A wall that no single feature raised,
- * such as the plan badge, leaves it off. A website that predates the parameter ignores it.
- */
-export function pricingUrl(
-  entry: ExtensionPricingEntry = "extension_upgrade",
-  feature?: AnalyticsFeature,
-): string {
-  const url = new URL(websiteUrl("/pricing"))
-  url.searchParams.set("entry", entry)
-  if (feature) {
-    url.searchParams.set("feature", feature)
-  }
-  return url.toString()
+export function pricingUrl(_entry?: ExtensionPricingEntry, _feature?: AnalyticsFeature): string {
+  return websiteUrl("/pricing")
 }
 
 /** Billing lives in the app's settings dialog, not on the marketing page. */

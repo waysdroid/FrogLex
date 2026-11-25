@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - Traducción con IA y flashcards"
 extDescription: "Traducción bilingüe con IA para webs y subtítulos de YouTube, Netflix y X. Guarda palabras nuevas y repásalas con flashcards."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: Iniciar sesión
   webApp: Aplicación web
@@ -554,10 +553,6 @@ options:
       beta:
         title: Experiencia beta
         description: Activa funciones experimentales que todavía pueden ser inestables
-      analytics:
-        title: Ayuda a mejorar la experiencia de usuario
-        tooltip: Cuando está activado, Read Frog envía señales anónimas de uso del producto para que podamos detectar errores, verificar la fiabilidad de las funciones, mejorar el rendimiento y el acabado de la UX, y priorizar trabajos futuros.
-        description: Mejora Read Frog ayudándonos a localizar errores, pulir la interfaz y más
   shortcuts:
     title: Atajos
     pageDescription: Define las teclas que traducen, leen en voz alta y ejecutan acciones AI mientras lees.

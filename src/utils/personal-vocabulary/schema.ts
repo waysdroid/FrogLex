@@ -60,18 +60,19 @@ export const vocabularySourceSchema = z.object({
 
 export type VocabularySource = z.output<typeof vocabularySourceSchema>
 
-const termSchema = z.string().trim().refine(isVocabularyTerm)
-const localizedTextSchema = z.object({
+export const termSchema = z.string().trim().refine(isVocabularyTerm)
+export const localizedTextSchema = z.object({
   text: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH),
   language: z
     .string()
     .regex(/^[a-z]{2,8}(?:-[a-z0-9]{1,8})*$/i)
     .max(35),
 })
-const contextSchema = z
+export const contextSchema = z
   .object({
     sentence: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
     translation: localizedTextSchema.optional(),
+    meaning: localizedTextSchema.optional(),
     source: vocabularySourceSchema.optional(),
   })
   .refine(({ sentence, translation }) => !translation || !!sentence)
@@ -84,14 +85,59 @@ export const vocabularyLookupSchema = z.object({
 
 export const vocabularyDifficultySchema = z.enum(["A1", "A2", "B1", "B2", "C1", "C2"])
 
-export const vocabularySaveSchema = vocabularyLookupSchema.extend({
-  operationId: z.uuid(),
+export const vocabularyFieldsSchema = z.object({
   phonetic: z.string().trim().min(1).max(240).optional(),
   partOfSpeech: z.string().trim().min(1).max(240).optional(),
   definition: localizedTextSchema.optional(),
   difficulty: vocabularyDifficultySchema.optional(),
+})
+
+export const vocabularyDetailsSchema = z.object({
+  phoneticUk: z.string().trim().min(1).max(240).optional(),
+  phoneticUs: z.string().trim().min(1).max(240).optional(),
+  meaningsZh: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  meaningsEn: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  examples: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  collocations: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  synonyms: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  antonyms: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  derivatives: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  note: z.string().trim().min(1).max(12000).optional(),
+  favorite: z.boolean().optional(),
+  important: z.boolean().optional(),
+})
+
+export const vocabularySaveSchema = vocabularyLookupSchema.extend({
+  ...vocabularyFieldsSchema.shape,
+  operationId: z.uuid(),
   context: contextSchema.optional(),
 })
+
+export const vocabularyEditSchema = z.object({
+  ...vocabularyLookupSchema.shape,
+  ...vocabularyFieldsSchema.shape,
+  ...vocabularyDetailsSchema.shape,
+  collectionIds: z.array(z.string()),
+  tagIds: z.array(z.string()),
+})
+
+export const vocabularyImportSchema = z.object({
+  term: termSchema,
+  originalTerm: termSchema.optional(),
+  ...vocabularyFieldsSchema.shape,
+  ...vocabularyDetailsSchema.shape,
+  context: contextSchema.optional(),
+})
+
+export type VocabularyImportItem = z.input<typeof vocabularyImportSchema>
+
+export const vocabularyGroupNameSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(100)
+  .refine((name) => comparableVocabularyText(name).length > 0)
+export type VocabularyEdit = z.input<typeof vocabularyEditSchema>
 
 export type VocabularyLookup = z.input<typeof vocabularyLookupSchema>
 export type VocabularyDraft = Omit<z.input<typeof vocabularySaveSchema>, "operationId">

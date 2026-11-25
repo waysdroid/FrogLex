@@ -1,7 +1,6 @@
 name: 陪读蛙
 extName: "陪读蛙 - AI 双语翻译、视频字幕与背单词"
 extDescription: "用 AI 双语对照翻译网页，以及 YouTube、Netflix、X 的视频字幕。遇到生词一键保存，用闪卡复习。"
-uninstallSurveyUrl: https://tally.so/r/3E9XDL
 account:
   login: 登录
   webApp: 网页应用
@@ -124,6 +123,105 @@ personalVocabulary:
     storage: "无法访问本地词库，请重试。"
     quota: "浏览器剩余存储空间不足，无法收录。"
     navigation: "无法打开个人词库。"
+    conflict: "已有同名记录，请使用其他名称。"
+    import: "请检查文件格式、编码或备份版本。"
+  collections: "词库"
+  tags: "标签"
+  manageGroups: "管理词库与标签"
+  groupName: "名称"
+  rename: "重命名"
+  add: "新增"
+  cancel: "取消"
+  delete: "删除"
+  move: "移动"
+  addEntry: "新增词条"
+  editEntry: "编辑词条"
+  addContext: "添加阅读语境"
+  transfer: "导入、导出与备份"
+  filters: "词条筛选"
+  search: "搜索单词、释义、标签和笔记"
+  allCollections: "所有词库"
+  allTags: "所有标签"
+  allLevels: "所有难度"
+  completeness: "全部信息完整度"
+  withDefinition: "已有释义"
+  withoutDefinition: "缺少释义"
+  markers: "所有标记"
+  order: "排序"
+  selectPage: "全选本页"
+  selectEntry: "选择 $1"
+  selectedCount: "已选 $1 项"
+  targetCollection: "目标词库"
+  confirmMove: "将 $1 个词条移到目标词库并替换当前的词库归属？"
+  confirmDelete: "永久删除 $1 个词条及其阅读语境和遇见记录？"
+  confirmCollectionDelete: "删除词库「$1」？词条会保留，无其他词库归属的词条会移到默认词库。"
+  confirmTagDelete: "从所有词条中移除标签「$1」？词条会保留。"
+  noMatches: "没有符合筛选条件的词条。"
+  emptyValue: "无"
+  created: "添加于 $1"
+  conflictStrategy: "重复词条处理"
+  importEntries: "导入词条"
+  exportEntries: "导出词条"
+  chooseFile: "选择文件"
+  clearFile: "清除文件选择"
+  fileFormat: "文件格式"
+  encoding: "文本编码"
+  autoEncoding: "自动识别"
+  csvHeader: "第一行为列名"
+  pasteText: "粘贴文本"
+  importHint: "TXT 每行一个词条，可用制表符分隔单词和释义。"
+  emptyImport: "没有可预览的记录。"
+  previewImport: "预览数据"
+  fieldMapping: "设置字段映射"
+  checkImport: "校验数据与重复词条"
+  runImport: "开始导入"
+  confirmOverwrite: "使用文件中的值覆盖已有字段？未映射字段和现有阅读记录会保留。"
+  processing: "正在本地处理…"
+  importComplete: "导入完成。"
+  importCanceled: "已取消，完成的批次会保留。"
+  importStats: "有效 $1 项，重复 $2 项，无效 $3 项，已写入 $4 项，失败 $5 项"
+  backup: "完整备份与恢复"
+  createBackup: "下载完整 JSON 备份"
+  restore: "选择备份文件进行预览"
+  backupStats: "备份版本 $1，词条 $2 个，词库 $3 个，标签 $4 个，语境 $5 条，重复 $6 个"
+  restoreBehavior: "恢复会保留其他本地词条，并为参与合并的词条合并语境和关联关系。"
+  confirmRestore: "确认恢复此备份？"
+  restoreComplete: "已恢复 $1 个词条，发现 $2 个重复词条。"
+  strategy:
+    skip: "跳过重复"
+    merge: "合并并补齐空字段"
+    overwrite: "覆盖文件中对应的字段"
+  sort:
+    updated: "最近更新"
+    added: "最近添加"
+    alphabetical: "字母顺序"
+    encounters: "遇见次数最多"
+  fields:
+    term: "单词原形"
+    originalTerm: "原始词形"
+    definition: "释义"
+    definitionLanguage: "释义语言（如 zh-CN）"
+    meaningsZh: "中文释义"
+    meaningsEn: "英文释义"
+    phonetic: "通用音标"
+    phoneticUk: "英式音标"
+    phoneticUs: "美式音标"
+    partOfSpeech: "词性"
+    difficulty: "难度"
+    note: "个人笔记"
+    examples: "补充例句"
+    collocations: "常用搭配"
+    synonyms: "近义词"
+    antonyms: "反义词"
+    derivatives: "派生词"
+    favorite: "收藏"
+    important: "重点"
+    sentence: "原始句子"
+    sentenceTranslation: "原句翻译"
+    contextMeaning: "语境释义"
+    sourceTitle: "来源标题"
+    sourceUrl: "来源链接"
+
 options:
   autosave:
     invalid: 请修正标出的字段后再离开。
@@ -588,10 +686,6 @@ options:
       beta:
         title: Beta 体验
         description: 开启可能还不稳定的实验性功能
-      analytics:
-        title: 帮助改进用户体验
-        tooltip: 开启后，Read Frog 会发送匿名的产品使用信号，用于发现 bug、验证功能是否稳定、优化性能与交互细节，并帮助我们决定接下来优先投入的方向。
-        description: 通过帮助我们定位 bug、优化界面布局等改善 Read Frog
   shortcuts:
     title: 快捷键
     pageDescription: 设置阅读时触发翻译、朗读和 AI 指令的按键。

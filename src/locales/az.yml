@@ -1,7 +1,6 @@
 name: Read Frog
 extName: "Read Frog - Sİ tərcüməsi və söz kartları"
 extDescription: "Veb-səhifələr və YouTube, Netflix, X altyazıları üçün Sİ ilə ikidilli tərcümə. Yeni sözləri saxlayın, kartlarla təkrarlayın."
-uninstallSurveyUrl: https://tally.so/r/nPK6Ob
 account:
   login: Daxil ol
   webApp: Veb tətbiqi
@@ -554,10 +553,6 @@ options:
       beta:
         title: Beta imkanları
         description: Hələ qeyri-sabit ola biləcək sınaq funksiyalarını aktiv edin
-      analytics:
-        title: İstifadəçi təcrübəsini yaxşılaşdırmağa kömək et
-        tooltip: Aktiv olduqda Read Frog məhsulun istifadəsi barədə anonim məlumatlar göndərir. Bu məlumatlar xətaları tapmağa, funksiyaların etibarlılığını yoxlamağa, məhsuldarlığı və istifadə rahatlığını artırmağa, gələcək işlərin prioritetlərini müəyyən etməyə kömək edir.
-        description: Xətaları tapmaqda, görünüşü təkmilləşdirməkdə və digər işlərdə bizə kömək edərək Read Frog təcrübəsini yaxşılaşdırın
   shortcuts:
     title: Qısayollar
     pageDescription: Oxuyarkən tərcümə, səsləndirmə və süni intellekt əməliyyatlarını başladan düymələri təyin edin.

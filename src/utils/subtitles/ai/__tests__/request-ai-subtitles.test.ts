@@ -143,7 +143,7 @@ describe("requestAiSubtitles", () => {
       message: "subtitles.errors.aiQuotaExceeded",
       action: {
         label: "action.upgrade",
-        url: "https://readfrog.app/pricing?entry=extension_video_quota&feature=video_subtitles",
+        url: "https://readfrog.app/pricing",
       },
     })
     expect(get).not.toHaveBeenCalled()
@@ -160,7 +160,7 @@ describe("requestAiSubtitles", () => {
       name: "ToastSubtitlesError",
       message: "subtitles.errors.aiSubscriptionRequired",
       action: {
-        url: "https://readfrog.app/pricing?entry=extension_video_quota&feature=video_subtitles",
+        url: "https://readfrog.app/pricing",
       },
     })
     expect(get).not.toHaveBeenCalled()
@@ -256,7 +256,7 @@ describe("requestAiSubtitles", () => {
       name: "ToastSubtitlesError",
       message: "subtitles.errors.aiSubscriptionRequired",
       action: {
-        url: "https://readfrog.app/pricing?entry=extension_video_quota&feature=video_subtitles",
+        url: "https://readfrog.app/pricing",
       },
     })
     expect(getSubtitles).not.toHaveBeenCalled()
