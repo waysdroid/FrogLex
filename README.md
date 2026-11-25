@@ -37,7 +37,9 @@ WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
   <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
 </a>
 
-二开维护者 [@waysdroid](https://github.com/waysdroid)。原项目由 [@mengxi-ream](https://github.com/mengxi-ream) 和上游社区开发。[Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
+二开维护者 [@waysdroid](https://github.com/waysdroid)。[本仓库贡献记录](https://github.com/waysdroid/read-frog/graphs/contributors)
+
+原项目由 [@mengxi-ream](https://github.com/mengxi-ream) 和上游社区开发。[Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
 
 ## 许可证
 
