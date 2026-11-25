@@ -54,7 +54,7 @@ Master languages effortlessly and deeply with AI, right in your browser.
 
 二开版本的记录和本地构建方式见 [更新日志](./CHANGELOG.personal-vocabulary.md)与[构建说明](./PERSONAL_VOCABULARY.md)。[Fork 发布页](https://github.com/waysdroid/read-frog/releases)
 
-GitHub Actions 自动验证 Chrome 和 Edge 构建，公开发行提供源码。第三方布局引擎 `@read-frog/layout-engine` 的许可证要求取得权利方书面许可后，才能随二开版本再分发含该依赖的安装包。下文的浏览器商店链接指向上游官方版本。
+GitHub Actions 自动编译并校验 Chrome 和 Edge 的安装 ZIP，运行摘要会列出两个包名。公开仓库的 Release 提供源码，安装 ZIP 留在构建运行器。第三方布局引擎 `@read-frog/layout-engine` 的许可证要求取得权利方书面许可后，才能再分发含该依赖的安装包。下文的浏览器商店链接指向上游官方版本。[自动构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
 
 <details>
 <summary><kbd>Table of contents</kbd></summary>

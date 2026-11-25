@@ -22,12 +22,12 @@
 
 ```sh
 pnpm install --frozen-lockfile
-WXT_SKIP_ENV_VALIDATION=true pnpm build
-WXT_SKIP_ENV_VALIDATION=true pnpm build:edge
+WXT_SKIP_ENV_VALIDATION=true pnpm zip
+WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
 pnpm type-check
 SKIP_FREE_API=true pnpm test --pool=threads --maxWorkers=2
 ```
 
-在允许加载未打包扩展的浏览器中，加载 `.output/chrome-mv3` 或 `.output/edge-mv3`。验证划词收录、重启持久化、旧版数据迁移、TXT/CSV/JSON 导入和备份恢复。
+编译会在 `.output/` 生成 `*-chrome.zip` 和 `*-edge.zip`。解压 ZIP，在对应浏览器的扩展管理页打开开发者模式，选择「加载已解压的扩展程序」，并选择包含 `manifest.json` 的目录。也可直接加载 `.output/chrome-mv3` 或 `.output/edge-mv3`。
 
-GitHub Actions 在主分支更新、Pull Request、发布标签和手动运行时自动验证两端构建，测试通过后可发布对应标签的源码。上游专有布局引擎的许可证要求取得书面授权后才能再分发含该依赖的安装包。
+GitHub Actions 在主分支更新、Pull Request、推送 `v*` 标签和手动运行时，两端都自动编译、打包并校验。运行摘要显示生成的两个包名。在私有仓库的推送或手动构建中，两份 ZIP 各自保存在运行页的 Artifacts。当前公开仓库的安装包只在构建期间生成，Release 提供源码。上游专有布局引擎的许可证要求取得书面授权后才能再分发含该依赖的安装包。

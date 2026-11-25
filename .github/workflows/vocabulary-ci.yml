@@ -1,11 +1,11 @@
-name: Build personal vocabulary
+name: Build Chrome and Edge extensions
 
 on:
   push:
     branches:
       - main
     tags:
-      - v1.0.0
+      - "v*"
   pull_request:
     branches:
       - main
@@ -16,7 +16,6 @@ permissions:
 
 jobs:
   build:
-    if: github.repository == 'waysdroid/read-frog'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -38,10 +37,11 @@ jobs:
         run: pnpm type-check
       - name: Run tests
         run: pnpm test --pool=threads --maxWorkers=2
-      - name: Build Chrome and Edge
+      - name: Build and package Chrome and Edge
+        shell: bash
         run: |
-          pnpm build
-          pnpm build:edge
+          pnpm zip
+          pnpm zip:edge
           node --input-type=module <<'JS'
           import assert from "node:assert/strict"
           import { existsSync, globSync, readFileSync } from "node:fs"
@@ -58,8 +58,33 @@ jobs:
             console.log(`${platform} MV3 extension build verified`)
           }
           JS
-      # The upstream layout engine has redistribution restrictions. The public
-      # workflow verifies both builds and keeps the release source-only.
+          shopt -s nullglob
+          printf '### Chrome and Edge installation packages\n\n' >> "$GITHUB_STEP_SUMMARY"
+          for browser in chrome edge; do
+            archives=(.output/*-"${browser}".zip)
+            test "${#archives[@]}" -eq 1
+            archive=${archives[0]}
+            unzip -tq "$archive"
+            cmp <(unzip -p "$archive" manifest.json) ".output/${browser}-mv3/manifest.json"
+            sha256sum "$archive"
+            printf -- '- `%s`\n' "${archive##*/}" >> "$GITHUB_STEP_SUMMARY"
+          done
+      # Public builds validate the archives locally on the runner because they
+      # bundle a layout engine with redistribution restrictions.
+      - name: Save Chrome ZIP to private Artifacts
+        if: github.event.repository.private && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          path: .output/*-chrome.zip
+          archive: false
+          if-no-files-found: error
+      - name: Save Edge ZIP to private Artifacts
+        if: github.event.repository.private && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          path: .output/*-edge.zip
+          archive: false
+          if-no-files-found: error
 
   publish-source:
     if: github.repository == 'waysdroid/read-frog' && github.event_name != 'pull_request'
