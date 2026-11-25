@@ -54,7 +54,7 @@ Master languages effortlessly and deeply with AI, right in your browser.
 
 二开版本的记录和本地构建方式见 [更新日志](./CHANGELOG.personal-vocabulary.md)与[构建说明](./PERSONAL_VOCABULARY.md)。[Fork 发布页](https://github.com/waysdroid/read-frog/releases)
 
-GitHub Actions 自动编译并校验 Chrome 和 Edge 的安装 ZIP，运行摘要会列出两个包名。公开仓库的 Release 提供源码，安装 ZIP 留在构建运行器。第三方布局引擎 `@read-frog/layout-engine` 的许可证要求取得权利方书面许可后，才能再分发含该依赖的安装包。下文的浏览器商店链接指向上游官方版本。[自动构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
+GitHub Actions 自动编译并校验 Chrome 和 Edge 的安装 ZIP。V1.0.0 的二开安装包可在 GitHub Release 的 Assets 下载，内含上游布局引擎的许可声明。下文的浏览器商店链接指向上游官方版本。[V1.0.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [自动构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
 
 <details>
 <summary><kbd>Table of contents</kbd></summary>
@@ -78,6 +78,7 @@ GitHub Actions 自动编译并校验 Chrome 和 Edge 的安装 ZIP，运行摘�
   - [🤖 20+ AI Providers](#-20-ai-providers)
 - [🤝 Contribute](#-contribute)
   - [Contribute Code](#contribute-code)
+- [Contributors](#contributors)
 - [📜 Commercial License Grant](#-commercial-license-grant)
 - [❤️ Sponsors](#️-sponsors)
 
@@ -281,6 +282,14 @@ Check out the [Contribution Guide](https://www.readfrog.app/en/docs/contributing
 ReadFrog is dual-licensed under GPLv3 and a commercial license.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for contributor licensing terms.
+
+## Contributors
+
+<a href="https://github.com/waysdroid">
+  <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
+</a>
+
+Fork maintainer [@waysdroid](https://github.com/waysdroid)
 
 <a href="https://github.com/mengxi-ream/read-frog/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=mengxi-ream/read-frog" alt="Read Frog contributors" />

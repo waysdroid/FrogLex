@@ -1,0 +1,99 @@
+name: Publish Chrome and Edge installers
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-vocabulary-installers.yml
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of an existing release
+        required: true
+        default: v1.0.0
+
+permissions:
+  contents: write
+
+concurrency: vocabulary-installers-${{ inputs.tag || 'v1.0.0' }}
+
+jobs:
+  publish:
+    if: github.repository == 'waysdroid/read-frog' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RELEASE_TAG: ${{ inputs.tag || 'v1.0.0' }}
+      HUSKY: "0"
+      WXT_SKIP_ENV_VALIDATION: "true"
+    steps:
+      - name: Verify the existing release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json tagName,isDraft
+      - uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26.13.1
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - name: Build and verify installers
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm zip
+          pnpm zip:edge
+          mkdir release-assets
+          cp node_modules/@read-frog/layout-engine/LICENSE "$RUNNER_TEMP/LICENSE.layout-engine.txt"
+          shopt -s nullglob
+          for browser in chrome edge; do
+            sources=(.output/*-"${browser}".zip)
+            test "${#sources[@]}" -eq 1
+            archive="release-assets/read-frog-personal-vocabulary-${RELEASE_TAG}-${browser}.zip"
+            cp "${sources[0]}" "$archive"
+            zip -jq "$archive" LICENSE "$RUNNER_TEMP/LICENSE.layout-engine.txt"
+            unzip -tq "$archive"
+            cmp <(unzip -p "$archive" manifest.json) ".output/${browser}-mv3/manifest.json"
+            sha256sum "$archive"
+          done
+      - name: Attach the Chrome and Edge installers to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          existing=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
+          pending=()
+          for archive in release-assets/*.zip; do
+            if ! grep -Fxq -- "${archive##*/}" <<< "$existing"; then
+              pending+=("$archive")
+            fi
+          done
+          if ((${#pending[@]})); then
+            gh release upload "$RELEASE_TAG" "${pending[@]}" --repo "$GITHUB_REPOSITORY"
+          fi
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].url'
+      - name: Add installation instructions to the release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          notes="$RUNNER_TEMP/vocabulary-release-notes.md"
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json body --jq .body > "$notes"
+          if ! grep -Fxq '### 安装扩展' "$notes"; then
+            cat >> "$notes" <<'MARKDOWN'
+
+          ### 安装扩展
+
+          在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
+          MARKDOWN
+            gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --notes-file "$notes"
+          fi

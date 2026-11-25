@@ -14,7 +14,7 @@
 ### 隐私与构建
 
 - 移除 PostHog SDK、远程遥测消息、官方 API 的遥测头、远程调查和卸载调查链接。定价、复习和商店评价链接不再携带来源追踪参数。用于商店评价提示的使用天数只在浏览器本地计算。
-- GitHub Actions 对 Chrome 和 Edge 自动执行类型检查、测试和构建。公开发行包含对应源码，编译安装包的再分发仍受上游布局引擎许可约束。[构建与使用说明](https://github.com/waysdroid/read-frog/blob/v1.0.0/PERSONAL_VOCABULARY.md)
+- GitHub Actions 对 Chrome 和 Edge 自动执行类型检查、测试和构建。V1.0.0 发布页提供对应源码和 Chrome、Edge 安装 ZIP，安装包内含上游布局引擎的许可声明。[V1.0.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [构建与使用说明](./PERSONAL_VOCABULARY.md)
 
 ## V0.1.0 源码预发行
 

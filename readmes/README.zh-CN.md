@@ -43,6 +43,8 @@
 
 这个 Fork 的 V1.0 提供本地划词收录、词库和标签管理、搜索、批量导入导出及备份恢复。词库保存在当前浏览器，可从「扩展设置 → 个人词库」打开。远程使用遥测和调查已移除。完整的[中文二开说明](../README.md#中文二开说明)和 [更新日志](../CHANGELOG.personal-vocabulary.md)在仓库首页可查。下文的安装商店为上游官方版本。
 
+Chrome 和 Edge 的二开安装包可在 V1.0.0 发布页下载。[GitHub Release](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0)
+
 <details>
 <summary><kbd>目录</kbd></summary>
 
@@ -65,6 +67,7 @@
   - [🤖 20+ AI 服务商](#-20-ai-服务商)
 - [🤝 贡献](#-贡献)
   - [贡献代码](#贡献代码)
+- [贡献者](#贡献者)
 - [📜 商业授权](#-商业授权)
 - [❤️ 赞助者](#️-赞助者)
 
@@ -266,6 +269,14 @@ Read Frog 的愿景是为各个级别的语言学习者提供易于使用、智�
 ReadFrog 采用 GPLv3 和商业许可双重授权。
 
 贡献者许可条款请参阅 [CONTRIBUTING.md](../CONTRIBUTING.md)。
+
+## 贡献者
+
+<a href="https://github.com/waysdroid">
+  <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
+</a>
+
+二开仓库维护者 [@waysdroid](https://github.com/waysdroid)
 
 <a href="https://github.com/mengxi-ream/read-frog/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=mengxi-ream/read-frog" alt="Contributors" />
