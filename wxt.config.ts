@@ -3,6 +3,7 @@ import process from "node:process"
 import ViteYaml from "@modyfi/vite-plugin-yaml"
 import { defineConfig } from "wxt"
 import { z } from "zod"
+import { version } from "./package.json"
 import { escapeNoncharactersPlugin } from "./scripts/escape-noncharacters"
 import {
   createExtensionClientEnvSchema,
@@ -39,6 +40,7 @@ export default defineConfig({
     : {},
   manifest: ({ mode, browser }) => ({
     name: "__MSG_extName__",
+    version,
     version_name: "1.1.0",
     description: "__MSG_extDescription__",
     default_locale: "en",
