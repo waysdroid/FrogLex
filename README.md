@@ -39,11 +39,25 @@ Master languages effortlessly and deeply with AI, right in your browser.
 
 </div>
 
+## 中文二开说明
+
+本仓库基于 [Read Frog（陪读蛙）1.61.2](https://github.com/mengxi-ream/read-frog/commit/284a532712ec9cfd139cfe4e783f5932ca3ab661) 二次开发。V0.1 新增独立的个人词库，优先支持 Chrome 和 Edge。
+
+- 在网页选中英文单词或短语，打开内置 AI 词典，即可一键收录或预览编辑。词典结果尚未返回或查询失败时，也可保存选词。
+- 保存单词原形、原始选词和可用释义。可验证的网页原句与来源会随词条保存，预览时可选择省略来源链接。
+- 重复收录会合并到同一词条、累计遇见次数，并保留不同的阅读语境。打开「扩展设置 → 个人词库」即可查看词条和详情。
+- 个人词库通过 IndexedDB 保存在当前浏览器，收录无需登录。上游翻译、AI 词典、自有模型配置和官方 Notebase 继续沿用原有流程。
+
+二开版本的记录和本地构建方式见 [V0.1 更新日志](./CHANGELOG.personal-vocabulary.md)与[构建说明](./PERSONAL_VOCABULARY.md)。[Fork 发布页](https://github.com/waysdroid/read-frog/releases)
+
+当前预发行提供源码。第三方布局引擎 `@read-frog/layout-engine` 的许可证要求取得权利方书面许可后，才能随二开版本再分发含该依赖的安装包。下文的浏览器商店链接指向上游官方版本。
+
 <details>
 <summary><kbd>Table of contents</kbd></summary>
 
 #### TOC
 
+- [中文二开说明](#中文二开说明)
 - [📺 Demo](#-demo)
 - [👋🏻 Getting Started \& Join Our Community](#-getting-started--join-our-community)
   - [Download](#download)

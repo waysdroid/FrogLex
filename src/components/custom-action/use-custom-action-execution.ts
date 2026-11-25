@@ -340,6 +340,10 @@ export function useCustomActionExecution({
 }) {
   const [isRunning, setIsRunning] = useState(false)
   const [result, setResult] = useState<Record<string, unknown> | null>(null)
+  const [completed, setCompleted] = useState<{
+    requestKey: string
+    result: Record<string, unknown>
+  } | null>(null)
   const [error, setError] = useState<SelectionToolbarInlineError | null>(null)
   const [thinking, setThinking] = useState<ThinkingSnapshot | null>(null)
   const lastRunKeyRef = useRef<string | null>(null)
@@ -365,6 +369,7 @@ export function useCustomActionExecution({
     setAppliedResetKey(resetKey)
     setIsRunning(false)
     setResult(null)
+    setCompleted(null)
     setError(null)
     setThinking(null)
   }
@@ -400,6 +405,7 @@ export function useCustomActionExecution({
     const run = async () => {
       setIsRunning(true)
       setResult(null)
+      setCompleted(null)
       setError(null)
       setThinking({
         status: "thinking",
@@ -430,7 +436,12 @@ export function useCustomActionExecution({
           return
         }
 
-        setResult(withSelectionOutputValues(finalResult.output, request.selectionValues))
+        const completedOutput = withSelectionOutputValues(
+          finalResult.output,
+          request.selectionValues,
+        )
+        setResult(completedOutput)
+        setCompleted(completedOutput ? { requestKey: request.key, result: completedOutput } : null)
         setThinking(finalResult.thinking)
         void trackFeatureUsed({
           ...analyticsContext,
@@ -478,6 +489,10 @@ export function useCustomActionExecution({
   }, [open])
 
   return {
+    completedResult:
+      executionRequestKey && completed?.requestKey === executionRequestKey
+        ? completed.result
+        : null,
     error,
     isRunning,
     result,

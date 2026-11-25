@@ -1,5 +1,6 @@
 import type { NoteOriginInput } from "@read-frog/definitions"
 import type { SurfaceByFeature } from "@/types/analytics"
+import type { VocabularySource } from "@/utils/personal-vocabulary/schema"
 import { atom } from "jotai"
 
 export interface CustomActionRequest {
@@ -15,6 +16,10 @@ export interface CustomActionRequest {
    * read when the card opens. Null when the note gets no origin.
    */
   noteOrigin: NoteOriginInput | null
+  vocabularySelection?: {
+    operationId: string
+    source: VocabularySource
+  }
   sessionKey: number
   rerunNonce: number
 }

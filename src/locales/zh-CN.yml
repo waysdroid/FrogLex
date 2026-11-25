@@ -90,6 +90,40 @@ errorRecovery:
     description: 这会用默认设置覆盖当前设置。
     confirm: 重置
     cancel: 取消
+personalVocabulary:
+  title: "个人词库"
+  description: "查看保存在此浏览器里的单词和短语。"
+  defaultCollection: "默认词库"
+  save: "收录到个人词库"
+  saveSelection: "仅收录选词"
+  saving: "正在收录…"
+  recordEncounter: "记录本次遇见"
+  saved: "已收录到个人词库"
+  preview: "预览与编辑"
+  confirm: "确认收录"
+  viewEntry: "查看词条"
+  term: "单词原形"
+  definition: "释义"
+  selectedTerm: "原始选词：$1"
+  includeSource: "保存来源网页"
+  encounters: "遇见次数：$1"
+  entryCount: "词条数：$1"
+  empty: "在网页选中英文单词或短语，打开词典后即可收录。"
+  loading: "正在加载个人词库…"
+  missingEntry: "找不到这个词条。"
+  retry: "重试"
+  back: "返回词库"
+  pagination: "词库分页"
+  previous: "上一页"
+  next: "下一页"
+  updated: "更新于 $1"
+  unconfirmedTerm: "原形待确认"
+  contexts: "阅读语境"
+  errors:
+    invalid: "无法收录这个选区或词形。"
+    storage: "无法访问本地词库，请重试。"
+    quota: "浏览器剩余存储空间不足，无法收录。"
+    navigation: "无法打开个人词库。"
 options:
   autosave:
     invalid: 请修正标出的字段后再离开。

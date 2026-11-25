@@ -59,6 +59,8 @@ async function mountSelectionUI(ctx: ContentScriptContext) {
 
   const ui = await createShadowRootUi(ctx, {
     name: `${kebabCase(APP_NAME)}-selection`,
+    // Keep the local vocabulary's saved status and edit controls out of the page's DOM.
+    mode: "closed",
     position: "overlay",
     anchor: "body",
     css: SELECTION_UI_CSS,

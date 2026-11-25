@@ -15,6 +15,7 @@ import { classifyResolvedProvider } from "@/utils/analytics-provider"
 import { configFieldsAtomMap, writeConfigAtom } from "@/utils/atoms/config"
 import { getSourceDocumentTitle } from "@/utils/content/document-title"
 import { findSelectionToolbarAction, patchSelectionToolbarAction } from "@/utils/custom-actions"
+import { createVocabularyDraft } from "@/utils/personal-vocabulary/dictionary-draft"
 import {
   getSelectableProvidersForCapability,
   resolveProviderRefForCapability,
@@ -23,6 +24,7 @@ import { customActionRequestAtom } from "./atoms"
 import { CustomActionContent } from "./custom-action-content"
 import { CustomActionToolButton } from "./custom-action-tool-button"
 import { SaveToNotebaseButton } from "./save-to-notebase-button"
+import { SaveToPersonalVocabulary } from "./save-to-personal-vocabulary"
 import {
   buildCustomActionExecutionPlan,
   useCustomActionExecution,
@@ -110,6 +112,21 @@ export function CustomActionPanel({
     rerunNonce: request?.rerunNonce ?? 0,
   })
 
+  const vocabularyDraft = useMemo(
+    () =>
+      action && request?.vocabularySelection
+        ? createVocabularyDraft({
+            action,
+            originalTerm: request.selectionText,
+            passage: request.contextText,
+            result: execution.completedResult,
+            targetLanguage: language.targetCode,
+            source: request.vocabularySelection.source,
+          })
+        : null,
+    [action, execution.completedResult, language.targetCode, request],
+  )
+
   useEffect(() => {
     if (!request || !precheckError) {
       return
@@ -186,6 +203,15 @@ export function CustomActionPanel({
         />
         <SelectionToolbarErrorAlert error={error} />
       </SelectionPopover.Body>
+      {request.vocabularySelection && vocabularyDraft && (
+        <SaveToPersonalVocabulary
+          key={request.vocabularySelection.operationId}
+          operationId={request.vocabularySelection.operationId}
+          draft={vocabularyDraft}
+          targetLanguage={language.targetCode}
+          waitingForDictionary={isRunning}
+        />
+      )}
       <ReviewDueTab source="extension_custom_ai_action" />
       <CustomActionFooterContent
         paragraphsText={request.contextText}

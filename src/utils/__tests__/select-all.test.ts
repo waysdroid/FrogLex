@@ -5,7 +5,7 @@ import { protectSelectAllShadowRoot } from "../select-all"
 // Each call adds a window listener that outlives its test, so every test mounts
 // new hosts. The selection toolbar and the floating button each protect their
 // own host, from separate content scripts, so most tests protect two.
-function createHost(tagName: string) {
+function createHost(tagName: string, mode: ShadowRootMode = "open") {
   const shadowHost = document.createElement(tagName)
   const wrapper = document.createElement("div")
   const label = document.createElement("p")
@@ -13,7 +13,7 @@ function createHost(tagName: string) {
   const button = document.createElement("button")
   const input = document.createElement("input")
   wrapper.append(label, button, input)
-  shadowHost.attachShadow({ mode: "open" }).append(wrapper)
+  shadowHost.attachShadow({ mode }).append(wrapper)
   document.body.append(shadowHost)
   return { shadowHost, wrapper, button, input }
 }
@@ -107,6 +107,18 @@ describe("protectSelectAllShadowRoot", () => {
   })
 
   // Opening the translation card puts the focus on one of its buttons.
+  it("leaves native select all to a vocabulary editor input in the closed overlay", () => {
+    const floatingButton = createHost("read-frog")
+    const toolbar = createHost("read-frog-selection", "closed")
+    protect(floatingButton)
+    protect(toolbar)
+    toolbar.input.focus()
+    expect(toolbar.shadowHost.shadowRoot).toBeNull()
+    expect(document.activeElement).toBe(toolbar.shadowHost)
+
+    expect(pressSelectAll().defaultPrevented).toBe(false)
+  })
+
   it("selects the page without any Read Frog UI while a button in it has the focus", () => {
     const toolbar = createHost("read-frog-selection")
     const floatingButton = createHost("read-frog")

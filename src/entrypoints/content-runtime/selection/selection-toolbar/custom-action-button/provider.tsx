@@ -15,9 +15,12 @@ import { ANALYTICS_FEATURE, ANALYTICS_SURFACE } from "@/types/analytics"
 import { createFeatureUsageContext, trackFeatureUsed } from "@/utils/analytics"
 import { classifyResolvedProvider, UNKNOWN_FEATURE_PROVIDER } from "@/utils/analytics-provider"
 import { configAtom, configFieldsAtomMap } from "@/utils/atoms/config"
+import { BUILT_IN_DICTIONARY_ACTION_ID } from "@/utils/constants/custom-action"
+import { getRandomUUID } from "@/utils/crypto-polyfill"
 import { findSelectionToolbarAction } from "@/utils/custom-actions"
 import { onMessage } from "@/utils/message"
 import { getWebPageNoteOrigin } from "@/utils/note-origin"
+import { isVocabularyTerm, vocabularySourceSchema } from "@/utils/personal-vocabulary/schema"
 import { resolveProviderRefForCapability } from "@/utils/providers/provider-registry"
 import { ShadowWrapperContext } from "@/utils/react-shadow-host/create-shadow-host"
 import { getSelectionToolbarItems } from "@/utils/selection-toolbar-items"
@@ -45,6 +48,31 @@ interface SelectionCustomActionPendingOpenRequest {
 
 interface SelectionCustomActionContextValue {
   openToolbarCustomAction: (actionId: string, triggerElement: HTMLElement | null) => void
+}
+
+function getVocabularySelection(session: SelectionSession | null, actionId?: string) {
+  if (actionId !== BUILT_IN_DICTIONARY_ACTION_ID || session?.noteOrigin?.kind !== "webpage") {
+    return undefined
+  }
+  const { text, textControl, anchor, ranges } = session.selectionSnapshot
+  if (textControl || anchor || !ranges.length || !isVocabularyTerm(text)) return undefined
+
+  // A DOM selection inside a contenteditable can hold text the user is typing.
+  if (
+    ranges.some(({ startContainer, endContainer }) =>
+      [startContainer, endContainer].some((node) => {
+        const element = node instanceof HTMLElement ? node : node.parentElement
+        return element?.isContentEditable
+      }),
+    )
+  ) {
+    return undefined
+  }
+  const parsed = vocabularySourceSchema.safeParse({
+    url: session.noteOrigin.url,
+    title: session.noteOrigin.title?.slice(0, 500),
+  })
+  return parsed.success ? { operationId: getRandomUUID(), source: parsed.data } : undefined
 }
 
 const SelectionCustomActionContext = createContext<SelectionCustomActionContextValue | null>(null)
@@ -100,6 +128,8 @@ export function SelectionCustomActionProvider({ children }: { children: ReactNod
         sessionKeyRef.current += 1
       }
 
+      const vocabularySelection = getVocabularySelection(session, pendingRequest?.actionId)
+
       setCustomActionRequest((previous) =>
         pendingRequest
           ? {
@@ -109,6 +139,7 @@ export function SelectionCustomActionProvider({ children }: { children: ReactNod
               contextText: cleanSelection ? session?.contextSnapshot.text || cleanSelection : "",
               surface: pendingRequest.surface,
               noteOrigin: session?.noteOrigin ?? null,
+              vocabularySelection,
               sessionKey: sessionKeyRef.current,
               // A reuse forces a rerun even when the retriggered request
               // resolves to an identical execution key.

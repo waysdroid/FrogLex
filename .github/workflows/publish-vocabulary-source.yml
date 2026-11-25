@@ -1,0 +1,22 @@
+name: Publish personal vocabulary source
+
+on:
+  push:
+    tags:
+      - v0.1.0
+
+jobs:
+  publish:
+    if: github.repository == 'waysdroid/read-frog'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Publish the source prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v0.1.0 --verify-tag --prerelease \
+            --title "个人词库 V0.1.0 源码预发行" \
+            --notes-file CHANGELOG.personal-vocabulary.md

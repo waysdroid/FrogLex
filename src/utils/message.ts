@@ -30,11 +30,23 @@ import type { MatchedTerm } from "@/utils/glossary/types"
 import type { HostedAiStatus } from "@/utils/hosted-ai/types"
 import type { LogRecord } from "@/utils/logging/logger"
 import type { ForwardingLogContext } from "@/utils/logging/stored-record"
+import type { VocabularyReceipt } from "@/utils/personal-vocabulary/repository"
+import type { VocabularyLookup, VocabularySaveInput } from "@/utils/personal-vocabulary/schema"
 import type { PromptableProviderRef, SerializableProviderRef } from "@/utils/providers/provider-ref"
 import type { EdgeTTSVoice } from "@/utils/server/edge-tts/types"
 import { defineExtensionMessaging } from "@webext-core/messaging"
 
+export type VocabularyResponse<T> =
+  | { ok: true; value: T }
+  | { ok: false; reason: "invalid" | "storage" | "quota" }
+
 interface ProtocolMap {
+  findPersonalVocabularyEntry: (
+    data: VocabularyLookup,
+  ) => VocabularyResponse<{ entryId: string } | null>
+  savePersonalVocabularyEncounter: (
+    data: VocabularySaveInput,
+  ) => VocabularyResponse<VocabularyReceipt>
   // navigation
   openPage: (data: { url: string; active?: boolean }) => void
   openOptionsPage: (data?: { route?: `/${string}` }) => void

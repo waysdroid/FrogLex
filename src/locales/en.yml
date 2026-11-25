@@ -90,6 +90,40 @@ errorRecovery:
     description: This will replace your current settings with the default values.
     confirm: Reset
     cancel: Cancel
+personalVocabulary:
+  title: "Personal vocabulary"
+  description: "Words and phrases saved in this browser."
+  defaultCollection: "Default collection"
+  save: "Save to personal vocabulary"
+  saveSelection: "Save selected text"
+  saving: "Saving…"
+  recordEncounter: "Record another encounter"
+  saved: "Saved to personal vocabulary"
+  preview: "Preview"
+  confirm: "Confirm save"
+  viewEntry: "View entry"
+  term: "Base form"
+  definition: "Definition"
+  selectedTerm: "Original selection: $1"
+  includeSource: "Include source page"
+  encounters: "Encounters: $1"
+  entryCount: "Entries: $1"
+  empty: "Select an English word or phrase on a webpage and open Dictionary to save it here."
+  loading: "Loading vocabulary…"
+  missingEntry: "This entry could not be found."
+  retry: "Retry"
+  back: "Back to vocabulary"
+  pagination: "Vocabulary pages"
+  previous: "Previous"
+  next: "Next"
+  updated: "Updated $1"
+  unconfirmedTerm: "Base form pending confirmation"
+  contexts: "Reading contexts"
+  errors:
+    invalid: "This selection or word form could not be saved."
+    storage: "Could not access local vocabulary. Please try again."
+    quota: "There is not enough browser storage for this entry."
+    navigation: "Could not open personal vocabulary."
 options:
   autosave:
     invalid: Please correct the highlighted fields before leaving.

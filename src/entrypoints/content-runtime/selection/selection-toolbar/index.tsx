@@ -213,6 +213,9 @@ function isMouseEventInsideSelectionOverlay(
   overlayContainer: HTMLElement | null,
   overlayShadowRoot: ShadowRoot | null,
 ) {
+  // Outside our closed root, a press in the overlay is retargeted to its host.
+  if (overlayShadowRoot?.host === event.target) return true
+
   const eventPath = event.composedPath()
 
   for (const node of eventPath) {

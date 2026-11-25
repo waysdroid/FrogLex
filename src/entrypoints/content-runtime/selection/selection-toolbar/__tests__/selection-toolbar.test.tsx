@@ -943,7 +943,7 @@ describe("selectionToolbar - isInputOrTextarea logic", () => {
     // Production shape: the toolbar and popover live in the extension's shadow
     // root, and a custom action layout renders in its own shadow root inside it.
     const extensionHost = document.createElement("read-frog-selection")
-    const extensionRoot = extensionHost.attachShadow({ mode: "open" })
+    const extensionRoot = extensionHost.attachShadow({ mode: "closed" })
     const mount = document.createElement("div")
     const layoutHost = document.createElement("div")
     extensionRoot.append(mount, layoutHost)
@@ -980,6 +980,29 @@ describe("selectionToolbar - isInputOrTextarea logic", () => {
     await triggerMouseUpWithSelection(pageElement)
 
     expect(extensionRoot.querySelector(".absolute.z-2147483647")).toHaveClass("opacity-0")
+  })
+
+  it("keeps the selection overlay open when a closed shadow root retargets a press", async () => {
+    const extensionHost = document.createElement("read-frog-selection")
+    const shadow = extensionHost.attachShadow({ mode: "closed" })
+    const mount = document.createElement("div")
+    const input = document.createElement("input")
+    shadow.append(mount, input)
+    document.body.append(extensionHost)
+    render(<SelectionToolbar />, { container: mount })
+
+    await triggerMouseUpWithSelection(document.body)
+    const toolbar = shadow.querySelector(".absolute.z-2147483647")
+    expect(toolbar).toHaveClass("opacity-100")
+
+    await act(async () => {
+      input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, composed: true }))
+      setMockSelectionText("")
+      document.dispatchEvent(new Event("selectionchange"))
+      input.dispatchEvent(new MouseEvent("mouseup", { bubbles: true, composed: true }))
+    })
+
+    expect(toolbar).toHaveClass("opacity-100")
   })
 
   it("should show toolbar when selection contains the click target", async () => {

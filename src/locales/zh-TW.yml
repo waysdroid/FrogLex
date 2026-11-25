@@ -90,6 +90,40 @@ errorRecovery:
     description: 這會用預設設定覆蓋目前設定。
     confirm: 重設
     cancel: 取消
+personalVocabulary:
+  title: "個人詞庫"
+  description: "查看儲存在這個瀏覽器中的單字和片語。"
+  defaultCollection: "預設詞庫"
+  save: "收錄到個人詞庫"
+  saveSelection: "僅收錄選取的文字"
+  saving: "正在收錄…"
+  recordEncounter: "記錄這次遇見"
+  saved: "已收錄到個人詞庫"
+  preview: "預覽與編輯"
+  confirm: "確認收錄"
+  viewEntry: "查看詞條"
+  term: "單字原形"
+  definition: "釋義"
+  selectedTerm: "原始選取：$1"
+  includeSource: "儲存來源網頁"
+  encounters: "遇見次數：$1"
+  entryCount: "詞條數：$1"
+  empty: "在網頁上選取英文單字或片語，開啟字典後即可收錄。"
+  loading: "正在載入個人詞庫…"
+  missingEntry: "找不到這個詞條。"
+  retry: "重試"
+  back: "返回詞庫"
+  pagination: "詞庫分頁"
+  previous: "上一頁"
+  next: "下一頁"
+  updated: "更新於 $1"
+  unconfirmedTerm: "原形待確認"
+  contexts: "閱讀語境"
+  errors:
+    invalid: "無法收錄這個選取區域或詞形。"
+    storage: "無法存取本機詞庫，請重試。"
+    quota: "瀏覽器剩餘儲存空間不足，無法收錄。"
+    navigation: "無法開啟個人詞庫。"
 options:
   autosave:
     invalid: 請修正標示的欄位後再離開。

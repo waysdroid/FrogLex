@@ -5,8 +5,12 @@ import { isBodyRendered } from "@/utils/shadow-root"
 // 这样不管哪个监听器先跑，结果都一样。
 export const PROTECTED_HOST_ATTRIBUTE = "data-read-frog-select-all-protected"
 
+const protectedRoots = new WeakMap<Element, ShadowRoot>()
+
 export function protectSelectAllShadowRoot(shadowHost: HTMLElement, wrapper: HTMLElement) {
   shadowHost.setAttribute(PROTECTED_HOST_ATTRIBUTE, "")
+  const root = wrapper.getRootNode()
+  if (root instanceof ShadowRoot) protectedRoots.set(shadowHost, root)
 
   window.addEventListener(
     "keydown",
@@ -72,7 +76,11 @@ function getProtectedHosts() {
 /* 焦点在 shadow root 里时，document.activeElement 只是 host，要逐层往里找 */
 function getDeepActiveElement(host: Element) {
   let active = host
-  while (active.shadowRoot?.activeElement) active = active.shadowRoot.activeElement
+  while (true) {
+    const root = active.shadowRoot ?? protectedRoots.get(active)
+    if (!root?.activeElement) break
+    active = root.activeElement
+  }
   return active
 }
 

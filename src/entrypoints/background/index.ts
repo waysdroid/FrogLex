@@ -37,6 +37,7 @@ import { initMockData } from "./mock-data"
 import { newUserGuide } from "./new-user-guide"
 import { setupNotebasePendingSaveProcessor } from "./notebase-pending-save"
 import { setupPageTranslationHandlers } from "./page-translation"
+import { setupPersonalVocabularyMessageHandlers } from "./personal-vocabulary"
 import { proxyFetch } from "./proxy-fetch"
 import { setupSelectionToolbarHiddenUntilReload } from "./selection-toolbar-hidden"
 import { setupSidePanelMessageHandler } from "./side-panel"
@@ -55,6 +56,7 @@ export default defineBackground({
     // First, so nothing below logs before the local log is there to keep it.
     setupBackgroundLogging()
     setupDiagnosticsHandlers()
+    setupPersonalVocabularyMessageHandlers()
     log.debug("Hello background!", { id: browser.runtime.id })
 
     browser.runtime.onInstalled.addListener(async (details) => {
