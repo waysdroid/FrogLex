@@ -47,7 +47,7 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm type-check
           pnpm test --pool=threads --maxWorkers=2 \
-            src/utils/personal-vocabulary src/utils/config/__tests__/init.test.ts \
+            src/utils/personal-vocabulary src/utils/webdav-sync src/utils/config/__tests__/init.test.ts \
             src/utils/config/__tests__/migration-scripts src/components/custom-action \
             src/components/ui/selection-popover src/entrypoints/options/app-sidebar
           pnpm zip

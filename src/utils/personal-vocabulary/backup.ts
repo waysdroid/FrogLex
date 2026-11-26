@@ -1,5 +1,6 @@
 import type { VocabularyConflictStrategy, VocabularyEntry } from "./records"
 import type { VocabularyDatabase } from "./repository"
+import { dequal } from "dequal"
 import { sha256 } from "js-sha256"
 import { z } from "zod"
 import { getRandomUUID } from "@/utils/crypto-polyfill"
@@ -129,6 +130,83 @@ export async function exportVocabularyBackup(db: VocabularyDatabase) {
       entryTags: await db.entryTags.toArray(),
     }),
   )
+}
+
+/** Apply a validated WebDAV snapshot inside one transaction. The guarded read
+ * also sees changes from other extension contexts, including the dictionary. */
+export async function applyVocabularySnapshot(
+  db: VocabularyDatabase,
+  expected: VocabularyBackup,
+  next: VocabularyBackup,
+) {
+  return db.transaction("rw", db.tables, async () => {
+    const current = await exportVocabularyBackup(db)
+    if (
+      JSON.stringify({ ...current, exportedAt: 0 }) !==
+      JSON.stringify({ ...expected, exportedAt: 0 })
+    ) {
+      return false
+    }
+    async function patch<T, K>(
+      table: {
+        bulkDelete: (keys: K[]) => Promise<void>
+        bulkPut: (rows: NoInfer<T>[]) => Promise<unknown>
+      },
+      previous: T[],
+      following: T[],
+      getKey: (row: T) => NoInfer<K>,
+    ) {
+      const key = (row: T) => JSON.stringify(getKey(row))
+      const old = new Map(previous.map((row) => [key(row), row]))
+      const previousKeys = new Set(old.keys())
+      const changed = following.filter((row) => {
+        const prior = old.get(key(row))
+        old.delete(key(row))
+        return !dequal(prior, row)
+      })
+      const changedExisting = changed.filter((row) => previousKeys.has(key(row)))
+      if (old.size || changedExisting.length) {
+        await table.bulkDelete([...old.values(), ...changedExisting].map(getKey))
+      }
+      if (changed.length) await table.bulkPut(changed)
+    }
+    const entries = (rows: VocabularyBackup["entries"]) =>
+      rows.map((row) => ({ ...row, normalizedTerm: vocabularyTermKey(row.term) }))
+    const groups = (rows: VocabularyBackup["collections"]) =>
+      rows.map((row) => ({ ...row, nameKey: comparableVocabularyText(row.name).toLowerCase() }))
+    const contexts = (rows: VocabularyBackup["contexts"]) =>
+      rows.map((row) => ({
+        ...row,
+        fingerprint: sha256(
+          JSON.stringify([row.source?.url ?? "", comparableVocabularyText(row.sentence ?? "")]),
+        ),
+      }))
+    await patch(db.entries, entries(current.entries), entries(next.entries), ({ id }) => id)
+    await patch(db.contexts, contexts(current.contexts), contexts(next.contexts), ({ id }) => id)
+    await patch(db.encounters, current.encounters, next.encounters, ({ id }) => id)
+    await patch(
+      db.collections,
+      groups(current.collections),
+      groups(next.collections),
+      ({ id }) => id,
+    )
+    await patch(db.tags, groups(current.tags), groups(next.tags), ({ id }) => id)
+    await patch(db.forms, current.forms, next.forms, (row): [string, string] => [
+      row.originalKey,
+      row.entryId,
+    ])
+    await patch(
+      db.entryCollections,
+      current.entryCollections,
+      next.entryCollections,
+      (row): [string, string] => [row.entryId, row.collectionId],
+    )
+    await patch(db.entryTags, current.entryTags, next.entryTags, (row): [string, string] => [
+      row.entryId,
+      row.tagId,
+    ])
+    return true
+  })
 }
 
 function availableId(id: string, used: Set<string>) {

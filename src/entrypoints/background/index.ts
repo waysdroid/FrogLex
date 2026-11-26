@@ -37,6 +37,7 @@ import { setupSubtitlesTranslationHandlers } from "./subtitles-translation"
 import { translationMessage } from "./translation-signal"
 import { setupTTSPlaybackMessageHandlers } from "./tts-playback"
 import { setupVideoSummaryHandlers } from "./video-summary"
+import { setupWebDavSync } from "./webdav-sync"
 
 const log = createLogger("background")
 
@@ -117,6 +118,8 @@ export default defineBackground({
       currentUiLanguage = config?.uiLanguage ?? "auto"
       await initI18n(currentUiLanguage)
     })()
+
+    setupWebDavSync(() => backgroundReady)
 
     // Register context menu listeners synchronously
     // This ensures listeners are registered before Chrome completes initialization

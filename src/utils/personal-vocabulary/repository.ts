@@ -1,4 +1,5 @@
 import type { EntityTable } from "dexie"
+import type { VocabularyBackup } from "./backup"
 import type {
   VocabularyCollectionLink,
   VocabularyConflictStrategy,
@@ -22,7 +23,7 @@ import type {
 import { Dexie } from "dexie"
 import { sha256 } from "js-sha256"
 import { getRandomUUID } from "@/utils/crypto-polyfill"
-import { exportVocabularyBackup, restoreVocabularyBackup } from "./backup"
+import { applyVocabularySnapshot, exportVocabularyBackup, restoreVocabularyBackup } from "./backup"
 import { DEFAULT_COLLECTION_ID } from "./records"
 import {
   comparableVocabularyText,
@@ -600,6 +601,10 @@ export class PersonalVocabularyRepository {
 
   createBackup() {
     return exportVocabularyBackup(this.db)
+  }
+
+  applySyncSnapshot(expected: VocabularyBackup, next: VocabularyBackup) {
+    return applyVocabularySnapshot(this.db, expected, next)
   }
 
   restoreBackup(input: unknown, strategy: VocabularyConflictStrategy) {

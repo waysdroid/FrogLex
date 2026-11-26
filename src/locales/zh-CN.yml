@@ -721,6 +721,53 @@ options:
           confirm: 确认
           cancel: 取消
           description: 该操作将清空您的所有自定义配置，并将其重置为默认值。术语库会保留 — 如需删除请到术语库页面操作。请确认是否清除。
+    webdav:
+      title: "WebDAV 同步"
+      description: "将扩展配置和个人词库同步到你自己的 WebDAV 目录。请先创建目录。模型 API 密钥、自定义请求头和高级选项保存在当前设备。"
+      url: "WebDAV 目录地址"
+      username: "用户名"
+      password: "密码或应用密码"
+      data: "同步内容"
+      automatic: "自动增量同步"
+      interval: "自动同步间隔"
+      minutes: "每 $1 分钟"
+      test: "测试连接"
+      save: "保存同步设置"
+      manual: "手动同步"
+      modes: "增量同步合并两端的变更。覆盖同步会用来源数据替换目标端的所选内容。"
+      unsaved: "请先保存设置，再执行同步。"
+      working: "正在处理…"
+      saved: "同步设置已保存。"
+      connected: "可以访问 WebDAV 目录。"
+      finished: "已同步"
+      unchanged: "已是最新"
+      lastRun: "上次同步 $1 · $2"
+      result: "$1 · $2"
+      cancel: "取消"
+      confirmAction: "确认覆盖"
+      kind:
+        config: "扩展配置"
+        vocabulary: "个人词库"
+      mode:
+        incremental: "立即增量同步"
+        push: "用本地覆盖云端"
+        pull: "用云端覆盖本地"
+      confirm:
+        push: "将云端的「$1」替换为当前设备的内容。仅存在于云端的数据会从当前云端版本中移除。"
+        pull: "将本地的「$1」替换为云端内容。仅存在于本地的数据将被删除。如需保留，请先导出本地备份。"
+      error:
+        settings: "请检查目录地址、用户名及同步内容。地址须使用 HTTPS 或回环 HTTP。"
+        connection: "无法访问 WebDAV，请检查地址、证书和网络连接。"
+        auth: "WebDAV 拒绝了访问，请检查用户名、密码和目录权限。"
+        folder: "WebDAV 目录不存在，请先创建目录并检查地址。"
+        server: "WebDAV 服务器未能完成请求。"
+        validator: "服务器未返回安全更新所需的强 ETag。"
+        changed: "同步期间本地或云端数据发生了变化，请再次执行增量同步。"
+        missing: "未找到云端副本，请检查目录或上传新副本。"
+        invalid: "云端同步数据已损坏，或版本暂不受支持。"
+        conflict: "两端修改了同一内容。请检查并备份两端数据，再选择覆盖方向。"
+        local: "无法读取或保存本地同步数据。"
+        busy: "有一个 WebDAV 操作正在进行，请稍后再试。"
     versionUpdates:
       title: "版本与更新"
       current: "当前版本 $1"

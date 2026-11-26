@@ -27,6 +27,13 @@ import type { VocabularyReceipt } from "@/utils/personal-vocabulary/repository"
 import type { VocabularyLookup, VocabularySaveInput } from "@/utils/personal-vocabulary/schema"
 import type { PromptableProviderRef, SerializableProviderRef } from "@/utils/providers/provider-ref"
 import type { EdgeTTSVoice } from "@/utils/server/edge-tts/types"
+import type {
+  SyncMode,
+  SyncOutcome,
+  SyncSettings,
+  SyncStatus,
+  SyncTarget,
+} from "@/utils/webdav-sync/types"
 import { defineExtensionMessaging } from "@webext-core/messaging"
 
 export type VocabularyResponse<T> =
@@ -34,6 +41,12 @@ export type VocabularyResponse<T> =
   | { ok: false; reason: "invalid" | "storage" | "quota" }
 
 interface ProtocolMap {
+  testWebDavConnection: (data: SyncSettings) => Promise<SyncOutcome>
+  saveWebDavSettings: (data: SyncSettings) => Promise<SyncOutcome>
+  runWebDavSync: (data: {
+    mode: SyncMode
+    target: SyncTarget
+  }) => Promise<{ ok: true; status: SyncStatus | null } | Extract<SyncOutcome, { ok: false }>>
   findPersonalVocabularyEntry: (
     data: VocabularyLookup,
   ) => VocabularyResponse<{ entryId: string } | null>

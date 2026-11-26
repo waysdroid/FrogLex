@@ -4,8 +4,9 @@ import type {
   VocabularySort,
 } from "@/utils/personal-vocabulary/records"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router"
+import { storage } from "#imports"
 import { Badge } from "@/components/ui/base-ui/badge"
 import { Button } from "@/components/ui/base-ui/button"
 import { Input } from "@/components/ui/base-ui/input"
@@ -16,6 +17,7 @@ import {
   DEFAULT_VOCABULARY_FILTERS,
 } from "@/utils/personal-vocabulary/records"
 import { vocabularyDifficultySchema } from "@/utils/personal-vocabulary/schema"
+import { statusKey, type SyncStatus } from "@/utils/webdav-sync/types"
 import { PageLayout } from "../../components/page-layout"
 import {
   getVocabularyTextFields,
@@ -586,6 +588,17 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
 }
 
 export function PersonalVocabularyPage() {
+  const queryClient = useQueryClient()
+  useEffect(
+    () =>
+      storage.watch<SyncStatus>(statusKey, (status) => {
+        const result = status?.results.vocabulary
+        if (result?.ok && result.changed) {
+          void queryClient.invalidateQueries({ queryKey: vocabularyQueryKey })
+        }
+      }),
+    [queryClient],
+  )
   const [params] = useSearchParams()
   const navigate = useNavigate()
   const entryId = params.get("entry")
@@ -594,6 +607,14 @@ export function PersonalVocabularyPage() {
       title={i18n.t("personalVocabulary.title")}
       description={i18n.t("personalVocabulary.description")}
     >
+      {!entryId && !params.has("new") && (
+        <Link
+          to="/preference?section=webdav-sync"
+          className="mb-4 inline-flex text-sm text-link hover:underline"
+        >
+          {i18n.t("options.preference.webdav.title")}
+        </Link>
+      )}
       {entryId ? (
         <VocabularyDetail key={entryId} entryId={entryId} />
       ) : params.has("new") ? (

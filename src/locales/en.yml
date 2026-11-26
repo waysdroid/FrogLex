@@ -721,6 +721,53 @@ options:
           confirm: Confirm
           cancel: Cancel
           description: This operation will clear all your custom configurations and reset them to default values. Your glossaries are kept — delete those from the glossary page. Please confirm.
+    webdav:
+      title: "WebDAV sync"
+      description: "Sync extension settings and your personal vocabulary to a WebDAV folder you control. Create the folder before connecting. Provider API keys, headers, and advanced options stay on this device."
+      url: "WebDAV folder URL"
+      username: "Username"
+      password: "Password or app password"
+      data: "Data to sync"
+      automatic: "Automatically sync changes"
+      interval: "Automatic sync interval"
+      minutes: "Every $1 minutes"
+      test: "Test connection"
+      save: "Save sync settings"
+      manual: "Manual sync"
+      modes: "Incremental sync merges changes in both directions. Overwrite replaces the selected data at the destination."
+      unsaved: "Save the settings before running sync."
+      working: "Working…"
+      saved: "Sync settings saved."
+      connected: "The WebDAV folder is reachable."
+      finished: "Synced"
+      unchanged: "Up to date"
+      lastRun: "Last run $1 · $2"
+      result: "$1 · $2"
+      cancel: "Cancel"
+      confirmAction: "Confirm overwrite"
+      kind:
+        config: "Extension settings"
+        vocabulary: "Personal vocabulary"
+      mode:
+        incremental: "Incremental sync"
+        push: "Overwrite cloud from this device"
+        pull: "Overwrite this device from cloud"
+      confirm:
+        push: "Use this device’s $1 to replace the corresponding cloud data. Records that exist only in the cloud will be removed from the current cloud version."
+        pull: "Replace this device’s $1 with the corresponding cloud data. Records that exist only on this device will be removed. Export a local backup first if you need a copy."
+      error:
+        settings: "Check the WebDAV URL, username and selected data. Use HTTPS or a loopback HTTP address."
+        connection: "Could not reach WebDAV. Check the address, certificate and connection."
+        auth: "WebDAV denied access. Check the username, password and folder permissions."
+        folder: "The WebDAV folder does not exist. Create it first and check the URL."
+        server: "The WebDAV server could not complete the request."
+        validator: "The server did not provide a strong ETag required for safe updates."
+        changed: "Local or cloud data changed during sync. Run incremental sync again."
+        missing: "No cloud copy was found. Check the folder or upload a new copy."
+        invalid: "Cloud data is damaged or uses an unsupported version."
+        conflict: "The same data was changed on both sides. Review and back up both copies before choosing an overwrite direction."
+        local: "Could not read or save local sync data."
+        busy: "A WebDAV operation is already running."
     versionUpdates:
       title: "Version and updates"
       current: "Installed version $1"

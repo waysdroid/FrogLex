@@ -5,6 +5,7 @@ import { ConfigManagementSection } from "./config"
 import { ExtensionActivationSection } from "./extension-activation"
 import { TranslationLanguageSection } from "./translation-language"
 import { VersionUpdatesSection } from "./version-updates"
+import { WebDavSyncSection } from "./webdav-sync"
 
 export function PreferencePage() {
   return (
@@ -17,6 +18,7 @@ export function PreferencePage() {
       <TranslationLanguageSection />
       <ExtensionActivationSection />
       <ConfigManagementSection />
+      <WebDavSyncSection />
       <VersionUpdatesSection />
     </PageLayout>
   )

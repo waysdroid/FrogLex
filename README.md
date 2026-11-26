@@ -4,7 +4,7 @@
 
 ## 安装
 
-[V1.1.4 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.4) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.4/read-frog-personal-vocabulary-v1.1.4-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.4/read-frog-personal-vocabulary-v1.1.4-edge.zip)
+[V1.1.5 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.5) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.5/read-frog-personal-vocabulary-v1.1.5-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.5/read-frog-personal-vocabulary-v1.1.5-edge.zip)
 
 1. 下载并解压对应的 ZIP。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
@@ -18,7 +18,8 @@
 - 在扩展设置的「功能 → 个人词库」管理词库、标签、收藏和笔记，支持搜索筛选、批量移动和删除。
 - 词条释义按语言归并。英文释义、补充例句、常用搭配、近义词、反义词和派生词支持 AI 预览追加、撤销和自定义提示词。
 - 支持 TXT、CSV、JSON 和粘贴文本导入，以及 TXT、CSV、JSON 导出和完整备份恢复。
-- 个人词库无需登录，数据保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译可使用免登录服务，AI 查询使用自己配置的 API 和模型。
+- 可在「偏好设置 → WebDAV 同步」手动覆盖或定时增量同步扩展配置和完整词库。
+- 个人词库无需登录，默认保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译可使用免登录服务，AI 查询使用自己配置的 API 和模型。
 
 [使用与备份说明](./PERSONAL_VOCABULARY.md) · [更新日志](./CHANGELOG.personal-vocabulary.md)
 

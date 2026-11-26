@@ -109,6 +109,13 @@ export const SEARCH_ITEMS: SearchItem[] = [
     pageKey: "options.preference.title",
   },
   {
+    sectionId: "webdav-sync",
+    route: "/preference",
+    titleKey: "options.preference.webdav.title",
+    descriptionKey: "options.preference.webdav.description",
+    pageKey: "options.preference.title",
+  },
+  {
     sectionId: "version-updates",
     route: "/preference",
     titleKey: "options.preference.versionUpdates.title",
