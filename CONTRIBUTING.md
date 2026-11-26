@@ -1,4 +1,4 @@
-# Contributing to ReadFrog
+# Contributing to FrogLex
 
 Thank you for your interest in contributing!
 
