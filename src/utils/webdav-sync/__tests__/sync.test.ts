@@ -5,7 +5,7 @@ import { createServer } from "node:http"
 import { Dexie } from "dexie"
 import { IDBKeyRange, indexedDB } from "fake-indexeddb"
 import { sha256 } from "js-sha256"
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it } from "vitest"
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 import { DEFAULT_CONFIG } from "@/utils/constants/config"
 import { PersonalVocabularyRepository } from "@/utils/personal-vocabulary/repository"
 import { WebDavClient } from "../client"
@@ -151,6 +151,24 @@ function save(repo: PersonalVocabularyRepository, term: string, sentence?: strin
 }
 
 describe("WebDAV synchronization over HTTP", () => {
+  it("calls the native fetch with the global receiver required by Chromium workers", async () => {
+    const originalFetch = globalThis.fetch
+    const strictFetch = vi.spyOn(globalThis, "fetch").mockImplementation(function (
+      this: unknown,
+      input,
+      init,
+    ) {
+      if (this !== globalThis) throw new TypeError("Illegal invocation")
+      return originalFetch(input, init)
+    })
+    try {
+      await dav().test()
+      expect(requests).toEqual([["PROPFIND", "/dav/"]])
+    } finally {
+      strictFetch.mockRestore()
+    }
+  })
+
   it("tests a real directory and rejects bad credentials or unsafe URLs", async () => {
     await expect(dav().test()).resolves.toBeUndefined()
     const withoutAuth = new WebDavClient({ ...defaultSettings, url: directory })

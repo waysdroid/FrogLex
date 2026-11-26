@@ -40,8 +40,8 @@ export default defineConfig({
     : {},
   manifest: ({ mode, browser }) => ({
     name: "__MSG_extName__",
-    version: `${version}.6`,
-    version_name: "1.1.6",
+    version: `${version}.7`,
+    version_name: "1.1.7",
     description: "__MSG_extDescription__",
     default_locale: "en",
     // Fixed extension ID for development

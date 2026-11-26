@@ -47,7 +47,8 @@ export class WebDavClient {
 
   constructor(
     settings: SyncSettings,
-    private readonly fetcher = fetch,
+    // Chromium requires the worker global as the receiver of native fetch.
+    private readonly fetcher: typeof fetch = (...args) => globalThis.fetch(...args),
   ) {
     this.directory = davDirectory(settings.url)
     this.nutstore = isNutstoreDirectory(this.directory)
