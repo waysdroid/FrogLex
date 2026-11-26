@@ -143,16 +143,10 @@ options:
         inputTranslation: Dịch đầu vào
         languageDetection: Phát hiện ngôn ngữ
         pdfTranslation: Dịch PDF
-    sponsorCta: Nhận AI nhanh, tiết kiệm chi phí
-    sponsorCtaJalapenoCloud: Nhận ưu đãi giảm 50% GLM 5.3
-    sponsorCtaIfapi: Tặng thêm 10% với mã READFROG
     setApiKeyWarning:
       message: Hãy đặt API Key ở trang $1
     badges:
       featureCount: $1 tính năng
-      sponsor: Tài trợ
-      sponsorJalapenoCloud: Miễn phí $$1
-      sponsorIfapi: Mô hình -90%
     dialog:
       title: Thêm nhà cung cấp mới
       groups:
@@ -240,9 +234,6 @@ options:
         google: Các mô hình AI hàng đầu của Google với khả năng suy luận tiên tiến
         anthropic: Các mô hình Claude nổi tiếng về độ an toàn và khả năng suy luận xuất sắc
         xai: Công ty AI của Elon Musk cung cấp các mô hình Grok với truy cập dữ liệu thời gian thực
-        atlascloud: Nền tảng hợp nhất tương thích OpenAI cho các mô hình mới như DeepSeek, Kimi, Qwen, Doubao và GLM
-        jalapenocloud: AI cấp doanh nghiệp được các đội ngũ hàng đầu sử dụng, nay dành cho bạn!
-        ifapi: GPT, Claude, Gemini và nhiều mô hình khác, chỉ từ 10% giá chính thức
         siliconflow: Nền tảng suy luận hiệu suất cao cho các mô hình Trung Quốc và quốc tế
         tensdaq: Nền tảng MaaS đấu giá AI cách mạng với giá thị trường, loại bỏ giá cố định cao
         openaiCompatible: Kết nối với endpoint tùy chỉnh tương thích với OpenAI Chat Completions API
@@ -266,7 +257,6 @@ options:
         huggingface: API suy luận Hugging Face cung cấp quyền truy cập hàng nghìn mô hình mã nguồn mở
     apiKey:
       showAPIKey: Hiển thị API Key
-      getAPIKey: Lấy API Key
     howToConfigure: Cấu hình như thế nào?
     testConnection:
       button: Kiểm tra kết nối

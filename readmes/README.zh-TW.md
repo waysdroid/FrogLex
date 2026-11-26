@@ -2,7 +2,7 @@
 
 蛙词库是基於 Read Frog 二次開發的 Chrome 和 Edge 擴充功能。
 
-[安裝與使用說明](../README.md) · [Chrome 和 Edge 發佈頁](https://github.com/waysdroid/read-frog/releases)
+[安裝與使用說明](../README.md) · [Chrome 和 Edge 發佈頁](https://github.com/waysdroid/FrogLex/releases)
 
 [上游原始碼](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
 
@@ -239,10 +239,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 每一筆贊助都能幫助我們打造更好的語言學習體驗。感謝你支持我們的使命！
 
 [![Sponsors][sponsor-image]][sponsor-link]
-
-<a href="https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=readme">
-  <img src="../assets/promotion/ifapi.png" alt="IF API: GPT, Claude, Gemini and more from one key. Read Frog users get +10% credit with code READFROG">
-</a>
 
 <div align="right">
 

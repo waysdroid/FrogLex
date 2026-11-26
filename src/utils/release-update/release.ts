@@ -1,7 +1,7 @@
 import { sha256 } from "js-sha256"
 import { z } from "zod"
 
-export const releasesUrl = "https://github.com/waysdroid/read-frog/releases"
+export const releasesUrl = "https://github.com/waysdroid/FrogLex/releases"
 const catalogUrl = `${releasesUrl}/latest/download/read-frog-update.json`
 const maxZipBytes = 64 * 1024 * 1024
 

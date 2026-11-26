@@ -17,7 +17,7 @@ concurrency: vocabulary-installers-${{ inputs.tag || github.ref_name }}
 
 jobs:
   publish:
-    if: github.repository == 'waysdroid/read-frog' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main')
+    if: github.repository_id == '1470196653' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -51,6 +51,8 @@ jobs:
             src/utils/config/__tests__/init.test.ts \
             src/utils/config/__tests__/migration-scripts src/components/custom-action \
             src/components/ui/selection-popover src/entrypoints/options/app-sidebar \
+            src/utils/constants/__tests__/providers.test.ts \
+            src/entrypoints/options/pages/api-providers \
             src/utils/i18n/__tests__/index.test.ts \
             src/entrypoints/background/__tests__/diagnostics.test.ts
           pnpm zip

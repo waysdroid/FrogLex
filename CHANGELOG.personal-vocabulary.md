@@ -1,5 +1,11 @@
 # 蛙词库更新日志
 
+## V2.0.0
+
+- 移除 Jalapeno Cloud、IF API 和 Atlas Cloud 的预设入口、模型列表、专用默认参数和宣传资源。API 提供商页面同时清理了对应的推广徽标和注册链接。
+- 升级时清理这三个预设的旧配置。关联的翻译功能切换到可用的免密钥翻译服务，AI 词典和自定义动作可重新选择提供商。其他提供商、个人词库和 WebDAV 设置继续沿用。
+- 下载、自动更新和 GitHub Actions 发布流程适配新仓库 `waysdroid/FrogLex`。
+
 ## V1.1.10
 
 - 正式采用英文名 **FrogLex**，并在 README 和发布页使用「蛙词库 · FrogLex」。
@@ -81,7 +87,7 @@
 ### 隐私与构建
 
 - 移除 PostHog SDK、远程遥测消息、官方 API 的遥测头、远程调查和卸载调查链接。定价、复习和商店评价链接不再携带来源追踪参数。用于商店评价提示的使用天数只在浏览器本地计算。
-- GitHub Actions 对 Chrome 和 Edge 自动执行类型检查、测试和构建。V1.0.0 发布页提供对应源码和 Chrome、Edge 安装 ZIP，安装包内含上游布局引擎的许可声明。[V1.0.0 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.0.0) · [构建与使用说明](./PERSONAL_VOCABULARY.md)
+- GitHub Actions 对 Chrome 和 Edge 自动执行类型检查、测试和构建。V1.0.0 发布页提供对应源码和 Chrome、Edge 安装 ZIP，安装包内含上游布局引擎的许可声明。[V1.0.0 下载](https://github.com/waysdroid/FrogLex/releases/tag/v1.0.0) · [构建与使用说明](./PERSONAL_VOCABULARY.md)
 
 ## V0.1.0 源码预发行
 
@@ -98,4 +104,4 @@
 
 - Chrome 和 Edge 的 Manifest V3 构建及类型检查通过。全套 Vitest 有 5,823 项通过、10 项跳过。
 - Chromium 测试页验证了预览、保存和重启后的数据持久化。受环境管理策略限制，未完成未打包扩展的浏览器实机冒烟。
-- 本预发行提供对应源码。编译产物包含受专有许可约束的布局引擎，公开发布安装包需先确认再分发授权。可参阅[构建说明](https://github.com/waysdroid/read-frog/blob/v0.1.0/PERSONAL_VOCABULARY.md)。
+- 本预发行提供对应源码。编译产物包含受专有许可约束的布局引擎，公开发布安装包需先确认再分发授权。可参阅[构建说明](https://github.com/waysdroid/FrogLex/blob/v0.1.0/PERSONAL_VOCABULARY.md)。

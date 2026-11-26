@@ -2,7 +2,7 @@
 
 FrogLex là tiện ích mở rộng cho Chrome và Edge dựa trên Read Frog.
 
-[Cài đặt và sử dụng](../README.md) · [Các bản phát hành Chrome và Edge](https://github.com/waysdroid/read-frog/releases)
+[Cài đặt và sử dụng](../README.md) · [Các bản phát hành Chrome và Edge](https://github.com/waysdroid/FrogLex/releases)
 
 [Dự án gốc](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
 
@@ -221,10 +221,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 Mỗi khoản đóng góp giúp chúng tôi xây dựng trải nghiệm học ngôn ngữ tốt hơn. Cảm ơn bạn đã ủng hộ sứ mệnh của chúng tôi.
 
 [![Sponsors][sponsor-image]][sponsor-link]
-
-<a href="https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=readme">
-  <img src="../assets/promotion/ifapi.png" alt="IF API: GPT, Claude, Gemini and more from one key. Read Frog users get +10% credit with code READFROG">
-</a>
 
 <div align="right">
 

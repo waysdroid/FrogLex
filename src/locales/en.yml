@@ -316,16 +316,10 @@ options:
         inputTranslation: Input translation
         languageDetection: Language detection
         pdfTranslation: PDF translation
-    sponsorCta: Get fast, cost-effective AI
-    sponsorCtaJalapenoCloud: Get 50% Off GLM 5.3
-    sponsorCtaIfapi: "+10% credit, use code READFROG"
     setApiKeyWarning:
       message: Please set your API key on the $1 page
     badges:
       featureCount: $1 features
-      sponsor: Sponsor
-      sponsorJalapenoCloud: $$1 Free
-      sponsorIfapi: 90% Off Models
     dialog:
       title: Add new provider
       groups:
@@ -414,9 +408,6 @@ options:
         google: Google's flagship AI models with advanced reasoning capabilities
         anthropic: Claude models known for safety and reasoning excellence
         xai: Elon Musk's AI company offering Grok models with real-time data access
-        atlascloud: Unified OpenAI-compatible access to newer DeepSeek, Kimi, Qwen, Doubao, GLM, and other models
-        jalapenocloud: Enterprise-grade AI used by top teams — now made for you!
-        ifapi: GPT, Claude, Gemini and more, from 10% of list price
         siliconflow: High-performance inference platform for Chinese and international models
         tensdaq: Revolutionary bidding AI MaaS platform with market-driven pricing, eliminating high-cost fixed pricing
         openaiCompatible: Connect to a custom endpoint compatible with the OpenAI Chat Completions API
@@ -440,7 +431,6 @@ options:
         huggingface: Hugging Face Inference API providing access to thousands of open-source models
     apiKey:
       showAPIKey: Show API key
-      getAPIKey: Get API key
     howToConfigure: How to configure?
     testConnection:
       button: Test connection

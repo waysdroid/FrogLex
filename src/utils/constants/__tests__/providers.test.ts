@@ -60,7 +60,6 @@ describe("provider constants", () => {
   })
 
   it("defines provider-specific URL placeholders", () => {
-    expect(PROVIDER_URL_PLACEHOLDERS.atlascloud).toBe("https://api.atlascloud.ai/v1")
     expect(PROVIDER_URL_PLACEHOLDERS.azure).toBe("https://<resource>.services.ai.azure.com/openai")
     expect(PROVIDER_URL_PLACEHOLDERS.openai).toBe("https://api.openai.com/v1")
     expect(PROVIDER_URL_PLACEHOLDERS["openai-compatible"]).toBe("https://api.example.com/v1")
@@ -90,9 +89,6 @@ describe("provider constants", () => {
   it("defines disjoint and exhaustive protocol-adapter taxonomies", () => {
     expect(OPENAI_COMPATIBLE_LLM_PROVIDER_TYPES).toEqual([
       "openai-compatible",
-      "jalapenocloud",
-      "ifapi",
-      "atlascloud",
       "openrouter",
       "minimax",
       "siliconflow",
@@ -100,12 +96,9 @@ describe("provider constants", () => {
       "volcengine",
     ])
     expect(OPEN_RESPONSES_LLM_PROVIDER_TYPES).toEqual(["open-responses"])
-    expect(PROTOCOL_COMPATIBLE_LLM_PROVIDER_TYPES.slice(0, 5)).toEqual([
+    expect(PROTOCOL_COMPATIBLE_LLM_PROVIDER_TYPES.slice(0, 2)).toEqual([
       "openai-compatible",
       "open-responses",
-      "jalapenocloud",
-      "ifapi",
-      "atlascloud",
     ])
     expect(CUSTOM_MODEL_ONLY_PROVIDER_TYPES).toEqual(["openai-compatible", "open-responses"])
 
@@ -122,8 +115,8 @@ describe("provider constants", () => {
     expect([...protocolCompatibleTypes, ...dedicatedTypes].sort()).toEqual(
       [...LLM_PROVIDER_TYPES].sort(),
     )
-    expect(API_PROVIDER_TYPES.slice(0, 5)).toEqual(
-      PROTOCOL_COMPATIBLE_LLM_PROVIDER_TYPES.slice(0, 5),
+    expect(API_PROVIDER_TYPES.slice(0, PROTOCOL_COMPATIBLE_LLM_PROVIDER_TYPES.length)).toEqual(
+      PROTOCOL_COMPATIBLE_LLM_PROVIDER_TYPES,
     )
     expect(apiProviderConfigItemSchema.parse(DEFAULT_PROVIDER_CONFIG.openrouter)).toEqual(
       DEFAULT_PROVIDER_CONFIG.openrouter,

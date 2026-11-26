@@ -14,7 +14,7 @@ concurrency: personal-vocabulary-source-v0.1.0
 
 jobs:
   publish:
-    if: github.repository == 'waysdroid/read-frog'
+    if: github.repository_id == '1470196653'
     runs-on: ubuntu-latest
     permissions:
       contents: write

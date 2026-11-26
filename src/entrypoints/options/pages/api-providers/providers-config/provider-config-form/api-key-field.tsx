@@ -7,13 +7,11 @@ import { i18n } from "@/utils/i18n"
 import { cn } from "@/utils/styles/utils"
 import { highlightedProviderFieldAtom, PROVIDER_FIELD_HIGHLIGHT_DURATION_MS } from "../atoms"
 import { ConnectionTestButton } from "./components/connection-button"
-import { GetAPIKeyButton } from "./components/get-api-key-button"
 import { withForm } from "./form"
 
 export const APIKeyField = withForm({
   ...{ defaultValues: {} as APIProviderConfig },
   render: function Render({ form }) {
-    // const providerConfig = form.state.values
     const [showAPIKey, setShowAPIKey] = useState(false)
     const providerConfig = useSelector(form.store, (state) => state.values)
     const [highlightedField, setHighlightedField] = useAtom(highlightedProviderFieldAtom)
@@ -41,7 +39,6 @@ export const APIKeyField = withForm({
           <div className="flex flex-col gap-2">
             <field.InputFieldAutoSave
               label="API Key"
-              labelAfter={<GetAPIKeyButton providerType={providerType} />}
               labelExtra={<ConnectionTestButton providerConfig={providerConfig} />}
               type={showAPIKey ? "text" : "password"}
               className={cn(isHighlighted && "animate-ring-flash")}

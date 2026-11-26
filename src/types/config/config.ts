@@ -1,5 +1,6 @@
 import { langLevel } from "@read-frog/definitions"
 import { z } from "zod"
+import { migrate as removeRetiredProviders } from "@/utils/config/migration-scripts/v131-to-v132"
 import { BUILT_IN_ACTION_IDS, BUILT_IN_ACTION_KEYS } from "@/utils/constants/custom-action"
 import { FEATURE_KEYS, FEATURE_PROVIDER_DEFS } from "@/utils/constants/feature-providers"
 import {
@@ -192,7 +193,7 @@ const uiLanguageSchema = z
 export type UiLanguage = z.infer<typeof uiLanguageSchema>
 
 // Complete config schema
-export const configSchema = z
+const currentConfigSchema = z
   .object({
     language: languageSchema,
     providersConfig: providersConfigSchema,
@@ -295,5 +296,8 @@ export const configSchema = z
       }
     })
   })
+
+// Options and content scripts can use storage before the background migration runs.
+export const configSchema = z.preprocess(removeRetiredProviders, currentConfigSchema)
 
 export type Config = z.infer<typeof configSchema>

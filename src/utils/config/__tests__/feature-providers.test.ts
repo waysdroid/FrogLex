@@ -174,7 +174,7 @@ describe("feature providers", () => {
           ...getProviderById("openai-default"),
           enabled: false,
         },
-        getProviderById("jalapenocloud-default"),
+        getProviderById("deepseek-default"),
       ]
 
       const result = computeSelectionToolbarCustomActionFallbacksAfterDeletion(
@@ -186,7 +186,7 @@ describe("feature providers", () => {
       expect(result?.customActions).toEqual([
         expect.objectContaining({
           id: "action-a",
-          providerId: "jalapenocloud-default",
+          providerId: "deepseek-default",
         }),
       ])
     })
@@ -210,7 +210,7 @@ describe("feature providers", () => {
       const result = resolveLanguageDetectionConfigForModeChange(
         {
           mode: "basic",
-          providerId: "jalapenocloud-default",
+          providerId: "deepseek-default",
         },
         "llm",
         DEFAULT_CONFIG.providersConfig,
@@ -218,7 +218,7 @@ describe("feature providers", () => {
 
       expect(result).toEqual({
         mode: "llm",
-        providerId: "jalapenocloud-default",
+        providerId: "deepseek-default",
       })
     })
   })
@@ -238,10 +238,10 @@ describe("feature providers", () => {
           ...getProviderById("openai-default"),
           enabled: false,
         },
-        getProviderById("jalapenocloud-default"),
+        getProviderById("deepseek-default"),
       ])
 
-      expect(result).toBe("jalapenocloud-default")
+      expect(result).toBe("deepseek-default")
     })
   })
 })

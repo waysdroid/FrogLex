@@ -159,18 +159,7 @@ describe("getProviderOptions", () => {
       ])
     })
 
-    it("should prioritize the Jalapeno Cloud GLM models", () => {
-      expect(LLM_PROVIDER_MODELS.jalapenocloud.slice(0, 3)).toEqual([
-        "GLM-5.3",
-        "GLM-5.3-Flash",
-        "GLM-5.1",
-      ])
-    })
-
     it("should not list the retired, delisted or superseded models", () => {
-      for (const model of ["GLM-5.2", "Hy3", "Qwen3-Next-80B-A3B-Instruct"]) {
-        expect(LLM_PROVIDER_MODELS.jalapenocloud).not.toContain(model)
-      }
       for (const model of ["deepseek-chat", "deepseek-reasoner"]) {
         expect(LLM_PROVIDER_MODELS.deepseek).not.toContain(model)
       }
@@ -290,9 +279,9 @@ describe("getProviderOptions", () => {
 
       const prefixedDeepseekV4Options = getProviderOptions(
         "deepseek-ai/deepseek-v4-flash",
-        "atlascloud",
+        "openai-compatible",
       )
-      expect(prefixedDeepseekV4Options.atlascloud?.thinking).toEqual({ type: "disabled" })
+      expect(prefixedDeepseekV4Options["openai-compatible"]?.thinking).toEqual({ type: "disabled" })
 
       const cohereReasoningOptions = getProviderOptions("command-a-reasoning-08-2025", "cohere")
       expect(cohereReasoningOptions.cohere?.thinking).toEqual({ type: "disabled" })
@@ -408,11 +397,11 @@ describe("getProviderOptions", () => {
       const prefixedOptions = getProviderOptions("volcengine/doubao-seed-1-8", "openai-compatible")
       expect(prefixedOptions["openai-compatible"]?.thinking).toEqual({ type: "disabled" })
 
-      const atlasTwoLiteOptions = getProviderOptions(
+      const namespacedTwoLiteOptions = getProviderOptions(
         "bytedance/doubao-seed-2.0-lite-260428",
-        "atlascloud",
+        "openai-compatible",
       )
-      expect(atlasTwoLiteOptions.atlascloud?.thinking).toEqual({ type: "disabled" })
+      expect(namespacedTwoLiteOptions["openai-compatible"]?.thinking).toEqual({ type: "disabled" })
     })
 
     it("should not apply Doubao Seed thinking defaults to unrelated Doubao models", () => {
@@ -424,8 +413,8 @@ describe("getProviderOptions", () => {
       const groqOptions = getProviderOptions("qwen/qwen3-32b", "groq")
       expect(groqOptions.groq?.reasoningEffort).toBe("none")
 
-      const qwen36Options = getProviderOptions("qwen/qwen3.6-27b", "atlascloud")
-      expect(qwen36Options.atlascloud?.reasoningEffort).toBe("none")
+      const qwen36Options = getProviderOptions("qwen/qwen3.6-27b", "openai-compatible")
+      expect(qwen36Options["openai-compatible"]?.reasoningEffort).toBe("none")
 
       const nextOptions = getProviderOptions("Qwen/Qwen3-Next-80B-A3B-Instruct", "siliconflow")
       expect(nextOptions.siliconflow?.reasoningEffort).toBe("none")
@@ -440,8 +429,11 @@ describe("getProviderOptions", () => {
       const huggingfaceOptions = getProviderOptions("moonshotai/Kimi-K2-Instruct", "huggingface")
       expect(huggingfaceOptions).toEqual({})
 
-      const atlasOptions = getProviderOptions("moonshotai/Kimi-K2-Instruct", "atlascloud")
-      expect(atlasOptions).toEqual({})
+      const customProviderOptions = getProviderOptions(
+        "moonshotai/Kimi-K2-Instruct",
+        "openai-compatible",
+      )
+      expect(customProviderOptions).toEqual({})
     })
 
     it("should return empty object for non-matching models", () => {
@@ -535,16 +527,16 @@ describe("getProviderOptions", () => {
 
     it("should disable thinking for DeepSeek point releases and dated snapshots", () => {
       const hosted: Array<[model: string, provider: string]> = [
-        ["deepseek-ai/deepseek-v4.1-flash", "atlascloud"],
-        ["deepseek-ai/deepseek-v4.1-flash-1017", "atlascloud"],
+        ["deepseek-ai/deepseek-v4.1-flash", "openai-compatible"],
+        ["deepseek-ai/deepseek-v4.1-flash-1017", "openai-compatible"],
         ["deepseek-ai/DeepSeek-V4.1-Flash", "deepinfra"],
         ["deepseek-ai/DeepSeek-V4.1-Flash-1017", "huggingface"],
         ["deepseek/deepseek-v4.1-flash", "openrouter"],
         ["deepseek/deepseek-v4.1-flash-1017", "openrouter"],
         ["deepseek-v4.1-flash", "alibaba"],
         ["deepseek-v4.1-flash-1017", "alibaba"],
-        ["DeepSeek-V4.1-Flash-1017", "jalapenocloud"],
-        ["DeepSeek-V4-Flash-0731", "jalapenocloud"],
+        ["DeepSeek-V4.1-Flash-1017", "openai-compatible"],
+        ["DeepSeek-V4-Flash-0731", "openai-compatible"],
         ["deepseek-ai/DeepSeek-V4-Pro-0813", "deepinfra"],
       ]
       for (const [model, provider] of hosted) {
@@ -563,11 +555,6 @@ describe("getProviderOptions", () => {
         "deepseek-flash",
         "deepseek-v4-flash",
         "deepseek-v4-pro",
-      ])
-      expect(LLM_PROVIDER_MODELS.atlascloud.slice(0, 3)).toEqual([
-        "deepseek-ai/deepseek-v4-flash",
-        "deepseek-ai/deepseek-v4.1-flash",
-        "deepseek-ai/deepseek-v4.1-flash-1017",
       ])
       for (const provider of ["deepinfra", "huggingface"] as const) {
         expect(LLM_PROVIDER_MODELS[provider]).toEqual(
@@ -659,8 +646,8 @@ describe("getProviderOptions", () => {
       const mixed = getProviderOptions("GlM-3-Turbo", "tensdaq")
       expect(mixed.tensdaq?.thinking).toEqual({ type: "disabled" })
 
-      const prefixed = getProviderOptions("zai-org/glm-4.7", "atlascloud")
-      expect(prefixed.atlascloud?.thinking).toEqual({ type: "disabled" })
+      const prefixed = getProviderOptions("zai-org/glm-4.7", "openai-compatible")
+      expect(prefixed["openai-compatible"]?.thinking).toEqual({ type: "disabled" })
     })
 
     it("should only match models starting with GLM-", () => {

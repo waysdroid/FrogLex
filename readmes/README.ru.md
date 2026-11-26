@@ -2,7 +2,7 @@
 
 FrogLex — расширение для Chrome и Edge на основе Read Frog.
 
-[Установка и использование](../README.md) · [Выпуски для Chrome и Edge](https://github.com/waysdroid/read-frog/releases)
+[Установка и использование](../README.md) · [Выпуски для Chrome и Edge](https://github.com/waysdroid/FrogLex/releases)
 
 [Исходный проект](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
 
@@ -221,10 +221,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 Каждое пожертвование помогает нам создавать лучший опыт изучения языков. Спасибо за поддержку нашей миссии.
 
 [![Sponsors][sponsor-image]][sponsor-link]
-
-<a href="https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=readme">
-  <img src="../assets/promotion/ifapi.png" alt="IF API: GPT, Claude, Gemini and more from one key. Read Frog users get +10% credit with code READFROG">
-</a>
 
 <div align="right">
 

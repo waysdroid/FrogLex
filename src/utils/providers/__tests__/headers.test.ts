@@ -26,30 +26,30 @@ describe("provider headers", () => {
   })
 
   describe("forced headers", () => {
-    const jalapeno = {
+    const openRouterHeaders = {
       "HTTP-Referer": "https://www.readfrog.app",
-      "X-Jalapeno-Title": "Read Frog",
+      "X-OpenRouter-Title": "Read Frog",
     }
 
     it("sends them when the user has configured no headers", () => {
-      expect(getProviderHeadersWithOverride("jalapenocloud", undefined)).toEqual(jalapeno)
+      expect(getProviderHeadersWithOverride("openrouter", undefined)).toEqual(openRouterHeaders)
     })
 
     it("keeps them alongside the user's own headers", () => {
-      expect(getProviderHeadersWithOverride("jalapenocloud", { "X-Test": "1" })).toEqual({
+      expect(getProviderHeadersWithOverride("openrouter", { "X-Test": "1" })).toEqual({
         "X-Test": "1",
-        ...jalapeno,
+        ...openRouterHeaders,
       })
     })
 
     it("survives a user override that clears every header", () => {
-      expect(getProviderHeadersWithOverride("jalapenocloud", {})).toEqual(jalapeno)
+      expect(getProviderHeadersWithOverride("openrouter", {})).toEqual(openRouterHeaders)
     })
 
     it("wins over a user header of the same name", () => {
       expect(
-        getProviderHeadersWithOverride("jalapenocloud", { "HTTP-Referer": "https://evil.test" }),
-      ).toEqual(jalapeno)
+        getProviderHeadersWithOverride("openrouter", { "HTTP-Referer": "https://evil.test" }),
+      ).toEqual(openRouterHeaders)
     })
 
     // Regression: this header used to be a config-time default, so adding any header of your own
@@ -58,14 +58,6 @@ describe("provider headers", () => {
       expect(getProviderHeadersWithOverride("anthropic", { "X-Test": "1" })).toEqual({
         "X-Test": "1",
         "anthropic-dangerous-direct-browser-access": "true",
-      })
-    })
-
-    it("keeps OpenRouter attribution when the user adds their own", () => {
-      expect(getProviderHeadersWithOverride("openrouter", { "X-Test": "1" })).toEqual({
-        "X-Test": "1",
-        "HTTP-Referer": "https://www.readfrog.app",
-        "X-OpenRouter-Title": "Read Frog",
       })
     })
   })

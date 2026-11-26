@@ -76,7 +76,7 @@ export { CONFIG_STORAGE_KEY } from "./config-storage-key"
 
 export const THEME_STORAGE_KEY = "theme"
 export const DEFAULT_DETECTED_CODE = "en" as const
-export const CONFIG_SCHEMA_VERSION = 131
+export const CONFIG_SCHEMA_VERSION = 132
 
 export const DEFAULT_FLOATING_BUTTON_POSITION = 0.66
 export const DEFAULT_FLOATING_BUTTON_SIDE: FloatingButtonSide = "right"

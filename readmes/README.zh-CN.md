@@ -1,6 +1,6 @@
 # 蛙词库 · FrogLex
 
-[Fork 中文主页](../README.md)包含安装说明、二开功能和构建方式。[Chrome 和 Edge 发布页](https://github.com/waysdroid/read-frog/releases)
+[Fork 中文主页](../README.md)包含安装说明、二开功能和构建方式。[Chrome 和 Edge 发布页](https://github.com/waysdroid/FrogLex/releases)
 
 ## 贡献者
 

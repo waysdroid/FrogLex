@@ -2,7 +2,7 @@
 
 FrogLex는 Read Frog를 기반으로 한 Chrome 및 Edge 확장 프로그램입니다.
 
-[설치 및 사용 방법](../README.md) · [Chrome 및 Edge 릴리스](https://github.com/waysdroid/read-frog/releases)
+[설치 및 사용 방법](../README.md) · [Chrome 및 Edge 릴리스](https://github.com/waysdroid/FrogLex/releases)
 
 [원본 프로젝트](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
 
@@ -221,10 +221,6 @@ Made with [contrib.rocks](https://contrib.rocks).
 모든 후원은 더 나은 언어 학습 경험을 만드는 데 도움이 됩니다. 우리의 미션을 지원해 주셔서 감사합니다.
 
 [![Sponsors][sponsor-image]][sponsor-link]
-
-<a href="https://ifapi.org/?aff=readfrog&utm_source=readfrog&utm_medium=readme">
-  <img src="../assets/promotion/ifapi.png" alt="IF API: GPT, Claude, Gemini and more from one key. Read Frog users get +10% credit with code READFROG">
-</a>
 
 <div align="right">
 

@@ -6,19 +6,19 @@ import { checkForRelease, compareVersions, downloadRelease, parseCatalog } from 
 
 const oldManifest = {
   manifest_version: 3,
-  version: "1.61.3.8",
-  version_name: "1.1.8",
+  version: "1.61.3.10",
+  version_name: "1.1.10",
   name: "__MSG_extName__",
   permissions: ["alarms", "storage"],
   host_permissions: ["*://*/*"],
   background: { service_worker: "background.js" },
   options_ui: { page: "options.html" },
 }
-const nextManifest = { ...oldManifest, version: "1.61.3.10", version_name: "1.1.10" }
+const nextManifest = { ...oldManifest, version: "1.61.3.11", version_name: "2.0.0" }
 const payload = new TextEncoder().encode("archive bytes")
 const catalog = {
   format: 1,
-  version: "1.1.10",
+  version: "2.0.0",
   chrome: { size: payload.length, sha256: sha256(payload) },
   edge: { size: payload.length, sha256: sha256(payload) },
 }
@@ -50,9 +50,9 @@ it("selects the expected artifact, checks numeric versions, and verifies the dow
   expect(compareVersions(update.version, oldManifest.version_name)).toBe(1)
   expect(compareVersions("1.1.7", oldManifest.version_name)).toBe(-1)
   expect(update.assetUrl).toBe(
-    "https://github.com/waysdroid/read-frog/releases/download/v1.1.10/read-frog-personal-vocabulary-v1.1.10-edge.zip",
+    "https://github.com/waysdroid/FrogLex/releases/download/v2.0.0/read-frog-personal-vocabulary-v2.0.0-edge.zip",
   )
-  expect(update.notesUrl).toBe("https://github.com/waysdroid/read-frog/releases/tag/v1.1.10")
+  expect(update.notesUrl).toBe("https://github.com/waysdroid/FrogLex/releases/tag/v2.0.0")
   expect(await downloadRelease(update)).toEqual(payload)
   await expect(downloadRelease({ ...update, sha256: "0".repeat(64) })).rejects.toMatchObject({
     code: "package",
@@ -67,11 +67,11 @@ it("rejects a foreign download origin and invalid catalog versions", async () =>
   await expect(downloadRelease(parseCatalog(catalog, "chrome"))).rejects.toMatchObject({
     code: "network",
   })
-  expect(() => parseCatalog({ ...catalog, version: "1.1.10-preview" }, "chrome")).toThrow("package")
+  expect(() => parseCatalog({ ...catalog, version: "2.0.0-preview" }, "chrome")).toThrow("package")
 })
 
 it("opens the release archive and rejects incompatible versions, new permissions, and unsafe paths", async () => {
-  const extracted = await extractRelease(await archive(), oldManifest, "1.1.10")
+  const extracted = await extractRelease(await archive(), oldManifest, "2.0.0")
   expect([...extracted.keys()]).toEqual([
     "manifest.json",
     "background.js",
@@ -87,7 +87,7 @@ it("opens the release archive and rejects incompatible versions, new permissions
     [{ ...nextManifest, permissions: ["storage", "downloads"] }, undefined, "permission"],
   ] as const) {
     await expect(
-      extractRelease(await archive(manifest, pathname), oldManifest, "1.1.10"),
+      extractRelease(await archive(manifest, pathname), oldManifest, "2.0.0"),
     ).rejects.toMatchObject({ code: reason })
   }
 })

@@ -7,11 +7,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.10/read-frog-personal-vocabulary-v1.1.10-chrome.zip"><strong>下载 Chrome 版</strong></a>
+  <a href="https://github.com/waysdroid/FrogLex/releases/download/v2.0.0/read-frog-personal-vocabulary-v2.0.0-chrome.zip"><strong>下载 Chrome 版</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.10/read-frog-personal-vocabulary-v1.1.10-edge.zip"><strong>下载 Edge 版</strong></a>
+  <a href="https://github.com/waysdroid/FrogLex/releases/download/v2.0.0/read-frog-personal-vocabulary-v2.0.0-edge.zip"><strong>下载 Edge 版</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/waysdroid/read-frog/releases/latest">最新发布</a>
+  <a href="https://github.com/waysdroid/FrogLex/releases/latest">最新发布</a>
 </p>
 
 <p align="center">
@@ -73,7 +73,7 @@ WXT_SKIP_ENV_VALIDATION=true pnpm zip
 WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
 ```
 
-安装包生成在 `.output/`。[GitHub Actions 构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
+安装包生成在 `.output/`。[GitHub Actions 构建记录](https://github.com/waysdroid/FrogLex/actions/workflows/vocabulary-ci.yml)
 
 </details>
 
@@ -83,7 +83,7 @@ WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
   <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
 </a>
 
-蛙词库由 [@waysdroid](https://github.com/waysdroid) 维护，基于 [@mengxi-ream](https://github.com/mengxi-ream) 和社区开发的 Read Frog。[本仓库贡献记录](https://github.com/waysdroid/read-frog/graphs/contributors) · [Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
+蛙词库由 [@waysdroid](https://github.com/waysdroid) 维护，基于 [@mengxi-ream](https://github.com/mengxi-ream) 和社区开发的 Read Frog。[本仓库贡献记录](https://github.com/waysdroid/FrogLex/graphs/contributors) · [Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
 
 ## 许可证
 

@@ -6,7 +6,6 @@ import { useAutosaveContext } from "./use-autosave"
 
 export function InputFieldAutoSave({
   label,
-  labelAfter,
   labelExtra,
   type,
   onChange,
@@ -16,11 +15,6 @@ export function InputFieldAutoSave({
   ...props
 }: {
   label: React.ReactNode
-  /**
-   * Sits immediately beside the label, outside the `<label>` element — a link or button nested
-   * inside one would be invalid markup and would also steal the label's click.
-   */
-  labelAfter?: React.ReactNode
   labelExtra?: React.ReactNode
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   const autosave = useAutosaveContext()
@@ -45,10 +39,7 @@ export function InputFieldAutoSave({
   return (
     <Field data-invalid={hasError}>
       <div className="flex w-full items-end justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-          {labelAfter}
-        </div>
+        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
         {labelExtra}
       </div>
       <Input

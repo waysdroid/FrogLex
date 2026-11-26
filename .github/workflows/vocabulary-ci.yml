@@ -92,7 +92,7 @@ jobs:
           if-no-files-found: error
 
   publish-source:
-    if: github.repository == 'waysdroid/read-frog' && github.event_name != 'pull_request'
+    if: github.repository_id == '1470196653' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     permissions:
