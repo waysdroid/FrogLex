@@ -66,6 +66,7 @@ describe("personal vocabulary repository", () => {
     try {
       const firstInput = encounter({
         definition: { text: "第一条释义", language: "zh-CN" },
+        memoryTips: "个人编辑过的记忆技巧",
         context: { sentence: "Cherry blossoms fill the garden." },
       })
       const saved = await repository.saveEncounter(firstInput)
@@ -75,6 +76,7 @@ describe("personal vocabulary repository", () => {
           encounter({
             term: "BLOSSOM",
             definition: { text: "另一条释义", language: "zh-CN" },
+            memoryTips: "新生成的记忆技巧",
             context: { sentence: "The blossoms opened at dawn." },
           }),
         ),
@@ -90,6 +92,7 @@ describe("personal vocabulary repository", () => {
       const detail = await repository.getEntryDetail(saved.entryId)
       expect(detail?.entry.encounterCount).toBe(3)
       expect(detail?.entry.definition?.text).toBe("第一条释义")
+      expect(detail?.entry.memoryTips).toBe("个人编辑过的记忆技巧")
       expect(detail?.contexts).toHaveLength(2)
       expect((await repository.listEntries()).total).toBe(1)
     } finally {
@@ -117,11 +120,18 @@ describe("personal vocabulary repository", () => {
   it("upgrades a raw-form entry and resolves later offline lookups to a unique known form", async () => {
     const raw = { term: "blossoms", originalTerm: "Blossoms", lemmaSource: "selection" as const }
     const fallback = await repository.saveEncounter(encounter(raw))
-    const enriched = await repository.saveEncounter(encounter())
+    const enriched = await repository.saveEncounter(
+      encounter({ memoryTips: "搭配：cherry blossom" }),
+    )
     expect(enriched.entryId).toBe(fallback.entryId)
     expect(await repository.findByTerm(raw)).toEqual({ entryId: enriched.entryId })
     expect(await repository.getEntryDetail(fallback.entryId)).toMatchObject({
-      entry: { term: "blossom", originalTerm: "Blossoms", encounterCount: 2 },
+      entry: {
+        term: "blossom",
+        originalTerm: "Blossoms",
+        encounterCount: 2,
+        memoryTips: "搭配：cherry blossom",
+      },
     })
   })
 

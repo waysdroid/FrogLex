@@ -27,6 +27,7 @@ const shortFields = ["phonetic", "phoneticUk", "phoneticUs", "partOfSpeech"] as 
 export const longFields = [
   "meaningsZh",
   "meaningsEn",
+  "memoryTips",
   "note",
   "examples",
   "collocations",

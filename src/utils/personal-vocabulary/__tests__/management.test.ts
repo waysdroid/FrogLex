@@ -84,11 +84,12 @@ describe("vocabulary management", () => {
       collectionIds: [collectionId],
       tagIds: [tagId],
       note: "Seen in the garden",
+      memoryTips: "搭配：cherry blossom",
       favorite: true,
       meaningsZh: "花",
       difficulty: "B2",
     })
-    for (const search of ["botany", "garden", "花"]) {
+    for (const search of ["botany", "garden", "花", "cherry blossom"]) {
       expect(
         await repository.getPage(
           {
@@ -132,6 +133,7 @@ describe("vocabulary management", () => {
         originalTerm: "blossoms",
         lemmaSource: "user",
         note: "Personal note",
+        memoryTips: "词源：Old English blōstm。\n搭配：cherry blossom",
         collectionIds: [collection],
         tagIds: [tag],
       },
@@ -158,7 +160,12 @@ describe("vocabulary management", () => {
         duplicates: 1,
       })
       expect(await destination.getEntryDetail(entryId)).toMatchObject({
-        entry: { term: "blossom", encounterCount: 1, note: "Personal note" },
+        entry: {
+          term: "blossom",
+          encounterCount: 1,
+          note: "Personal note",
+          memoryTips: "词源：Old English blōstm。\n搭配：cherry blossom",
+        },
         contexts: [
           { sentence: "The blossoms opened early.", source: { url: "https://example.com/a" } },
         ],
@@ -174,11 +181,11 @@ describe("vocabulary management", () => {
 
   it("previews mapped CSV, skips invalid rows, handles duplicates and neutralizes exported cells", async () => {
     const file = new Blob([
-      '\uFEFFword,meaning,note\r\n"blossom","花, 花朵","line 1\nline 2"\r\nBLOSSOM,次条,\r\n中文,,\r\ncare,照顾,=1+1',
+      '\uFEFFword,meaning,note,记忆技巧\r\n"blossom","花, 花朵","line 1\nline 2","词源：Old English blōstm。\n搭配：cherry blossom"\r\nBLOSSOM,次条,,\r\n中文,,,\r\ncare,照顾,=1+1,',
     ])
     const source = { file, format: "csv", encoding: "auto", header: true } as const
     const preview = await inspectVocabularySource(source)
-    expect(preview.mapping).toEqual({ term: "0", definition: "1", note: "2" })
+    expect(preview.mapping).toEqual({ term: "0", definition: "1", note: "2", memoryTips: "3" })
     const input = {
       source,
       mapping: preview.mapping,
@@ -203,9 +210,18 @@ describe("vocabulary management", () => {
     const csv = await exportVocabularyEntries(repository, "csv")
     const text = await csv.text()
     expect(text).toContain('"line 1\nline 2"')
+    expect(text).toContain('"词源：Old English blōstm。\n搭配：cherry blossom"')
     expect(text).toContain('"\'=1+1"')
     expect(await (await exportVocabularyEntries(repository, "txt")).text()).toContain("blossom")
     const json = await exportVocabularyEntries(repository, "json")
+    expect(JSON.parse(await json.text())).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          term: "blossom",
+          memoryTips: "词源：Old English blōstm。\n搭配：cherry blossom",
+        }),
+      ]),
+    )
     const jsonSource = { file: json, format: "json", encoding: "auto", header: false } as const
     const jsonPreview = await inspectVocabularySource(jsonSource)
     expect(

@@ -1,7 +1,7 @@
 import type { FormEvent } from "react"
 import type { VocabularyReceipt } from "@/utils/personal-vocabulary/repository"
 import type { VocabularyDraft } from "@/utils/personal-vocabulary/schema"
-import { IconBook2 } from "@tabler/icons-react"
+import { IconBook2, IconCheck, IconExternalLink, IconPencil } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/base-ui/button"
 import { Checkbox } from "@/components/ui/base-ui/checkbox"
@@ -14,10 +14,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/base-ui/popover"
 import { Textarea } from "@/components/ui/base-ui/textarea"
-import {
-  SelectionPopover,
-  useSelectionPopoverOverlayProps,
-} from "@/components/ui/selection-popover"
+import { toastManager } from "@/components/ui/base-ui/toast"
+import { useSelectionPopoverOverlayProps } from "@/components/ui/selection-popover"
 import { i18n } from "@/utils/i18n"
 import { sendMessage } from "@/utils/message"
 import {
@@ -43,7 +41,7 @@ export function SaveToPersonalVocabulary({
   const [keepSource, setKeepSource] = useState(true)
   const [pending, setPending] = useState(false)
   const [saved, setSaved] = useState<VocabularyReceipt | null>(null)
-  const [error, setError] = useState<"invalid" | "storage" | "quota" | "navigation" | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const [match, setMatch] = useState<{ term: string; entryId: string } | null>(null)
   const { term, originalTerm, lemmaSource } = draft
 
@@ -82,13 +80,19 @@ export function SaveToPersonalVocabulary({
         setSaved(result.value)
         setOpen(false)
       } else {
-        setError(result.reason)
+        reportSaveError(result.reason)
       }
     } catch {
-      setError("storage")
+      reportSaveError("storage")
     } finally {
       setPending(false)
     }
+  }
+
+  function reportSaveError(reason: "invalid" | "storage" | "quota") {
+    const message = i18n.t(`personalVocabulary.errors.${reason}`)
+    if (open) setError(message)
+    else toastManager.add({ type: "error", title: message })
   }
 
   async function viewEntry(entryId: string) {
@@ -96,7 +100,7 @@ export function SaveToPersonalVocabulary({
       await sendMessage("openOptionsPage", { route: `/personal-vocabulary?entry=${entryId}` })
       setError(null)
     } catch {
-      setError("navigation")
+      toastManager.add({ type: "error", title: i18n.t("personalVocabulary.errors.navigation") })
     }
   }
 
@@ -109,6 +113,8 @@ export function SaveToPersonalVocabulary({
     setOpen(nextOpen)
   }
 
+  const previewMemoryTips = editingDraft?.memoryTips ?? draft.memoryTips
+
   function submitPreview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (pending || !editingDraft || !isVocabularyTerm(editingDraft.term)) return
@@ -119,6 +125,7 @@ export function SaveToPersonalVocabulary({
       definition: definition
         ? { text: definition, language: editingDraft.definition?.language ?? targetLanguage }
         : undefined,
+      memoryTips: previewMemoryTips?.trim() || undefined,
       context: editingDraft.context && {
         ...editingDraft.context,
         source: keepSource ? editingDraft.context.source : undefined,
@@ -134,26 +141,50 @@ export function SaveToPersonalVocabulary({
       : waitingForDictionary
         ? i18n.t("personalVocabulary.saveSelection")
         : i18n.t("personalVocabulary.save")
-  const errorText = error ? i18n.t(`personalVocabulary.errors.${error}`) : null
+  const savedLabel = saved?.created
+    ? i18n.t("personalVocabulary.saved")
+    : saved && i18n.t("personalVocabulary.encounters", [saved.encounterCount])
   const existingEntryId = saved?.entryId ?? matchingEntryId
+  const viewLabel = i18n.t("personalVocabulary.viewEntry")
+  const previewLabel = i18n.t("personalVocabulary.preview")
 
   return (
-    <SelectionPopover.Footer className="flex-wrap gap-1 border-t">
+    <>
+      {existingEntryId && (
+        <Button
+          size="icon-sm"
+          variant="ghost-secondary"
+          aria-label={viewLabel}
+          title={viewLabel}
+          onClick={() => void viewEntry(existingEntryId)}
+        >
+          <IconExternalLink aria-hidden="true" />
+        </Button>
+      )}
       {saved ? (
-        <span role="status" className="text-xs text-muted-foreground">
-          {saved.created
-            ? i18n.t("personalVocabulary.saved")
-            : i18n.t("personalVocabulary.encounters", [saved.encounterCount])}
+        <span
+          role="status"
+          title={savedLabel ?? undefined}
+          className="grid size-7 shrink-0 place-items-center text-muted-foreground"
+        >
+          <IconCheck aria-hidden="true" className="size-4" />
+          <span className="sr-only">{savedLabel}</span>
         </span>
       ) : (
         <>
-          <Button size="sm" variant="outline" disabled={pending} onClick={() => void save(draft)}>
-            <IconBook2 aria-hidden="true" />
-            {saveLabel}
-          </Button>
           <Popover open={open} onOpenChange={changeOpen}>
-            <PopoverTrigger render={<Button size="sm" variant="ghost" disabled={pending} />}>
-              {i18n.t("personalVocabulary.preview")}
+            <PopoverTrigger
+              render={
+                <Button
+                  size="icon-sm"
+                  variant="ghost-secondary"
+                  disabled={pending}
+                  aria-label={previewLabel}
+                  title={previewLabel}
+                />
+              }
+            >
+              <IconPencil aria-hidden="true" />
             </PopoverTrigger>
             <PopoverContent
               container={overlay.container}
@@ -196,6 +227,16 @@ export function SaveToPersonalVocabulary({
                       }
                     />
                   </Label>
+                  <Label className="grid gap-1.5">
+                    {i18n.t("personalVocabulary.fields.memoryTips")}
+                    <Textarea
+                      value={previewMemoryTips ?? ""}
+                      maxLength={MAX_VOCABULARY_TEXT_LENGTH}
+                      onChange={(event) =>
+                        setEditingDraft({ ...editingDraft, memoryTips: event.target.value })
+                      }
+                    />
+                  </Label>
                   {editingDraft.context?.sentence && (
                     <p className="text-xs wrap-anywhere">{editingDraft.context.sentence}</p>
                   )}
@@ -213,9 +254,9 @@ export function SaveToPersonalVocabulary({
                       </span>
                     </Label>
                   )}
-                  {errorText && (
+                  {error && (
                     <p role="alert" className="text-xs text-destructive">
-                      {errorText}
+                      {error}
                     </p>
                   )}
                   <Button
@@ -229,18 +270,18 @@ export function SaveToPersonalVocabulary({
               )}
             </PopoverContent>
           </Popover>
+          <Button
+            size="icon-sm"
+            variant="ghost-secondary"
+            disabled={pending}
+            aria-label={saveLabel}
+            title={saveLabel}
+            onClick={() => void save(draft)}
+          >
+            <IconBook2 aria-hidden="true" />
+          </Button>
         </>
       )}
-      {existingEntryId && (
-        <Button size="sm" variant="ghost" onClick={() => void viewEntry(existingEntryId)}>
-          {i18n.t("personalVocabulary.viewEntry")}
-        </Button>
-      )}
-      {errorText && !open && (
-        <p role="alert" className="w-full text-xs text-destructive">
-          {errorText}
-        </p>
-      )}
-    </SelectionPopover.Footer>
+    </>
   )
 }

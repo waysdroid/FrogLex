@@ -30,6 +30,7 @@ describe("personal vocabulary dictionary adapter", () => {
     const result = {
       [fieldName("term")]: "blossom",
       [fieldName("definition")]: "花",
+      [fieldName("memory-tips")]: "词根词缀：blossom 表示开花。\n搭配：cherry blossom",
       [fieldName("context")]: original,
       [fieldName("context-translation")]: "樱花开早了。",
       [fieldName("difficulty")]: "B2",
@@ -42,6 +43,7 @@ describe("personal vocabulary dictionary adapter", () => {
       originalTerm: "blossoms",
       lemmaSource: "dictionary",
       definition: { text: "花", language: "zh-CN" },
+      memoryTips: "词根词缀：blossom 表示开花。\n搭配：cherry blossom",
       difficulty: "B2",
       context: { sentence: original, translation: { text: "樱花开早了。", language: "zh-CN" } },
     })
@@ -51,6 +53,16 @@ describe("personal vocabulary dictionary adapter", () => {
     })
     expect(mismatched?.context?.sentence).toBe(original)
     expect(mismatched?.context?.translation).toBeUndefined()
+  })
+
+  it("omits absent, empty or malformed memory tips", () => {
+    for (const value of [undefined, "   ", ["tip"], "x".repeat(3001)]) {
+      expect(
+        draft("blossom", "The blossoms opened.", {
+          [fieldName("memory-tips")]: value,
+        })?.memoryTips,
+      ).toBeUndefined()
+    }
   })
 
   it("keeps the selected phrase and readable context when the model provides no result", () => {

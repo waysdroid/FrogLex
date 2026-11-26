@@ -55,7 +55,7 @@ interface SelectionPopoverRootContextValue {
 interface SelectionPopoverContentContextValue {
   close: () => void
   isDragging: boolean
-  portalContainer: SelectionPopoverPortalContainer
+  overlayContainer: React.RefObject<HTMLDivElement | null>
   setBodyElement: (node: HTMLDivElement | null) => void
 }
 
@@ -88,7 +88,7 @@ export function useSelectionPopoverOverlayProps() {
   const context = React.use(SelectionPopoverContentContext)
 
   return {
-    container: context?.portalContainer,
+    container: context?.overlayContainer,
     positionerClassName: context ? SELECTION_CONTENT_OVERLAY_LAYERS.popoverOverlay : undefined,
   }
 }
@@ -472,6 +472,7 @@ function SelectionPopoverContent({
   // while the popover stays open, e.g. a pinned popover reused for a new
   // selection session.
   const [bodyElement, setBodyElement] = React.useState<HTMLDivElement | null>(null)
+  const overlayContainer = React.useRef<HTMLDivElement>(null)
 
   const {
     rndRef,
@@ -504,10 +505,10 @@ function SelectionPopoverContent({
     () => ({
       close: handleClose,
       isDragging,
-      portalContainer: container ?? null,
+      overlayContainer,
       setBodyElement,
     }),
-    [container, handleClose, isDragging, setBodyElement],
+    [handleClose, isDragging],
   )
 
   const shell = useRender({
@@ -562,6 +563,12 @@ function SelectionPopoverContent({
         >
           {shell}
         </SelectionPopoverShell>
+        {/* Keep nested menus inside the dialog's dismissal boundary and outside the clipped card. */}
+        <div
+          ref={overlayContainer}
+          className="pointer-events-auto contents"
+          {...{ [SELECTION_CONTENT_OVERLAY_ROOT_ATTRIBUTE]: "" }}
+        />
       </DialogPrimitive.Popup>
     </DialogPrimitive.Portal>
   )

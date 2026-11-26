@@ -162,6 +162,7 @@ export class PersonalVocabularyRepository {
           updatedAt: Math.max(existing?.updatedAt ?? now, now),
           encounterCount: (existing?.encounterCount ?? 0) + 1,
           definition: existing?.definition ?? draft.definition,
+          memoryTips: existing?.memoryTips ?? draft.memoryTips,
           phonetic: existing?.phonetic ?? draft.phonetic,
           partOfSpeech: existing?.partOfSpeech ?? draft.partOfSpeech,
           difficulty: existing?.difficulty ?? draft.difficulty,
@@ -320,6 +321,7 @@ export class PersonalVocabularyRepository {
               entry.definition?.text,
               entry.meaningsZh,
               entry.meaningsEn,
+              entry.memoryTips,
               entry.note,
             ].some(
               (value) => value && comparableVocabularyText(value).toLowerCase().includes(search),

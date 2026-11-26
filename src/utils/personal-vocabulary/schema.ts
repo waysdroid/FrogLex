@@ -89,6 +89,7 @@ export const vocabularyFieldsSchema = z.object({
   phonetic: z.string().trim().min(1).max(240).optional(),
   partOfSpeech: z.string().trim().min(1).max(240).optional(),
   definition: localizedTextSchema.optional(),
+  memoryTips: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
   difficulty: vocabularyDifficultySchema.optional(),
 })
 

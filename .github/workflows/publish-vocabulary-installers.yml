@@ -2,29 +2,26 @@ name: Publish Chrome and Edge installers
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/publish-vocabulary-installers.yml
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
   workflow_dispatch:
     inputs:
       tag:
         description: Tag to build and publish
         required: true
-        default: v1.1.0
 
 permissions:
   contents: write
 
-concurrency: vocabulary-installers-${{ inputs.tag || 'v1.1.0' }}
+concurrency: vocabulary-installers-${{ inputs.tag || github.ref_name }}
 
 jobs:
   publish:
-    if: github.repository == 'waysdroid/read-frog' && github.ref == 'refs/heads/main'
+    if: github.repository == 'waysdroid/read-frog' && (github.ref_type == 'tag' || github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      RELEASE_TAG: ${{ inputs.tag || 'v1.1.0' }}
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
       HUSKY: "0"
       WXT_SKIP_ENV_VALIDATION: "true"
       SKIP_FREE_API: "true"
@@ -49,7 +46,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm type-check
-          pnpm test --pool=threads --maxWorkers=2 src/utils/personal-vocabulary src/utils/config/__tests__/migration-scripts
+          pnpm test --pool=threads --maxWorkers=2 src/utils/personal-vocabulary src/utils/config/__tests__/migration-scripts src/components/custom-action src/components/ui/selection-popover
           pnpm zip
           pnpm zip:edge
           mkdir release-assets
@@ -65,21 +62,32 @@ jobs:
             cmp <(unzip -p "$archive" manifest.json) ".output/${browser}-mv3/manifest.json"
             sha256sum "$archive"
           done
+      - name: Prepare release notes
+        shell: bash
+        run: |
+          notes="$RUNNER_TEMP/vocabulary-new-release-notes.md"
+          version="V${RELEASE_TAG#v}"
+          awk -v version="$version" '
+            $1 == "##" { if (found) exit; found = ($2 == version) }
+            found { print }
+          ' CHANGELOG.personal-vocabulary.md > "$notes"
+          test -s "$notes"
+          cat >> "$notes" <<'MARKDOWN'
+
+          ### 安装扩展
+
+          在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。升级时，在原目录替换文件后刷新扩展，以继续使用已有词库。
+          MARKDOWN
       - name: Attach the Chrome and Edge installers to the release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            notes="$RUNNER_TEMP/vocabulary-new-release-notes.md"
             version="V${RELEASE_TAG#v}"
-            awk -v version="$version" '
-              $1 == "##" { if (found) exit; found = ($2 == version) }
-              found { print }
-            ' CHANGELOG.personal-vocabulary.md > "$notes"
-            test -s "$notes"
             gh release create "$RELEASE_TAG" release-assets/*.zip --verify-tag \
-              --repo "$GITHUB_REPOSITORY" --title "个人词库 $version" --notes-file "$notes"
+              --repo "$GITHUB_REPOSITORY" --title "个人词库 $version" \
+              --notes-file "$RUNNER_TEMP/vocabulary-new-release-notes.md"
             exit 0
           fi
           existing=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
@@ -93,19 +101,3 @@ jobs:
             gh release upload "$RELEASE_TAG" "${pending[@]}" --repo "$GITHUB_REPOSITORY"
           fi
           gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].url'
-      - name: Add installation instructions to the release notes
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          notes="$RUNNER_TEMP/vocabulary-release-notes.md"
-          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json body --jq .body > "$notes"
-          if ! grep -Fxq '### 安装扩展' "$notes"; then
-            cat >> "$notes" <<'MARKDOWN'
-
-          ### 安装扩展
-
-          在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
-          MARKDOWN
-            gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --notes-file "$notes"
-          fi

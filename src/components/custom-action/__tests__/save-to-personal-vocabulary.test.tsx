@@ -61,10 +61,10 @@ describe("save to personal vocabulary", () => {
     )
   })
 
-  it("saves the edited base form and definition, and allows omitting the source", async () => {
+  it("edits generated memory tips in the preview and allows omitting the source", async () => {
     render(
       <SaveToPersonalVocabulary
-        draft={draft}
+        draft={{ ...draft, memoryTips: "词根词缀：blossom 表示开花。\n搭配：cherry blossom" }}
         operationId={operationId}
         targetLanguage="zh-CN"
         waitingForDictionary={false}
@@ -78,6 +78,9 @@ describe("save to personal vocabulary", () => {
     fireEvent.change(screen.getByRole("textbox", { name: "personalVocabulary.definition" }), {
       target: { value: "花朵" },
     })
+    const tips = screen.getByRole("textbox", { name: "personalVocabulary.fields.memoryTips" })
+    expect(tips).toHaveValue("词根词缀：blossom 表示开花。\n搭配：cherry blossom")
+    fireEvent.change(tips, { target: { value: "词源：与 bloom 有关。\n搭配：cherry blossom" } })
     fireEvent.click(screen.getByRole("checkbox"))
     fireEvent.click(screen.getByRole("button", { name: "personalVocabulary.confirm" }))
 
@@ -88,6 +91,7 @@ describe("save to personal vocabulary", () => {
       term: "blossom",
       lemmaSource: "user",
       definition: { language: "zh-CN", text: "花朵" },
+      memoryTips: "词源：与 bloom 有关。\n搭配：cherry blossom",
       context: { sentence: "The cherry blossoms opened early.", source: undefined },
     })
   })

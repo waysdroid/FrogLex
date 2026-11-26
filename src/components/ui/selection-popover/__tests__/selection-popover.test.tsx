@@ -3,7 +3,14 @@ import { act, fireEvent, render, screen } from "@testing-library/react"
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { SelectionPopover } from ".."
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/base-ui/select"
+import { SelectionPopover, useSelectionPopoverOverlayProps } from ".."
 
 let latestRndProps: Record<string, any> | null = null
 const updatePositionSpy = vi.fn<(...args: any[]) => any>()
@@ -329,6 +336,21 @@ function renderTwoPopovers() {
 
 function PortalledBoundary() {
   return createPortal(<div data-testid="portalled-boundary">Portalled boundary</div>, document.body)
+}
+
+function ProviderMenu({ onChange }: { onChange: (value: string | null) => void }) {
+  const overlay = useSelectionPopoverOverlayProps()
+  return (
+    <Select defaultValue="first" onValueChange={onChange}>
+      <SelectTrigger aria-label="Translation source">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent {...overlay}>
+        <SelectItem value="first">First provider</SelectItem>
+        <SelectItem value="second">Second provider</SelectItem>
+      </SelectContent>
+    </Select>
+  )
 }
 
 function ReopenablePopoverHarness({
@@ -846,6 +868,37 @@ describe("selectionPopover", () => {
 
     expect(screen.getByTestId("mock-rnd")).toBeInTheDocument()
     expect(onOpenChangeSpy).not.toHaveBeenCalledWith(false)
+  })
+
+  it("keeps the provider menu inside the popover dialog without clipping it to the card", async () => {
+    const onChange = vi.fn<(value: string | null) => void>()
+    render(
+      <SelectionPopover.Root onOpenChange={onOpenChangeSpy}>
+        <SelectionPopover.Trigger>Open popover</SelectionPopover.Trigger>
+        <SelectionPopover.Content>
+          <SelectionPopover.Header>
+            <SelectionPopover.Title>Dictionary</SelectionPopover.Title>
+          </SelectionPopover.Header>
+          <SelectionPopover.Footer>
+            <ProviderMenu onChange={onChange} />
+          </SelectionPopover.Footer>
+        </SelectionPopover.Content>
+      </SelectionPopover.Root>,
+    )
+    fireEvent.click(screen.getByRole("button", { name: "Open popover" }))
+    flushRaf()
+
+    const trigger = screen.getByRole("combobox", { name: "Translation source" })
+    fireEvent.keyDown(trigger, { key: "ArrowDown" })
+    const option = await screen.findByRole("option", { name: "Second provider" })
+    expect(screen.getByRole("dialog")).toContainElement(option)
+    expect(screen.getByTestId("mock-rnd")).not.toContainElement(option)
+
+    fireEvent.pointerDown(option, { pointerType: "mouse", button: 0 })
+    fireEvent.click(option, { detail: 1 })
+    expect(onChange).toHaveBeenCalledWith("second", expect.anything())
+    expect(onOpenChangeSpy).not.toHaveBeenCalledWith(false)
+    expect(screen.getByRole("dialog")).toBeInTheDocument()
   })
 
   it("resets the pinned state after closing and reopening", () => {

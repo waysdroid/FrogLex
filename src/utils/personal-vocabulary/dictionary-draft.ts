@@ -83,6 +83,7 @@ export function createVocabularyDraft({
     phonetic: field("phonetic", 240),
     partOfSpeech: field("part-of-speech", 240),
     definition: definition ? { text: definition, language: targetLanguage } : undefined,
+    memoryTips: field("memory-tips"),
     difficulty,
     context: {
       sentence,
