@@ -96,6 +96,9 @@ export function VocabularyEditor({
     (providers.length === 1 ? providers[0]?.id : "")
   const provider = providers.find(({ id }) => id === selectedId)
   const otherDefinition = getVocabularyDefinitions(entry).definition
+  const textFields = getVocabularyTextFields(entry).sort(
+    (a, b) => (b.text?.length ?? 0) - (a.text?.length ?? 0),
+  )
   const groups = useVocabularyGroups()
   const membership = useQuery({
     queryKey: [...vocabularyQueryKey, "membership", entry?.id],
@@ -222,7 +225,7 @@ export function VocabularyEditor({
         </p>
       </section>
       <div className="space-y-4">
-        {getVocabularyTextFields(entry).map(({ name, text }) => {
+        {textFields.map(({ name, text }) => {
           if (name === "definition") return null
           const maxLength =
             name === "meaningsZh" || name === "meaningsEn"
@@ -358,7 +361,7 @@ export function VocabularyContextEditor({ entryId }: { entryId: string }) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: vocabularyQueryKey }),
   })
   return (
-    <details className="rounded-lg border p-4">
+    <details className="rounded-md border border-dashed p-3">
       <summary className="cursor-pointer text-sm font-medium">
         {i18n.t("personalVocabulary.addContext")}
       </summary>

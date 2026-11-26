@@ -11,14 +11,15 @@ export const vocabularyPath = "/personal-vocabulary"
 export const vocabularyQueryKey = ["personal-vocabulary"] as const
 export const vocabularyRepository = personalVocabularyRepository
 
+export const vocabularyReadingFields = ["collocations", "examples"] as const
+
 export const vocabularyNotesFields = [
   "memoryTips",
-  "note",
-  "examples",
-  "collocations",
   "synonyms",
   "antonyms",
   "derivatives",
+  "note",
+  ...vocabularyReadingFields,
 ] as const
 
 export function getVocabularyTextFields(entry?: VocabularyEntry) {
@@ -26,13 +27,13 @@ export function getVocabularyTextFields(entry?: VocabularyEntry) {
   return [
     { name: "meaningsZh" as const, text: meaningsZh, language: "zh" },
     { name: "meaningsEn" as const, text: meaningsEn, language: "en" },
+    ...vocabularyNotesFields.map((name) => ({ name, text: entry?.[name], language: undefined })),
     {
       name: "definition" as const,
       text: definition?.text,
       language: definition?.language,
     },
-    ...vocabularyNotesFields.map((name) => ({ name, text: entry?.[name], language: undefined })),
-  ].sort((a, b) => (b.text?.length ?? 0) - (a.text?.length ?? 0))
+  ]
 }
 
 export function useVocabularyGroups() {

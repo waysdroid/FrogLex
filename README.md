@@ -4,7 +4,7 @@
 
 ## 安装
 
-[V1.1.3 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.3) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.3/read-frog-personal-vocabulary-v1.1.3-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.3/read-frog-personal-vocabulary-v1.1.3-edge.zip)
+[V1.1.4 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.4) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.4/read-frog-personal-vocabulary-v1.1.4-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.4/read-frog-personal-vocabulary-v1.1.4-edge.zip)
 
 1. 下载并解压对应的 ZIP。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。

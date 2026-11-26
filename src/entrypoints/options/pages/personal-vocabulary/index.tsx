@@ -24,6 +24,7 @@ import {
   vocabularyError,
   vocabularyPath,
   vocabularyQueryKey,
+  vocabularyReadingFields,
   vocabularyRepository,
   VocabularySelect,
 } from "./controls"
@@ -352,6 +353,29 @@ function VocabularyList() {
   )
 }
 
+function VocabularyTextRows({ fields }: { fields: ReturnType<typeof getVocabularyTextFields> }) {
+  if (!fields.length) return null
+
+  return (
+    <dl className="divide-y">
+      {fields.map(({ name, text, language }) => (
+        <div key={name} className="space-y-1 py-3 first:pt-0 last:pb-0">
+          <dt className="text-sm font-medium">
+            {i18n.t(
+              name === "definition"
+                ? "personalVocabulary.otherDefinition"
+                : `personalVocabulary.fields.${name}`,
+            )}
+          </dt>
+          <dd lang={language} className="text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap">
+            {text}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 function VocabularyDetail({ entryId }: { entryId: string }) {
   const [editing, setEditing] = useState(false)
   const navigate = useNavigate()
@@ -376,6 +400,10 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
   })
   const detail = result.data
   const textFields = getVocabularyTextFields(detail?.entry).filter(({ text }) => text)
+  const readingFields = textFields.filter(({ name }) =>
+    vocabularyReadingFields.some((field) => field === name),
+  )
+  const mainFields = textFields.filter((field) => !readingFields.includes(field))
   const date = new Intl.DateTimeFormat(getUiLocale(), { dateStyle: "medium" })
   if (editing && detail)
     return <VocabularyEditor entry={detail.entry} onCancel={() => setEditing(false)} />
@@ -421,66 +449,64 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
                 <Badge variant="outline">{i18n.t("personalVocabulary.fields.important")}</Badge>
               )}
             </div>
-            {!!textFields.length && (
-              <dl className="divide-y">
-                {textFields.map(({ name, text, language }) => (
-                  <div key={name} className="space-y-1 py-3 first:pt-0 last:pb-0">
-                    <dt className="text-sm font-medium">
-                      {i18n.t(
-                        name === "definition"
-                          ? "personalVocabulary.otherDefinition"
-                          : `personalVocabulary.fields.${name}`,
-                      )}
-                    </dt>
-                    <dd
-                      lang={language}
-                      className="text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap"
-                    >
-                      {text}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            )}
+            <VocabularyTextRows fields={mainFields} />
           </section>
-          {!!detail.contexts.length && (
-            <section className="space-y-3">
-              <h3 className="text-lg font-medium">{i18n.t("personalVocabulary.contexts")}</h3>
+          <section className="space-y-4 rounded-lg border p-4">
+            <h3 className="text-lg font-medium">{i18n.t("personalVocabulary.contexts")}</h3>
+            <VocabularyTextRows fields={readingFields} />
+            {!!detail.contexts.length && (
               <ul className="space-y-3">
                 {detail.contexts.map((context) => (
-                  <li key={context.id} className="space-y-2 rounded-lg border p-4">
+                  <li key={context.id} className="space-y-3 rounded-md bg-muted/40 p-3">
                     {context.originalTerm !== detail.entry.originalTerm && (
                       <p className="text-xs wrap-anywhere text-muted-foreground">
                         {i18n.t("personalVocabulary.selectedTerm", [context.originalTerm])}
                       </p>
                     )}
                     {context.sentence && (
-                      <p lang="en" className="wrap-anywhere whitespace-pre-wrap">
+                      <blockquote
+                        lang="en"
+                        className="border-s-2 border-primary/40 ps-3 text-sm leading-relaxed font-medium wrap-anywhere whitespace-pre-wrap"
+                      >
                         {context.sentence}
-                      </p>
+                      </blockquote>
                     )}
-                    {context.meaning && (
-                      <p
-                        lang={context.meaning.language}
-                        className="text-sm wrap-anywhere whitespace-pre-wrap"
-                      >
-                        {context.meaning.text}
-                      </p>
-                    )}
-                    {context.translation && (
-                      <p
-                        lang={context.translation.language}
-                        className="text-sm wrap-anywhere whitespace-pre-wrap text-muted-foreground"
-                      >
-                        {context.translation.text}
-                      </p>
+                    {(context.meaning || context.translation) && (
+                      <dl className="space-y-2">
+                        {context.meaning && (
+                          <div className="space-y-1">
+                            <dt className="text-xs font-medium text-muted-foreground">
+                              {i18n.t("personalVocabulary.fields.contextMeaning")}
+                            </dt>
+                            <dd
+                              lang={context.meaning.language}
+                              className="text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap"
+                            >
+                              {context.meaning.text}
+                            </dd>
+                          </div>
+                        )}
+                        {context.translation && (
+                          <div className="space-y-1">
+                            <dt className="text-xs font-medium text-muted-foreground">
+                              {i18n.t("personalVocabulary.fields.sentenceTranslation")}
+                            </dt>
+                            <dd
+                              lang={context.translation.language}
+                              className="text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap"
+                            >
+                              {context.translation.text}
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
                     )}
                     {context.source && (
                       <a
                         href={context.source.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="block text-sm wrap-anywhere text-primary underline"
+                        className="inline-block text-sm wrap-anywhere text-primary underline underline-offset-2"
                       >
                         {context.source.title || context.source.url}
                       </a>
@@ -488,9 +514,9 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
                   </li>
                 ))}
               </ul>
-            </section>
-          )}
-          <VocabularyContextEditor entryId={entryId} />
+            )}
+            <VocabularyContextEditor entryId={entryId} />
+          </section>
           <section className="space-y-3 rounded-lg border p-4">
             <h3 className="font-medium">{i18n.t("personalVocabulary.entryDetails")}</h3>
             <dl className="grid grid-cols-2 gap-x-3 gap-y-4 text-sm @xl:grid-cols-3">
