@@ -1,5 +1,5 @@
-name: "Frog Vocabulary"
-extName: "Frog Vocabulary"
+name: "FrogLex"
+extName: "FrogLex"
 extDescription: "Dịch song ngữ bằng AI cho trang web và phụ đề YouTube, Netflix, X. Lưu từ mới và ôn tập bằng thẻ ghi nhớ."
 account:
   login: Đăng nhập
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: Đọc to "%s"
   showOriginal: Hiển thị bản gốc
 sidePanel:
-  firefoxUserActionHint: Trong Firefox, hãy mở Frog Vocabulary từ thanh bên của trình duyệt.
+  firefoxUserActionHint: Trong Firefox, hãy mở FrogLex từ thanh bên của trình duyệt.
   firefoxUserActionHelpText: Xem cách mở thanh bên Firefox
   firefoxUserActionHelpUrl: https://support.mozilla.org/vi/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -51,11 +51,11 @@ popup:
   hub:
     tooltip: Dịch văn bản với nhiều mô hình đồng thời
   blog:
-    notification: Có gì mới trong Frog Vocabulary
+    notification: Có gì mới trong FrogLex
   aiSmartContext: Ngữ cảnh thông minh AI
   aiSmartContextDescription: Sử dụng ngữ cảnh trang web để cải thiện chất lượng dịch. Yêu cầu nhà cung cấp LLM.
   storeReview:
-    title: Bạn thấy Frog Vocabulary thế nào?
+    title: Bạn thấy FrogLex thế nào?
     description: Một đánh giá trên cửa hàng sẽ giúp nhiều người đọc khác tìm thấy nó.
     action: Viết đánh giá
     dismiss: Đóng
@@ -118,12 +118,12 @@ options:
     roadmap: Lộ trình
   helpAndCommunity:
     title: Trợ giúp và cộng đồng
-    pageDescription: Tìm hiểu cách dùng Frog Vocabulary, nhờ nhóm hỗ trợ, hoặc tham gia cộng đồng cùng những người dùng khác.
+    pageDescription: Tìm hiểu cách dùng FrogLex, nhờ nhóm hỗ trợ, hoặc tham gia cộng đồng cùng những người dùng khác.
     help:
       title: Trợ giúp
     tutorial:
       title: Hướng dẫn
-      description: Đọc tài liệu để biết cách sử dụng Frog Vocabulary
+      description: Đọc tài liệu để biết cách sử dụng FrogLex
     email:
       title: Gửi email cho chúng tôi
       description: Liên hệ trực tiếp với nhóm qua contact@readfrog.app
@@ -162,8 +162,8 @@ options:
       upgradeAction: Nâng cấp
   apiProviders:
     title: Nhà cung cấp API
-    pageDescription: Dùng các mô hình tích hợp của Frog Vocabulary hoặc kết nối dịch vụ AI bên thứ ba, rồi chọn dịch vụ cho từng tính năng.
-    description: Dùng các mô hình tích hợp của Frog Vocabulary hoặc thêm nhà cung cấp bên thứ ba. Hơn 20 nhà cung cấp đã được cấu hình sẵn; bạn cũng có thể thêm API tùy chỉnh tương thích Chat Completions và API Open Responses.
+    pageDescription: Dùng các mô hình tích hợp của FrogLex hoặc kết nối dịch vụ AI bên thứ ba, rồi chọn dịch vụ cho từng tính năng.
+    description: Dùng các mô hình tích hợp của FrogLex hoặc thêm nhà cung cấp bên thứ ba. Hơn 20 nhà cung cấp đã được cấu hình sẵn; bạn cũng có thể thêm API tùy chỉnh tương thích Chat Completions và API Open Responses.
     configTitle: Cấu hình nhà cung cấp
     addProvider: Thêm nhà cung cấp
     builtInProvider: Mô hình tích hợp
@@ -287,8 +287,8 @@ options:
         customChatComplete: Tùy chỉnh Chat Complete
         customResponses: Tùy chỉnh Responses
       attribution:
-        builtInAi: Mô hình tiêu chuẩn do Frog Vocabulary lưu trữ. Miễn phí sau khi đăng nhập, theo hạn mức tuần.
-        builtInAiAdvance: Mô hình nâng cao do Frog Vocabulary lưu trữ, dành riêng cho thành viên Ultra. Tiêu hao hạn mức nhanh hơn các mô hình tiêu chuẩn.
+        builtInAi: Mô hình tiêu chuẩn do FrogLex lưu trữ. Miễn phí sau khi đăng nhập, theo hạn mức tuần.
+        builtInAiAdvance: Mô hình nâng cao do FrogLex lưu trữ, dành riêng cho thành viên Ultra. Tiêu hao hạn mức nhanh hơn các mô hình tiêu chuẩn.
       description:
         openai: API chính thức của OpenAI cho các mô hình GPT
         azure: Mô hình OpenAI lưu trữ trên Azure qua các bản triển khai của bạn
@@ -371,7 +371,7 @@ options:
   patterns:
     duplicate: Mẫu này đã có trong danh sách
     gluedWildcard: Dấu "*" phải thay cho trọn một phần của địa chỉ, ví dụ *.example.com hoặc example.*
-    unsupported: Frog Vocabulary không khớp được địa chỉ này. Cổng và các giao thức ngoài http, https đều không được hỗ trợ.
+    unsupported: FrogLex không khớp được địa chỉ này. Cổng và các giao thức ngoài http, https đều không được hỗ trợ.
   dataManagement:
     title: "Quản lý dữ liệu"
     description: "Quản lý nhập, xuất và sao lưu cục bộ hoặc đồng bộ qua WebDAV."
@@ -380,12 +380,12 @@ options:
     vocabularyDescription: "Mở công cụ nhập, xuất và sao lưu toàn bộ từ vựng."
   preference:
     title: Tùy chọn
-    pageDescription: "Chọn giao diện, ngôn ngữ đọc và nơi Frog Vocabulary hoạt động."
+    pageDescription: "Chọn giao diện, ngôn ngữ đọc và nơi FrogLex hoạt động."
     appearanceAndLanguage:
       title: Giao diện & ngôn ngữ
       theme:
         title: Chủ đề
-        description: Chọn chủ đề cho Frog Vocabulary.
+        description: Chọn chủ đề cho FrogLex.
         system: Hệ thống
         light: Sáng
         dark: Tối
@@ -479,7 +479,7 @@ options:
           accountChangedRetry: Tài khoản Google đã đăng nhập thay đổi trong khi hộp thoại đang mở. Chưa tải lên gì cả — hãy đồng bộ lại.
           busy: Một thẻ khác đang đồng bộ bảng thuật ngữ của bạn.
           malformed: Không đọc được tệp bảng thuật ngữ trên Drive, nên không có gì thay đổi.
-          versionTooNew: Tệp bảng thuật ngữ đó do một phiên bản Frog Vocabulary mới hơn ghi. Hãy cập nhật tiện ích trước.
+          versionTooNew: Tệp bảng thuật ngữ đó do một phiên bản FrogLex mới hơn ghi. Hãy cập nhật tiện ích trước.
           duplicateFiles: Drive của bạn có nhiều hơn một tệp bảng thuật ngữ. Không có gì thay đổi - hãy xóa tệp thừa.
           capExceeded: "Hợp nhất sẽ vượt giới hạn bảng thuật ngữ $1 mục. Không có gì thay đổi."
           failed: Đồng bộ bảng thuật ngữ thất bại
@@ -506,7 +506,7 @@ options:
         glossaryUndone: Bảng thuật ngữ đã trở lại như trước khi nhập
         glossaryUndoUnavailable: Không thể hoàn tác nữa — bộ thuật ngữ của bạn đã thay đổi kể từ đó.
         glossaryMalformed: Không đọc được bảng thuật ngữ trong tệp đó. Không có gì thay đổi.
-        glossaryVersionTooNew: Bảng thuật ngữ trong tệp đó do một phiên bản Frog Vocabulary mới hơn ghi. Hãy cập nhật tiện ích trước.
+        glossaryVersionTooNew: Bảng thuật ngữ trong tệp đó do một phiên bản FrogLex mới hơn ghi. Hãy cập nhật tiện ích trước.
         glossaryCapExceeded: "Tệp đó có nhiều hơn giới hạn $2 dòng bảng thuật ngữ $1 dòng. Không có gì thay đổi."
         exportOptions:
           title: Chọn tùy chọn xuất
@@ -1169,7 +1169,7 @@ options:
       importModeMerge: Thêm vào danh sách
       importModeReplace: Thay thế danh sách
       importEmpty: Không tìm thấy thuật ngữ nào trong tệp đó.
-      importMissingHeader: "Tệp đó không phải là tệp xuất bộ thuật ngữ của Frog Vocabulary. Nó cần các cột sau:"
+      importMissingHeader: "Tệp đó không phải là tệp xuất bộ thuật ngữ của FrogLex. Nó cần các cột sau:"
       importOverflow: "Lần nhập này sẽ vượt giới hạn $1 thuật ngữ. Không có gì thay đổi."
       importSuccess: "Đã nhập $1 thuật ngữ mới và cập nhật $2 thuật ngữ."
       importSkipped: "Đã bỏ qua $1 dòng không hợp lệ và $2 mục trùng lặp."
@@ -1191,7 +1191,7 @@ options:
           description: "Toàn bộ $1 thuật ngữ sẽ bị xóa vĩnh viễn. Hành động này không thể hoàn tác."
   contextMenu:
     title: Menu ngữ cảnh
-    pageDescription: Kiểm soát các mục Frog Vocabulary trong menu chuột phải của trình duyệt.
+    pageDescription: Kiểm soát các mục FrogLex trong menu chuột phải của trình duyệt.
     demoImageAlt: Demo menu ngữ cảnh
   translation:
     title: Dịch trang
@@ -1412,9 +1412,9 @@ options:
       noVoicesFound: Không tìm thấy giọng nói
       language:
         title: Giọng nói theo ngôn ngữ
-        description: Chọn một ngôn ngữ, rồi chọn giọng đọc ngôn ngữ đó. Đặt lại sẽ trả về giọng mà Frog Vocabulary chọn cho ngôn ngữ này.
+        description: Chọn một ngôn ngữ, rồi chọn giọng đọc ngôn ngữ đó. Đặt lại sẽ trả về giọng mà FrogLex chọn cho ngôn ngữ này.
         reset: Đặt lại
-        previewSample: Xin chào từ Frog Vocabulary! Đây là cách tôi sẽ phát âm khi đọc to.
+        previewSample: Xin chào từ FrogLex! Đây là cách tôi sẽ phát âm khi đọc to.
       fallback:
         title: Giọng dự phòng
         description: Ngôn ngữ nào bạn chưa gán giọng riêng sẽ được đọc bằng giọng này.
@@ -1581,7 +1581,7 @@ options:
         description: "Nhấn phím cách nhanh ba lần trong bất kỳ ô nhập nào để dịch nội dung bạn vừa gõ"
       floatingButton:
         title: "Nút nổi"
-        description: "Hiển thị nút nổi trên các trang web để truy cập nhanh các tính năng Frog Vocabulary"
+        description: "Hiển thị nút nổi trên các trang web để truy cập nhanh các tính năng FrogLex"
       selectionToolbar:
         title: "Thanh công cụ chọn"
         description: "Hiển thị thanh công cụ khi chọn văn bản trên trang web để dịch nhanh, đọc to và dùng các hành động AI"
@@ -1599,7 +1599,7 @@ options:
           description: "Hiển thị nút đọc, dùng để đọc to văn bản đã chọn"
       contextMenu:
         title: "Menu ngữ cảnh"
-        description: "Các mục Frog Vocabulary trong menu chuột phải của trình duyệt"
+        description: "Các mục FrogLex trong menu chuột phải của trình duyệt"
       translationHub:
         title: "Trung tâm Dịch thuật"
         description: "Dịch văn bản với nhiều mô hình đồng thời"
@@ -1614,7 +1614,7 @@ options:
   rateUs:
     title: Đánh giá chúng tôi
   configMigration:
-    versionTooNew: Phiên bản cấu hình đã nhập mới hơn, vui lòng nâng cấp Frog Vocabulary lên phiên bản mới nhất
+    versionTooNew: Phiên bản cấu hình đã nhập mới hơn, vui lòng nâng cấp FrogLex lên phiên bản mới nhất
     validationError: Xác thực cấu hình thất bại
 side:
   sourceLang: Ngôn ngữ nguồn
@@ -1659,7 +1659,7 @@ pageDiagnosis:
   framesNotIncluded: "Văn bản bên trong các khung nhúng không được tính ở đây."
   hint: "Nhấp vào một lý do để khoanh các đoạn tương ứng trên trang."
   close: "Đóng"
-  unavailable: "Frog Vocabulary không thể chạy trên trang này"
+  unavailable: "FrogLex không thể chạy trên trang này"
   reasons:
     noProse: "Không có chữ để dịch"
     tooShort: "Quá ngắn để dịch"
@@ -1726,13 +1726,13 @@ action:
   saveToNotebaseConnectExisting: Kết nối Notebase hiện có
   saveToNotebaseGoConfigure: Cấu hình
   saveToNotebaseLoginConnectedTitle: Đăng nhập để lưu?
-  saveToNotebaseLoginConnectedDescription: Custom Action này đang kết nối với tài khoản bên dưới. Sau khi đăng nhập, Frog Vocabulary sẽ lưu vào Notebase hiện có nếu có thể, hoặc tạo Notebase mới cho tài khoản đã đăng nhập.
+  saveToNotebaseLoginConnectedDescription: Custom Action này đang kết nối với tài khoản bên dưới. Sau khi đăng nhập, FrogLex sẽ lưu vào Notebase hiện có nếu có thể, hoặc tạo Notebase mới cho tài khoản đã đăng nhập.
   saveToNotebaseConnectionUnavailableTitle: Kết nối Notebase không khả dụng
   saveToNotebaseMissingNotebaseDescription: Notebase cũ không còn tồn tại hoặc tài khoản này không mở được. Hãy tạo Notebase mới và lưu kết quả này, hoặc kết nối Notebase hiện có trong Custom AI Actions.
   saveToNotebaseAccountUnavailableDescription: Tài khoản đã đăng nhập không khớp với tài khoản đã kết nối bên dưới. Tạo và lưu sẽ thay thế kết nối trước đó cùng các ánh xạ trường. Bạn cũng có thể kết nối Notebase hiện có trong Custom AI Actions.
   saveToNotebasePendingLogin: Đăng nhập để hoàn tất lưu
-  saveToNotebasePendingLoginDescription: Sau khi đăng nhập, Frog Vocabulary sẽ tự động tạo Notebase và lưu kết quả này.
-  saveToNotebasePendingConnectedLoginDescription: Sau khi đăng nhập, Frog Vocabulary sẽ lưu vào Notebase đã kết nối nếu có thể. Nếu tài khoản này không dùng được, Frog Vocabulary sẽ tạo Notebase mới và lưu kết quả này.
+  saveToNotebasePendingLoginDescription: Sau khi đăng nhập, FrogLex sẽ tự động tạo Notebase và lưu kết quả này.
+  saveToNotebasePendingConnectedLoginDescription: Sau khi đăng nhập, FrogLex sẽ lưu vào Notebase đã kết nối nếu có thể. Nếu tài khoản này không dùng được, FrogLex sẽ tạo Notebase mới và lưu kết quả này.
   upgrade: Nâng cấp
   updatePayment: Cập nhật thanh toán
   openCustomActions: Mở Custom AI Actions
@@ -1799,7 +1799,7 @@ subtitles:
     downloadTranslatedComplete: Đã tải phụ đề đã dịch
     downloadSource: Tải phụ đề gốc
   state:
-    loading: Frog Vocabulary đang tải phụ đề
+    loading: FrogLex đang tải phụ đề
     translating: Đang dịch…
     error: Đã xảy ra lỗi
   errors:

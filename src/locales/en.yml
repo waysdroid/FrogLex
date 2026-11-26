@@ -1,5 +1,5 @@
-name: "Frog Vocabulary"
-extName: "Frog Vocabulary"
+name: "FrogLex"
+extName: "FrogLex"
 extDescription: "Translate pages and video subtitles, use your own AI provider, and save words locally."
 account:
   login: Log in
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: Read aloud "%s"
   showOriginal: Show Original
 sidePanel:
-  firefoxUserActionHint: In Firefox, open Frog Vocabulary from the browser sidebar.
+  firefoxUserActionHint: In Firefox, open FrogLex from the browser sidebar.
   firefoxUserActionHelpText: Learn how to open the Firefox sidebar
   firefoxUserActionHelpUrl: https://support.mozilla.org/en-US/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -51,11 +51,11 @@ popup:
   hub:
     tooltip: Translate text with multiple models simultaneously
   blog:
-    notification: What's new in Frog Vocabulary
+    notification: What's new in FrogLex
   aiSmartContext: AI Smart Context
   aiSmartContextDescription: Uses webpage context to improve translation quality. Requires an LLM provider.
   storeReview:
-    title: Enjoying Frog Vocabulary?
+    title: Enjoying FrogLex?
     description: A quick store review helps other readers find it.
     action: Write a review
     dismiss: Dismiss
@@ -291,12 +291,12 @@ options:
     roadmap: Roadmap
   helpAndCommunity:
     title: Help & Community
-    pageDescription: Learn how to use Frog Vocabulary, get help from the team, or join other users in the community.
+    pageDescription: Learn how to use FrogLex, get help from the team, or join other users in the community.
     help:
       title: Help
     tutorial:
       title: Tutorial
-      description: Read the docs and learn how to use Frog Vocabulary
+      description: Read the docs and learn how to use FrogLex
     email:
       title: Email us
       description: Reach the team directly at contact@readfrog.app
@@ -335,8 +335,8 @@ options:
       upgradeAction: Upgrade
   apiProviders:
     title: API Providers
-    pageDescription: Use Frog Vocabulary's built-in models or connect third-party AI services, then choose which one runs each feature.
-    description: Use Frog Vocabulary's built-in models or add third-party providers. Over 20 providers are preconfigured, plus custom Chat Completions-compatible and Open Responses APIs.
+    pageDescription: Use FrogLex's built-in models or connect third-party AI services, then choose which one runs each feature.
+    description: Use FrogLex's built-in models or add third-party providers. Over 20 providers are preconfigured, plus custom Chat Completions-compatible and Open Responses APIs.
     configTitle: Provider config
     addProvider: Add provider
     builtInProvider: Built-in models
@@ -461,8 +461,8 @@ options:
         customChatComplete: Custom Chat Complete
         customResponses: Custom Responses
       attribution:
-        builtInAi: Frog Vocabulary's hosted standard model. Free to use once you log in, on a weekly quota.
-        builtInAiAdvance: Frog Vocabulary's hosted advanced model, exclusive to Ultra members. Uses quota faster than standard models.
+        builtInAi: FrogLex's hosted standard model. Free to use once you log in, on a weekly quota.
+        builtInAiAdvance: FrogLex's hosted advanced model, exclusive to Ultra members. Uses quota faster than standard models.
       description:
         openai: OpenAI's official API for GPT models
         azure: Azure-hosted OpenAI models through your deployments
@@ -545,7 +545,7 @@ options:
   patterns:
     duplicate: This pattern is already in the list
     gluedWildcard: A "*" has to stand for a whole part of the address, like *.example.com or example.*
-    unsupported: Frog Vocabulary cannot match this address. Ports and schemes other than http and https are not supported.
+    unsupported: FrogLex cannot match this address. Ports and schemes other than http and https are not supported.
   dataManagement:
     title: "Data management"
     description: "Import, export, and back up local data or synchronize it with WebDAV."
@@ -554,12 +554,12 @@ options:
     vocabularyDescription: "Open vocabulary import, export, and full backup."
   preference:
     title: Preferences
-    pageDescription: "Choose the appearance, reading languages, and where Frog Vocabulary runs."
+    pageDescription: "Choose the appearance, reading languages, and where FrogLex runs."
     appearanceAndLanguage:
       title: Appearance & language
       theme:
         title: Theme
-        description: Choose a theme for Frog Vocabulary.
+        description: Choose a theme for FrogLex.
         system: System
         light: Light
         dark: Dark
@@ -578,7 +578,7 @@ options:
         description: The language pages are translated into.
     extensionActivation:
       title: Extension activation
-      description: Whether Frog Vocabulary runs everywhere except the sites you list, or only on the sites you list
+      description: Whether FrogLex runs everywhere except the sites you list, or only on the sites you list
       manageSites: Manage sites
       mode:
         title: Activation mode
@@ -653,7 +653,7 @@ options:
           accountChangedRetry: The signed-in Google account changed while the dialog was open. Nothing was uploaded — sync again.
           busy: Another tab is syncing your glossaries right now.
           malformed: The glossary file in your Drive could not be read, so nothing was changed.
-          versionTooNew: That glossary file was written by a newer version of Frog Vocabulary. Update the extension first.
+          versionTooNew: That glossary file was written by a newer version of FrogLex. Update the extension first.
           duplicateFiles: Your Drive holds more than one glossary file. Nothing was changed - please remove the extra one.
           capExceeded: "Merging would go over the glossary limit by $1. Nothing was changed."
           failed: Glossary sync failed
@@ -680,7 +680,7 @@ options:
         glossaryUndone: Your glossaries were restored to how they were before the import
         glossaryUndoUnavailable: That undo is no longer available — your glossaries have changed since.
         glossaryMalformed: The glossaries in that file could not be read. Nothing was changed.
-        glossaryVersionTooNew: The glossaries in that file were written by a newer version of Frog Vocabulary. Update the extension first.
+        glossaryVersionTooNew: The glossaries in that file were written by a newer version of FrogLex. Update the extension first.
         glossaryCapExceeded: "That file holds $1 more glossary rows than the limit of $2. Nothing was changed."
         exportOptions:
           title: Select export options
@@ -1563,7 +1563,7 @@ options:
       importModeMerge: Add to list
       importModeReplace: Replace list
       importEmpty: No terms found in that file.
-      importMissingHeader: "That file is not a Frog Vocabulary glossary export. It needs these columns:"
+      importMissingHeader: "That file is not a FrogLex glossary export. It needs these columns:"
       importOverflow: "That import would exceed the limit by $1 terms. Nothing was changed."
       importSuccess: "Imported $1 new and updated $2 terms."
       importSkipped: "Skipped $1 invalid rows and $2 duplicates."
@@ -1585,7 +1585,7 @@ options:
           description: "All $1 terms will be permanently deleted. This action cannot be undone."
   contextMenu:
     title: Context Menu
-    pageDescription: Control the Frog Vocabulary entries in the browser's right-click menu.
+    pageDescription: Control the FrogLex entries in the browser's right-click menu.
     demoImageAlt: Context menu demo
   translation:
     title: Page Translation
@@ -1806,9 +1806,9 @@ options:
       noVoicesFound: No voices found
       language:
         title: Language voice
-        description: Pick a language, then the voice that reads it aloud. Reset puts back the voice Frog Vocabulary picks for that language.
+        description: Pick a language, then the voice that reads it aloud. Reset puts back the voice FrogLex picks for that language.
         reset: Reset
-        previewSample: Hello from Frog Vocabulary! This is how I will sound when reading aloud.
+        previewSample: Hello from FrogLex! This is how I will sound when reading aloud.
       fallback:
         title: Fallback voice
         description: The voice for any language you have not given one of its own.
@@ -1975,7 +1975,7 @@ options:
         description: "Press the space bar three times quickly in any input box to translate what you typed there"
       floatingButton:
         title: "Floating Button"
-        description: "Display the floating button on web pages for quick access to Frog Vocabulary features"
+        description: "Display the floating button on web pages for quick access to FrogLex features"
       selectionToolbar:
         title: "Selection Toolbar"
         description: "Display the toolbar when selecting text on web pages for quick translation, speech, and AI actions"
@@ -1993,7 +1993,7 @@ options:
           description: "Show the speak button, which reads the selected text aloud"
       contextMenu:
         title: "Context Menu"
-        description: "Frog Vocabulary's items in the browser's right-click menu"
+        description: "FrogLex's items in the browser's right-click menu"
       translationHub:
         title: "Translation Hub"
         description: "Translate text with multiple models simultaneously"
@@ -2008,7 +2008,7 @@ options:
   rateUs:
     title: Rate Us
   configMigration:
-    versionTooNew: The imported config version is newer, please upgrade Frog Vocabulary to the latest version
+    versionTooNew: The imported config version is newer, please upgrade FrogLex to the latest version
     validationError: Config validation failed
 side:
   sourceLang: Source Language
@@ -2053,7 +2053,7 @@ pageDiagnosis:
   framesNotIncluded: "Text inside embedded frames isn't included here."
   hint: "Click a reason to outline its paragraphs on the page."
   close: "Close"
-  unavailable: "Frog Vocabulary isn't running on this page"
+  unavailable: "FrogLex isn't running on this page"
   reasons:
     noProse: "No words to translate"
     tooShort: "Too short to translate"
@@ -2120,13 +2120,13 @@ action:
   saveToNotebaseConnectExisting: Connect existing Notebase
   saveToNotebaseGoConfigure: Configure
   saveToNotebaseLoginConnectedTitle: Log in to save?
-  saveToNotebaseLoginConnectedDescription: This Custom Action is connected to the account below. After login, Frog Vocabulary will save to the existing Notebase when possible, or create a new Notebase for the logged-in account.
+  saveToNotebaseLoginConnectedDescription: This Custom Action is connected to the account below. After login, FrogLex will save to the existing Notebase when possible, or create a new Notebase for the logged-in account.
   saveToNotebaseConnectionUnavailableTitle: Notebase connection unavailable
   saveToNotebaseMissingNotebaseDescription: The old Notebase no longer exists or cannot be opened by this account. Create a new Notebase and save this result, or connect an existing Notebase in Custom AI Actions.
   saveToNotebaseAccountUnavailableDescription: The logged-in account does not match the connected account below. Creating and saving will replace the previous connection and field mappings. You can also connect an existing Notebase in Custom AI Actions.
   saveToNotebasePendingLogin: Log in to finish saving
-  saveToNotebasePendingLoginDescription: After login, Frog Vocabulary will create the Notebase and save this result automatically.
-  saveToNotebasePendingConnectedLoginDescription: After login, Frog Vocabulary will save to the connected Notebase when possible. If this account cannot use it, Frog Vocabulary will create a new Notebase and save this result.
+  saveToNotebasePendingLoginDescription: After login, FrogLex will create the Notebase and save this result automatically.
+  saveToNotebasePendingConnectedLoginDescription: After login, FrogLex will save to the connected Notebase when possible. If this account cannot use it, FrogLex will create a new Notebase and save this result.
   upgrade: Upgrade
   updatePayment: Update payment
   openCustomActions: Open Custom AI Actions
@@ -2193,7 +2193,7 @@ subtitles:
     downloadTranslatedComplete: Translated subtitles downloaded
     downloadSource: Download source subtitles
   state:
-    loading: Frog Vocabulary loading captions
+    loading: FrogLex loading captions
     translating: Translating…
     error: Error occurred
   errors:

@@ -1,6 +1,6 @@
-# Frog Vocabulary
+# FrogLex
 
-Frog Vocabulary là tiện ích mở rộng cho Chrome và Edge dựa trên Read Frog.
+FrogLex là tiện ích mở rộng cho Chrome và Edge dựa trên Read Frog.
 
 [Cài đặt và sử dụng](../README.md) · [Các bản phát hành Chrome và Edge](https://github.com/waysdroid/read-frog/releases)
 

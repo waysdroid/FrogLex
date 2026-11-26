@@ -1,4 +1,4 @@
-# 蛙词库
+# 蛙词库 · FrogLex
 
 蛙词库是基於 Read Frog 二次開發的 Chrome 和 Edge 擴充功能。
 

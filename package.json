@@ -2,7 +2,7 @@
   "name": "@read-frog/extension",
   "version": "1.61.3",
   "private": true,
-  "description": "Frog Vocabulary browser extension for translation and personal vocabulary",
+  "description": "FrogLex browser extension for translation and personal vocabulary",
   "type": "module",
   "scripts": {
     "build": "wxt build",

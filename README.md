@@ -1,4 +1,4 @@
-<h1 align="center">蛙词库</h1>
+<h1 align="center">蛙词库 · FrogLex</h1>
 
 <p align="center"><strong>划词查释义，随手保存生词与阅读原句。</strong></p>
 
@@ -7,9 +7,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-chrome.zip"><strong>下载 Chrome 版</strong></a>
+  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.10/read-frog-personal-vocabulary-v1.1.10-chrome.zip"><strong>下载 Chrome 版</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-edge.zip"><strong>下载 Edge 版</strong></a>
+  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.10/read-frog-personal-vocabulary-v1.1.10-edge.zip"><strong>下载 Edge 版</strong></a>
   &nbsp;·&nbsp;
   <a href="https://github.com/waysdroid/read-frog/releases/latest">最新发布</a>
 </p>

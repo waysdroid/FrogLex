@@ -1,6 +1,6 @@
-# Frog Vocabulary
+# FrogLex
 
-Frog Vocabulary, Read Frog tabanlı bir Chrome ve Edge uzantısıdır.
+FrogLex, Read Frog tabanlı bir Chrome ve Edge uzantısıdır.
 
 [Kurulum ve kullanım](../README.md) · [Chrome ve Edge sürümleri](https://github.com/waysdroid/read-frog/releases)
 

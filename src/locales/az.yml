@@ -1,5 +1,5 @@
-name: "Frog Vocabulary"
-extName: "Frog Vocabulary"
+name: "FrogLex"
+extName: "FrogLex"
 extDescription: "Veb-səhifələr və YouTube, Netflix, X altyazıları üçün Sİ ilə ikidilli tərcümə. Yeni sözləri saxlayın, kartlarla təkrarlayın."
 account:
   login: Daxil ol
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: '"%s" mətnini səsləndir'
   showOriginal: Orijinalı göstər
 sidePanel:
-  firefoxUserActionHint: Firefox brauzerində Frog Vocabulary genişlənməsini yan paneldən açın.
+  firefoxUserActionHint: Firefox brauzerində FrogLex genişlənməsini yan paneldən açın.
   firefoxUserActionHelpText: Firefox yan panelini açmağı öyrənin
   firefoxUserActionHelpUrl: https://support.mozilla.org/en-US/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -51,11 +51,11 @@ popup:
   hub:
     tooltip: Mətni eyni anda bir neçə modellə tərcümə edin
   blog:
-    notification: Frog Vocabulary yenilikləri
+    notification: FrogLex yenilikləri
   aiSmartContext: Süni intellektlə ağıllı kontekst
   aiSmartContextDescription: Tərcümənin keyfiyyətini artırmaq üçün səhifənin kontekstindən istifadə edir. LLM provayderi tələb olunur.
   storeReview:
-    title: Frog Vocabulary xoşunuza gəlir?
+    title: FrogLex xoşunuza gəlir?
     description: Mağazada yazacağınız qısa rəy digər oxucuların onu tapmasına kömək edir.
     action: Rəy yaz
     dismiss: Bağla
@@ -118,12 +118,12 @@ options:
     roadmap: İnkişaf planı
   helpAndCommunity:
     title: Kömək və icma
-    pageDescription: Frog Vocabulary genişlənməsindən istifadə etməyi öyrənin, komandadan kömək alın və ya icmadakı digər istifadəçilərə qoşulun.
+    pageDescription: FrogLex genişlənməsindən istifadə etməyi öyrənin, komandadan kömək alın və ya icmadakı digər istifadəçilərə qoşulun.
     help:
       title: Kömək
     tutorial:
       title: Təlimat
-      description: Sənədləri oxuyun və Frog Vocabulary genişlənməsindən istifadə etməyi öyrənin
+      description: Sənədləri oxuyun və FrogLex genişlənməsindən istifadə etməyi öyrənin
     email:
       title: Bizə e-poçt göndər
       description: Komanda ilə birbaşa contact@readfrog.app ünvanında əlaqə saxlayın
@@ -162,8 +162,8 @@ options:
       upgradeAction: Təkmilləşdir
   apiProviders:
     title: API provayderləri
-    pageDescription: Frog Vocabulary-un daxili modellərindən istifadə edin və ya üçüncü tərəf süni intellekt xidmətlərini qoşun, sonra hər funksiyanı hansı seçimin icra edəcəyini təyin edin.
-    description: Frog Vocabulary-un daxili modellərindən istifadə edin və ya üçüncü tərəf provayderlər əlavə edin. 20-dən çox hazır provayder, həmçinin Chat Completions ilə uyğun API-lər və Open Responses API-ləri üçün fərdi qoşulma dəstəyi var.
+    pageDescription: FrogLex-un daxili modellərindən istifadə edin və ya üçüncü tərəf süni intellekt xidmətlərini qoşun, sonra hər funksiyanı hansı seçimin icra edəcəyini təyin edin.
+    description: FrogLex-un daxili modellərindən istifadə edin və ya üçüncü tərəf provayderlər əlavə edin. 20-dən çox hazır provayder, həmçinin Chat Completions ilə uyğun API-lər və Open Responses API-ləri üçün fərdi qoşulma dəstəyi var.
     configTitle: Provayder konfiqurasiyası
     addProvider: Provayder əlavə et
     builtInProvider: Daxili modellər
@@ -288,8 +288,8 @@ options:
         customChatComplete: Fərdi Chat Complete
         customResponses: Fərdi Responses
       attribution:
-        builtInAi: Frog Vocabulary tərəfindən host edilən standart model. Daxil olduqdan sonra həftəlik kvota ilə pulsuz istifadə edə bilərsiniz.
-        builtInAiAdvance: Frog Vocabulary tərəfindən host edilən təkmil model, yalnız Ultra üzvləri üçündür. Kvotanı standart modellərdən daha sürətli sərf edir.
+        builtInAi: FrogLex tərəfindən host edilən standart model. Daxil olduqdan sonra həftəlik kvota ilə pulsuz istifadə edə bilərsiniz.
+        builtInAiAdvance: FrogLex tərəfindən host edilən təkmil model, yalnız Ultra üzvləri üçündür. Kvotanı standart modellərdən daha sürətli sərf edir.
       description:
         openai: GPT modelləri üçün OpenAI-ın rəsmi API-si
         azure: Azure üzərində yerləşdirdiyiniz OpenAI modelləri
@@ -372,7 +372,7 @@ options:
   patterns:
     duplicate: Bu şablon artıq siyahıdadır
     gluedWildcard: '"*" ünvanın bütöv bir hissəsini əvəz etməlidir, məsələn *.example.com və ya example.*'
-    unsupported: Frog Vocabulary bu ünvanı uyğunlaşdıra bilmir. Portlar və http ilə https xaricindəki sxemlər dəstəklənmir.
+    unsupported: FrogLex bu ünvanı uyğunlaşdıra bilmir. Portlar və http ilə https xaricindəki sxemlər dəstəklənmir.
   dataManagement:
     title: "Məlumatların idarə edilməsi"
     description: "Yerli idxalı, ixracı və ehtiyat nüsxələrini idarə edin və ya WebDAV vasitəsilə sinxronlaşdırın."
@@ -381,12 +381,12 @@ options:
     vocabularyDescription: "Lüğətin idxal, ixrac və tam ehtiyat nüsxə alətlərini açın."
   preference:
     title: Ümumi parametrlər
-    pageDescription: "Frog Vocabulary görünüşünü, oxu dillərini və işlədiyi yerləri təyin edin."
+    pageDescription: "FrogLex görünüşünü, oxu dillərini və işlədiyi yerləri təyin edin."
     appearanceAndLanguage:
       title: Görünüş və dil
       theme:
         title: Mövzu
-        description: Frog Vocabulary üçün mövzu seçin.
+        description: FrogLex üçün mövzu seçin.
         system: Sistem
         light: Açıq
         dark: Tünd
@@ -405,7 +405,7 @@ options:
         description: Səhifələrin tərcümə edildiyi dil.
     extensionActivation:
       title: Genişlənmənin aktivliyi
-      description: Frog Vocabulary genişlənməsinin sadaladığınız saytlardan başqa hər yerdə, yoxsa yalnız sadaladığınız saytlarda işləyəcəyini seçin
+      description: FrogLex genişlənməsinin sadaladığınız saytlardan başqa hər yerdə, yoxsa yalnız sadaladığınız saytlarda işləyəcəyini seçin
       manageSites: Saytları idarə et
       mode:
         title: Aktivləşdirmə rejimi
@@ -480,7 +480,7 @@ options:
           accountChangedRetry: Dialoq açıq ikən daxil olunmuş Google hesabı dəyişdi. Heç nə yüklənmədi — yenidən sinxronlaşdırın.
           busy: Başqa bir tab hazırda lüğətlərinizi sinxronlaşdırır.
           malformed: Drive-dakı lüğət faylı oxuna bilmədi, ona görə heç nə dəyişmədi.
-          versionTooNew: Həmin lüğət faylını Frog Vocabulary-un daha yeni versiyası yazıb. Əvvəlcə genişlənməni yeniləyin.
+          versionTooNew: Həmin lüğət faylını FrogLex-un daha yeni versiyası yazıb. Əvvəlcə genişlənməni yeniləyin.
           duplicateFiles: Drive-ınızda birdən çox lüğət faylı var. Heç nə dəyişmədi - artıq olanı silin.
           capExceeded: "Birləşdirmə lüğət limitini $1 aşardı. Heç nə dəyişmədi."
           failed: Lüğət sinxronizasiyası alınmadı
@@ -507,7 +507,7 @@ options:
         glossaryUndone: Lüğətləriniz idxaldan əvvəlki halına qaytarıldı
         glossaryUndoUnavailable: Bu geri alma artıq mümkün deyil — lüğətləriniz o vaxtdan bəri dəyişib.
         glossaryMalformed: Həmin fayldakı lüğətlər oxuna bilmədi. Heç nə dəyişmədi.
-        glossaryVersionTooNew: Həmin fayldakı lüğətləri Frog Vocabulary-un daha yeni versiyası yazıb. Əvvəlcə genişlənməni yeniləyin.
+        glossaryVersionTooNew: Həmin fayldakı lüğətləri FrogLex-un daha yeni versiyası yazıb. Əvvəlcə genişlənməni yeniləyin.
         glossaryCapExceeded: "Həmin faylda $2 limitindən $1 çox lüğət sətri var. Heç nə dəyişmədi."
         exportOptions:
           title: İxrac seçimlərini təyin edin
@@ -1174,7 +1174,7 @@ options:
       importModeMerge: Siyahıya əlavə et
       importModeReplace: Siyahını əvəz et
       importEmpty: Bu faylda termin tapılmadı.
-      importMissingHeader: "Bu fayl Frog Vocabulary lüğət ixracı deyil. Bu sütunlar tələb olunur:"
+      importMissingHeader: "Bu fayl FrogLex lüğət ixracı deyil. Bu sütunlar tələb olunur:"
       importOverflow: "Bu idxal limiti $1 termin aşacaq. Heç nə dəyişdirilmədi."
       importSuccess: "$1 yeni termin idxal edildi, $2 termin yeniləndi."
       importSkipped: "$1 yanlış sətir və $2 təkrar buraxıldı."
@@ -1196,7 +1196,7 @@ options:
           description: "Bütün $1 termin həmişəlik silinəcək. Bu əməliyyatı geri qaytarmaq mümkün deyil."
   contextMenu:
     title: Kontekst menyusu
-    pageDescription: Brauzerin sağ klik menyusundakı Frog Vocabulary elementlərini idarə edin.
+    pageDescription: Brauzerin sağ klik menyusundakı FrogLex elementlərini idarə edin.
     demoImageAlt: Kontekst menyusu nümunəsi
   translation:
     title: Səhifə tərcüməsi
@@ -1417,9 +1417,9 @@ options:
       noVoicesFound: Səs tapılmadı
       language:
         title: Dil üçün səs
-        description: Əvvəl dili, sonra onu səsləndirəcək səsi seçin. Sıfırlama Frog Vocabulary genişlənməsinin həmin dil üçün seçdiyi səsi bərpa edir.
+        description: Əvvəl dili, sonra onu səsləndirəcək səsi seçin. Sıfırlama FrogLex genişlənməsinin həmin dil üçün seçdiyi səsi bərpa edir.
         reset: Sıfırla
-        previewSample: Frog Vocabulary sizə salam deyir! Ucadan oxuyarkən səsim belə olacaq.
+        previewSample: FrogLex sizə salam deyir! Ucadan oxuyarkən səsim belə olacaq.
       fallback:
         title: Ehtiyat səs
         description: Ayrıca səs təyin etmədiyiniz dillər üçün istifadə olunan səs.
@@ -1586,7 +1586,7 @@ options:
         description: "İstənilən mətn sahəsində yazdığınızı tərcümə etmək üçün boşluq düyməsini sürətlə üç dəfə basın"
       floatingButton:
         title: "Üzən düymə"
-        description: "Frog Vocabulary funksiyalarına sürətli çıxış üçün veb səhifələrdə üzən düyməni göstərin"
+        description: "FrogLex funksiyalarına sürətli çıxış üçün veb səhifələrdə üzən düyməni göstərin"
       selectionToolbar:
         title: "Seçim alətlər paneli"
         description: "Sürətli tərcümə, səsləndirmə və süni intellekt əməliyyatları üçün veb səhifələrdə mətn seçərkən alətlər panelini göstərin"
@@ -1604,7 +1604,7 @@ options:
           description: "Seçilmiş mətni ucadan oxuyan səsləndirmə düyməsini göstərin"
       contextMenu:
         title: "Kontekst menyusu"
-        description: "Brauzerin sağ klik menyusundakı Frog Vocabulary elementləri"
+        description: "Brauzerin sağ klik menyusundakı FrogLex elementləri"
       translationHub:
         title: "Tərcümə mərkəzi"
         description: "Mətni eyni anda bir neçə modellə tərcümə edin"
@@ -1619,7 +1619,7 @@ options:
   rateUs:
     title: Bizi qiymətləndir
   configMigration:
-    versionTooNew: İdxal edilən konfiqurasiyanın versiyası daha yenidir, Frog Vocabulary genişlənməsini son versiyaya yeniləyin
+    versionTooNew: İdxal edilən konfiqurasiyanın versiyası daha yenidir, FrogLex genişlənməsini son versiyaya yeniləyin
     validationError: Konfiqurasiyanın yoxlanması alınmadı
 side:
   sourceLang: Mənbə dili
@@ -1664,7 +1664,7 @@ pageDiagnosis:
   framesNotIncluded: "Daxil edilmiş çərçivələrin içindəki mətn burada nəzərə alınmır."
   hint: "Abzaslarını səhifədə işarələmək üçün bir səbəbə klikləyin."
   close: "Bağla"
-  unavailable: "Frog Vocabulary bu səhifədə işləyə bilmir"
+  unavailable: "FrogLex bu səhifədə işləyə bilmir"
   reasons:
     noProse: "Tərcümə ediləcək söz yoxdur"
     tooShort: "Tərcümə üçün çox qısadır"
@@ -1731,13 +1731,13 @@ action:
   saveToNotebaseConnectExisting: Mövcud Notebase ilə əlaqə qur
   saveToNotebaseGoConfigure: Tənzimlə
   saveToNotebaseLoginConnectedTitle: Yadda saxlamaq üçün daxil olunsun?
-  saveToNotebaseLoginConnectedDescription: Bu fərdi əməliyyat aşağıdakı hesaba qoşulub. Daxil olduqdan sonra Frog Vocabulary mümkün olduqda mövcud Notebase daxilində yadda saxlayacaq, əks halda daxil olunmuş hesab üçün yeni Notebase yaradacaq.
+  saveToNotebaseLoginConnectedDescription: Bu fərdi əməliyyat aşağıdakı hesaba qoşulub. Daxil olduqdan sonra FrogLex mümkün olduqda mövcud Notebase daxilində yadda saxlayacaq, əks halda daxil olunmuş hesab üçün yeni Notebase yaradacaq.
   saveToNotebaseConnectionUnavailableTitle: Notebase qoşulması əlçatan deyil
   saveToNotebaseMissingNotebaseDescription: Əvvəlki Notebase artıq mövcud deyil və ya bu hesab onu aça bilmir. Yeni Notebase yaradıb bu nəticəni saxlayın və ya fərdi süni intellekt əməliyyatlarında mövcud Notebase qoşun.
   saveToNotebaseAccountUnavailableDescription: Daxil olunmuş hesab aşağıdakı qoşulmuş hesabla uyğun gəlmir. Yaratma və saxlama əvvəlki qoşulmanı və sahə uyğunlaşdırmalarını əvəz edəcək. Fərdi süni intellekt əməliyyatlarında mövcud Notebase də qoşa bilərsiniz.
   saveToNotebasePendingLogin: Yadda saxlamanı tamamlamaq üçün daxil olun
-  saveToNotebasePendingLoginDescription: Daxil olduqdan sonra Frog Vocabulary avtomatik olaraq Notebase yaradacaq və bu nəticəni saxlayacaq.
-  saveToNotebasePendingConnectedLoginDescription: Daxil olduqdan sonra Frog Vocabulary mümkün olduqda qoşulmuş Notebase daxilində yadda saxlayacaq. Bu hesab ondan istifadə edə bilməsə, Frog Vocabulary yeni Notebase yaradacaq və bu nəticəni saxlayacaq.
+  saveToNotebasePendingLoginDescription: Daxil olduqdan sonra FrogLex avtomatik olaraq Notebase yaradacaq və bu nəticəni saxlayacaq.
+  saveToNotebasePendingConnectedLoginDescription: Daxil olduqdan sonra FrogLex mümkün olduqda qoşulmuş Notebase daxilində yadda saxlayacaq. Bu hesab ondan istifadə edə bilməsə, FrogLex yeni Notebase yaradacaq və bu nəticəni saxlayacaq.
   upgrade: Abunəliyi yüksəlt
   updatePayment: Ödənişi yenilə
   openCustomActions: Fərdi süni intellekt əməliyyatlarını aç
@@ -1797,7 +1797,7 @@ subtitles:
     downloadTranslatedComplete: Tərcümə edilmiş subtitrlər endirildi
     downloadSource: Orijinal subtitrləri endir
   state:
-    loading: Frog Vocabulary subtitrləri yükləyir
+    loading: FrogLex subtitrləri yükləyir
     translating: Tərcümə edilir…
     error: Xəta baş verdi
   errors:

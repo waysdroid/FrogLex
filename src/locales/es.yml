@@ -1,5 +1,5 @@
-name: "Frog Vocabulary"
-extName: "Frog Vocabulary"
+name: "FrogLex"
+extName: "FrogLex"
 extDescription: "Traducción bilingüe con IA para webs y subtítulos de YouTube, Netflix y X. Guarda palabras nuevas y repásalas con flashcards."
 account:
   login: Iniciar sesión
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: Leer en voz alta "%s"
   showOriginal: Mostrar original
 sidePanel:
-  firefoxUserActionHint: En Firefox, abre Frog Vocabulary desde la barra lateral del navegador.
+  firefoxUserActionHint: En Firefox, abre FrogLex desde la barra lateral del navegador.
   firefoxUserActionHelpText: Aprende a abrir la barra lateral de Firefox
   firefoxUserActionHelpUrl: https://support.mozilla.org/en-US/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -51,11 +51,11 @@ popup:
   hub:
     tooltip: Traduce texto con varios modelos al mismo tiempo
   blog:
-    notification: Novedades de Frog Vocabulary
+    notification: Novedades de FrogLex
   aiSmartContext: Contexto inteligente de IA
   aiSmartContextDescription: Usa el contexto de la página web para mejorar la calidad de la traducción. Requiere un proveedor LLM.
   storeReview:
-    title: ¿Te gusta Frog Vocabulary?
+    title: ¿Te gusta FrogLex?
     description: Una reseña en la tienda ayuda a que otros lectores lo descubran.
     action: Escribir una reseña
     dismiss: Descartar
@@ -118,12 +118,12 @@ options:
     roadmap: Hoja de ruta
   helpAndCommunity:
     title: Ayuda y comunidad
-    pageDescription: Aprende a usar Frog Vocabulary, pide ayuda al equipo o únete a otros usuarios en la comunidad.
+    pageDescription: Aprende a usar FrogLex, pide ayuda al equipo o únete a otros usuarios en la comunidad.
     help:
       title: Ayuda
     tutorial:
       title: Tutorial
-      description: Lee la documentación y aprende a usar Frog Vocabulary
+      description: Lee la documentación y aprende a usar FrogLex
     email:
       title: Escríbenos
       description: Contacta directamente con el equipo en contact@readfrog.app
@@ -162,8 +162,8 @@ options:
       upgradeAction: Mejorar plan
   apiProviders:
     title: Proveedores de API
-    pageDescription: Usa los modelos integrados de Frog Vocabulary o conecta servicios de IA de terceros y elige cuál se encarga de cada función.
-    description: Usa los modelos integrados de Frog Vocabulary o añade proveedores de terceros. Más de 20 proveedores vienen preconfigurados, y puedes añadir API personalizadas compatibles con Chat Completions u Open Responses.
+    pageDescription: Usa los modelos integrados de FrogLex o conecta servicios de IA de terceros y elige cuál se encarga de cada función.
+    description: Usa los modelos integrados de FrogLex o añade proveedores de terceros. Más de 20 proveedores vienen preconfigurados, y puedes añadir API personalizadas compatibles con Chat Completions u Open Responses.
     configTitle: Configuración de proveedores
     addProvider: Añadir proveedor
     builtInProvider: Modelos integrados
@@ -288,8 +288,8 @@ options:
         customChatComplete: Personalizado Chat Complete
         customResponses: Personalizado Responses
       attribution:
-        builtInAi: Modelo estándar alojado por Frog Vocabulary. Gratis al iniciar sesión, con cuota semanal.
-        builtInAiAdvance: Modelo avanzado alojado por Frog Vocabulary, exclusivo para miembros Ultra. Consume la cuota más rápido que los modelos estándar.
+        builtInAi: Modelo estándar alojado por FrogLex. Gratis al iniciar sesión, con cuota semanal.
+        builtInAiAdvance: Modelo avanzado alojado por FrogLex, exclusivo para miembros Ultra. Consume la cuota más rápido que los modelos estándar.
       description:
         openai: API oficial de OpenAI para los modelos GPT
         azure: Modelos OpenAI hospedados en Azure mediante tus implementaciones
@@ -372,7 +372,7 @@ options:
   patterns:
     duplicate: Este patrón ya está en la lista
     gluedWildcard: Un "*" debe sustituir una parte completa de la dirección, como *.example.com o example.*
-    unsupported: Frog Vocabulary no puede hacer coincidir esta dirección. No se admiten los puertos ni los esquemas distintos de http y https.
+    unsupported: FrogLex no puede hacer coincidir esta dirección. No se admiten los puertos ni los esquemas distintos de http y https.
   dataManagement:
     title: "Gestión de datos"
     description: "Importa, exporta y guarda copias locales o sincroniza los datos con WebDAV."
@@ -381,12 +381,12 @@ options:
     vocabularyDescription: "Abre la importación, exportación y copia completa del vocabulario."
   preference:
     title: Preferencias
-    pageDescription: "Configura el aspecto, los idiomas de lectura y dónde funciona Frog Vocabulary."
+    pageDescription: "Configura el aspecto, los idiomas de lectura y dónde funciona FrogLex."
     appearanceAndLanguage:
       title: Apariencia e idioma
       theme:
         title: Tema
-        description: Elige un tema para Frog Vocabulary.
+        description: Elige un tema para FrogLex.
         system: Sistema
         light: Claro
         dark: Oscuro
@@ -405,7 +405,7 @@ options:
         description: El idioma al que se traducen las páginas.
     extensionActivation:
       title: Activación de la extensión
-      description: Si Frog Vocabulary se ejecuta en todas partes salvo en los sitios que indiques, o solo en los sitios que indiques
+      description: Si FrogLex se ejecuta en todas partes salvo en los sitios que indiques, o solo en los sitios que indiques
       manageSites: Gestionar sitios
       mode:
         title: Modo de activación
@@ -480,7 +480,7 @@ options:
           accountChangedRetry: La cuenta de Google conectada cambió mientras el diálogo estaba abierto. No se subió nada; vuelve a sincronizar.
           busy: Otra pestaña está sincronizando tus glosarios ahora mismo.
           malformed: No se pudo leer el archivo de glosarios de tu Drive, así que no se cambió nada.
-          versionTooNew: Ese archivo de glosarios lo escribió una versión más reciente de Frog Vocabulary. Actualiza la extensión primero.
+          versionTooNew: Ese archivo de glosarios lo escribió una versión más reciente de FrogLex. Actualiza la extensión primero.
           duplicateFiles: Tu Drive tiene más de un archivo de glosarios. No se cambió nada - elimina el sobrante.
           capExceeded: "La fusión superaría el límite de glosarios en $1. No se cambió nada."
           failed: Falló la sincronización de glosarios
@@ -507,7 +507,7 @@ options:
         glossaryUndone: Tus glosarios volvieron a como estaban antes de la importación
         glossaryUndoUnavailable: "Esa acción ya no se puede deshacer: tus glosarios han cambiado desde entonces."
         glossaryMalformed: No se pudieron leer los glosarios de ese archivo. No se cambió nada.
-        glossaryVersionTooNew: Los glosarios de ese archivo los escribió una versión más reciente de Frog Vocabulary. Actualiza la extensión primero.
+        glossaryVersionTooNew: Los glosarios de ese archivo los escribió una versión más reciente de FrogLex. Actualiza la extensión primero.
         glossaryCapExceeded: "Ese archivo tiene $1 filas de glosario más que el límite de $2. No se cambió nada."
         exportOptions:
           title: Seleccionar opciones de exportación
@@ -1174,7 +1174,7 @@ options:
       importModeMerge: Añadir a la lista
       importModeReplace: Reemplazar la lista
       importEmpty: No se encontraron términos en ese archivo.
-      importMissingHeader: "Ese archivo no es una exportación de glosario de Frog Vocabulary. Necesita estas columnas:"
+      importMissingHeader: "Ese archivo no es una exportación de glosario de FrogLex. Necesita estas columnas:"
       importOverflow: "Esa importación superaría el límite en $1 términos. No se ha cambiado nada."
       importSuccess: "Se han importado $1 términos nuevos y actualizado $2."
       importSkipped: "Se han omitido $1 filas no válidas y $2 duplicados."
@@ -1196,7 +1196,7 @@ options:
           description: "Se eliminarán permanentemente los $1 términos. Esta acción no se puede deshacer."
   contextMenu:
     title: Menú contextual
-    pageDescription: Controla las opciones de Frog Vocabulary en el menú contextual del navegador.
+    pageDescription: Controla las opciones de FrogLex en el menú contextual del navegador.
     demoImageAlt: Demostración del menú contextual
   translation:
     title: Traducción de páginas
@@ -1417,9 +1417,9 @@ options:
       noVoicesFound: No se encontraron voces
       language:
         title: Voz por idioma
-        description: Elige un idioma y luego la voz que lo lee en voz alta. Restablecer devuelve la voz que Frog Vocabulary elige para ese idioma.
+        description: Elige un idioma y luego la voz que lo lee en voz alta. Restablecer devuelve la voz que FrogLex elige para ese idioma.
         reset: Restablecer
-        previewSample: ¡Hola desde Frog Vocabulary! Así sonaré al leer en voz alta.
+        previewSample: ¡Hola desde FrogLex! Así sonaré al leer en voz alta.
       fallback:
         title: Voz alternativa
         description: La voz para cualquier idioma al que no le hayas asignado una propia.
@@ -1586,7 +1586,7 @@ options:
         description: "Pulsa la barra espaciadora tres veces seguidas en cualquier campo de entrada para traducir lo que has escrito"
       floatingButton:
         title: "Botón flotante"
-        description: "Muestra el botón flotante en páginas web para acceder rápidamente a las funciones de Frog Vocabulary"
+        description: "Muestra el botón flotante en páginas web para acceder rápidamente a las funciones de FrogLex"
       selectionToolbar:
         title: "Barra de selección"
         description: "Muestra la barra de herramientas al seleccionar texto en páginas web para traducción rápida, voz y acciones AI"
@@ -1604,7 +1604,7 @@ options:
           description: "Muestra el botón de voz, que lee en voz alta el texto seleccionado"
       contextMenu:
         title: "Menú contextual"
-        description: "Las opciones de Frog Vocabulary en el menú contextual del navegador"
+        description: "Las opciones de FrogLex en el menú contextual del navegador"
       translationHub:
         title: "Centro de traducción"
         description: "Traduce texto con varios modelos al mismo tiempo"
@@ -1619,7 +1619,7 @@ options:
   rateUs:
     title: Calificarnos
   configMigration:
-    versionTooNew: La versión de configuración importada es más reciente; actualiza Frog Vocabulary a la última versión
+    versionTooNew: La versión de configuración importada es más reciente; actualiza FrogLex a la última versión
     validationError: Error de validación de configuración
 side:
   sourceLang: Idioma de origen
@@ -1664,7 +1664,7 @@ pageDiagnosis:
   framesNotIncluded: "El texto dentro de marcos incrustados no se incluye aquí."
   hint: "Haz clic en un motivo para resaltar sus párrafos en la página."
   close: "Cerrar"
-  unavailable: "Frog Vocabulary no puede ejecutarse en esta página"
+  unavailable: "FrogLex no puede ejecutarse en esta página"
   reasons:
     noProse: "No hay palabras que traducir"
     tooShort: "Demasiado corto para traducir"
@@ -1731,13 +1731,13 @@ action:
   saveToNotebaseConnectExisting: Conectar Notebase existente
   saveToNotebaseGoConfigure: Configurar
   saveToNotebaseLoginConnectedTitle: ¿Iniciar sesión para guardar?
-  saveToNotebaseLoginConnectedDescription: Esta Custom Action está conectada a la cuenta de abajo. Después de iniciar sesión, Frog Vocabulary guardará en la Notebase existente si es posible, o creará una nueva Notebase para la cuenta actual.
+  saveToNotebaseLoginConnectedDescription: Esta Custom Action está conectada a la cuenta de abajo. Después de iniciar sesión, FrogLex guardará en la Notebase existente si es posible, o creará una nueva Notebase para la cuenta actual.
   saveToNotebaseConnectionUnavailableTitle: Conexión de Notebase no disponible
   saveToNotebaseMissingNotebaseDescription: La Notebase anterior ya no existe o esta cuenta no puede abrirla. Crea una nueva Notebase y guarda este resultado, o conecta una Notebase existente en Custom AI Actions.
   saveToNotebaseAccountUnavailableDescription: La cuenta actual no coincide con la cuenta conectada de abajo. Crear y guardar reemplazará la conexión anterior y los mapeos de campos. También puedes conectar una Notebase existente en Custom AI Actions.
   saveToNotebasePendingLogin: Inicia sesión para terminar de guardar
-  saveToNotebasePendingLoginDescription: Después de iniciar sesión, Frog Vocabulary creará la Notebase y guardará este resultado automáticamente.
-  saveToNotebasePendingConnectedLoginDescription: Después de iniciar sesión, Frog Vocabulary guardará en la Notebase conectada si es posible. Si esta cuenta no puede usarla, creará una nueva Notebase y guardará este resultado.
+  saveToNotebasePendingLoginDescription: Después de iniciar sesión, FrogLex creará la Notebase y guardará este resultado automáticamente.
+  saveToNotebasePendingConnectedLoginDescription: Después de iniciar sesión, FrogLex guardará en la Notebase conectada si es posible. Si esta cuenta no puede usarla, creará una nueva Notebase y guardará este resultado.
   upgrade: Mejorar plan
   updatePayment: Actualizar pago
   openCustomActions: Abrir Custom AI Actions
@@ -1804,7 +1804,7 @@ subtitles:
     downloadTranslatedComplete: Subtítulos traducidos descargados
     downloadSource: Descargar subtítulos de origen
   state:
-    loading: Frog Vocabulary está cargando subtítulos
+    loading: FrogLex está cargando subtítulos
     translating: Traduciendo…
     error: Se produjo un error
   errors:

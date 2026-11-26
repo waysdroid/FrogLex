@@ -110,7 +110,7 @@ jobs:
             version="V${RELEASE_TAG#v}"
             write_update_catalog release-assets
             gh release create "$RELEASE_TAG" release-assets/* --verify-tag \
-              --repo "$GITHUB_REPOSITORY" --title "蛙词库 $version" \
+              --repo "$GITHUB_REPOSITORY" --title "蛙词库 · FrogLex $version" \
               --notes-file "$RUNNER_TEMP/vocabulary-new-release-notes.md"
             exit 0
           fi

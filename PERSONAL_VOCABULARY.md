@@ -1,6 +1,6 @@
-# 蛙词库使用说明
+# 蛙词库 · FrogLex 使用说明
 
-基于 Read Frog 1.61.2，源自上游提交 `284a532712ec9cfd139cfe4e783f5932ca3ab661`。Fork 发布使用 `v1.1.9` 标签，扩展清单版本为 `1.61.3.9`，显示版本为 `1.1.9`。
+基于 Read Frog 1.61.2，源自上游提交 `284a532712ec9cfd139cfe4e783f5932ca3ab661`。Fork 发布使用 `v1.1.10` 标签，扩展清单版本为 `1.61.3.10`，显示版本为 `1.1.10`。
 
 ## 使用
 
@@ -66,4 +66,4 @@ SKIP_FREE_API=true pnpm test --pool=threads --maxWorkers=2
 
 编译会在 `.output/` 生成 `*-chrome.zip` 和 `*-edge.zip`。解压 ZIP，在对应浏览器的扩展管理页打开开发者模式，选择「加载已解压的扩展程序」，并选择包含 `manifest.json` 的目录。也可直接加载 `.output/chrome-mv3` 或 `.output/edge-mv3`。
 
-GitHub Actions 在主分支更新、Pull Request、推送 `v*` 标签和手动运行时，两端都自动编译、打包并校验。运行摘要显示生成的两个包名。推送版本标签后，发布流程从对应标签重新编译，并在 Release 的 Assets 提供包含许可声明的两份 ZIP。[V1.1.8 下载](https://github.com/waysdroid/read-frog/releases/tag/v1.1.9)
+GitHub Actions 在主分支更新、Pull Request、推送 `v*` 标签和手动运行时，两端都自动编译、打包并校验。运行摘要显示生成的两个包名。推送版本标签后，发布流程从对应标签重新编译，并在 Release 的 Assets 提供包含许可声明的两份 ZIP。[下载最新版本](https://github.com/waysdroid/read-frog/releases/latest)

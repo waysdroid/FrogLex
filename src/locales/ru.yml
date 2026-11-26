@@ -1,5 +1,5 @@
-name: "Frog Vocabulary"
-extName: "Frog Vocabulary"
+name: "FrogLex"
+extName: "FrogLex"
 extDescription: "Двуязычный ИИ-перевод веб-страниц и субтитров YouTube, Netflix и X. Сохраняйте новые слова и повторяйте их на карточках."
 account:
   login: Войти
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: Прочитать вслух "%s"
   showOriginal: Показать оригинал
 sidePanel:
-  firefoxUserActionHint: В Firefox откройте Frog Vocabulary из боковой панели браузера.
+  firefoxUserActionHint: В Firefox откройте FrogLex из боковой панели браузера.
   firefoxUserActionHelpText: Как открыть боковую панель Firefox
   firefoxUserActionHelpUrl: https://support.mozilla.org/ru/kb/ispolzovanije-bokovoi-paneli-dostup-instrumenty-i-vertikalnyje-vkladki
 popup:
@@ -51,11 +51,11 @@ popup:
   hub:
     tooltip: Переводите текст несколькими моделями одновременно
   blog:
-    notification: Что нового в Frog Vocabulary
+    notification: Что нового в FrogLex
   aiSmartContext: Умный контекст ИИ
   aiSmartContextDescription: Использует контекст веб-страницы для улучшения качества перевода. Требуется LLM-провайдер.
   storeReview:
-    title: Нравится Frog Vocabulary?
+    title: Нравится FrogLex?
     description: Отзыв в магазине поможет другим читателям найти расширение.
     action: Оставить отзыв
     dismiss: Закрыть
@@ -118,12 +118,12 @@ options:
     roadmap: Дорожная карта
   helpAndCommunity:
     title: Помощь и сообщество
-    pageDescription: Узнайте, как пользоваться Frog Vocabulary, обратитесь за помощью к команде или присоединяйтесь к сообществу.
+    pageDescription: Узнайте, как пользоваться FrogLex, обратитесь за помощью к команде или присоединяйтесь к сообществу.
     help:
       title: Помощь
     tutorial:
       title: Руководство
-      description: Прочитайте документацию и узнайте, как пользоваться Frog Vocabulary
+      description: Прочитайте документацию и узнайте, как пользоваться FrogLex
     email:
       title: Написать нам
       description: Свяжитесь с командой напрямую по адресу contact@readfrog.app
@@ -162,8 +162,8 @@ options:
       upgradeAction: Перейти на Pro
   apiProviders:
     title: API-провайдеры
-    pageDescription: Используйте встроенные модели Frog Vocabulary или подключите сторонние ИИ-сервисы и выберите провайдера для каждой функции.
-    description: Используйте встроенные модели Frog Vocabulary или добавляйте сторонних провайдеров. Более 20 провайдеров предустановлено; также можно добавить пользовательские API, совместимые с Chat Completions, и API Open Responses.
+    pageDescription: Используйте встроенные модели FrogLex или подключите сторонние ИИ-сервисы и выберите провайдера для каждой функции.
+    description: Используйте встроенные модели FrogLex или добавляйте сторонних провайдеров. Более 20 провайдеров предустановлено; также можно добавить пользовательские API, совместимые с Chat Completions, и API Open Responses.
     configTitle: Настройка провайдеров
     addProvider: Добавить провайдера
     builtInProvider: Встроенные модели
@@ -287,8 +287,8 @@ options:
         customChatComplete: Пользовательский Chat Complete
         customResponses: Пользовательский Responses
       attribution:
-        builtInAi: Стандартная модель, размещённая Frog Vocabulary. Доступна бесплатно после входа в рамках недельной квоты.
-        builtInAiAdvance: Продвинутая модель, размещённая Frog Vocabulary, — только для подписчиков Ultra. Расходует квоту быстрее, чем стандартные модели.
+        builtInAi: Стандартная модель, размещённая FrogLex. Доступна бесплатно после входа в рамках недельной квоты.
+        builtInAiAdvance: Продвинутая модель, размещённая FrogLex, — только для подписчиков Ultra. Расходует квоту быстрее, чем стандартные модели.
       description:
         openai: Официальный API OpenAI для моделей GPT
         azure: Модели OpenAI в Azure через ваши развертывания
@@ -371,7 +371,7 @@ options:
   patterns:
     duplicate: Этот шаблон уже в списке
     gluedWildcard: «*» должна заменять часть адреса целиком, например *.example.com или example.*
-    unsupported: Frog Vocabulary не может сопоставить этот адрес. Порты и схемы, кроме http и https, не поддерживаются.
+    unsupported: FrogLex не может сопоставить этот адрес. Порты и схемы, кроме http и https, не поддерживаются.
   dataManagement:
     title: "Управление данными"
     description: "Управляйте локальным импортом, экспортом и копиями или синхронизируйте данные через WebDAV."
@@ -380,12 +380,12 @@ options:
     vocabularyDescription: "Откройте импорт, экспорт и полное резервное копирование словаря."
   preference:
     title: Предпочтения
-    pageDescription: "Настройте внешний вид, языки чтения и область работы Frog Vocabulary."
+    pageDescription: "Настройте внешний вид, языки чтения и область работы FrogLex."
     appearanceAndLanguage:
       title: Оформление и язык
       theme:
         title: Тема
-        description: Выберите тему для Frog Vocabulary.
+        description: Выберите тему для FrogLex.
         system: Системная
         light: Светлая
         dark: Тёмная
@@ -479,7 +479,7 @@ options:
           accountChangedRetry: Пока диалог был открыт, сменился вошедший аккаунт Google. Ничего не загружено — синхронизируйте ещё раз.
           busy: Другая вкладка сейчас синхронизирует ваши глоссарии.
           malformed: Файл глоссариев в Drive не удалось прочитать, поэтому ничего не изменено.
-          versionTooNew: Этот файл глоссариев записан более новой версией Frog Vocabulary. Сначала обновите расширение.
+          versionTooNew: Этот файл глоссариев записан более новой версией FrogLex. Сначала обновите расширение.
           duplicateFiles: В вашем Drive больше одного файла глоссариев. Ничего не изменено — удалите лишний.
           capExceeded: "Слияние превысило бы лимит глоссария на $1. Ничего не изменено."
           failed: Не удалось синхронизировать глоссарии
@@ -506,7 +506,7 @@ options:
         glossaryUndone: Глоссарии восстановлены в состояние до импорта
         glossaryUndoUnavailable: Отмена больше недоступна — глоссарии успели измениться.
         glossaryMalformed: Глоссарии из этого файла не удалось прочитать. Ничего не изменено.
-        glossaryVersionTooNew: Глоссарии в этом файле записаны более новой версией Frog Vocabulary. Сначала обновите расширение.
+        glossaryVersionTooNew: Глоссарии в этом файле записаны более новой версией FrogLex. Сначала обновите расширение.
         glossaryCapExceeded: "В этом файле на $1 строк глоссария больше лимита в $2. Ничего не изменено."
         exportOptions:
           title: Выберите параметры экспорта
@@ -1169,7 +1169,7 @@ options:
       importModeMerge: Добавить к списку
       importModeReplace: Заменить список
       importEmpty: В этом файле не найдено терминов.
-      importMissingHeader: "Это не файл экспорта глоссария Frog Vocabulary. В нём должны быть эти столбцы:"
+      importMissingHeader: "Это не файл экспорта глоссария FrogLex. В нём должны быть эти столбцы:"
       importOverflow: "Этот импорт превысит лимит на $1 терминов. Ничего не изменено."
       importSuccess: "Импортировано новых терминов: $1, обновлено: $2."
       importSkipped: "Пропущено неверных строк: $1, дубликатов: $2."
@@ -1191,7 +1191,7 @@ options:
           description: "Все термины будут удалены безвозвратно. Всего: $1. Это действие нельзя отменить."
   contextMenu:
     title: Контекстное меню
-    pageDescription: Управляйте пунктами Frog Vocabulary в контекстном меню браузера.
+    pageDescription: Управляйте пунктами FrogLex в контекстном меню браузера.
     demoImageAlt: Демо контекстного меню
   translation:
     title: Перевод страниц
@@ -1412,9 +1412,9 @@ options:
       noVoicesFound: Голоса не найдены
       language:
         title: Голос для языка
-        description: Выберите язык, а затем голос, которым он будет читаться. Сброс вернёт голос, который Frog Vocabulary подбирает для этого языка.
+        description: Выберите язык, а затем голос, которым он будет читаться. Сброс вернёт голос, который FrogLex подбирает для этого языка.
         reset: Сброс
-        previewSample: Привет от Frog Vocabulary! Так я буду звучать при чтении вслух.
+        previewSample: Привет от FrogLex! Так я буду звучать при чтении вслух.
       fallback:
         title: Резервный голос
         description: Голос для языков, которым вы не назначили собственный.
@@ -1581,7 +1581,7 @@ options:
         description: "Быстро нажмите пробел три раза в любом поле ввода, чтобы перевести набранный текст"
       floatingButton:
         title: "Плавающая кнопка"
-        description: "Отображать плавающую кнопку на веб-страницах для быстрого доступа к функциям Frog Vocabulary"
+        description: "Отображать плавающую кнопку на веб-страницах для быстрого доступа к функциям FrogLex"
       selectionToolbar:
         title: "Панель выделения"
         description: "Показывать панель при выделении текста на веб-страницах для быстрого перевода, озвучивания и AI-действий"
@@ -1599,7 +1599,7 @@ options:
           description: "Показывать кнопку озвучивания, которая читает выделенный текст вслух"
       contextMenu:
         title: "Контекстное меню"
-        description: "Пункты Frog Vocabulary в контекстном меню браузера"
+        description: "Пункты FrogLex в контекстном меню браузера"
       translationHub:
         title: "Центр переводов"
         description: "Переводите текст несколькими моделями одновременно"
@@ -1614,7 +1614,7 @@ options:
   rateUs:
     title: Оцените нас
   configMigration:
-    versionTooNew: Версия импортированной конфигурации новее, пожалуйста, обновите Frog Vocabulary до последней версии
+    versionTooNew: Версия импортированной конфигурации новее, пожалуйста, обновите FrogLex до последней версии
     validationError: Ошибка валидации конфигурации
 side:
   sourceLang: Исходный язык
@@ -1659,7 +1659,7 @@ pageDiagnosis:
   framesNotIncluded: "Текст во встроенных фреймах здесь не учитывается."
   hint: "Нажмите на причину, чтобы выделить её абзацы на странице."
   close: "Закрыть"
-  unavailable: "Frog Vocabulary не может работать на этой странице"
+  unavailable: "FrogLex не может работать на этой странице"
   reasons:
     noProse: "Нет слов для перевода"
     tooShort: "Слишком коротко для перевода"
@@ -1726,13 +1726,13 @@ action:
   saveToNotebaseConnectExisting: Подключить существующую Notebase
   saveToNotebaseGoConfigure: Настроить
   saveToNotebaseLoginConnectedTitle: Войти и сохранить?
-  saveToNotebaseLoginConnectedDescription: Этот Custom Action подключён к аккаунту ниже. После входа Frog Vocabulary сохранит в существующую Notebase, если это возможно, или создаст новую Notebase для текущего аккаунта.
+  saveToNotebaseLoginConnectedDescription: Этот Custom Action подключён к аккаунту ниже. После входа FrogLex сохранит в существующую Notebase, если это возможно, или создаст новую Notebase для текущего аккаунта.
   saveToNotebaseConnectionUnavailableTitle: Подключение Notebase недоступно
   saveToNotebaseMissingNotebaseDescription: Старая Notebase больше не существует или недоступна этому аккаунту. Создайте новую Notebase и сохраните результат либо подключите существующую Notebase в Custom AI Actions.
   saveToNotebaseAccountUnavailableDescription: Текущий аккаунт не совпадает с подключённым аккаунтом ниже. Создание и сохранение заменит прежнее подключение и сопоставления полей. Также можно подключить существующую Notebase в Custom AI Actions.
   saveToNotebasePendingLogin: Войдите, чтобы завершить сохранение
-  saveToNotebasePendingLoginDescription: После входа Frog Vocabulary автоматически создаст Notebase и сохранит этот результат.
-  saveToNotebasePendingConnectedLoginDescription: После входа Frog Vocabulary сохранит в подключённую Notebase, если это возможно. Если аккаунт не может её использовать, будет создана новая Notebase.
+  saveToNotebasePendingLoginDescription: После входа FrogLex автоматически создаст Notebase и сохранит этот результат.
+  saveToNotebasePendingConnectedLoginDescription: После входа FrogLex сохранит в подключённую Notebase, если это возможно. Если аккаунт не может её использовать, будет создана новая Notebase.
   upgrade: Повысить тариф
   updatePayment: Обновить оплату
   openCustomActions: Открыть Custom AI Actions
@@ -1799,7 +1799,7 @@ subtitles:
     downloadTranslatedComplete: Переведённые субтитры скачаны
     downloadSource: Скачать исходные субтитры
   state:
-    loading: Frog Vocabulary загрузка субтитров
+    loading: FrogLex загрузка субтитров
     translating: Перевод…
     error: Произошла ошибка
   errors:
