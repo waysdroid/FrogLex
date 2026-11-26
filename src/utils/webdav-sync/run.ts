@@ -34,6 +34,7 @@ export async function syncDataset<T>(
   const localChunks = dataset.pack(local)
   const previous = await dataset.loadCheckpoint()
   const previousChunks = previous ? dataset.pack(previous) : undefined
+  if (mode === "push" || (mode === "incremental" && !previous)) await client.prepareUpload()
   const remote = await client.readVersion(kind, mode === "push")
 
   if (mode === "push") {

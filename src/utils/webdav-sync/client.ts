@@ -1,7 +1,13 @@
 import type { SyncKind, SyncSettings } from "./types"
 import { sha256 } from "js-sha256"
 import { z } from "zod"
-import { davDirectory, SyncError } from "./types"
+import {
+  davDirectory,
+  isNutstoreDirectory,
+  nutstoreDefaultFolder,
+  nutstoreRoot,
+  SyncError,
+} from "./types"
 
 const digestSchema = z.string().regex(/^[a-f0-9]{64}$/)
 const manifestSchema = z.object({
@@ -11,18 +17,40 @@ const manifestSchema = z.object({
   chunks: z.record(z.string().regex(/^(?:config|[01][a-f0-9])$/), digestSchema),
 })
 type Manifest = z.output<typeof manifestSchema>
-type RemoteVersion = { etag: string | null; manifest: Manifest | null } | null
+type RemoteVersion = { etag: string | null; bodyHash?: string; manifest: Manifest | null } | null
+type DavMethod = "PROPFIND" | "GET" | "PUT" | "MKCOL" | "COPY"
 export type Chunks = Map<string, string>
+
+const jsonHeaders = { "Content-Type": "application/json; charset=utf-8" }
+const xmlHeaders = { Depth: "0", "Content-Type": "application/xml; charset=utf-8" }
+
+async function readText(response: Response) {
+  try {
+    return await response.text()
+  } catch {
+    throw new SyncError("connection")
+  }
+}
+
+function assertManifestWritten(response: Response) {
+  if (response.status === 412 || response.status === 423) throw new SyncError("changed")
+  if (!response.ok) {
+    throw new SyncError(response.status === 404 || response.status === 409 ? "folder" : "server")
+  }
+}
 
 export class WebDavClient {
   private readonly directory: URL
   private readonly authorization: string | undefined
+  private readonly nutstore: boolean
+  private defaultFolderChecked = false
 
   constructor(
     settings: SyncSettings,
     private readonly fetcher = fetch,
   ) {
     this.directory = davDirectory(settings.url)
+    this.nutstore = isNutstoreDirectory(this.directory)
     if (settings.username || settings.password) {
       const bytes = new TextEncoder().encode(`${settings.username}:${settings.password}`)
       this.authorization = `Basic ${btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(""))}`
@@ -31,11 +59,11 @@ export class WebDavClient {
 
   private async request(
     name: string,
-    method: "PROPFIND" | "GET" | "PUT",
+    method: DavMethod,
     headers: Record<string, string> = {},
     body?: string,
   ) {
-    if (this.authorization) headers.Authorization = this.authorization
+    if (this.authorization) headers = { ...headers, Authorization: this.authorization }
     let response
     try {
       response = await this.fetcher(new URL(name, this.directory), {
@@ -50,31 +78,75 @@ export class WebDavClient {
     } catch {
       throw new SyncError("connection")
     }
-    if (response.status === 401 || response.status === 403) throw new SyncError("auth")
+    if (response.status === 401) throw new SyncError("auth")
+    if (response.status === 403) {
+      throw new SyncError(
+        method === "PUT" || method === "COPY" || method === "MKCOL" ? "writeDenied" : "auth",
+      )
+    }
+    if (response.status === 429 || (this.nutstore && response.status === 503)) {
+      throw new SyncError("rateLimited")
+    }
     return response
   }
 
-  async test() {
+  private async properties(name: string, property: "resourcetype" | "getetag") {
     const response = await this.request(
-      "",
+      name,
       "PROPFIND",
-      { Depth: "0", "Content-Type": "application/xml; charset=utf-8" },
-      '<?xml version="1.0" encoding="UTF-8"?><propfind xmlns="DAV:"><prop><resourcetype/></prop></propfind>',
+      xmlHeaders,
+      `<?xml version="1.0" encoding="UTF-8"?><propfind xmlns="DAV:"><prop><${property}/></prop></propfind>`,
     )
-    if (response.status === 404) throw new SyncError("folder")
+    if (response.status === 404) return null
     if (response.status !== 207) throw new SyncError("server")
-    const xml = await response.text()
-    if (!/<(?:[\w.-]+:)?collection(?:\s|\/?>)/u.test(xml)) throw new SyncError("folder")
+    return readText(response)
+  }
+
+  private async isCollection(name: string) {
+    const xml = await this.properties(name, "resourcetype")
+    return xml !== null && /<(?:[\w.-]+:)?collection(?:\s|\/?>)/u.test(xml)
+  }
+
+  async test() {
+    if (await this.isCollection("")) return
+    if (this.directory.href === nutstoreDefaultFolder && (await this.isCollection(nutstoreRoot)))
+      return
+    throw new SyncError("folder")
+  }
+
+  async prepareUpload() {
+    if (this.directory.href !== nutstoreDefaultFolder || this.defaultFolderChecked) return
+    if (!(await this.isCollection(""))) {
+      const response = await this.request("", "MKCOL")
+      // Another device may create the collection between PROPFIND and MKCOL.
+      if (response.status !== 201 && !(response.status === 405 && (await this.isCollection("")))) {
+        throw new SyncError("folder")
+      }
+    }
+    this.defaultFolderChecked = true
+  }
+
+  private writableTag(etag: string | null) {
+    if (etag && /^"[^"]*"$/u.test(etag)) return etag
+    // Nutstore can return a bare ETag and expects the same token in If-Match.
+    if (this.nutstore && etag && !etag.startsWith("W/") && /^[a-z\d._:+/=-]+$/iu.test(etag))
+      return etag
+    return null
   }
 
   async readVersion(kind: SyncKind, overwrite = false): Promise<RemoteVersion> {
     const response = await this.request(this.manifestName(kind), "GET")
     if (response.status === 404) return null
     if (response.status !== 200) throw new SyncError("server")
-    const etag = response.headers.get("etag")
-    if (overwrite) return { etag, manifest: null }
+    const etag = this.writableTag(response.headers.get("etag"))
+    const body = !overwrite || (this.nutstore && !etag) ? await readText(response) : undefined
+    const bodyHash = this.nutstore && !etag && body !== undefined ? sha256(body) : undefined
+    if (overwrite) {
+      if (body === undefined) await response.body?.cancel()
+      return { etag, bodyHash, manifest: null }
+    }
     try {
-      const manifest = manifestSchema.parse(await response.json())
+      const manifest = manifestSchema.parse(JSON.parse(body ?? ""))
       const names = Object.keys(manifest.chunks)
       if (
         manifest.kind !== kind ||
@@ -82,10 +154,32 @@ export class WebDavClient {
       ) {
         throw new SyncError("invalid")
       }
-      return { etag, manifest }
+      return { etag, bodyHash, manifest }
     } catch {
       throw new SyncError("invalid")
     }
+  }
+
+  private async propertyWriteTag(name: string) {
+    const xml = await this.properties(name, "getetag")
+    if (xml === null) throw new SyncError("changed")
+    const property = /<(?:[\w.-]+:)?getetag(?:\s[^>]*)?>([^<]+)<\/(?:[\w.-]+:)?getetag\s*>/u.exec(
+      xml,
+    )?.[1]
+    return this.writableTag(property?.trim().replaceAll("&quot;", '"') ?? null)
+  }
+
+  private async requireWriteTag(name: string, remote: NonNullable<RemoteVersion>) {
+    if (remote.etag) return remote.etag
+    if (!this.nutstore || !remote.bodyHash) throw new SyncError("validator")
+    const etag = await this.propertyWriteTag(name)
+    if (!etag) throw new SyncError("validator")
+    // Pair the property with the manifest bytes used for this merge before issuing a CAS.
+    const version = await this.request(name, "GET")
+    if (version.status === 404) throw new SyncError("changed")
+    if (version.status !== 200) throw new SyncError("server")
+    if (sha256(await readText(version)) !== remote.bodyHash) throw new SyncError("changed")
+    return etag
   }
 
   async download(kind: SyncKind, manifest: Manifest, available: Chunks): Promise<Chunks> {
@@ -99,7 +193,7 @@ export class WebDavClient {
     await inBatches(pending, async ([name, digest]) => {
       const response = await this.request(this.chunkName(kind, digest), "GET")
       if (response.status !== 200) throw new SyncError("invalid")
-      const body = await response.text()
+      const body = await readText(response)
       if (sha256(body) !== digest) throw new SyncError("invalid")
       chunks.set(name, body)
     })
@@ -107,8 +201,9 @@ export class WebDavClient {
   }
 
   async upload(kind: SyncKind, chunks: Chunks, remote: RemoteVersion) {
-    const etag = remote?.etag
-    if (remote && (!etag || !/^"[^"]*"$/u.test(etag))) throw new SyncError("validator")
+    const manifestName = this.manifestName(kind)
+    const etag = remote ? await this.requireWriteTag(manifestName, remote) : null
+    if (!remote) await this.prepareUpload()
     const chunksByName = Object.fromEntries([...chunks].map(([name, body]) => [name, sha256(body)]))
     const known = new Set(Object.values(remote?.manifest?.chunks ?? {}))
     const pending = [...new Map([...chunks.values()].map((body) => [sha256(body), body]))].filter(
@@ -118,17 +213,19 @@ export class WebDavClient {
       const response = await this.request(
         this.chunkName(kind, digest),
         "PUT",
-        { "If-None-Match": "*", "Content-Type": "application/json; charset=utf-8" },
+        { ...jsonHeaders, "If-None-Match": "*" },
         body,
       )
       // Immutable chunks can already exist after a previous attempt or a parallel upload.
       if (response.status === 412) {
         const existing = await this.request(this.chunkName(kind, digest), "GET")
-        if (existing.status !== 200 || sha256(await existing.text()) !== digest) {
+        if (existing.status !== 200 || sha256(await readText(existing)) !== digest) {
           throw new SyncError("invalid")
         }
       } else if (!response.ok) {
-        throw new SyncError(response.status === 409 ? "folder" : "server")
+        throw new SyncError(
+          response.status === 404 || response.status === 409 ? "folder" : "server",
+        )
       }
     })
     const manifest: Manifest = {
@@ -137,17 +234,40 @@ export class WebDavClient {
       kind,
       chunks: chunksByName,
     }
-    const response = await this.request(
-      this.manifestName(kind),
+    const body = JSON.stringify(manifest)
+    if (!remote && this.nutstore) {
+      // Nutstore may ignore If-None-Match on PUT. COPY with Overwrite F reserves
+      // the public manifest name without clobbering a peer's first sync.
+      const source = `read-frog-${kind}-manifest-${sha256(body)}.json`
+      assertManifestWritten(await this.request(source, "PUT", jsonHeaders, body))
+      const response = await this.request(source, "COPY", {
+        Destination: new URL(manifestName, this.directory).href,
+        Overwrite: "F",
+      })
+      assertManifestWritten(response)
+      if (response.status !== 201) throw new SyncError("server")
+      return
+    }
+    let response = await this.request(
+      manifestName,
       "PUT",
-      {
-        ...(etag ? { "If-Match": etag } : { "If-None-Match": "*" }),
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      JSON.stringify(manifest),
+      { ...jsonHeaders, ...(etag ? { "If-Match": etag } : { "If-None-Match": "*" }) },
+      body,
     )
-    if (response.status === 412 || response.status === 423) throw new SyncError("changed")
-    if (!response.ok) throw new SyncError(response.status === 409 ? "folder" : "server")
+    if (this.nutstore && response.status === 412 && etag?.startsWith('"')) {
+      // Only retry a rejected quoted tag if Nutstore advertises the same
+      // version as a bare token. A different token signals a real conflict.
+      const rawTag = await this.propertyWriteTag(manifestName)
+      if (rawTag && rawTag === etag.slice(1, -1)) {
+        response = await this.request(
+          manifestName,
+          "PUT",
+          { ...jsonHeaders, "If-Match": rawTag },
+          body,
+        )
+      }
+    }
+    assertManifestWritten(response)
   }
 
   private manifestName(kind: SyncKind) {

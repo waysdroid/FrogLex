@@ -113,16 +113,22 @@ export function WebDavSyncSection() {
       <p className="text-sm text-muted-foreground">{i18n.t(`${key}.description`)}</p>
       <div className="space-y-4 rounded-xl border p-4">
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="grid gap-1.5 text-sm font-medium sm:col-span-2">
-            {i18n.t(`${key}.url`)}
-            <Input
-              type="url"
-              placeholder="https://nas.example.com/dav/read-frog/"
-              value={draft.url}
-              disabled={!saved || !!pending}
-              onChange={(event) => edit("url", event.target.value)}
-            />
-          </label>
+          <div className="space-y-1.5 sm:col-span-2">
+            <label className="grid gap-1.5 text-sm font-medium">
+              {i18n.t(`${key}.url`)}
+              <Input
+                type="url"
+                placeholder="https://nas.example.com/dav/read-frog/"
+                value={draft.url}
+                aria-describedby="webdav-address-help"
+                disabled={!saved || !!pending}
+                onChange={(event) => edit("url", event.target.value)}
+              />
+            </label>
+            <p id="webdav-address-help" className="text-xs text-muted-foreground">
+              {i18n.t(`${key}.nutstore`)}
+            </p>
+          </div>
           <label className="grid gap-1.5 text-sm font-medium">
             {i18n.t(`${key}.username`)}
             <Input

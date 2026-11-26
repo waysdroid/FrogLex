@@ -1,5 +1,12 @@
 import { z } from "zod"
 
+export const nutstoreRoot = "https://dav.jianguoyun.com/dav/"
+export const nutstoreDefaultFolder = new URL("read-frog/", nutstoreRoot).href
+
+export function isNutstoreDirectory(url: URL) {
+  return url.origin === "https://dav.jianguoyun.com" && url.pathname.startsWith("/dav/")
+}
+
 export const settingsKey = "local:webdav-sync-settings"
 export const statusKey = "local:webdav-sync-status"
 export const syncKinds = ["config", "vocabulary"] as const
@@ -36,6 +43,8 @@ export type SyncErrorCode =
   | "settings"
   | "connection"
   | "auth"
+  | "writeDenied"
+  | "rateLimited"
   | "folder"
   | "server"
   | "validator"
@@ -62,7 +71,8 @@ export interface SyncStatus {
 
 export function davDirectory(input: string) {
   try {
-    const url = new URL(input)
+    const address = /^dav\.jianguoyun\.com(?:\/|$)/iu.test(input) ? `https://${input}` : input
+    const url = new URL(address)
     const loopback = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
     if (
       (url.protocol !== "https:" && !(url.protocol === "http:" && loopback)) ||
@@ -73,6 +83,9 @@ export function davDirectory(input: string) {
     )
       throw new SyncError("settings")
     if (!url.pathname.endsWith("/")) url.pathname += "/"
+    if (url.href === nutstoreRoot || url.href === new URL("/", nutstoreRoot).href) {
+      return new URL(nutstoreDefaultFolder)
+    }
     return url
   } catch {
     throw new SyncError("settings")
