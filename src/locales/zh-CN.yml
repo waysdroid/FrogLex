@@ -1,14 +1,6 @@
 name: "蛙词库"
 extName: "蛙词库"
 extDescription: "网页和视频字幕翻译，支持自配 AI 模型。划词收录生词，保存在本地个人词库。"
-account:
-  login: 登录
-  webApp: 网页应用
-  logout: 退出登录
-  logoutError: 退出登录失败，请重试
-  grantAccess: 授予访问权限
-  grantAccessHint: 需要访问 readfrog.app
-  grantAccessError: 授予访问权限失败，请重试
 dataTypes:
   string: 文本
   number: 数字
@@ -50,8 +42,6 @@ popup:
         action: 点击切换为双语对照
   hub:
     tooltip: 一次性调用多个翻译模型翻译文本
-  blog:
-    notification: 蛙词库更新动态
   aiSmartContext: AI 智能上下文
   aiSmartContextDescription: 结合网页上下文提升翻译效果。需要使用 LLM 提供商。
   storeReview:
@@ -283,56 +273,8 @@ options:
     settings: 设置
     features: 功能
     translation: 翻译
-    product: 产品
   tools:
     translationHub: 翻译中心
-    pdfTranslation: PDF 翻译
-  product:
-    roadmap: 路线图
-  helpAndCommunity:
-    title: 帮助与社区
-    pageDescription: 了解怎么使用蛙词库、向团队寻求帮助，或者加入社区和其他用户交流。
-    help:
-      title: 帮助
-    tutorial:
-      title: 使用教程
-      description: 阅读文档，了解怎么使用蛙词库
-    email:
-      title: 邮件联系
-      description: 通过 contact@readfrog.app 直接联系团队
-    featureRequest:
-      title: 功能建议
-      description: 提出想法，并为团队接下来要做的功能投票
-    bugReport:
-      title: 报告问题
-      description: 提交工单，并跟进直到问题解决
-    troubleshooting:
-      title: "故障排查"
-    diagnostics:
-      title: "导出诊断信息"
-      description: "保存最近的日志和设置（不含 API 密钥），附在问题反馈里"
-      exportSuccess: "诊断信息已保存"
-      exportFailed: "无法导出诊断信息"
-    community:
-      title: 社区
-    discord:
-      title: Discord
-      description: 与团队和其他用户实时交流
-    wechat:
-      title: 微信群
-      description: 扫描二维码进入微信讨论群
-      qrCodeAlt: 微信二维码
-  usage:
-    title: 用量
-    pageDescription: 查看你的会员和 AI 额度。
-    notSignedIn: 未登录
-    guest: 访客
-    manageSubscription: 管理订阅
-    logInToView: 登录后查看
-    footer:
-      logIn: 登录后每周送免费 AI 额度
-      upgrade: 升级 Pro 解锁 AI 字幕和更多内置 AI 额度
-      upgradeAction: 升级会员
   apiProviders:
     title: API 提供商
     pageDescription: 使用 蛙词库 内置模型或接入第三方 AI 服务，并为每项功能指定使用哪一个。
@@ -590,82 +532,6 @@ options:
         urlPattern: URL 模式
     config:
       title: 配置
-      googleDrive:
-        title: Google Drive 云端同步
-        description: 远端配置较新时下载，本地配置较新时上传；术语库走单独一个文件，按条合并而不是整份覆盖。
-        sync: 同步到 Google Drive
-        syncing: 同步中...
-        syncSuccess:
-          uploaded: 本地配置已上传至云端
-          downloaded: 已应用远程配置
-          sameChanges: 两端配置改动相同，已同步
-          noChange: 配置已是最新状态
-          unresolved: 配置冲突已解决并同步
-        syncError: 配置同步失败，请重试
-        accountChangedError: 对话框打开期间登录的 Google 账号发生了变化，未上传任何内容，请重新同步。
-        metadataCorrupted: 同步数据损坏，已自动应用远端配置
-        lastSyncTime: 最后同步时间
-        logout: 登出账号
-        logoutSuccess: 已登出 Google 账号
-        unresolved:
-          title: 配置同步解决
-          description: 本地与云端配置存在差异，请选择每个字段要保留的版本。
-          resolved: 已解决
-          unresolved: 未解决
-          localValue: 本地值
-          remoteValue: 远端值
-          useLocal: 使用本地
-          useRemote: 使用远端
-          useAllLocal: 全选本地
-          useAllRemote: 全选远端
-          reset: 撤销选择
-          progress: 已解决 $1/$2 个更改
-          confirm: 确认同步
-          cancel: 取消
-          hasUnresolvedInChildren: ⚠ 包含待解决项
-          item: 项
-          items: 项
-          unresolvedPrompt: "[待解决 - 请选择]"
-          localLatest: 本地最新
-          remoteLatest: 远端最新
-          bothChanged: 双方已更改
-          localChanged: 本地已更改
-          remoteChanged: 远端已更改
-          configValid: 配置有效
-          configInvalid: 配置无效
-          resolveToContinue: 解决冲突后继续
-          validationAlert:
-            title: 合并后的配置存在验证错误
-            description: 请调整下方差异以修复：
-          moreErrors: ...还有 $1 个错误
-        glossary:
-          thisDevice: 本机
-          cloud: 云端
-          deleted: 已删除
-          disabled: 已停用
-          upToDate: 术语库已是最新
-          uploaded: 术语库已上传到云端
-          merged: "术语库已同步：新增 $1，更新 $2，删除 $3"
-          undo: 撤销
-          undone: 术语库已恢复到同步前的样子
-          undoUnavailable: 该撤销已失效 — 之后术语库已发生变化。
-          retry: 同步过程中术语库有改动，请再运行一次。
-          accountChangedRetry: 对话框打开期间登录的 Google 账号发生了变化，未上传任何内容，请重新同步。
-          busy: 另一个标签页正在同步你的术语库。
-          malformed: 云端的术语库文件无法读取，本次未做任何改动。
-          versionTooNew: 那个术语库文件由更新版本的 蛙词库 写入，请先升级扩展。
-          duplicateFiles: 你的云端存在多个术语库文件，本次未做任何改动，请先删掉多余的那个。
-          capExceeded: "合并后会超出术语库上限 $1 条，本次未做任何改动。"
-          failed: 术语库同步失败
-          review:
-            title: 确认这次术语库同步
-            description: 两边不一致的地方，请选择保留哪一个。
-            firstSync: "本机首次同步：从云端接收 $1 条，上传 $2 条。"
-            accountChanged: "当前登录的是 $1，和这台设备上次同步的账号不是同一个。本机的 $2 条术语库数据会被上传到这个账号。如果只想要这个账号的术语库，请取消、先把本机的删掉，再同步一次。"
-            destructive: "这次同步会删掉本机 $2 条术语库数据中的 $1 条。"
-            moreConflicts: "另有 $1 处差异未列出，均按合并结果处理。"
-            confirm: 同步
-            cancel: 取消
       manualSync:
         title: 手动配置同步
         description: 手动导入导出你的配置，术语库也一并带走
@@ -961,7 +827,6 @@ options:
       noEnabledLlmProvider: 请先启用至少一个 LLM 提供商后再创建自定义 AI 指令
       tabs:
         config: 配置
-        notebase: 笔记库
         hasErrors: 有错误
         connected: 已连接
         needsAttention: 需要处理
@@ -1079,51 +944,6 @@ options:
             tooLong: 版式超过 $1 个字符，无法保存。
             fieldNotShown: 「$1」未在此版式中显示。
             reservedFieldName: 字段名「$1」是版式保留名，请重命名该字段。
-        notebase:
-          title: 笔记库连接
-          description: 将这个指令的结构化结果保存到远程笔记库。
-          loginRequiredTitle: 登录后才能配置笔记库
-          loginRequiredDescription: 先在 readfrog.app 登录，然后再选择笔记库和编辑映射。
-          loginRequiredConnectedDescription: 这个连接来自下面的账号。如果登录原账号，会恢复字段映射；如果登录其他账号，创建或连接笔记库时会清空之前的字段映射。
-          loginAction: 去登录
-          connectedAccountLabel: 已连接账号
-          currentAccountLabel: 当前账号
-          unknownConnectedAccount: 未知账号
-          tableLabel: 笔记库
-          tablePlaceholder: 选择一个笔记库
-          tableClearOption: 不连接笔记库
-          clearConnectionAction: 清空连接
-          refreshAction: 刷新
-          emptyTitle: 还没有笔记库
-          emptyDescription: 先去 readfrog.app 创建一个笔记库，再回来映射字段。
-          openNotebaseAction: 打开笔记库
-          accessDeniedTitle: 无法访问笔记库
-          accessDeniedDescription: 当前账号没有权限加载笔记库数据。
-          listErrorTitle: 加载笔记库失败
-          listErrorDescription: 请稍后再试一次。
-          accountMismatchTitle: 笔记库连接属于其他账号
-          accountMismatchDescription: 当前连接绑定到下面的已连接账号。你可以清空连接，或选择当前账号可访问的笔记库。
-          tableUnavailableTitle: 选中的笔记库已不可用
-          tableUnavailableDescription: 这个笔记库不存在或当前账号无法打开。可以清空连接，或重新选择一个笔记库。
-          tableUnavailableOption: 不可用
-          schemaErrorTitle: 加载笔记库 schema 失败
-          schemaErrorDescription: 请稍后再试一次刷新。
-          schemaLoading: 正在加载笔记库 schema...
-          mappingsLabel: 字段映射
-          localFieldLabel: 指令字段
-          remoteFieldLabel: 笔记库字段
-          columnUnavailableOption: 已删除
-          invalidMappingsTitle: 有些映射需要处理
-          invalidMappingsDescription: 无效映射会被保留。保存到笔记库前请先修复它们。
-          noFieldSavedTitle: "没有字段会存进这个笔记库"
-          noFieldSavedDescription: "至少给一个字段选一个笔记库字段，才能保存笔记。"
-          mappingSummary: "存 $1 · 不存 $2 · 待定 $3"
-          skipFieldOption: "不保存"
-          undecidedFieldPlaceholder: "选择笔记库字段或不保存"
-          mappingMissingLocal: 映射的指令字段已经不存在。
-          mappingMissingRemote: 映射的笔记库字段已经不存在。
-          mappingMissingSchema: 刷新笔记库 schema 后才能校验这个映射。
-          mappingIncompatible: 字段类型已经不匹配。
         tokens:
           selection: 选中的文本内容
           paragraphs: 与选区相交的段落内容，会以空行拼接，传给自定义 AI 指令时会截断到前 2000 个字符
@@ -1960,42 +1780,9 @@ action:
   viewContextDetails: 上下文
   customizeCustomAction: 定制“$1”动作
   customActionLayoutFallback: 此结果无法按版式显示，当前为简化显示。
-  saveToNotebase: 保存到笔记库
-  saveToNotebaseSaving: 保存中...
-  saveToNotebaseSuccess: 已保存到笔记库
-  saveToNotebaseFailed: 保存到笔记库失败
-  saveToNotebaseLoginRequired: 请先在 readfrog.app 登录后再保存到笔记库
-  saveToNotebaseAccessDenied: 当前账号无法访问选中的笔记库
-  saveToNotebaseLimitExceeded: 需要升级后才能保存更多笔记库内容
-  saveToNotebaseTableUnavailable: 选中的笔记库已不可用
-  saveToNotebaseConnectionInvalid: 当前笔记库连接已经过期，请到 Custom AI Actions 中刷新并修复映射
-  saveToNotebaseInvalidContent: "AI 返回的内容格式不对，没有保存。请重新运行一次再保存。"
-  saveToNotebaseNoFieldSaved: "没有保存：这个指令没有要存进笔记库的字段，请在设置里至少选一个。"
-  saveToNotebaseUndecidedTitle: "已保存。这些字段还没决定存不存"
-  saveToNotebaseSkipUndecided: "都不保存"
-  saveToNotebaseNoMappings: 至少添加一个有效映射后才能保存
-  saveToNotebaseCreateTitle: 创建笔记库？
-  saveToNotebaseCreateDescription: 创建一个与此 Custom Action 输出字段匹配的笔记库，并将当前结果保存为第一条笔记。
-  saveToNotebaseCreateAndSave: 直接创建并保存
-  saveToNotebaseCreateAndSaveShort: 创建并保存
-  saveToNotebaseLoginAndCreate: 登录并自动创建
-  saveToNotebaseLoginAndSave: 登录并保存
-  saveToNotebaseConnectExisting: 连接现有笔记库
-  saveToNotebaseGoConfigure: 去配置
-  saveToNotebaseLoginConnectedTitle: 登录后继续保存？
-  saveToNotebaseLoginConnectedDescription: 这个 Custom Action 已连接到下面的账号。登录后，如果可以使用原笔记库会直接保存；如果当前账号无法使用它，会创建新的笔记库并保存。
-  saveToNotebaseConnectionUnavailableTitle: 当前笔记库连接不可用
-  saveToNotebaseMissingNotebaseDescription: 旧笔记库不存在或当前账号无法打开。可以创建新的笔记库并保存当前结果，或去 Custom AI Actions 连接已有笔记库。
-  saveToNotebaseAccountUnavailableDescription: 当前登录账号和下方已连接账号不同。选择创建并保存会替换之前的连接配置和字段映射；也可以去 Custom AI Actions 连接已有笔记库。
-  saveToNotebasePendingLogin: 登录后继续保存
-  saveToNotebasePendingLoginDescription: 登录完成后，蛙词库 会自动创建笔记库并保存当前结果。
-  saveToNotebasePendingConnectedLoginDescription: 登录完成后，蛙词库 会优先保存到已连接的笔记库；如果当前账号无法使用它，会创建新的笔记库并保存当前结果。
   upgrade: 升级
   updatePayment: 更新支付方式
   openCustomActions: 打开 Custom AI Actions
-  openNotebase: 打开笔记库
-  reviewDueOne: "$1 张卡片需复习"
-  reviewDueOther: "$1 张卡片需复习"
   contextDetailsTitleLabel: 标题
   contextDetailsParagraphsLabel: 段落内容
   translation: 翻译
@@ -2006,13 +1793,6 @@ action:
   unpinFromToolbar: 从工具栏取消固定
   dragToReorder: 拖动以排序
   addCustomAction: 添加自定义 AI 指令
-noteSuggestion:
-  title: 猜你想存
-  description: 选择要存入笔记库的词，将来随时复习
-  save: 保存
-  saved: 已保存
-  staleSuggestion: 该建议已过期
-  toggleLabel: 显示猜你想存
 thinking:
   label: 思考中
   complete: 思考完成

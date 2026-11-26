@@ -53,12 +53,6 @@ vi.mock("../layout-field", () => ({
   ReadOnlyLayoutField: () => <div>ReadOnlyLayoutField</div>,
 }))
 
-vi.mock("../notebase-connection-field", () => ({
-  NotebaseConnectionField: () => (
-    <div>{i18n.t("options.selectionToolbar.customActions.form.notebase.title")}</div>
-  ),
-}))
-
 const AI_CONFIG_HELPER_TRIGGER = i18n.t(
   "options.selectionToolbar.customActions.form.aiConfigHelper.trigger",
 )
@@ -72,7 +66,7 @@ function cloneConfig(config: Config): Config {
   return JSON.parse(JSON.stringify(config)) as Config
 }
 
-describe("customActionConfigForm notebase availability", () => {
+describe("custom action configuration", () => {
   it("explains that customizing creates an editable built-in action copy", async () => {
     const store = createStore()
     seedConfig(store, cloneConfig(DEFAULT_CONFIG))

@@ -50,7 +50,9 @@ jobs:
             src/utils/personal-vocabulary src/utils/webdav-sync src/utils/release-update \
             src/utils/config/__tests__/init.test.ts \
             src/utils/config/__tests__/migration-scripts src/components/custom-action \
-            src/components/ui/selection-popover src/entrypoints/options/app-sidebar
+            src/components/ui/selection-popover src/entrypoints/options/app-sidebar \
+            src/utils/i18n/__tests__/index.test.ts \
+            src/entrypoints/background/__tests__/diagnostics.test.ts
           pnpm zip
           pnpm zip:edge
           mkdir release-assets
@@ -84,7 +86,7 @@ jobs:
 
           在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
 
-          使用 V1.1.8 时，从「偏好设置 → 版本与更新」检查并安装新版。蛙词库的更新入口在「功能」组最底端。手动升级时，将文件解压到原安装目录，再点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
+          已安装用户可从「功能 → 版本与更新」检查并安装新版。V1.1.8 的更新入口位于「偏好设置」。手动升级时，将文件解压到原安装目录，再点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
           MARKDOWN
       - name: Attach the Chrome and Edge installers to the release
         env:

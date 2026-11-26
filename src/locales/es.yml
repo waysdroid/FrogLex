@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "Traducción bilingüe con IA para webs y subtítulos de YouTube, Netflix y X. Guarda palabras nuevas y repásalas con flashcards."
-account:
-  login: Iniciar sesión
-  webApp: Aplicación web
-  logout: Cerrar sesión
-  logoutError: No se pudo cerrar sesión. Inténtalo de nuevo.
-  grantAccess: Conceder acceso
-  grantAccessHint: Necesita acceso a readfrog.app
-  grantAccessError: No se pudo conceder el acceso. Inténtalo de nuevo.
 dataTypes:
   string: Texto
   number: Número
@@ -50,8 +42,6 @@ popup:
         action: Haz clic para cambiar a bilingüe
   hub:
     tooltip: Traduce texto con varios modelos al mismo tiempo
-  blog:
-    notification: Novedades de FrogLex
   aiSmartContext: Contexto inteligente de IA
   aiSmartContextDescription: Usa el contexto de la página web para mejorar la calidad de la traducción. Requiere un proveedor LLM.
   storeReview:
@@ -110,56 +100,8 @@ options:
     settings: Configuración
     features: Funciones
     translation: Traducción
-    product: Producto
   tools:
     translationHub: Centro de traducción
-    pdfTranslation: Traducción de PDF
-  product:
-    roadmap: Hoja de ruta
-  helpAndCommunity:
-    title: Ayuda y comunidad
-    pageDescription: Aprende a usar FrogLex, pide ayuda al equipo o únete a otros usuarios en la comunidad.
-    help:
-      title: Ayuda
-    tutorial:
-      title: Tutorial
-      description: Lee la documentación y aprende a usar FrogLex
-    email:
-      title: Escríbenos
-      description: Contacta directamente con el equipo en contact@readfrog.app
-    featureRequest:
-      title: Sugerir una función
-      description: Propón una idea y vota lo que el equipo construirá a continuación
-    bugReport:
-      title: Informar de un fallo
-      description: Abre un ticket de soporte y síguelo hasta que se resuelva
-    troubleshooting:
-      title: "Solución de problemas"
-    diagnostics:
-      title: "Exportar diagnóstico"
-      description: "Guarda los registros recientes y tu configuración, sin las claves de API, para adjuntarlos a un informe de error"
-      exportSuccess: "Diagnóstico guardado"
-      exportFailed: "No se pudo exportar el diagnóstico"
-    community:
-      title: Comunidad
-    discord:
-      title: Discord
-      description: Habla en tiempo real con el equipo y con otros usuarios
-    wechat:
-      title: Grupo de WeChat
-      description: Escanea el código QR para unirte al grupo de discusión de WeChat
-      qrCodeAlt: Código QR de WeChat
-  usage:
-    title: Uso
-    pageDescription: Tu plan y cuánta cuota de IA te queda.
-    notSignedIn: Sin iniciar sesión
-    guest: Invitado
-    manageSubscription: Gestionar suscripción
-    logInToView: Inicia sesión para verlo
-    footer:
-      logIn: Inicia sesión y recibe cuota de IA gratis cada semana
-      upgrade: Pásate a Pro para desbloquear los subtítulos con IA y más cuota de IA integrada
-      upgradeAction: Mejorar plan
   apiProviders:
     title: Proveedores de API
     pageDescription: Usa los modelos integrados de FrogLex o conecta servicios de IA de terceros y elige cuál se encarga de cada función.
@@ -417,82 +359,6 @@ options:
         urlPattern: Patrón de URL
     config:
       title: Configuración
-      googleDrive:
-        title: Sincronización cloud con Google Drive
-        description: Descarga la configuración cuando la remota es más reciente, sube la configuración cuando la local es más reciente. Tus glosarios viajan en un archivo propio y se fusionan término a término en vez de reemplazarse.
-        sync: Sincronizar con Google Drive
-        syncing: Sincronizando...
-        syncSuccess:
-          uploaded: Configuración local subida a la nube
-          downloaded: Configuración remota aplicada
-          sameChanges: Los mismos cambios de configuración en ambos lados, sincronizado
-          noChange: La configuración ya está sincronizada
-          unresolved: Conflictos de configuración resueltos y sincronizados
-        syncError: Error al sincronizar la configuración, inténtalo de nuevo
-        accountChangedError: La cuenta de Google conectada cambió mientras el diálogo estaba abierto. No se subió nada; vuelve a sincronizar.
-        metadataCorrupted: Metadatos de sincronización dañados, configuración remota aplicada
-        lastSyncTime: Última sincronización a las
-        logout: Cerrar sesión
-        logoutSuccess: Sesión de cuenta de Google cerrada
-        unresolved:
-          title: Resolución de sincronización de configuración
-          description: Las configuraciones local y remota difieren. Elige qué versión conservar para cada campo.
-          resolved: Resuelto
-          unresolved: Sin resolver
-          localValue: Valor local
-          remoteValue: Valor remoto
-          useLocal: Usar local
-          useRemote: Usar remoto
-          useAllLocal: Usar todo local
-          useAllRemote: Usar todo remoto
-          reset: Restablecer selección
-          progress: $1/$2 cambios resueltos
-          confirm: Confirmar sincronización
-          cancel: Cancelar
-          hasUnresolvedInChildren: ⚠ Contiene cambios sin resolver
-          item: elemento
-          items: elementos
-          unresolvedPrompt: "[Unresolved - Please select]"
-          localLatest: Local más reciente
-          remoteLatest: Remoto más reciente
-          bothChanged: Ambos cambiaron
-          localChanged: Local cambió
-          remoteChanged: Remoto cambió
-          configValid: La configuración es válida
-          configInvalid: La configuración no es válida
-          resolveToContinue: Resuelve los conflictos para continuar
-          validationAlert:
-            title: La configuración combinada tiene errores de validación.
-            description: "Ajusta las diferencias siguientes para corregir:"
-          moreErrors: ...y $1 errores más
-        glossary:
-          thisDevice: Este dispositivo
-          cloud: Nube
-          deleted: Eliminado
-          disabled: desactivado
-          upToDate: Los glosarios ya están sincronizados
-          uploaded: Glosarios subidos a la nube
-          merged: "Glosarios sincronizados: $1 añadidos, $2 actualizados, $3 eliminados"
-          undo: Deshacer
-          undone: Glosarios restaurados a como estaban antes de la sincronización
-          undoUnavailable: "Esa acción ya no se puede deshacer: tus glosarios han cambiado desde entonces."
-          retry: El glosario cambió durante la sincronización. Vuelve a ejecutarla.
-          accountChangedRetry: La cuenta de Google conectada cambió mientras el diálogo estaba abierto. No se subió nada; vuelve a sincronizar.
-          busy: Otra pestaña está sincronizando tus glosarios ahora mismo.
-          malformed: No se pudo leer el archivo de glosarios de tu Drive, así que no se cambió nada.
-          versionTooNew: Ese archivo de glosarios lo escribió una versión más reciente de FrogLex. Actualiza la extensión primero.
-          duplicateFiles: Tu Drive tiene más de un archivo de glosarios. No se cambió nada - elimina el sobrante.
-          capExceeded: "La fusión superaría el límite de glosarios en $1. No se cambió nada."
-          failed: Falló la sincronización de glosarios
-          review:
-            title: Revisa esta sincronización de glosarios
-            description: Elige qué conservar donde las dos copias no coinciden.
-            firstSync: "Primera sincronización en este dispositivo: $1 llegan de la nube, $2 se suben."
-            accountChanged: "Has iniciado sesión como $1, que no es la cuenta con la que este dispositivo se sincronizó por última vez. Sus $2 filas de glosario se subirán a esta cuenta. Para quedarte solo con los glosarios de esta cuenta, cancela, borra los de aquí y sincroniza de nuevo."
-            destructive: "Esta sincronización elimina $1 de las $2 filas de glosario de este dispositivo."
-            moreConflicts: "Hay $1 diferencias más que no se muestran. Cada una conserva la elección de la fusión."
-            confirm: Sincronizar
-            cancel: Cancelar
       manualSync:
         title: Sincronización manual de configuración
         description: Importa y exporta tu configuración manualmente, con tus glosarios incluidos
@@ -709,7 +575,6 @@ options:
       noEnabledLlmProvider: Activa al menos un proveedor LLM antes de crear acciones AI personalizadas
       tabs:
         config: Configuración
-        notebase: Notebase
         hasErrors: Hay errores
         connected: Conectado
         needsAttention: Requiere atención
@@ -827,51 +692,6 @@ options:
             tooLong: Este diseño supera los $1 caracteres y no se puede guardar.
             fieldNotShown: «$1» no aparece en este diseño.
             reservedFieldName: El nombre de campo «$1» está reservado en los diseños. Cambia el nombre del campo.
-        notebase:
-          title: Conexión de Notebase
-          description: Guarda los resultados estructurados de esta acción en una Notebase remota.
-          loginRequiredTitle: Inicia sesión para configurar Notebase
-          loginRequiredDescription: Inicia sesión en readfrog.app antes de elegir una Notebase o editar asignaciones.
-          loginRequiredConnectedDescription: Esta conexión fue creada por la cuenta de abajo. Si inicias sesión con la misma cuenta, se restaurarán las asignaciones de campos. Si inicias sesión con otra cuenta, las asignaciones anteriores se borrarán al crear o conectar una Notebase.
-          loginAction: Iniciar sesión
-          connectedAccountLabel: Cuenta conectada
-          currentAccountLabel: Cuenta actual
-          unknownConnectedAccount: Cuenta desconocida
-          tableLabel: Notebase
-          tablePlaceholder: Selecciona una Notebase
-          tableClearOption: Desconectar Notebase
-          clearConnectionAction: Borrar conexión
-          refreshAction: Actualizar
-          emptyTitle: Aún no hay Notebases
-          emptyDescription: Crea una Notebase en readfrog.app y vuelve aquí para asignar campos.
-          openNotebaseAction: Abrir Notebase
-          accessDeniedTitle: No se puede acceder a Notebase
-          accessDeniedDescription: Esta cuenta no tiene permiso para cargar datos de Notebase.
-          listErrorTitle: No se pudieron cargar las Notebases
-          listErrorDescription: Intenta actualizar la lista de Notebase de nuevo en un momento.
-          accountMismatchTitle: La conexión de Notebase pertenece a otra cuenta
-          accountMismatchDescription: Esta conexión está vinculada a la cuenta conectada de abajo. Bórrala o elige una Notebase disponible para la cuenta actual.
-          tableUnavailableTitle: La Notebase seleccionada ya no está disponible
-          tableUnavailableDescription: Esta Notebase ya no existe o no se puede abrir. Borra la conexión o elige otra Notebase.
-          tableUnavailableOption: no disponible
-          schemaErrorTitle: No se pudo cargar el esquema de la Notebase
-          schemaErrorDescription: Intenta actualizar el esquema de nuevo en un momento.
-          schemaLoading: Cargando esquema de la Notebase...
-          mappingsLabel: Asignaciones de campos
-          localFieldLabel: Campo de acción
-          remoteFieldLabel: Campo de Notebase
-          columnUnavailableOption: eliminado
-          invalidMappingsTitle: Algunas asignaciones requieren atención
-          invalidMappingsDescription: Las asignaciones no válidas se conservan. Corrígelas antes de guardar en Notebase.
-          noFieldSavedTitle: "Ningún campo se guarda en esta Notebase"
-          noFieldSavedDescription: "Elige un campo de Notebase para al menos un campo y así poder guardar notas."
-          mappingSummary: "Se guardan $1 · Omitidos $2 · Sin decidir $3"
-          skipFieldOption: "No guardar"
-          undecidedFieldPlaceholder: "Elige un campo de Notebase o no guardar"
-          mappingMissingLocal: El campo de acción asignado ya no existe.
-          mappingMissingRemote: El campo de Notebase asignado ya no existe.
-          mappingMissingSchema: Actualiza el esquema de la Notebase para validar esta asignación.
-          mappingIncompatible: Los tipos de campo ya no coinciden.
         tokens:
           selection: Contenido del texto seleccionado
           paragraphs: Texto de párrafos intersectados unido con líneas en blanco, truncado a los primeros 2000 caracteres cuando se envía a acciones AI personalizadas
@@ -1708,42 +1528,9 @@ action:
   viewContextDetails: Contexto
   customizeCustomAction: Personalizar la acción $1
   customActionLayoutFallback: Este resultado no se puede mostrar con su diseño, así que se muestra una vista simplificada.
-  saveToNotebase: Guardar en Notebase
-  saveToNotebaseSaving: Guardando...
-  saveToNotebaseSuccess: Guardado en Notebase
-  saveToNotebaseFailed: No se pudo guardar en Notebase
-  saveToNotebaseLoginRequired: Inicia sesión en readfrog.app para guardar en Notebase
-  saveToNotebaseAccessDenied: Esta cuenta no puede acceder a la Notebase seleccionada
-  saveToNotebaseLimitExceeded: Se requiere una mejora para guardar más notas de Notebase
-  saveToNotebaseTableUnavailable: La Notebase seleccionada ya no está disponible
-  saveToNotebaseConnectionInvalid: Esta conexión de Notebase está desactualizada. Actualízala en Acciones AI personalizadas y corrige las asignaciones.
-  saveToNotebaseInvalidContent: "La respuesta de la IA tiene un valor con un formato incorrecto, así que no se guardó. Vuelve a ejecutar la acción y luego guarda."
-  saveToNotebaseNoFieldSaved: "No se guardó: esta acción no guarda ningún campo en la Notebase. Elige al menos uno en su configuración."
-  saveToNotebaseUndecidedTitle: "Guardado. Aún no has decidido si guardar estos campos"
-  saveToNotebaseSkipUndecided: "No guardarlos"
-  saveToNotebaseNoMappings: Añade al menos una asignación válida antes de guardar
-  saveToNotebaseCreateTitle: ¿Crear una Notebase?
-  saveToNotebaseCreateDescription: Crea una Notebase con columnas que coinciden con esta acción personalizada y guarda este resultado como la primera nota.
-  saveToNotebaseCreateAndSave: Crear y guardar
-  saveToNotebaseCreateAndSaveShort: Crear y guardar
-  saveToNotebaseLoginAndCreate: Iniciar sesión y crear
-  saveToNotebaseLoginAndSave: Iniciar sesión y guardar
-  saveToNotebaseConnectExisting: Conectar Notebase existente
-  saveToNotebaseGoConfigure: Configurar
-  saveToNotebaseLoginConnectedTitle: ¿Iniciar sesión para guardar?
-  saveToNotebaseLoginConnectedDescription: Esta Custom Action está conectada a la cuenta de abajo. Después de iniciar sesión, FrogLex guardará en la Notebase existente si es posible, o creará una nueva Notebase para la cuenta actual.
-  saveToNotebaseConnectionUnavailableTitle: Conexión de Notebase no disponible
-  saveToNotebaseMissingNotebaseDescription: La Notebase anterior ya no existe o esta cuenta no puede abrirla. Crea una nueva Notebase y guarda este resultado, o conecta una Notebase existente en Custom AI Actions.
-  saveToNotebaseAccountUnavailableDescription: La cuenta actual no coincide con la cuenta conectada de abajo. Crear y guardar reemplazará la conexión anterior y los mapeos de campos. También puedes conectar una Notebase existente en Custom AI Actions.
-  saveToNotebasePendingLogin: Inicia sesión para terminar de guardar
-  saveToNotebasePendingLoginDescription: Después de iniciar sesión, FrogLex creará la Notebase y guardará este resultado automáticamente.
-  saveToNotebasePendingConnectedLoginDescription: Después de iniciar sesión, FrogLex guardará en la Notebase conectada si es posible. Si esta cuenta no puede usarla, creará una nueva Notebase y guardará este resultado.
   upgrade: Mejorar plan
   updatePayment: Actualizar pago
   openCustomActions: Abrir Custom AI Actions
-  openNotebase: Abrir Notebase
-  reviewDueOne: "$1 tarjeta por repasar"
-  reviewDueOther: "$1 tarjetas por repasar"
   contextDetailsTitleLabel: Título
   contextDetailsParagraphsLabel: Párrafos
   translation: Traducción
@@ -1754,13 +1541,6 @@ action:
   unpinFromToolbar: Quitar de la barra
   dragToReorder: Arrastra para reordenar
   addCustomAction: Añadir acción AI personalizada
-noteSuggestion:
-  title: Quizás quieras guardar
-  description: Elige qué palabras guardar en tu Notebase y repásalas cuando quieras.
-  save: Guardar
-  saved: Guardado
-  staleSuggestion: Esta sugerencia está desactualizada
-  toggleLabel: Mostrar sugerencias de notas
 thinking:
   label: Pensando
   complete: Razonamiento completo

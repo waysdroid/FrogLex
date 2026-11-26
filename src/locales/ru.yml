@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "Двуязычный ИИ-перевод веб-страниц и субтитров YouTube, Netflix и X. Сохраняйте новые слова и повторяйте их на карточках."
-account:
-  login: Войти
-  webApp: Веб-приложение
-  logout: Выйти
-  logoutError: Не удалось выйти. Попробуйте ещё раз.
-  grantAccess: Предоставить доступ
-  grantAccessHint: Нужен доступ к readfrog.app
-  grantAccessError: Не удалось предоставить доступ. Попробуйте ещё раз.
 dataTypes:
   string: Текст
   number: Число
@@ -50,8 +42,6 @@ popup:
         action: Нажмите, чтобы переключиться на двуязычный
   hub:
     tooltip: Переводите текст несколькими моделями одновременно
-  blog:
-    notification: Что нового в FrogLex
   aiSmartContext: Умный контекст ИИ
   aiSmartContextDescription: Использует контекст веб-страницы для улучшения качества перевода. Требуется LLM-провайдер.
   storeReview:
@@ -110,56 +100,8 @@ options:
     settings: Настройки
     features: Функции
     translation: Перевод
-    product: Продукт
   tools:
     translationHub: Центр переводов
-    pdfTranslation: Перевод PDF
-  product:
-    roadmap: Дорожная карта
-  helpAndCommunity:
-    title: Помощь и сообщество
-    pageDescription: Узнайте, как пользоваться FrogLex, обратитесь за помощью к команде или присоединяйтесь к сообществу.
-    help:
-      title: Помощь
-    tutorial:
-      title: Руководство
-      description: Прочитайте документацию и узнайте, как пользоваться FrogLex
-    email:
-      title: Написать нам
-      description: Свяжитесь с командой напрямую по адресу contact@readfrog.app
-    featureRequest:
-      title: Предложить функцию
-      description: Предложите идею и голосуйте за то, что команда сделает дальше
-    bugReport:
-      title: Сообщить об ошибке
-      description: Создайте обращение в поддержку и следите за ним до решения
-    troubleshooting:
-      title: "Устранение неполадок"
-    diagnostics:
-      title: "Экспорт диагностики"
-      description: "Сохраните недавние журналы и настройки (без ключей API), чтобы приложить их к сообщению об ошибке"
-      exportSuccess: "Диагностика сохранена"
-      exportFailed: "Не удалось экспортировать диагностику"
-    community:
-      title: Сообщество
-    discord:
-      title: Discord
-      description: Общайтесь с командой и другими пользователями в реальном времени
-    wechat:
-      title: Группа в WeChat
-      description: Отсканируйте QR-код, чтобы вступить в группу обсуждения в WeChat
-      qrCodeAlt: QR-код WeChat
-  usage:
-    title: Использование
-    pageDescription: Ваш тариф и остаток квоты ИИ.
-    notSignedIn: Вход не выполнен
-    guest: Гость
-    manageSubscription: Управлять подпиской
-    logInToView: Войдите, чтобы посмотреть
-    footer:
-      logIn: Войдите и получайте бесплатную квоту ИИ каждую неделю
-      upgrade: Перейдите на Pro, чтобы открыть ИИ-субтитры и получить больше квоты встроенного ИИ
-      upgradeAction: Перейти на Pro
   apiProviders:
     title: API-провайдеры
     pageDescription: Используйте встроенные модели FrogLex или подключите сторонние ИИ-сервисы и выберите провайдера для каждой функции.
@@ -416,82 +358,6 @@ options:
         urlPattern: Шаблон URL
     config:
       title: Конфигурация
-      googleDrive:
-        title: Облачная синхронизация Google Drive
-        description: Загружает, когда удалённая версия новее, выгружает, когда локальная версия новее. Глоссарии передаются отдельным файлом и сливаются по терминам, а не заменяются целиком.
-        sync: Синхронизировать с Google Drive
-        syncing: Синхронизация...
-        syncSuccess:
-          uploaded: Локальная конфигурация загружена в облако
-          downloaded: Удалённая конфигурация применена
-          sameChanges: Одинаковые изменения настроек с обеих сторон, синхронизировано
-          noChange: Настройки уже синхронизированы
-          unresolved: Конфликты настроек разрешены и синхронизированы
-        syncError: Не удалось синхронизировать настройки, попробуйте снова
-        accountChangedError: Пока диалог был открыт, сменился вошедший аккаунт Google. Ничего не загружено — синхронизируйте ещё раз.
-        metadataCorrupted: Метаданные синхронизации повреждены, применена удалённая конфигурация
-        lastSyncTime: Последняя синхронизация
-        logout: Выйти
-        logoutSuccess: Выполнен выход из аккаунта Google
-        unresolved:
-          title: Разрешение синхронизации конфигурации
-          description: Локальная и удалённая конфигурации отличаются. Пожалуйста, выберите, какую версию сохранить для каждого поля.
-          resolved: Разрешено
-          unresolved: Не разрешено
-          localValue: Локальное значение
-          remoteValue: Удалённое значение
-          useLocal: Использовать локальное
-          useRemote: Использовать удалённое
-          useAllLocal: Использовать всё локальное
-          useAllRemote: Использовать всё удалённое
-          reset: Сбросить выбор
-          progress: Разрешено $1/$2 изменений
-          confirm: Подтвердить синхронизацию
-          cancel: Отмена
-          hasUnresolvedInChildren: ⚠ Содержит неразрешённые изменения
-          item: элемент
-          items: элементов
-          unresolvedPrompt: "[Не разрешено - Выберите]"
-          localLatest: Локальная последняя
-          remoteLatest: Удалённая последняя
-          bothChanged: Оба изменены
-          localChanged: Локальное изменено
-          remoteChanged: Удалённое изменено
-          configValid: Конфигурация действительна
-          configInvalid: Конфигурация недействительна
-          resolveToContinue: Разрешите конфликты для продолжения
-          validationAlert:
-            title: Объединённая конфигурация содержит ошибки валидации
-            description: "Настройте различия ниже для исправления:"
-          moreErrors: ...и ещё $1 ошибок
-        glossary:
-          thisDevice: Это устройство
-          cloud: Облако
-          deleted: Удалено
-          disabled: выключено
-          upToDate: Глоссарии уже синхронизированы
-          uploaded: Глоссарии загружены в облако
-          merged: "Глоссарии синхронизированы: добавлено $1, обновлено $2, удалено $3"
-          undo: Отменить
-          undone: Глоссарии восстановлены в состояние до синхронизации
-          undoUnavailable: Отмена больше недоступна — глоссарии успели измениться.
-          retry: Глоссарий изменился во время синхронизации. Запустите её ещё раз.
-          accountChangedRetry: Пока диалог был открыт, сменился вошедший аккаунт Google. Ничего не загружено — синхронизируйте ещё раз.
-          busy: Другая вкладка сейчас синхронизирует ваши глоссарии.
-          malformed: Файл глоссариев в Drive не удалось прочитать, поэтому ничего не изменено.
-          versionTooNew: Этот файл глоссариев записан более новой версией FrogLex. Сначала обновите расширение.
-          duplicateFiles: В вашем Drive больше одного файла глоссариев. Ничего не изменено — удалите лишний.
-          capExceeded: "Слияние превысило бы лимит глоссария на $1. Ничего не изменено."
-          failed: Не удалось синхронизировать глоссарии
-          review:
-            title: Проверьте эту синхронизацию глоссариев
-            description: Выберите, что оставить там, где две копии расходятся.
-            firstSync: "Первая синхронизация на этом устройстве: $1 из облака, $2 наверх."
-            accountChanged: "Вы вошли как $1 — не та учётная запись, с которой это устройство синхронизировалось в прошлый раз. Его $2 строк глоссария будут выгружены в эту учётную запись. Чтобы оставить только глоссарии этой записи, отмените, удалите здешние и синхронизируйте снова."
-            destructive: "Эта синхронизация удалит $1 из $2 строк глоссария на этом устройстве."
-            moreConflicts: "Ещё $1 различий не показаны. Для каждого сохраняется выбор слияния."
-            confirm: Синхронизировать
-            cancel: Отмена
       manualSync:
         title: Ручная синхронизация конфигурации
         description: Импорт и экспорт настроек вручную — вместе с глоссариями
@@ -708,7 +574,6 @@ options:
       noEnabledLlmProvider: Включите хотя бы одного LLM-провайдера перед созданием пользовательских AI-действий
       tabs:
         config: Настройка
-        notebase: Notebase
         hasErrors: Есть ошибки
         connected: Подключено
         needsAttention: Требует внимания
@@ -826,51 +691,6 @@ options:
             tooLong: Макет длиннее $1 символов и не может быть сохранён.
             fieldNotShown: «$1» не показывается в этом макете.
             reservedFieldName: Имя поля «$1» зарезервировано в макетах. Переименуйте поле.
-        notebase:
-          title: Подключение Notebase
-          description: Сохранить структурированные результаты этого действия в удалённую Notebase.
-          loginRequiredTitle: Войдите, чтобы настроить Notebase
-          loginRequiredDescription: Войдите на readfrog.app, прежде чем выбирать notebase или редактировать сопоставления.
-          loginRequiredConnectedDescription: Это подключение создано аккаунтом ниже. Если войти в тот же аккаунт, сопоставления полей будут восстановлены. Если войти в другой аккаунт, прежние сопоставления будут очищены при создании или подключении Notebase.
-          loginAction: Войти
-          connectedAccountLabel: Подключённый аккаунт
-          currentAccountLabel: Текущий аккаунт
-          unknownConnectedAccount: Неизвестный аккаунт
-          tableLabel: Notebase
-          tablePlaceholder: Выберите notebase
-          tableClearOption: Не подключать notebase
-          clearConnectionAction: Очистить подключение
-          refreshAction: Обновить
-          emptyTitle: Notebase пока нет
-          emptyDescription: Создайте notebase на readfrog.app, затем вернитесь сюда и сопоставьте поля.
-          openNotebaseAction: Открыть Notebase
-          accessDeniedTitle: Нет доступа к Notebase
-          accessDeniedDescription: У этого аккаунта нет разрешения на загрузку данных Notebase.
-          listErrorTitle: Не удалось загрузить список Notebase
-          listErrorDescription: Попробуйте обновить список Notebase чуть позже.
-          accountMismatchTitle: Подключение Notebase принадлежит другому аккаунту
-          accountMismatchDescription: Это подключение связано с аккаунтом ниже. Очистите его или выберите Notebase, доступную текущему аккаунту.
-          tableUnavailableTitle: Выбранная notebase больше недоступна
-          tableUnavailableDescription: Эта Notebase больше не существует или не открывается. Очистите подключение или выберите другую Notebase.
-          tableUnavailableOption: недоступно
-          schemaErrorTitle: Не удалось загрузить схему notebase
-          schemaErrorDescription: Попробуйте обновить схему ещё раз чуть позже.
-          schemaLoading: Загрузка схемы notebase...
-          mappingsLabel: Сопоставления полей
-          localFieldLabel: Поле действия
-          remoteFieldLabel: Поле Notebase
-          columnUnavailableOption: удалено
-          invalidMappingsTitle: Некоторые сопоставления требуют внимания
-          invalidMappingsDescription: Некорректные сопоставления сохранены. Исправьте их перед сохранением в Notebase.
-          noFieldSavedTitle: "В этот Notebase не сохраняется ни одно поле"
-          noFieldSavedDescription: "Чтобы сохранять заметки, выберите поле Notebase хотя бы для одного поля."
-          mappingSummary: "Сохраняются: $1 · Пропущены: $2 · Не решено: $3"
-          skipFieldOption: "Не сохранять"
-          undecidedFieldPlaceholder: "Выберите поле Notebase или не сохраняйте"
-          mappingMissingLocal: Сопоставленное поле действия больше не существует.
-          mappingMissingRemote: Сопоставленное поле notebase больше не существует.
-          mappingMissingSchema: Обновите схему notebase, чтобы проверить это сопоставление.
-          mappingIncompatible: Типы полей больше не совпадают.
         tokens:
           selection: Содержимое выделенного текста
           paragraphs: Текст абзацев, пересекающихся с выделением, объединённый пустыми строками; при отправке в пользовательские AI-действия обрезается до первых 2000 символов
@@ -1703,42 +1523,9 @@ action:
   viewContextDetails: Контекст
   customizeCustomAction: Настроить действие $1
   customActionLayoutFallback: Этот результат нельзя показать в его макете, поэтому показан упрощённый вид.
-  saveToNotebase: Сохранить в Notebase
-  saveToNotebaseSaving: Сохранение...
-  saveToNotebaseSuccess: Сохранено в Notebase
-  saveToNotebaseFailed: Не удалось сохранить в Notebase
-  saveToNotebaseLoginRequired: Войдите на readfrog.app, чтобы сохранить в Notebase
-  saveToNotebaseAccessDenied: Этот аккаунт не может открыть выбранную Notebase
-  saveToNotebaseLimitExceeded: Для сохранения большего числа заметок Notebase требуется апгрейд
-  saveToNotebaseTableUnavailable: Выбранная Notebase больше недоступна
-  saveToNotebaseConnectionInvalid: Это подключение Notebase устарело. Обновите его в Custom AI Actions и исправьте сопоставления.
-  saveToNotebaseInvalidContent: "В ответе ИИ есть значение в неверном формате, поэтому он не сохранён. Запустите действие ещё раз и сохраните."
-  saveToNotebaseNoFieldSaved: "Не сохранено: это действие не сохраняет в Notebase ни одного поля. Выберите хотя бы одно в настройках."
-  saveToNotebaseUndecidedTitle: "Сохранено. Вы ещё не решили, сохранять ли эти поля"
-  saveToNotebaseSkipUndecided: "Не сохранять их"
-  saveToNotebaseNoMappings: Добавьте хотя бы одно корректное сопоставление перед сохранением
-  saveToNotebaseCreateTitle: Создать Notebase?
-  saveToNotebaseCreateDescription: Создать Notebase с колонками из этого Custom Action и сохранить текущий результат как первую заметку.
-  saveToNotebaseCreateAndSave: Создать и сохранить
-  saveToNotebaseCreateAndSaveShort: Создать и сохранить
-  saveToNotebaseLoginAndCreate: Войти и создать автоматически
-  saveToNotebaseLoginAndSave: Войти и сохранить
-  saveToNotebaseConnectExisting: Подключить существующую Notebase
-  saveToNotebaseGoConfigure: Настроить
-  saveToNotebaseLoginConnectedTitle: Войти и сохранить?
-  saveToNotebaseLoginConnectedDescription: Этот Custom Action подключён к аккаунту ниже. После входа FrogLex сохранит в существующую Notebase, если это возможно, или создаст новую Notebase для текущего аккаунта.
-  saveToNotebaseConnectionUnavailableTitle: Подключение Notebase недоступно
-  saveToNotebaseMissingNotebaseDescription: Старая Notebase больше не существует или недоступна этому аккаунту. Создайте новую Notebase и сохраните результат либо подключите существующую Notebase в Custom AI Actions.
-  saveToNotebaseAccountUnavailableDescription: Текущий аккаунт не совпадает с подключённым аккаунтом ниже. Создание и сохранение заменит прежнее подключение и сопоставления полей. Также можно подключить существующую Notebase в Custom AI Actions.
-  saveToNotebasePendingLogin: Войдите, чтобы завершить сохранение
-  saveToNotebasePendingLoginDescription: После входа FrogLex автоматически создаст Notebase и сохранит этот результат.
-  saveToNotebasePendingConnectedLoginDescription: После входа FrogLex сохранит в подключённую Notebase, если это возможно. Если аккаунт не может её использовать, будет создана новая Notebase.
   upgrade: Повысить тариф
   updatePayment: Обновить оплату
   openCustomActions: Открыть Custom AI Actions
-  openNotebase: Открыть Notebase
-  reviewDueOne: "Карточек к повторению: $1"
-  reviewDueOther: "Карточек к повторению: $1"
   contextDetailsTitleLabel: Заголовок
   contextDetailsParagraphsLabel: Абзацы
   translation: Перевод
@@ -1749,13 +1536,6 @@ action:
   unpinFromToolbar: Открепить от панели
   dragToReorder: Перетащите, чтобы изменить порядок
   addCustomAction: Добавить своё AI-действие
-noteSuggestion:
-  title: Стоит сохранить
-  description: Выберите слова для сохранения в Notebase и повторяйте их в любое время.
-  save: Сохранить
-  saved: Сохранено
-  staleSuggestion: Это предложение устарело
-  toggleLabel: Показывать подсказки для заметок
 thinking:
   label: Размышление
   complete: Размышление завершено

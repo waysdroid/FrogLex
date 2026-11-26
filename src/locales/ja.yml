@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "ウェブページと YouTube・Netflix・X の動画字幕を AI で対訳翻訳。知らない単語は保存して、フラッシュカードで復習できます。"
-account:
-  login: ログイン
-  webApp: ウェブアプリ
-  logout: ログアウト
-  logoutError: ログアウトに失敗しました。もう一度お試しください。
-  grantAccess: アクセスを許可
-  grantAccessHint: readfrog.app へのアクセスが必要です
-  grantAccessError: アクセスの許可に失敗しました。もう一度お試しください。
 dataTypes:
   string: テキスト
   number: 数値
@@ -50,8 +42,6 @@ popup:
         action: クリックしてバイリンガルへ切り替え
   hub:
     tooltip: 複数の翻訳モデルで同時にテキストを翻訳
-  blog:
-    notification: FrogLex の最新情報
   aiSmartContext: AI スマートコンテキスト
   aiSmartContextDescription: ウェブページのコンテキストを使用して翻訳品質を向上させます。LLM プロバイダーが必要です。
   storeReview:
@@ -110,56 +100,8 @@ options:
     settings: 設定
     features: 機能
     translation: 翻訳
-    product: 製品
   tools:
     translationHub: 翻訳ハブ
-    pdfTranslation: PDF 翻訳
-  product:
-    roadmap: ロードマップ
-  helpAndCommunity:
-    title: ヘルプとコミュニティ
-    pageDescription: FrogLex の使い方を学び、チームに相談したり、コミュニティで他のユーザーと交流したりできます。
-    help:
-      title: ヘルプ
-    tutorial:
-      title: 使い方ガイド
-      description: ドキュメントを読んで FrogLex の使い方を学べます
-    email:
-      title: メールで問い合わせ
-      description: contact@readfrog.app からチームに直接連絡できます
-    featureRequest:
-      title: 機能リクエスト
-      description: アイデアを提案し、次に開発する機能に投票できます
-    bugReport:
-      title: 不具合を報告
-      description: サポートチケットを作成し、解決までの状況を追えます
-    troubleshooting:
-      title: "トラブルシューティング"
-    diagnostics:
-      title: "診断情報をエクスポート"
-      description: "最近のログと設定（API キーは除く）を保存して、不具合の報告に添付できます"
-      exportSuccess: "診断情報を保存しました"
-      exportFailed: "診断情報をエクスポートできませんでした"
-    community:
-      title: コミュニティ
-    discord:
-      title: Discord
-      description: チームや他のユーザーとリアルタイムで交流できます
-    wechat:
-      title: WeChat グループ
-      description: QR コードをスキャンして WeChat のディスカッショングループに参加
-      qrCodeAlt: WeChat QR コード
-  usage:
-    title: 使用量
-    pageDescription: プランと AI の残り利用枠を確認できます。
-    notSignedIn: 未ログイン
-    guest: ゲスト
-    manageSubscription: サブスクリプションを管理
-    logInToView: ログインすると表示されます
-    footer:
-      logIn: ログインすると毎週無料の AI 利用枠がもらえます
-      upgrade: Pro にアップグレードすると AI 字幕と、より多くの組み込み AI 利用枠が使えます
-      upgradeAction: アップグレード
   apiProviders:
     title: APIプロバイダー
     pageDescription: FrogLex の組み込みモデルを使うかサードパーティの AI サービスを接続し、各機能で使うものを選びます。
@@ -416,82 +358,6 @@ options:
         urlPattern: URLパターン
     config:
       title: 設定
-      googleDrive:
-        title: Google Driveクラウド同期
-        description: リモートが新しい場合はダウンロード、ローカルが新しい場合はアップロード。用語集は専用のファイルで同期され、まるごと置き換えではなく用語ごとに統合されます。
-        sync: Google Driveに同期
-        syncing: 同期中...
-        syncSuccess:
-          uploaded: ローカル設定をクラウドにアップロードしました
-          downloaded: リモート設定を適用しました
-          sameChanges: 両側の設定変更が同じため、同期しました
-          noChange: 設定は既に同期済みです
-          unresolved: 設定の競合を解決して同期しました
-        syncError: 設定の同期に失敗しました。もう一度お試しください
-        accountChangedError: ダイアログを開いている間にログイン中の Google アカウントが変わりました。何もアップロードしていません。もう一度同期してください。
-        metadataCorrupted: 同期メタデータが破損しています。リモート設定を適用しました
-        lastSyncTime: 最終同期時間
-        logout: ログアウト
-        logoutSuccess: Googleアカウントからログアウトしました
-        unresolved:
-          title: 設定の同期解決
-          description: ローカルとリモートの設定が異なります。各フィールドについて、保持するバージョンを選択してください。
-          resolved: 解決済み
-          unresolved: 未解決
-          localValue: ローカル値
-          remoteValue: リモート値
-          useLocal: ローカルを使用
-          useRemote: リモートを使用
-          useAllLocal: すべてローカルを使用
-          useAllRemote: すべてリモートを使用
-          reset: 選択をリセット
-          progress: $1/$2 個の変更を解決しました
-          confirm: 同期を確認
-          cancel: キャンセル
-          hasUnresolvedInChildren: ⚠ 未解決の変更を含む
-          item: 項目
-          items: 項目
-          unresolvedPrompt: "[未解決 - 選択してください]"
-          localLatest: ローカル最新
-          remoteLatest: リモート最新
-          bothChanged: 両方が変更されました
-          localChanged: ローカルが変更されました
-          remoteChanged: リモートが変更されました
-          configValid: 設定は有効です
-          configInvalid: 設定は無効です
-          resolveToContinue: 続行するには競合を解決してください
-          validationAlert:
-            title: マージされた設定に検証エラーがあります
-            description: 以下の差異を調整して修正してください：
-          moreErrors: ...他 $1 件のエラー
-        glossary:
-          thisDevice: このデバイス
-          cloud: クラウド
-          deleted: 削除済み
-          disabled: 無効
-          upToDate: 用語集は同期済みです
-          uploaded: 用語集をクラウドにアップロードしました
-          merged: "用語集を同期しました: 追加 $1、更新 $2、削除 $3"
-          undo: 元に戻す
-          undone: 用語集を同期前の状態に戻しました
-          undoUnavailable: この操作は取り消せなくなりました — その後に用語集が変更されています。
-          retry: 同期中に用語集が変更されました。もう一度実行してください。
-          accountChangedRetry: ダイアログを開いている間にログイン中の Google アカウントが変わりました。何もアップロードしていません。もう一度同期してください。
-          busy: 別のタブが用語集を同期しています。
-          malformed: クラウドの用語集ファイルを読み取れなかったため、何も変更していません。
-          versionTooNew: その用語集ファイルは新しいバージョンの FrogLex で書かれています。先に拡張機能を更新してください。
-          duplicateFiles: クラウドに用語集ファイルが複数あります。何も変更していません。余分なファイルを削除してください。
-          capExceeded: "統合すると用語集の上限を $1 件超えるため、何も変更していません。"
-          failed: 用語集の同期に失敗しました
-          review:
-            title: この用語集の同期を確認
-            description: 2 つのコピーが食い違う箇所について、どちらを残すか選んでください。
-            firstSync: "このデバイスでの初回同期：クラウドから $1 件、アップロード $2 件。"
-            accountChanged: "現在 $1 でログインしています。このデバイスが前回同期したアカウントとは別のものです。このデバイスの用語集データ $2 件がこのアカウントにアップロードされます。このアカウントの用語集だけにしたい場合は、キャンセルして、このデバイスの用語集を削除してから、もう一度同期してください。"
-            destructive: "この同期は、このデバイスの用語集データ $2 件のうち $1 件を削除します。"
-            moreConflicts: "ほかに $1 件の相違は一覧にありません。いずれもマージの判断に従います。"
-            confirm: 同期
-            cancel: キャンセル
       manualSync:
         title: 手動設定同期
         description: 設定を手動でインポート・エクスポートします。用語集も一緒に含まれます
@@ -708,7 +574,6 @@ options:
       noEnabledLlmProvider: カスタム AI アクションを作成する前に、少なくとも1つのLLMプロバイダーを有効化してください
       tabs:
         config: 設定
-        notebase: Notebase
         hasErrors: エラーがあります
         connected: 接続済み
         needsAttention: 要確認
@@ -826,51 +691,6 @@ options:
             tooLong: このレイアウトは $1 文字を超えているため保存できません。
             fieldNotShown: 「$1」はこのレイアウトに表示されません。
             reservedFieldName: フィールド名「$1」はレイアウトの予約名です。フィールドの名前を変更してください。
-        notebase:
-          title: Notebase 接続
-          description: このアクションの構造化された結果をリモート Notebase に保存します。
-          loginRequiredTitle: Notebase を設定するにはログインが必要です
-          loginRequiredDescription: notebase を選択したりマッピングを編集したりする前に、readfrog.app にログインしてください。
-          loginRequiredConnectedDescription: この接続は下のアカウントで作成されました。同じアカウントでログインするとフィールドマッピングが復元されます。別のアカウントでログインした場合、Notebase を作成または接続すると以前のマッピングは消去されます。
-          loginAction: ログイン
-          connectedAccountLabel: 接続済みアカウント
-          currentAccountLabel: 現在のアカウント
-          unknownConnectedAccount: 不明なアカウント
-          tableLabel: Notebase
-          tablePlaceholder: notebase を選択
-          tableClearOption: notebase を接続しない
-          clearConnectionAction: 接続をクリア
-          refreshAction: 更新
-          emptyTitle: Notebase がまだありません
-          emptyDescription: readfrog.app で notebase を作成してから、ここに戻ってフィールドをマッピングしてください。
-          openNotebaseAction: Notebase を開く
-          accessDeniedTitle: Notebase にアクセスできません
-          accessDeniedDescription: このアカウントには Notebase データを読み込む権限がありません。
-          listErrorTitle: Notebase 一覧を読み込めませんでした
-          listErrorDescription: 少し待ってから Notebase 一覧をもう一度更新してください。
-          accountMismatchTitle: Notebase 接続は別のアカウントに属しています
-          accountMismatchDescription: この接続は下の接続済みアカウントに紐づいています。接続をクリアするか、現在のアカウントで利用できる Notebase を選択してください。
-          tableUnavailableTitle: 選択した notebase は利用できなくなりました
-          tableUnavailableDescription: この Notebase は存在しないか開けません。接続をクリアするか、別の Notebase を選択してください。
-          tableUnavailableOption: 利用不可
-          schemaErrorTitle: notebase スキーマの読み込みに失敗しました
-          schemaErrorDescription: 少し待ってからもう一度更新してください。
-          schemaLoading: notebase スキーマを読み込み中...
-          mappingsLabel: フィールドマッピング
-          localFieldLabel: アクションフィールド
-          remoteFieldLabel: Notebase フィールド
-          columnUnavailableOption: 削除済み
-          invalidMappingsTitle: 一部のマッピングに対応が必要です
-          invalidMappingsDescription: 無効なマッピングは保持されます。Notebase に保存する前に修正してください。
-          noFieldSavedTitle: "この Notebase に保存されるフィールドがありません"
-          noFieldSavedDescription: "ノートを保存するには、少なくとも 1 つのフィールドに Notebase フィールドを選んでください。"
-          mappingSummary: "保存 $1 · 保存しない $2 · 未決定 $3"
-          skipFieldOption: "保存しない"
-          undecidedFieldPlaceholder: "Notebase フィールドを選ぶか、保存しない"
-          mappingMissingLocal: マッピングされたアクションフィールドは存在しなくなりました。
-          mappingMissingRemote: マッピングされた notebase フィールドは存在しなくなりました。
-          mappingMissingSchema: このマッピングを検証するには、notebase スキーマを更新してください。
-          mappingIncompatible: フィールドの型が一致しなくなりました。
         tokens:
           selection: 選択したテキスト内容
           paragraphs: 選択範囲と交差する段落内容。空行で連結され、カスタム AI アクションに送信する際は先頭 2000 文字に切り詰められます
@@ -1703,42 +1523,9 @@ action:
   viewContextDetails: コンテキスト
   customizeCustomAction: $1 アクションをカスタマイズ
   customActionLayoutFallback: この結果はレイアウトで表示できないため、簡易表示にしています。
-  saveToNotebase: Notebase に保存
-  saveToNotebaseSaving: 保存中...
-  saveToNotebaseSuccess: Notebase に保存しました
-  saveToNotebaseFailed: Notebase への保存に失敗しました
-  saveToNotebaseLoginRequired: Notebase に保存するには readfrog.app にログインしてください
-  saveToNotebaseAccessDenied: このアカウントでは選択した Notebase にアクセスできません
-  saveToNotebaseLimitExceeded: さらに Notebase ノートを保存するにはアップグレードが必要です
-  saveToNotebaseTableUnavailable: 選択した Notebase は利用できなくなりました
-  saveToNotebaseConnectionInvalid: この Notebase 接続は古くなっています。Custom AI Actions で更新し、マッピングを修正してください。
-  saveToNotebaseInvalidContent: "AI の回答に形式の合わない値があったため、保存しませんでした。もう一度実行してから保存してください。"
-  saveToNotebaseNoFieldSaved: "保存しませんでした：この操作には Notebase に保存するフィールドがありません。設定で少なくとも 1 つ選んでください。"
-  saveToNotebaseUndecidedTitle: "保存しました。次のフィールドは保存するかまだ決まっていません"
-  saveToNotebaseSkipUndecided: "すべて保存しない"
-  saveToNotebaseNoMappings: 保存する前に、少なくとも1つの有効なマッピングを追加してください
-  saveToNotebaseCreateTitle: Notebase を作成しますか？
-  saveToNotebaseCreateDescription: この Custom Action の出力フィールドに合わせた列を持つ Notebase を作成し、現在の結果を最初のノートとして保存します。
-  saveToNotebaseCreateAndSave: 作成して保存
-  saveToNotebaseCreateAndSaveShort: 作成して保存
-  saveToNotebaseLoginAndCreate: ログインして自動作成
-  saveToNotebaseLoginAndSave: ログインして保存
-  saveToNotebaseConnectExisting: 既存の Notebase に接続
-  saveToNotebaseGoConfigure: 設定へ
-  saveToNotebaseLoginConnectedTitle: ログインして保存しますか？
-  saveToNotebaseLoginConnectedDescription: この Custom Action は下のアカウントに接続されています。ログイン後、可能であれば既存の Notebase に保存し、利用できない場合はログイン中のアカウント用に新しい Notebase を作成します。
-  saveToNotebaseConnectionUnavailableTitle: Notebase 接続を利用できません
-  saveToNotebaseMissingNotebaseDescription: 以前の Notebase は存在しないか、このアカウントでは開けません。新しい Notebase を作成して保存するか、Custom AI Actions で既存の Notebase に接続してください。
-  saveToNotebaseAccountUnavailableDescription: ログイン中のアカウントが下の接続済みアカウントと一致しません。作成して保存すると、以前の接続設定とフィールドマッピングが置き換えられます。Custom AI Actions で既存の Notebase に接続することもできます。
-  saveToNotebasePendingLogin: ログイン後に保存を完了
-  saveToNotebasePendingLoginDescription: ログイン後、FrogLex が Notebase を作成し、この結果を自動で保存します。
-  saveToNotebasePendingConnectedLoginDescription: ログイン後、FrogLex は可能であれば接続済み Notebase に保存します。このアカウントで利用できない場合は、新しい Notebase を作成して保存します。
   upgrade: アップグレード
   updatePayment: 支払いを更新
   openCustomActions: Custom AI Actions を開く
-  openNotebase: Notebase を開く
-  reviewDueOne: "$1 枚のカードが復習待ち"
-  reviewDueOther: "$1 枚のカードが復習待ち"
   contextDetailsTitleLabel: タイトル
   contextDetailsParagraphsLabel: 段落内容
   translation: 翻訳
@@ -1749,13 +1536,6 @@ action:
   unpinFromToolbar: ツールバーから固定解除
   dragToReorder: ドラッグして並べ替え
   addCustomAction: カスタム AI アクションを追加
-noteSuggestion:
-  title: 保存におすすめ
-  description: Notebase に保存したい単語を選んで、いつでも復習できます。
-  save: 保存
-  saved: 保存済み
-  staleSuggestion: この提案は古くなっています
-  toggleLabel: ノートの提案を表示
 thinking:
   label: 思考中
   complete: 思考完了

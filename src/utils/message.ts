@@ -18,7 +18,6 @@ import type {
   TTSPlaybackStartResponse,
   TTSPlaybackStopRequest,
 } from "@/types/tts-playback"
-import type { DiagnosticsReport } from "@/utils/diagnostics/report"
 import type { GlossarySnapshot } from "@/utils/glossary/active-matcher"
 import type { MatchedTerm } from "@/utils/glossary/types"
 import type { LogRecord } from "@/utils/logging/logger"
@@ -242,7 +241,6 @@ interface ProtocolMap {
   // local log — the background owns it; every other context hands it its
   // records (utils/logging/sinks/forward.ts)
   storeLogRecords: (data: { context: ForwardingLogContext; records: LogRecord[] }) => void
-  getDiagnosticsReport: () => Promise<DiagnosticsReport>
   // cache management
   clearAllTranslationRelatedCache: () => Promise<void>
   clearAiSegmentationCache: () => Promise<void>

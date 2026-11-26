@@ -73,8 +73,6 @@ import { TRANSLATION_NODE_STYLE_ON_INSTALLED } from "./translation-node-style"
 import { DEFAULT_TTS_CONFIG } from "./tts"
 
 export { CONFIG_STORAGE_KEY } from "./config-storage-key"
-export const LAST_SYNCED_CONFIG_STORAGE_KEY = "lastSyncedConfig"
-export const GOOGLE_DRIVE_TOKEN_STORAGE_KEY = "__googleDriveToken"
 
 export const THEME_STORAGE_KEY = "theme"
 export const DEFAULT_DETECTED_CODE = "en" as const

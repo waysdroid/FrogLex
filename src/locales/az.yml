@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "Veb-səhifələr və YouTube, Netflix, X altyazıları üçün Sİ ilə ikidilli tərcümə. Yeni sözləri saxlayın, kartlarla təkrarlayın."
-account:
-  login: Daxil ol
-  webApp: Veb tətbiqi
-  logout: Çıxış et
-  logoutError: Çıxış etmək mümkün olmadı. Yenidən cəhd edin.
-  grantAccess: İcazə ver
-  grantAccessHint: readfrog.app girişi lazımdır
-  grantAccessError: İcazə verilə bilmədi. Yenidən cəhd edin.
 dataTypes:
   string: Mətn
   number: Ədəd
@@ -50,8 +42,6 @@ popup:
         action: İkidilli rejimə keçmək üçün klikləyin
   hub:
     tooltip: Mətni eyni anda bir neçə modellə tərcümə edin
-  blog:
-    notification: FrogLex yenilikləri
   aiSmartContext: Süni intellektlə ağıllı kontekst
   aiSmartContextDescription: Tərcümənin keyfiyyətini artırmaq üçün səhifənin kontekstindən istifadə edir. LLM provayderi tələb olunur.
   storeReview:
@@ -110,56 +100,8 @@ options:
     settings: Parametrlər
     features: Funksiyalar
     translation: Tərcümə
-    product: Məhsul
   tools:
     translationHub: Tərcümə mərkəzi
-    pdfTranslation: PDF tərcüməsi
-  product:
-    roadmap: İnkişaf planı
-  helpAndCommunity:
-    title: Kömək və icma
-    pageDescription: FrogLex genişlənməsindən istifadə etməyi öyrənin, komandadan kömək alın və ya icmadakı digər istifadəçilərə qoşulun.
-    help:
-      title: Kömək
-    tutorial:
-      title: Təlimat
-      description: Sənədləri oxuyun və FrogLex genişlənməsindən istifadə etməyi öyrənin
-    email:
-      title: Bizə e-poçt göndər
-      description: Komanda ilə birbaşa contact@readfrog.app ünvanında əlaqə saxlayın
-    featureRequest:
-      title: Funksiya təklif et
-      description: Fikir təklif edin və komandanın növbəti işlərinə səs verin
-    bugReport:
-      title: Xəta bildir
-      description: Dəstək sorğusu açın və problem həll edilənədək onu izləyin
-    troubleshooting:
-      title: "Problemlərin həlli"
-    diagnostics:
-      title: "Diaqnostika məlumatlarını ixrac et"
-      description: "Xəta hesabatına əlavə etmək üçün son jurnalları və ayarlarınızı (API açarları olmadan) yadda saxlayın"
-      exportSuccess: "Diaqnostika məlumatları yadda saxlanıldı"
-      exportFailed: "Diaqnostika məlumatlarını ixrac etmək mümkün olmadı"
-    community:
-      title: İcma
-    discord:
-      title: Discord
-      description: Komanda və digər istifadəçilərlə real vaxtda söhbət edin
-    wechat:
-      title: WeChat qrupu
-      description: WeChat müzakirə qrupuna qoşulmaq üçün QR kodunu skan edin
-      qrCodeAlt: WeChat QR kodu
-  usage:
-    title: İstifadə
-    pageDescription: Planınız və qalan süni intellekt kvotanız.
-    notSignedIn: Daxil olunmayıb
-    guest: Qonaq
-    manageSubscription: Abunəliyi idarə et
-    logInToView: Baxmaq üçün daxil olun
-    footer:
-      logIn: Daxil olun və hər həftə pulsuz süni intellekt kvotası alın
-      upgrade: Süni intellekt subtitrlərini açmaq və daha çox daxili süni intellekt kvotası üçün Pro-ya keçin
-      upgradeAction: Təkmilləşdir
   apiProviders:
     title: API provayderləri
     pageDescription: FrogLex-un daxili modellərindən istifadə edin və ya üçüncü tərəf süni intellekt xidmətlərini qoşun, sonra hər funksiyanı hansı seçimin icra edəcəyini təyin edin.
@@ -417,82 +359,6 @@ options:
         urlPattern: URL şablonu
     config:
       title: Konfiqurasiya
-      googleDrive:
-        title: Google Drive ilə bulud sinxronlaşdırması
-        description: Uzaqdakı konfiqurasiya daha yenidirsə endirir, yerli konfiqurasiya daha yenidirsə yükləyir. Lüğətləriniz ayrıca faylda daşınır və bütövlükdə əvəz olunmaq yerinə termin-termin birləşdirilir.
-        sync: Google Drive ilə sinxronlaşdır
-        syncing: Sinxronlaşdırılır...
-        syncSuccess:
-          uploaded: Yerli konfiqurasiya buluda yükləndi
-          downloaded: Uzaqdakı konfiqurasiya tətbiq edildi
-          sameChanges: Hər iki tərəfdə eyni parametr dəyişiklikləri, sinxronlaşdırıldı
-          noChange: Parametrlər artıq sinxrondur
-          unresolved: Parametr münaqişələri həll edildi və sinxronlaşdırıldı
-        syncError: Parametr sinxronizasiyası alınmadı, yenidən cəhd edin
-        accountChangedError: Dialoq açıq ikən daxil olunmuş Google hesabı dəyişdi. Heç nə yüklənmədi — yenidən sinxronlaşdırın.
-        metadataCorrupted: Sinxronlaşdırma metaməlumatları zədələnib, uzaqdakı konfiqurasiya tətbiq edildi
-        lastSyncTime: Son sinxronlaşdırma vaxtı
-        logout: Çıxış et
-        logoutSuccess: Google hesabından çıxış edildi
-        unresolved:
-          title: Konfiqurasiya sinxronlaşdırmasında ziddiyyətlərin həlli
-          description: Yerli və uzaqdakı konfiqurasiyalar fərqlidir. Hər sahə üçün hansı versiyanın saxlanacağını seçin.
-          resolved: Həll edilib
-          unresolved: Həll edilməyib
-          localValue: Yerli dəyər
-          remoteValue: Uzaqdakı dəyər
-          useLocal: Yerli dəyərdən istifadə et
-          useRemote: Uzaqdakı dəyərdən istifadə et
-          useAllLocal: Bütün yerli dəyərlərdən istifadə et
-          useAllRemote: Bütün uzaqdakı dəyərlərdən istifadə et
-          reset: Seçimi sıfırla
-          progress: $1/$2 dəyişiklik həll edilib
-          confirm: Sinxronlaşdırmanı təsdiqlə
-          cancel: Ləğv et
-          hasUnresolvedInChildren: ⚠ Həll edilməmiş dəyişikliklər var
-          item: element
-          items: element
-          unresolvedPrompt: "[Həll edilməyib, seçim edin]"
-          localLatest: Yerli versiya daha yenidir
-          remoteLatest: Uzaqdakı versiya daha yenidir
-          bothChanged: Hər ikisi dəyişib
-          localChanged: Yerli versiya dəyişib
-          remoteChanged: Uzaqdakı versiya dəyişib
-          configValid: Konfiqurasiya düzgündür
-          configInvalid: Konfiqurasiya yanlışdır
-          resolveToContinue: Davam etmək üçün ziddiyyətləri həll edin
-          validationAlert:
-            title: Birləşdirilmiş konfiqurasiyada yoxlama xətaları var.
-            description: "Düzəltmək üçün aşağıdakı fərqləri tənzimləyin:"
-          moreErrors: ...və daha $1 xəta
-        glossary:
-          thisDevice: Bu cihaz
-          cloud: Bulud
-          deleted: Silinib
-          disabled: söndürülüb
-          upToDate: Lüğətlər artıq sinxrondur
-          uploaded: Lüğətlər buluda yükləndi
-          merged: "Lüğətlər sinxronlaşdırıldı: $1 əlavə, $2 yeniləndi, $3 silindi"
-          undo: Geri al
-          undone: Lüğətlər sinxronizasiyadan əvvəlki halına qaytarıldı
-          undoUnavailable: Bu geri alma artıq mümkün deyil — lüğətləriniz o vaxtdan bəri dəyişib.
-          retry: Sinxronizasiya zamanı lüğət dəyişdi. Yenidən işə salın.
-          accountChangedRetry: Dialoq açıq ikən daxil olunmuş Google hesabı dəyişdi. Heç nə yüklənmədi — yenidən sinxronlaşdırın.
-          busy: Başqa bir tab hazırda lüğətlərinizi sinxronlaşdırır.
-          malformed: Drive-dakı lüğət faylı oxuna bilmədi, ona görə heç nə dəyişmədi.
-          versionTooNew: Həmin lüğət faylını FrogLex-un daha yeni versiyası yazıb. Əvvəlcə genişlənməni yeniləyin.
-          duplicateFiles: Drive-ınızda birdən çox lüğət faylı var. Heç nə dəyişmədi - artıq olanı silin.
-          capExceeded: "Birləşdirmə lüğət limitini $1 aşardı. Heç nə dəyişmədi."
-          failed: Lüğət sinxronizasiyası alınmadı
-          review:
-            title: Bu lüğət sinxronizasiyasını nəzərdən keçirin
-            description: İki nüsxənin fərqləndiyi yerlərdə nəyin qalacağını seçin.
-            firstSync: "Bu cihazda ilk sinxronizasiya: buluddan $1, yuxarı $2."
-            accountChanged: "$1 hesabı ilə daxil olmusunuz — bu cihazın sonuncu dəfə sinxronlaşdırdığı hesab deyil. Cihazdakı $2 lüğət sətri bu hesaba yüklənəcək. Yalnız bu hesabın lüğətlərini istəyirsinizsə, ləğv edin, buradakıları silin və yenidən sinxronlaşdırın."
-            destructive: "Bu sinxronizasiya bu cihazdakı $2 lüğət sətrindən $1-ni silir."
-            moreConflicts: "Siyahıda olmayan daha $1 fərq var. Hər biri birləşmənin öz seçimini saxlayır."
-            confirm: Sinxronlaşdır
-            cancel: Ləğv et
       manualSync:
         title: Konfiqurasiyanın əl ilə sinxronlaşdırılması
         description: Ayarlarınızı əl ilə idxal və ixrac edin, lüğətləriniz də birlikdə gəlir
@@ -709,7 +575,6 @@ options:
       noEnabledLlmProvider: Fərdi süni intellekt əməliyyatları yaratmazdan əvvəl ən azı bir LLM provayderini aktiv edin
       tabs:
         config: Konfiqurasiya
-        notebase: Notebase
         hasErrors: Xətalar var
         connected: Qoşulub
         needsAttention: Diqqət tələb edir
@@ -827,51 +692,6 @@ options:
             tooLong: Bu tərtibat $1 simvoldan uzundur və yadda saxlanıla bilməz.
             fieldNotShown: '"$1" bu tərtibatda göstərilmir.'
             reservedFieldName: '"$1" sahə adı tərtibatlarda ehtiyatda saxlanılır. Sahənin adını dəyişin.'
-        notebase:
-          title: Notebase qoşulması
-          description: Bu əməliyyatın strukturlaşdırılmış nəticələrini uzaqdakı Notebase daxilində saxlayın.
-          loginRequiredTitle: Notebase parametrlərini tənzimləmək üçün daxil olun
-          loginRequiredDescription: Notebase seçməzdən və ya uyğunlaşdırmaları redaktə etməzdən əvvəl readfrog.app saytında daxil olun.
-          loginRequiredConnectedDescription: Bu qoşulma aşağıdakı hesab tərəfindən yaradılıb. Eyni hesabla daxil olsanız, sahə uyğunlaşdırmaları bərpa ediləcək. Başqa hesabla daxil olsanız, Notebase yaradarkən və ya qoşarkən əvvəlki uyğunlaşdırmalar silinəcək.
-          loginAction: Daxil ol
-          connectedAccountLabel: Qoşulmuş hesab
-          currentAccountLabel: Cari hesab
-          unknownConnectedAccount: Naməlum hesab
-          tableLabel: Notebase
-          tablePlaceholder: Notebase seçin
-          tableClearOption: Notebase ilə əlaqəni kəs
-          clearConnectionAction: Qoşulmanı sil
-          refreshAction: Yenilə
-          emptyTitle: Hələ Notebase yoxdur
-          emptyDescription: readfrog.app saytında Notebase yaradın, sonra sahələri uyğunlaşdırmaq üçün buraya qayıdın.
-          openNotebaseAction: Notebase səhifəsini aç
-          accessDeniedTitle: Notebase əlçatan deyil
-          accessDeniedDescription: Bu hesabın Notebase məlumatlarını yükləməyə icazəsi yoxdur.
-          listErrorTitle: Notebase siyahısını yükləmək mümkün olmadı
-          listErrorDescription: Bir qədər sonra Notebase siyahısını yenidən yeniləməyə çalışın.
-          accountMismatchTitle: Notebase qoşulması başqa hesaba aiddir
-          accountMismatchDescription: Bu qoşulma aşağıdakı hesaba bağlıdır. Onu silin və ya cari hesab üçün əlçatan Notebase seçin.
-          tableUnavailableTitle: Seçilmiş Notebase artıq əlçatan deyil
-          tableUnavailableDescription: Bu Notebase artıq mövcud deyil və ya açıla bilmir. Qoşulmanı silin və ya başqa Notebase seçin.
-          tableUnavailableOption: əlçatan deyil
-          schemaErrorTitle: Notebase sxemini yükləmək mümkün olmadı
-          schemaErrorDescription: Bir qədər sonra sxemi yenidən yeniləməyə çalışın.
-          schemaLoading: Notebase sxemi yüklənir...
-          mappingsLabel: Sahə uyğunlaşdırmaları
-          localFieldLabel: Əməliyyat sahəsi
-          remoteFieldLabel: Notebase sahəsi
-          columnUnavailableOption: silinib
-          invalidMappingsTitle: Bəzi uyğunlaşdırmaları yoxlamaq lazımdır
-          invalidMappingsDescription: Yanlış uyğunlaşdırmalar saxlanılır. Notebase daxilində yadda saxlamazdan əvvəl onları düzəldin.
-          noFieldSavedTitle: "Bu Notebase-ə heç bir sahə yadda saxlanılmır"
-          noFieldSavedDescription: "Qeydləri yadda saxlamaq üçün ən azı bir sahəyə Notebase sahəsi seçin."
-          mappingSummary: "Saxlanılır $1 · Ötürülür $2 · Qərarsız $3"
-          skipFieldOption: "Saxlama"
-          undecidedFieldPlaceholder: "Notebase sahəsi seçin və ya saxlamayın"
-          mappingMissingLocal: Uyğunlaşdırılmış əməliyyat sahəsi artıq mövcud deyil.
-          mappingMissingRemote: Uyğunlaşdırılmış Notebase sahəsi artıq mövcud deyil.
-          mappingMissingSchema: Bu uyğunlaşdırmanı yoxlamaq üçün Notebase sxemini yeniləyin.
-          mappingIncompatible: Sahə növləri artıq uyğun gəlmir.
         tokens:
           selection: Seçilmiş mətnin məzmunu
           paragraphs: Boş sətirlərlə birləşdirilmiş, seçimlə kəsişən abzasların mətni; fərdi süni intellekt əməliyyatlarına göndərilərkən ilk 2000 simvolla məhdudlaşdırılır
@@ -1708,42 +1528,9 @@ action:
   viewContextDetails: Kontekst
   customizeCustomAction: $1 əməliyyatını fərdiləşdir
   customActionLayoutFallback: Bu nəticə öz tərtibatında göstərilə bilmir, ona görə sadələşdirilmiş görünüş göstərilir.
-  saveToNotebase: Notebase daxilində yadda saxla
-  saveToNotebaseSaving: Yadda saxlanılır...
-  saveToNotebaseSuccess: Notebase daxilində yadda saxlanıldı
-  saveToNotebaseFailed: Notebase daxilində yadda saxlamaq mümkün olmadı
-  saveToNotebaseLoginRequired: Notebase daxilində yadda saxlamaq üçün readfrog.app saytında daxil olun
-  saveToNotebaseAccessDenied: Bu hesabın seçilmiş Notebase üçün giriş icazəsi yoxdur
-  saveToNotebaseLimitExceeded: Daha çox Notebase qeydi saxlamaq üçün abunəliyi yüksəltmək lazımdır
-  saveToNotebaseTableUnavailable: Seçilmiş Notebase artıq əlçatan deyil
-  saveToNotebaseConnectionInvalid: Bu Notebase qoşulması köhnəlib. Fərdi süni intellekt əməliyyatlarında onu yeniləyin və uyğunlaşdırmaları düzəldin.
-  saveToNotebaseInvalidContent: "Süni intellektin cavabında formatı səhv olan dəyər var, ona görə yadda saxlanılmadı. Əməliyyatı yenidən işə salın, sonra yadda saxlayın."
-  saveToNotebaseNoFieldSaved: "Yadda saxlanılmadı: bu əməliyyat Notebase-ə heç bir sahə yazmır. Parametrlərində ən azı birini seçin."
-  saveToNotebaseUndecidedTitle: "Yadda saxlanıldı. Bu sahələri saxlayıb-saxlamamağa hələ qərar verməmisiniz"
-  saveToNotebaseSkipUndecided: "Heç birini saxlama"
-  saveToNotebaseNoMappings: Yadda saxlamazdan əvvəl ən azı bir düzgün uyğunlaşdırma əlavə edin
-  saveToNotebaseCreateTitle: Notebase yaradılsın?
-  saveToNotebaseCreateDescription: Bu fərdi əməliyyata uyğun sütunlarla yeni Notebase yaradın, sonra bu nəticəni ilk qeyd kimi saxlayın.
-  saveToNotebaseCreateAndSave: Yarat və yadda saxla
-  saveToNotebaseCreateAndSaveShort: Yarat və yadda saxla
-  saveToNotebaseLoginAndCreate: Daxil ol və avtomatik yarat
-  saveToNotebaseLoginAndSave: Daxil ol və yadda saxla
-  saveToNotebaseConnectExisting: Mövcud Notebase ilə əlaqə qur
-  saveToNotebaseGoConfigure: Tənzimlə
-  saveToNotebaseLoginConnectedTitle: Yadda saxlamaq üçün daxil olunsun?
-  saveToNotebaseLoginConnectedDescription: Bu fərdi əməliyyat aşağıdakı hesaba qoşulub. Daxil olduqdan sonra FrogLex mümkün olduqda mövcud Notebase daxilində yadda saxlayacaq, əks halda daxil olunmuş hesab üçün yeni Notebase yaradacaq.
-  saveToNotebaseConnectionUnavailableTitle: Notebase qoşulması əlçatan deyil
-  saveToNotebaseMissingNotebaseDescription: Əvvəlki Notebase artıq mövcud deyil və ya bu hesab onu aça bilmir. Yeni Notebase yaradıb bu nəticəni saxlayın və ya fərdi süni intellekt əməliyyatlarında mövcud Notebase qoşun.
-  saveToNotebaseAccountUnavailableDescription: Daxil olunmuş hesab aşağıdakı qoşulmuş hesabla uyğun gəlmir. Yaratma və saxlama əvvəlki qoşulmanı və sahə uyğunlaşdırmalarını əvəz edəcək. Fərdi süni intellekt əməliyyatlarında mövcud Notebase də qoşa bilərsiniz.
-  saveToNotebasePendingLogin: Yadda saxlamanı tamamlamaq üçün daxil olun
-  saveToNotebasePendingLoginDescription: Daxil olduqdan sonra FrogLex avtomatik olaraq Notebase yaradacaq və bu nəticəni saxlayacaq.
-  saveToNotebasePendingConnectedLoginDescription: Daxil olduqdan sonra FrogLex mümkün olduqda qoşulmuş Notebase daxilində yadda saxlayacaq. Bu hesab ondan istifadə edə bilməsə, FrogLex yeni Notebase yaradacaq və bu nəticəni saxlayacaq.
   upgrade: Abunəliyi yüksəlt
   updatePayment: Ödənişi yenilə
   openCustomActions: Fərdi süni intellekt əməliyyatlarını aç
-  openNotebase: Notebase səhifəsini aç
-  reviewDueOne: "$1 kart təkrar gözləyir"
-  reviewDueOther: "$1 kart təkrar gözləyir"
   contextDetailsTitleLabel: Başlıq
   contextDetailsParagraphsLabel: Abzaslar
   translation: Tərcümə
@@ -1754,13 +1541,6 @@ action:
   unpinFromToolbar: Alətlər panelindən ayır
   dragToReorder: Sıralamaq üçün sürükləyin
   addCustomAction: Fərdi süni intellekt əməliyyatı əlavə et
-noteSuggestion:
-  title: Saxlamağa dəyər
-  description: Notebase daxilində saxlamaq istədiyiniz sözləri seçin və istənilən vaxt təkrarlayın.
-  save: Yadda saxla
-  saved: Yadda saxlanıldı
-  staleSuggestion: Bu təklif köhnəlib
-  toggleLabel: Qeyd təkliflərini göstər
 thinking:
   label: Düşünür
   complete: Düşünmə tamamlandı

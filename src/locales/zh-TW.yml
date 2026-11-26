@@ -1,14 +1,6 @@
 name: "蛙词库"
 extName: "蛙词库"
 extDescription: "翻譯網頁和影片字幕，支援自行設定 AI 模型。選取生詞後收錄到本機詞庫。"
-account:
-  login: 登入
-  webApp: 網頁應用程式
-  logout: 退出登入
-  logoutError: 退出登入失敗，請重試
-  grantAccess: 授予存取權限
-  grantAccessHint: 需要存取 readfrog.app
-  grantAccessError: 授予存取權限失敗，請重試
 dataTypes:
   string: 文字
   number: 數字
@@ -50,8 +42,6 @@ popup:
         action: 點選切換為雙語對照
   hub:
     tooltip: 一次使用多個翻譯模型翻譯文字
-  blog:
-    notification: 蛙词库更新動態
   aiSmartContext: AI 智慧上下文
   aiSmartContextDescription: 結合網頁前後文提升翻譯品質。需要使用 LLM 提供者。
   storeReview:
@@ -283,56 +273,8 @@ options:
     settings: 設定
     features: 功能
     translation: 翻譯
-    product: 產品
   tools:
     translationHub: 翻譯中心
-    pdfTranslation: PDF 翻譯
-  product:
-    roadmap: 產品路線圖
-  helpAndCommunity:
-    title: 說明與社群
-    pageDescription: 了解怎麼使用蛙词库、向團隊尋求協助，或加入社群和其他使用者交流。
-    help:
-      title: 說明
-    tutorial:
-      title: 使用教學
-      description: 閱讀文件，了解怎麼使用蛙词库
-    email:
-      title: 電子郵件聯絡
-      description: 透過 contact@readfrog.app 直接聯絡團隊
-    featureRequest:
-      title: 功能建議
-      description: 提出想法，並為團隊接下來要做的功能投票
-    bugReport:
-      title: 回報問題
-      description: 建立支援工單，並追蹤到問題解決為止
-    troubleshooting:
-      title: "疑難排解"
-    diagnostics:
-      title: "匯出診斷資訊"
-      description: "儲存最近的日誌和設定（不含 API 金鑰），附在問題回報中"
-      exportSuccess: "診斷資訊已儲存"
-      exportFailed: "無法匯出診斷資訊"
-    community:
-      title: 社群
-    discord:
-      title: Discord
-      description: 與團隊和其他使用者即時交流
-    wechat:
-      title: 微信群
-      description: 掃描 QR code 進入微信討論群
-      qrCodeAlt: 微信 QR code
-  usage:
-    title: 用量
-    pageDescription: 查看你的會員和 AI 額度。
-    notSignedIn: 未登入
-    guest: 訪客
-    manageSubscription: 管理訂閱
-    logInToView: 登入後查看
-    footer:
-      logIn: 登入後每週送免費 AI 額度
-      upgrade: 升級 Pro 解鎖 AI 字幕和更多內建 AI 額度
-      upgradeAction: 升級會員
   apiProviders:
     title: API 提供者
     pageDescription: 使用 蛙词库 內建模型或接入第三方 AI 服務，並為每項功能指定使用哪一個。
@@ -590,82 +532,6 @@ options:
         urlPattern: URL 模式
     config:
       title: 設定
-      googleDrive:
-        title: Google Drive 雲端同步
-        description: 遠端設定較新時下載，本機設定較新時上傳；術語庫走單獨一個檔案，逐條合併而不是整份覆蓋。
-        sync: 同步到 Google Drive
-        syncing: 同步中…
-        syncSuccess:
-          uploaded: 本機設定已上傳至雲端
-          downloaded: 已套用遠端設定
-          sameChanges: 兩端設定變更相同，已同步
-          noChange: 設定已是最新狀態
-          unresolved: 設定衝突已解決並同步
-        syncError: 設定同步失敗，請重試
-        accountChangedError: 對話框開啟期間登入的 Google 帳號發生變化，未上傳任何內容，請重新同步。
-        metadataCorrupted: 同步資料損壞，已自動套用遠端設定
-        lastSyncTime: 最後同步時間
-        logout: 登出帳號
-        logoutSuccess: 已登出 Google 帳號
-        unresolved:
-          title: 設定同步解決
-          description: 本機與雲端設定存在差異，請選擇每個欄位要保留的版本。
-          resolved: 已解決
-          unresolved: 未解決
-          localValue: 本機值
-          remoteValue: 遠端值
-          useLocal: 使用本機
-          useRemote: 使用遠端
-          useAllLocal: 全選本機
-          useAllRemote: 全選遠端
-          reset: 撤銷選擇
-          progress: 已解決 $1/$2 個變更
-          confirm: 確認同步
-          cancel: 取消
-          hasUnresolvedInChildren: ⚠ 包含待解決項
-          item: 項
-          items: 項
-          unresolvedPrompt: "[待解決 - 請選擇]"
-          localLatest: 本機最新
-          remoteLatest: 遠端最新
-          bothChanged: 雙方已變更
-          localChanged: 本機已變更
-          remoteChanged: 遠端已變更
-          configValid: 設定有效
-          configInvalid: 設定無效
-          resolveToContinue: 解決衝突後繼續
-          validationAlert:
-            title: 合併後的設定存在驗證錯誤
-            description: 請調整下方差異以修復：
-          moreErrors: …還有 $1 個錯誤
-        glossary:
-          thisDevice: 本機
-          cloud: 雲端
-          deleted: 已刪除
-          disabled: 已停用
-          upToDate: 術語庫已是最新
-          uploaded: 術語庫已上傳到雲端
-          merged: "詞彙庫已同步：新增 $1，更新 $2，刪除 $3"
-          undo: 復原
-          undone: 術語庫已還原成同步前的樣子
-          undoUnavailable: 該復原已失效 — 之後詞彙庫已發生變化。
-          retry: 同步期間術語庫有變動，請再執行一次。
-          accountChangedRetry: 對話框開啟期間登入的 Google 帳號發生變化，未上傳任何內容，請重新同步。
-          busy: 另一個分頁正在同步你的術語庫。
-          malformed: 雲端的術語庫檔案無法讀取，本次未做任何變更。
-          versionTooNew: 該術語庫檔案由較新版本的 蛙词库 寫入，請先更新擴充功能。
-          duplicateFiles: 你的雲端有多個術語庫檔案，本次未做任何變更，請先刪除多餘的那個。
-          capExceeded: "合併後會超出術語庫上限 $1 筆，本次未做任何變更。"
-          failed: 術語庫同步失敗
-          review:
-            title: 確認這次術語庫同步
-            description: 兩邊不一致的地方，請選擇要保留哪一個。
-            firstSync: "本機首次同步：從雲端接收 $1 筆，上傳 $2 筆。"
-            accountChanged: "目前登入的是 $1，和這台裝置上次同步的帳號不是同一個。本機的 $2 筆術語庫資料會被上傳到這個帳號。如果只想要這個帳號的術語庫，請取消、先把本機的刪掉，再同步一次。"
-            destructive: "這次同步會刪除本機 $2 筆術語庫資料中的 $1 筆。"
-            moreConflicts: "另有 $1 處差異未列出，均按合併結果處理。"
-            confirm: 同步
-            cancel: 取消
       manualSync:
         title: 手動設定同步
         description: 手動匯入匯出你的設定，術語庫也一併帶走
@@ -961,7 +827,6 @@ options:
       noEnabledLlmProvider: 請先啟用至少一個 LLM 提供者後再建立自訂 AI 指令
       tabs:
         config: 設定
-        notebase: 筆記庫
         hasErrors: 有錯誤
         connected: 已連線
         needsAttention: 需要處理
@@ -1079,51 +944,6 @@ options:
             tooLong: 版面超過 $1 個字元，無法儲存。
             fieldNotShown: 「$1」未在此版面中顯示。
             reservedFieldName: 欄位名稱「$1」是版面保留名稱，請重新命名該欄位。
-        notebase:
-          title: 筆記庫連線
-          description: 將這個指令的結構化結果儲存到遠端筆記庫。
-          loginRequiredTitle: 登入後才能設定筆記庫
-          loginRequiredDescription: 先到 readfrog.app 登入，再選擇筆記庫與編輯對應。
-          loginRequiredConnectedDescription: 這個連線來自下方帳號。如果登入原帳號，會恢復欄位對應；如果登入其他帳號，建立或連線筆記庫時會清除先前的欄位對應。
-          loginAction: 前往登入
-          connectedAccountLabel: 已連線帳號
-          currentAccountLabel: 目前帳號
-          unknownConnectedAccount: 未知帳號
-          tableLabel: 筆記庫
-          tablePlaceholder: 選擇一個筆記庫
-          tableClearOption: 不連線筆記庫
-          clearConnectionAction: 清空連線
-          refreshAction: 重新整理
-          emptyTitle: 還沒有筆記庫
-          emptyDescription: 先到 readfrog.app 建立一個筆記庫，再回來對應欄位。
-          openNotebaseAction: 開啟筆記庫
-          accessDeniedTitle: 無法存取筆記庫
-          accessDeniedDescription: 目前帳號沒有權限載入筆記庫資料。
-          listErrorTitle: 載入筆記庫失敗
-          listErrorDescription: 請稍後再試一次。
-          accountMismatchTitle: 筆記庫連線屬於其他帳號
-          accountMismatchDescription: 目前連線綁定到下方已連線帳號。可清除連線，或選擇目前帳號可存取的筆記庫。
-          tableUnavailableTitle: 所選筆記庫已無法使用
-          tableUnavailableDescription: 這個筆記庫不存在，或目前帳號無法開啟。可以清空連線，或重新選擇一個筆記庫。
-          tableUnavailableOption: 無法使用
-          schemaErrorTitle: 載入筆記庫 schema 失敗
-          schemaErrorDescription: 請稍後再試一次重新整理。
-          schemaLoading: 正在載入筆記庫 schema…
-          mappingsLabel: 欄位對應
-          localFieldLabel: 指令欄位
-          remoteFieldLabel: 筆記庫欄位
-          columnUnavailableOption: 已刪除
-          invalidMappingsTitle: 有些對應需要處理
-          invalidMappingsDescription: 無效對應會被保留。儲存到筆記庫前請先修復它們。
-          noFieldSavedTitle: "沒有欄位會存進這個筆記庫"
-          noFieldSavedDescription: "至少為一個欄位選擇筆記庫欄位，才能儲存筆記。"
-          mappingSummary: "存 $1 · 不存 $2 · 待定 $3"
-          skipFieldOption: "不儲存"
-          undecidedFieldPlaceholder: "選擇筆記庫欄位或不儲存"
-          mappingMissingLocal: 對應的指令欄位已不存在。
-          mappingMissingRemote: 對應的筆記庫欄位已不存在。
-          mappingMissingSchema: 重新整理筆記庫 schema 後才能驗證這個對應。
-          mappingIncompatible: 欄位類型已不相容。
         tokens:
           selection: 選取的文字內容
           paragraphs: 與選取範圍相交的段落內容，會以空行串接，傳給自訂 AI 指令時會截斷到前 2000 個字元
@@ -1960,42 +1780,9 @@ action:
   viewContextDetails: 前後文
   customizeCustomAction: 自訂「$1」動作
   customActionLayoutFallback: 此結果無法依版面顯示，目前為簡化顯示。
-  saveToNotebase: 儲存到筆記庫
-  saveToNotebaseSaving: 儲存中…
-  saveToNotebaseSuccess: 已儲存到筆記庫
-  saveToNotebaseFailed: 儲存到筆記庫失敗
-  saveToNotebaseLoginRequired: 請先到 readfrog.app 登入後再儲存到筆記庫
-  saveToNotebaseAccessDenied: 目前帳號無法存取所選筆記庫
-  saveToNotebaseLimitExceeded: 需要升級後才能儲存更多筆記庫內容
-  saveToNotebaseTableUnavailable: 所選筆記庫已無法使用
-  saveToNotebaseConnectionInvalid: 目前的筆記庫連線已過期，請到自訂 AI 指令重新整理並修復對應
-  saveToNotebaseInvalidContent: "AI 回傳的內容格式不對，沒有儲存。請重新執行一次再儲存。"
-  saveToNotebaseNoFieldSaved: "沒有儲存：這個指令沒有要存進筆記庫的欄位，請在設定中至少選一個。"
-  saveToNotebaseUndecidedTitle: "已儲存。這些欄位還沒決定存不存"
-  saveToNotebaseSkipUndecided: "都不儲存"
-  saveToNotebaseNoMappings: 至少新增一個有效對應後才能儲存
-  saveToNotebaseCreateTitle: 建立筆記庫？
-  saveToNotebaseCreateDescription: 建立一個筆記庫，欄位會對應此自訂 AI 指令的輸出欄位，並將目前結果儲存為第一則筆記。
-  saveToNotebaseCreateAndSave: 直接建立並儲存
-  saveToNotebaseCreateAndSaveShort: 建立並儲存
-  saveToNotebaseLoginAndCreate: 登入並自動建立
-  saveToNotebaseLoginAndSave: 登入並儲存
-  saveToNotebaseConnectExisting: 連線現有筆記庫
-  saveToNotebaseGoConfigure: 前往設定
-  saveToNotebaseLoginConnectedTitle: 登入後繼續儲存？
-  saveToNotebaseLoginConnectedDescription: 這個自訂 AI 指令已連線到下方帳號。登入後，如果可以使用原筆記庫會直接儲存；如果目前帳號無法使用它，會建立新的筆記庫並儲存。
-  saveToNotebaseConnectionUnavailableTitle: 筆記庫連線目前無法使用
-  saveToNotebaseMissingNotebaseDescription: 舊筆記庫不存在，或目前帳號無法開啟。可以建立新的筆記庫並儲存目前結果，或到自訂 AI 指令連線既有筆記庫。
-  saveToNotebaseAccountUnavailableDescription: 目前登入帳號和下方已連線帳號不同。選擇建立並儲存會替換先前的連線設定和欄位對應；也可以到自訂 AI 指令連線既有筆記庫。
-  saveToNotebasePendingLogin: 登入後繼續儲存
-  saveToNotebasePendingLoginDescription: 登入完成後，蛙词库會自動建立筆記庫並儲存目前結果。
-  saveToNotebasePendingConnectedLoginDescription: 登入完成後，蛙词库會優先儲存到已連線的筆記庫；如果目前帳號無法使用它，會建立新的筆記庫並儲存目前結果。
   upgrade: 升級
   updatePayment: 更新付款方式
   openCustomActions: 開啟自訂 AI 指令
-  openNotebase: 開啟筆記庫
-  reviewDueOne: "$1 張卡片需複習"
-  reviewDueOther: "$1 張卡片需複習"
   contextDetailsTitleLabel: 標題
   contextDetailsParagraphsLabel: 段落內容
   translation: 翻譯
@@ -2006,13 +1793,6 @@ action:
   unpinFromToolbar: 從工具列取消釘選
   dragToReorder: 拖曳以排序
   addCustomAction: 新增自訂 AI 指令
-noteSuggestion:
-  title: 猜你想存
-  description: 選擇要存入筆記庫的詞，將來隨時複習
-  save: 儲存
-  saved: 已儲存
-  staleSuggestion: 該建議已過期
-  toggleLabel: 顯示猜你想存
 thinking:
   label: 思考中
   complete: 思考完成

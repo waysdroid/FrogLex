@@ -10,9 +10,6 @@ const { onMessageMock, storeLogRecordsMock } = vi.hoisted(() => ({
 
 vi.mock("@/utils/message", () => ({ onMessage: onMessageMock }))
 vi.mock("@/utils/logging/sinks/persist", () => ({ storeLogRecords: storeLogRecordsMock }))
-vi.mock("@/utils/diagnostics/report", () => ({
-  buildDiagnosticsReport: vi.fn<() => Promise<unknown>>(),
-}))
 
 const record = {
   time: 1,

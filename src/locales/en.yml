@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "Translate pages and video subtitles, use your own AI provider, and save words locally."
-account:
-  login: Log in
-  webApp: Web app
-  logout: Log out
-  logoutError: Failed to log out. Please try again.
-  grantAccess: Grant access
-  grantAccessHint: Needs access to readfrog.app
-  grantAccessError: Failed to grant access. Please try again.
 dataTypes:
   string: Text
   number: Number
@@ -50,8 +42,6 @@ popup:
         action: Click to switch to bilingual
   hub:
     tooltip: Translate text with multiple models simultaneously
-  blog:
-    notification: What's new in FrogLex
   aiSmartContext: AI Smart Context
   aiSmartContextDescription: Uses webpage context to improve translation quality. Requires an LLM provider.
   storeReview:
@@ -283,56 +273,8 @@ options:
     settings: Settings
     features: Features
     translation: Translation
-    product: Product
   tools:
     translationHub: Translation Hub
-    pdfTranslation: PDF translation
-  product:
-    roadmap: Roadmap
-  helpAndCommunity:
-    title: Help & Community
-    pageDescription: Learn how to use FrogLex, get help from the team, or join other users in the community.
-    help:
-      title: Help
-    tutorial:
-      title: Tutorial
-      description: Read the docs and learn how to use FrogLex
-    email:
-      title: Email us
-      description: Reach the team directly at contact@readfrog.app
-    featureRequest:
-      title: Feature request
-      description: Suggest an idea and vote on what the team builds next
-    bugReport:
-      title: Report a bug
-      description: Open a support ticket and follow it until it is fixed
-    troubleshooting:
-      title: "Troubleshooting"
-    diagnostics:
-      title: "Export diagnostics"
-      description: "Save recent logs and settings, with API keys removed, to attach to a bug report"
-      exportSuccess: "Diagnostics saved"
-      exportFailed: "Couldn't export diagnostics"
-    community:
-      title: Community
-    discord:
-      title: Discord
-      description: Chat with the team and other users in real time
-    wechat:
-      title: WeChat group
-      description: Scan the QR code to join the WeChat discussion group
-      qrCodeAlt: WeChat QR code
-  usage:
-    title: Usage
-    pageDescription: Your plan and how much AI quota you have left.
-    notSignedIn: Not signed in
-    guest: Guest
-    manageSubscription: Manage subscription
-    logInToView: Log in to view
-    footer:
-      logIn: Log in to get free AI quota every week
-      upgrade: Upgrade to Pro to unlock AI subtitles and more Built-in AI quota
-      upgradeAction: Upgrade
   apiProviders:
     title: API Providers
     pageDescription: Use FrogLex's built-in models or connect third-party AI services, then choose which one runs each feature.
@@ -590,82 +532,6 @@ options:
         urlPattern: URL Pattern
     config:
       title: Config
-      googleDrive:
-        title: Google Drive cloud sync
-        description: Downloads config when remote is newer, uploads config when local is newer. Your glossaries travel in a file of their own, merged term by term rather than replaced.
-        sync: Sync to Google Drive
-        syncing: Syncing...
-        syncSuccess:
-          uploaded: Local config uploaded to cloud
-          downloaded: Remote config applied
-          sameChanges: Same config changes on both sides, synced
-          noChange: Config already in sync
-          unresolved: Config conflicts resolved and synced
-        syncError: Config sync failed, please try again
-        accountChangedError: The signed-in Google account changed while the dialog was open. Nothing was uploaded — sync again.
-        metadataCorrupted: Sync metadata corrupted, remote config applied
-        lastSyncTime: Last sync at
-        logout: Logout
-        logoutSuccess: Logged out from Google account
-        unresolved:
-          title: Configuration sync resolution
-          description: Local and remote configurations differ. Please choose which version to keep for each field.
-          resolved: Resolved
-          unresolved: Unresolved
-          localValue: Local value
-          remoteValue: Remote value
-          useLocal: Use local
-          useRemote: Use remote
-          useAllLocal: Use all local
-          useAllRemote: Use all remote
-          reset: Reset selection
-          progress: Resolved $1/$2 changes
-          confirm: Confirm sync
-          cancel: Cancel
-          hasUnresolvedInChildren: ⚠ Contains unresolved changes
-          item: item
-          items: items
-          unresolvedPrompt: "[Unresolved - please select]"
-          localLatest: Local latest
-          remoteLatest: Remote latest
-          bothChanged: Both changed
-          localChanged: Local changed
-          remoteChanged: Remote changed
-          configValid: Config is valid
-          configInvalid: Config is invalid
-          resolveToContinue: Resolve conflicts to continue
-          validationAlert:
-            title: The merged config has validation errors.
-            description: "Adjust the differences below to fix:"
-          moreErrors: ...and $1 more errors
-        glossary:
-          thisDevice: This device
-          cloud: Cloud
-          deleted: Deleted
-          disabled: off
-          upToDate: Glossaries already in sync
-          uploaded: Glossaries uploaded to cloud
-          merged: "Glossaries synced: $1 added, $2 updated, $3 removed"
-          undo: Undo
-          undone: Glossaries restored to how they were before the sync
-          undoUnavailable: That undo is no longer available — your glossaries have changed since.
-          retry: The glossary changed while syncing. Run it again.
-          accountChangedRetry: The signed-in Google account changed while the dialog was open. Nothing was uploaded — sync again.
-          busy: Another tab is syncing your glossaries right now.
-          malformed: The glossary file in your Drive could not be read, so nothing was changed.
-          versionTooNew: That glossary file was written by a newer version of FrogLex. Update the extension first.
-          duplicateFiles: Your Drive holds more than one glossary file. Nothing was changed - please remove the extra one.
-          capExceeded: "Merging would go over the glossary limit by $1. Nothing was changed."
-          failed: Glossary sync failed
-          review:
-            title: Review this glossary sync
-            description: Choose what to keep where the two copies disagree.
-            firstSync: "First sync on this device: $1 coming from the cloud, $2 going up."
-            accountChanged: "Signed in as $1, which is not the account this device last synced with. Its $2 glossary rows will be uploaded to this account. To take only this account's glossaries, cancel, delete yours here, and sync again."
-            destructive: "This sync removes $1 of the $2 glossary rows on this device."
-            moreConflicts: "$1 more differences are not listed. Each keeps the merge's own choice."
-            confirm: Sync
-            cancel: Cancel
       manualSync:
         title: Manual config sync
         description: Manually import and export your configuration settings, and your glossaries with them
@@ -961,7 +827,6 @@ options:
       noEnabledLlmProvider: Enable at least one LLM provider before creating custom AI actions
       tabs:
         config: Config
-        notebase: Notebase
         hasErrors: Has errors
         connected: Connected
         needsAttention: Needs attention
@@ -1079,51 +944,6 @@ options:
             tooLong: This layout is longer than $1 characters and can't be saved.
             fieldNotShown: “$1” isn't shown in this layout.
             reservedFieldName: The field name “$1” is reserved in layouts. Rename the field.
-        notebase:
-          title: Notebase connection
-          description: Save this action's structured results to a remote notebase.
-          loginRequiredTitle: Log in to configure Notebase
-          loginRequiredDescription: Sign in on readfrog.app before choosing a notebase or editing mappings.
-          loginRequiredConnectedDescription: This connection was created by the account below. If you log in as the same account, field mappings will be restored. If you log in as another account, the previous mappings will be cleared when you create or connect a Notebase.
-          loginAction: Log in
-          connectedAccountLabel: Connected account
-          currentAccountLabel: Current account
-          unknownConnectedAccount: Unknown account
-          tableLabel: Notebase
-          tablePlaceholder: Select a notebase
-          tableClearOption: Disconnect notebase
-          clearConnectionAction: Clear connection
-          refreshAction: Refresh
-          emptyTitle: No notebases yet
-          emptyDescription: Create a notebase on readfrog.app, then come back here to map fields.
-          openNotebaseAction: Open Notebase
-          accessDeniedTitle: Cannot access Notebase
-          accessDeniedDescription: This account does not have permission to load Notebase data.
-          listErrorTitle: Failed to load notebases
-          listErrorDescription: Try refreshing the Notebase list again in a moment.
-          accountMismatchTitle: Notebase connection belongs to another account
-          accountMismatchDescription: This connection is tied to the connected account below. Clear it, or choose a Notebase available to the current account.
-          tableUnavailableTitle: Selected notebase is no longer available
-          tableUnavailableDescription: This Notebase no longer exists or cannot be opened. Clear the connection or choose another Notebase.
-          tableUnavailableOption: unavailable
-          schemaErrorTitle: Failed to load notebase schema
-          schemaErrorDescription: Try refreshing the schema again in a moment.
-          schemaLoading: Loading notebase schema...
-          mappingsLabel: Field mappings
-          localFieldLabel: Action field
-          remoteFieldLabel: Notebase field
-          columnUnavailableOption: removed
-          invalidMappingsTitle: Some mappings need attention
-          invalidMappingsDescription: Invalid mappings are preserved. Fix them before saving to Notebase.
-          noFieldSavedTitle: "No field is saved to this Notebase"
-          noFieldSavedDescription: "Pick a Notebase field for at least one field to save notes here."
-          mappingSummary: "Saved $1 · Skipped $2 · Undecided $3"
-          skipFieldOption: "Don't save"
-          undecidedFieldPlaceholder: "Pick a notebase field or don't save"
-          mappingMissingLocal: The mapped action field no longer exists.
-          mappingMissingRemote: The mapped notebase field no longer exists.
-          mappingMissingSchema: Refresh the notebase schema to validate this mapping.
-          mappingIncompatible: The field types no longer match.
         tokens:
           selection: Selected text content
           paragraphs: Intersecting paragraph text joined with blank lines, truncated to the first 2000 characters when sent to custom AI actions
@@ -2097,42 +1917,9 @@ action:
   viewContextDetails: Context
   customizeCustomAction: Customize $1 action
   customActionLayoutFallback: This result can't be shown in its layout, so a simplified view is shown.
-  saveToNotebase: Save to Notebase
-  saveToNotebaseSaving: Saving...
-  saveToNotebaseSuccess: Saved to Notebase
-  saveToNotebaseFailed: Failed to save to Notebase
-  saveToNotebaseLoginRequired: Log in on readfrog.app to save to Notebase
-  saveToNotebaseAccessDenied: This account cannot access the selected Notebase
-  saveToNotebaseLimitExceeded: Upgrade is required to save more Notebase notes
-  saveToNotebaseTableUnavailable: The selected Notebase is no longer available
-  saveToNotebaseConnectionInvalid: This Notebase connection is out of date. Refresh it in Custom AI Actions and fix the mappings.
-  saveToNotebaseInvalidContent: "The AI answer has a value in the wrong format, so it was not saved. Run the action again, then save."
-  saveToNotebaseNoFieldSaved: "Not saved: this action saves no field to the Notebase. Pick at least one in its settings."
-  saveToNotebaseUndecidedTitle: "Saved. You haven't decided whether to save these fields"
-  saveToNotebaseSkipUndecided: "Don't save them"
-  saveToNotebaseNoMappings: Add at least one valid mapping before saving
-  saveToNotebaseCreateTitle: Create a Notebase?
-  saveToNotebaseCreateDescription: Create a new Notebase with columns matching this Custom Action, then save this result as the first note.
-  saveToNotebaseCreateAndSave: Create and save
-  saveToNotebaseCreateAndSaveShort: Create and save
-  saveToNotebaseLoginAndCreate: Log in and auto-create
-  saveToNotebaseLoginAndSave: Log in and save
-  saveToNotebaseConnectExisting: Connect existing Notebase
-  saveToNotebaseGoConfigure: Configure
-  saveToNotebaseLoginConnectedTitle: Log in to save?
-  saveToNotebaseLoginConnectedDescription: This Custom Action is connected to the account below. After login, FrogLex will save to the existing Notebase when possible, or create a new Notebase for the logged-in account.
-  saveToNotebaseConnectionUnavailableTitle: Notebase connection unavailable
-  saveToNotebaseMissingNotebaseDescription: The old Notebase no longer exists or cannot be opened by this account. Create a new Notebase and save this result, or connect an existing Notebase in Custom AI Actions.
-  saveToNotebaseAccountUnavailableDescription: The logged-in account does not match the connected account below. Creating and saving will replace the previous connection and field mappings. You can also connect an existing Notebase in Custom AI Actions.
-  saveToNotebasePendingLogin: Log in to finish saving
-  saveToNotebasePendingLoginDescription: After login, FrogLex will create the Notebase and save this result automatically.
-  saveToNotebasePendingConnectedLoginDescription: After login, FrogLex will save to the connected Notebase when possible. If this account cannot use it, FrogLex will create a new Notebase and save this result.
   upgrade: Upgrade
   updatePayment: Update payment
   openCustomActions: Open Custom AI Actions
-  openNotebase: Open Notebase
-  reviewDueOne: "$1 card to review"
-  reviewDueOther: "$1 cards to review"
   contextDetailsTitleLabel: Title
   contextDetailsParagraphsLabel: Paragraphs
   translation: Translation
@@ -2143,13 +1930,6 @@ action:
   unpinFromToolbar: Unpin from toolbar
   dragToReorder: Drag to reorder
   addCustomAction: Add custom AI action
-noteSuggestion:
-  title: You might want to save
-  description: Choose which words to save to your Notebase and review anytime.
-  save: Save
-  saved: Saved
-  staleSuggestion: This suggestion is out of date
-  toggleLabel: Show note suggestions
 thinking:
   label: Thinking
   complete: Thinking complete

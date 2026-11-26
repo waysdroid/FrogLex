@@ -1,14 +1,6 @@
 name: "FrogLex"
 extName: "FrogLex"
 extDescription: "Web sayfaları ve YouTube, Netflix, X altyazıları için yapay zekâ ile iki dilli çeviri. Yeni kelimeleri kaydedip kartlarla çalışın."
-account:
-  login: Giriş yap
-  webApp: Web uygulaması
-  logout: Çıkış yap
-  logoutError: Çıkış yapılamadı. Lütfen tekrar deneyin.
-  grantAccess: Erişim ver
-  grantAccessHint: readfrog.app erişimi gerekiyor
-  grantAccessError: Erişim verilemedi. Lütfen tekrar deneyin.
 dataTypes:
   string: Metin
   number: Sayı
@@ -50,8 +42,6 @@ popup:
         action: İki dilli moda geçmek için tıklayın
   hub:
     tooltip: Birden fazla çeviri modeliyle aynı anda metin çevirin
-  blog:
-    notification: FrogLex'da yenilikler
   aiSmartContext: AI Akıllı Bağlam
   aiSmartContextDescription: Çeviri kalitesini artırmak için web sayfası bağlamını kullanır. LLM sağlayıcısı gerektirir.
   storeReview:
@@ -110,56 +100,8 @@ options:
     settings: Ayarlar
     features: Özellikler
     translation: Çeviri
-    product: Ürün
   tools:
     translationHub: Çeviri Merkezi
-    pdfTranslation: PDF çevirisi
-  product:
-    roadmap: Yol Haritası
-  helpAndCommunity:
-    title: Yardım ve topluluk
-    pageDescription: FrogLex'u nasıl kullanacağınızı öğrenin, ekipten yardım alın ya da toplulukta diğer kullanıcılara katılın.
-    help:
-      title: Yardım
-    tutorial:
-      title: Rehber
-      description: Belgeleri okuyun ve FrogLex'u nasıl kullanacağınızı öğrenin
-    email:
-      title: Bize e-posta gönderin
-      description: Ekibe doğrudan contact@readfrog.app adresinden ulaşın
-    featureRequest:
-      title: Özellik önerisi
-      description: Bir fikir önerin ve ekibin sırada ne geliştireceğini oylayın
-    bugReport:
-      title: Hata bildir
-      description: Destek talebi açın ve çözülene kadar takip edin
-    troubleshooting:
-      title: "Sorun giderme"
-    diagnostics:
-      title: "Tanılama verilerini dışa aktar"
-      description: "Hata bildirimine eklemek için son günlükleri ve ayarlarınızı (API anahtarları hariç) kaydedin"
-      exportSuccess: "Tanılama verileri kaydedildi"
-      exportFailed: "Tanılama verileri dışa aktarılamadı"
-    community:
-      title: Topluluk
-    discord:
-      title: Discord
-      description: Ekiple ve diğer kullanıcılarla anlık olarak sohbet edin
-    wechat:
-      title: WeChat grubu
-      description: WeChat tartışma grubuna katılmak için QR kodu tarayın
-      qrCodeAlt: WeChat QR kodu
-  usage:
-    title: Kullanım
-    pageDescription: Planın ve kalan yapay zekâ kotan.
-    notSignedIn: Giriş yapılmadı
-    guest: Misafir
-    manageSubscription: Aboneliği yönet
-    logInToView: Görmek için giriş yap
-    footer:
-      logIn: Giriş yap, her hafta ücretsiz yapay zekâ kotası kazan
-      upgrade: Yapay zekâ altyazılarının kilidini açmak ve daha fazla yerleşik AI kotası için Pro'ya geç
-      upgradeAction: Yükselt
   apiProviders:
     title: API Sağlayıcıları
     pageDescription: FrogLex'un yerleşik modellerini kullanın veya üçüncü taraf yapay zekâ servislerini bağlayın, ardından her özellik için hangisinin kullanılacağını seçin.
@@ -416,82 +358,6 @@ options:
         urlPattern: URL Deseni
     config:
       title: Yapılandırma
-      googleDrive:
-        title: Google Drive bulut senkronizasyonu
-        description: Uzak daha yeniyse indirir, yerel daha yeniyse yükler. Sözlükleriniz kendi dosyasında taşınır ve tümüyle değiştirilmek yerine terim terim birleştirilir.
-        sync: Google Drive'a Senkronize Et
-        syncing: Senkronize ediliyor...
-        syncSuccess:
-          uploaded: Yerel ayarlar buluta yüklendi
-          downloaded: Uzak ayarlar uygulandı
-          sameChanges: Her iki tarafta aynı ayar değişiklikleri, eşitlendi
-          noChange: Ayarlar zaten güncel
-          unresolved: Ayar çakışmaları çözüldü ve eşitlendi
-        syncError: Ayar eşitlemesi başarısız, lütfen tekrar deneyin
-        accountChangedError: İletişim kutusu açıkken oturum açılan Google hesabı değişti. Hiçbir şey yüklenmedi; yeniden eşitleyin.
-        metadataCorrupted: Senkronizasyon meta verileri bozuk, uzak yapılandırma uygulandı
-        lastSyncTime: Son senkronizasyon
-        logout: Çıkış yap
-        logoutSuccess: Google hesabından çıkış yapıldı
-        unresolved:
-          title: Yapılandırma senkronizasyon çözümü
-          description: Yerel ve uzak yapılandırmalar farklı. Lütfen her alan için hangi sürümün tutulacağını seçin.
-          resolved: Çözüldü
-          unresolved: Çözülmedi
-          localValue: Yerel değer
-          remoteValue: Uzak değer
-          useLocal: Yereli kullan
-          useRemote: Uzakı kullan
-          useAllLocal: Tüm yereli kullan
-          useAllRemote: Tüm uzakı kullan
-          reset: Seçimi sıfırla
-          progress: $1/$2 değişiklik çözüldü
-          confirm: Senkronizasyonu onayla
-          cancel: İptal
-          hasUnresolvedInChildren: ⚠ Çözülmemiş değişiklikler içeriyor
-          item: öğe
-          items: öğe
-          unresolvedPrompt: "[Çözülmedi - lütfen seçin]"
-          localLatest: En son yerel
-          remoteLatest: En son uzak
-          bothChanged: Her ikisi de değişti
-          localChanged: Yerel değişti
-          remoteChanged: Uzak değişti
-          configValid: Yapılandırma geçerli
-          configInvalid: Yapılandırma geçersiz
-          resolveToContinue: Devam etmek için çakışmaları çözün
-          validationAlert:
-            title: Birleştirilmiş yapılandırmada doğrulama hataları var
-            description: "Düzeltmek için aşağıdaki farklılıkları ayarlayın:"
-          moreErrors: ...ve $1 hata daha
-        glossary:
-          thisDevice: Bu cihaz
-          cloud: Bulut
-          deleted: Silindi
-          disabled: kapalı
-          upToDate: Sözlükler zaten eşit
-          uploaded: Sözlükler buluta yüklendi
-          merged: "Sözlükler eşitlendi: $1 eklendi, $2 güncellendi, $3 silindi"
-          undo: Geri al
-          undone: Sözlükler eşitlemeden önceki haline döndürüldü
-          undoUnavailable: Bu geri alma artık kullanılamıyor — sözlükleriniz o zamandan beri değişti.
-          retry: Eşitleme sırasında sözlük değişti. Yeniden çalıştırın.
-          accountChangedRetry: İletişim kutusu açıkken oturum açılan Google hesabı değişti. Hiçbir şey yüklenmedi; yeniden eşitleyin.
-          busy: Başka bir sekme şu anda sözlüklerinizi eşitliyor.
-          malformed: Drive'daki sözlük dosyası okunamadı, bu yüzden hiçbir şey değişmedi.
-          versionTooNew: O sözlük dosyasını FrogLex'un daha yeni bir sürümü yazmış. Önce uzantıyı güncelleyin.
-          duplicateFiles: Drive'ınızda birden fazla sözlük dosyası var. Hiçbir şey değişmedi - lütfen fazla olanı silin.
-          capExceeded: "Birleştirme sözlük sınırını $1 aşardı. Hiçbir şey değişmedi."
-          failed: Sözlük eşitleme başarısız
-          review:
-            title: Bu sözlük eşitlemesini gözden geçirin
-            description: İki kopyanın ayrıldığı yerlerde neyin kalacağını seçin.
-            firstSync: "Bu cihazda ilk eşitleme: buluttan $1, yukarı $2."
-            accountChanged: "$1 olarak oturum açtınız; bu, cihazın en son eşitlediği hesap değil. Cihazdaki $2 sözlük satırı bu hesaba yüklenecek. Yalnızca bu hesabın sözlüklerini istiyorsanız iptal edin, buradakileri silin ve yeniden eşitleyin."
-            destructive: "Bu eşitleme, bu cihazdaki $2 sözlük satırının $1 tanesini siler."
-            moreConflicts: "Listelenmeyen $1 fark daha var. Her biri birleştirmenin kendi seçimini korur."
-            confirm: Eşitle
-            cancel: İptal
       manualSync:
         title: Manuel yapılandırma senkronizasyonu
         description: Ayarlarınızı elle içe ve dışa aktarın, sözlükleriniz de birlikte gelir
@@ -708,7 +574,6 @@ options:
       noEnabledLlmProvider: Özel AI eylemleri oluşturmadan önce en az bir LLM sağlayıcısını etkinleştirin
       tabs:
         config: Yapılandırma
-        notebase: Notebase
         hasErrors: Hatalar var
         connected: Bağlı
         needsAttention: İlgilenilmesi gerekiyor
@@ -826,51 +691,6 @@ options:
             tooLong: Bu düzen $1 karakterden uzun ve kaydedilemez.
             fieldNotShown: '"$1" bu düzende gösterilmiyor.'
             reservedFieldName: '"$1" alan adı düzenlerde ayrılmıştır. Alanı yeniden adlandırın.'
-        notebase:
-          title: Notebase bağlantısı
-          description: Bu eylemin yapılandırılmış sonuçlarını uzak bir Notebase'e kaydedin.
-          loginRequiredTitle: Notebase yapılandırmak için giriş yapın
-          loginRequiredDescription: notebase seçmeden veya eşlemeleri düzenlemeden önce readfrog.app'te oturum açın.
-          loginRequiredConnectedDescription: Bu bağlantı aşağıdaki hesapla oluşturuldu. Aynı hesapla giriş yaparsanız alan eşlemeleri geri yüklenir. Başka bir hesapla giriş yaparsanız Notebase oluştururken veya bağlarken önceki eşlemeler temizlenir.
-          loginAction: Giriş yap
-          connectedAccountLabel: Bağlı hesap
-          currentAccountLabel: Geçerli hesap
-          unknownConnectedAccount: Bilinmeyen hesap
-          tableLabel: Notebase
-          tablePlaceholder: Bir notebase seçin
-          tableClearOption: Notebase bağlama
-          clearConnectionAction: Bağlantıyı temizle
-          refreshAction: Yenile
-          emptyTitle: Henüz Notebase yok
-          emptyDescription: readfrog.app'te bir notebase oluşturun, sonra alanları eşlemek için buraya dönün.
-          openNotebaseAction: Notebase'i aç
-          accessDeniedTitle: Notebase'e erişilemiyor
-          accessDeniedDescription: Bu hesabın Notebase verilerini yükleme izni yok.
-          listErrorTitle: Notebase listesi yüklenemedi
-          listErrorDescription: Biraz sonra Notebase listesini yeniden yenilemeyi deneyin.
-          accountMismatchTitle: Notebase bağlantısı başka bir hesaba ait
-          accountMismatchDescription: Bu bağlantı aşağıdaki bağlı hesaba aittir. Bağlantıyı temizleyin veya geçerli hesabın erişebildiği bir Notebase seçin.
-          tableUnavailableTitle: Seçilen notebase artık kullanılamıyor
-          tableUnavailableDescription: Bu Notebase artık yok veya açılamıyor. Bağlantıyı temizleyin veya başka bir Notebase seçin.
-          tableUnavailableOption: kullanılamıyor
-          schemaErrorTitle: notebase şeması yüklenemedi
-          schemaErrorDescription: Kısa süre sonra yeniden yenilemeyi deneyin.
-          schemaLoading: notebase şeması yükleniyor...
-          mappingsLabel: Alan eşlemeleri
-          localFieldLabel: Eylem alanı
-          remoteFieldLabel: Notebase alanı
-          columnUnavailableOption: silinmiş
-          invalidMappingsTitle: Bazı eşlemeler ilgi gerektiriyor
-          invalidMappingsDescription: Geçersiz eşlemeler korunur. Notebase'e kaydetmeden önce düzeltin.
-          noFieldSavedTitle: "Bu Notebase'e hiçbir alan kaydedilmiyor"
-          noFieldSavedDescription: "Not kaydetmek için en az bir alana bir Notebase alanı seçin."
-          mappingSummary: "Kaydedilen $1 · Atlanan $2 · Kararsız $3"
-          skipFieldOption: "Kaydetme"
-          undecidedFieldPlaceholder: "Bir Notebase alanı seçin ya da kaydetmeyin"
-          mappingMissingLocal: Eşlenen eylem alanı artık yok.
-          mappingMissingRemote: Eşlenen notebase alanı artık yok.
-          mappingMissingSchema: Bu eşlemeyi doğrulamak için notebase şemasını yenileyin.
-          mappingIncompatible: Alan türleri artık eşleşmiyor.
         tokens:
           selection: Seçilen metin içeriği
           paragraphs: Seçimle kesişen paragraf metni; boş satırlarla birleştirilir ve özel AI eylemlerine gönderilirken ilk 2000 karaktere kısaltılır
@@ -1703,42 +1523,9 @@ action:
   viewContextDetails: Bağlam
   customizeCustomAction: $1 eylemini özelleştir
   customActionLayoutFallback: Bu sonuç kendi düzeninde gösterilemediği için sade görünümde gösteriliyor.
-  saveToNotebase: Notebase'e Kaydet
-  saveToNotebaseSaving: Kaydediliyor...
-  saveToNotebaseSuccess: Notebase'e kaydedildi
-  saveToNotebaseFailed: Notebase'e kaydetme başarısız oldu
-  saveToNotebaseLoginRequired: Notebase'e kaydetmek için readfrog.app'te oturum açın
-  saveToNotebaseAccessDenied: Bu hesap seçilen Notebase'e erişemiyor
-  saveToNotebaseLimitExceeded: Daha fazla Notebase notu kaydetmek için yükseltme gerekir
-  saveToNotebaseTableUnavailable: Seçilen Notebase artık kullanılamıyor
-  saveToNotebaseConnectionInvalid: Bu Notebase bağlantısı güncel değil. Custom AI Actions içinde yenileyin ve eşlemeleri düzeltin.
-  saveToNotebaseInvalidContent: "Yapay zekâ yanıtında biçimi hatalı bir değer var, bu yüzden kaydedilmedi. Eylemi yeniden çalıştırıp sonra kaydedin."
-  saveToNotebaseNoFieldSaved: "Kaydedilmedi: bu eylem Notebase'e hiçbir alan kaydetmiyor. Ayarlarından en az birini seçin."
-  saveToNotebaseUndecidedTitle: "Kaydedildi. Bu alanları kaydedip kaydetmeyeceğinize henüz karar vermediniz"
-  saveToNotebaseSkipUndecided: "Hiçbirini kaydetme"
-  saveToNotebaseNoMappings: Kaydetmeden önce en az bir geçerli eşleme ekleyin
-  saveToNotebaseCreateTitle: Bir Notebase oluşturulsun mu?
-  saveToNotebaseCreateDescription: Bu Custom Action çıktı alanlarıyla eşleşen sütunlara sahip bir Notebase oluşturur ve bu sonucu ilk not olarak kaydeder.
-  saveToNotebaseCreateAndSave: Oluştur ve kaydet
-  saveToNotebaseCreateAndSaveShort: Oluştur ve kaydet
-  saveToNotebaseLoginAndCreate: Giriş yap ve otomatik oluştur
-  saveToNotebaseLoginAndSave: Giriş yap ve kaydet
-  saveToNotebaseConnectExisting: Mevcut Notebase'e bağlan
-  saveToNotebaseGoConfigure: Yapılandır
-  saveToNotebaseLoginConnectedTitle: Giriş yapıp kaydedilsin mi?
-  saveToNotebaseLoginConnectedDescription: Bu Custom Action aşağıdaki hesaba bağlı. Girişten sonra mümkünse mevcut Notebase'e kaydedilir; kullanılamazsa giriş yapılan hesap için yeni bir Notebase oluşturulur.
-  saveToNotebaseConnectionUnavailableTitle: Notebase bağlantısı kullanılamıyor
-  saveToNotebaseMissingNotebaseDescription: Eski Notebase artık yok veya bu hesapla açılamıyor. Yeni bir Notebase oluşturup kaydedin ya da Custom AI Actions içinde mevcut bir Notebase bağlayın.
-  saveToNotebaseAccountUnavailableDescription: Giriş yapılan hesap aşağıdaki bağlı hesapla eşleşmiyor. Oluşturup kaydetmek önceki bağlantıyı ve alan eşlemelerini değiştirir. Custom AI Actions içinde mevcut bir Notebase de bağlayabilirsiniz.
-  saveToNotebasePendingLogin: Kaydetmeyi tamamlamak için giriş yapın
-  saveToNotebasePendingLoginDescription: Giriş yaptıktan sonra FrogLex Notebase'i oluşturur ve bu sonucu otomatik olarak kaydeder.
-  saveToNotebasePendingConnectedLoginDescription: Girişten sonra FrogLex mümkünse bağlı Notebase'e kaydeder. Bu hesap onu kullanamazsa yeni bir Notebase oluşturup kaydeder.
   upgrade: Yükselt
   updatePayment: Ödemeyi güncelle
   openCustomActions: Custom AI Actions'ı aç
-  openNotebase: Notebase'i aç
-  reviewDueOne: "$1 kart tekrar bekliyor"
-  reviewDueOther: "$1 kart tekrar bekliyor"
   contextDetailsTitleLabel: Başlık
   contextDetailsParagraphsLabel: Paragraflar
   translation: Çeviri
@@ -1749,13 +1536,6 @@ action:
   unpinFromToolbar: Araç çubuğundan kaldır
   dragToReorder: Sıralamak için sürükleyin
   addCustomAction: Özel AI eylemi ekle
-noteSuggestion:
-  title: Kaydetmek isteyebilirsiniz
-  description: Notebase'inize kaydetmek istediğiniz kelimeleri seçin ve dilediğiniz zaman tekrarlayın.
-  save: Kaydet
-  saved: Kaydedildi
-  staleSuggestion: Bu öneri güncelliğini yitirdi
-  toggleLabel: Not önerilerini göster
 thinking:
   label: Düşünüyor
   complete: Düşünme tamamlandı

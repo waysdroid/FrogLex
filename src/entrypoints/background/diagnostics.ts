@@ -1,5 +1,4 @@
 import { z } from "zod"
-import { buildDiagnosticsReport } from "@/utils/diagnostics/report"
 import { LOG_LEVELS } from "@/utils/logging/logger"
 import { MAX_FORWARDED_BATCH } from "@/utils/logging/sinks/forward"
 import { storeLogRecords } from "@/utils/logging/sinks/persist"
@@ -40,6 +39,4 @@ export function setupDiagnosticsHandlers(): void {
     const origin = context === "content" ? { tabId: sender.tab?.id, host: getHost(sender.url) } : {}
     storeLogRecords(records.map((record) => ({ ...record, context, ...origin })))
   })
-
-  onMessage("getDiagnosticsReport", () => buildDiagnosticsReport())
 }

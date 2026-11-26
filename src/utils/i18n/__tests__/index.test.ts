@@ -12,7 +12,7 @@ vi.mock("@/utils/i18n/resources", async () => ({
         noAPIKeyConfig: { warningWithLink: { page: "page" } },
         options: {
           preference: {
-            config: { googleDrive: { unresolved: { progress: "Resolved {{0}}/{{1}} changes" } } },
+            webdav: { result: "{{0}} · {{1}}" },
           },
           selectionToolbar: {
             customActions: {
@@ -46,8 +46,8 @@ describe("i18n.t", () => {
   })
 
   it("fills positional substitutions in order", () => {
-    expect(i18n.t("options.preference.config.googleDrive.unresolved.progress", [2, 5])).toBe(
-      "Resolved 2/5 changes",
+    expect(i18n.t("options.preference.webdav.result", ["Vocabulary", "Synced"])).toBe(
+      "Vocabulary · Synced",
     )
   })
 
