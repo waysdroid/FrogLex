@@ -426,7 +426,11 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
                 {textFields.map(({ name, text, language }) => (
                   <div key={name} className="space-y-1 py-3 first:pt-0 last:pb-0">
                     <dt className="text-sm font-medium">
-                      {i18n.t(`personalVocabulary.fields.${name}`)}
+                      {i18n.t(
+                        name === "definition"
+                          ? "personalVocabulary.otherDefinition"
+                          : `personalVocabulary.fields.${name}`,
+                      )}
                     </dt>
                     <dd
                       lang={language}

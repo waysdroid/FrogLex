@@ -1,7 +1,10 @@
 import { z } from "zod"
+import { VOCABULARY_AI_FIELDS } from "./ai-fields"
 
 export const MAX_TERM_LENGTH = 240
 export const MAX_VOCABULARY_TEXT_LENGTH = 3000
+// The editor can merge two previously independent definitions of the same language.
+export const MAX_VOCABULARY_DEFINITION_LENGTH = 2 * MAX_VOCABULARY_TEXT_LENGTH + 2
 
 function normalizeSpacing(value: string) {
   return value
@@ -93,11 +96,19 @@ export const vocabularyFieldsSchema = z.object({
   difficulty: vocabularyDifficultySchema.optional(),
 })
 
+const languageDefinitionSchema = z.string().trim().min(1).max(MAX_VOCABULARY_DEFINITION_LENGTH)
+const vocabularyAiUndoValueSchema = z.object({
+  before: z.string().max(MAX_VOCABULARY_DEFINITION_LENGTH),
+  after: languageDefinitionSchema,
+})
+
+export type VocabularyAiUndoValue = z.output<typeof vocabularyAiUndoValueSchema>
+
 export const vocabularyDetailsSchema = z.object({
   phoneticUk: z.string().trim().min(1).max(240).optional(),
   phoneticUs: z.string().trim().min(1).max(240).optional(),
-  meaningsZh: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
-  meaningsEn: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
+  meaningsZh: languageDefinitionSchema.optional(),
+  meaningsEn: languageDefinitionSchema.optional(),
   examples: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
   collocations: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
   synonyms: z.string().trim().min(1).max(MAX_VOCABULARY_TEXT_LENGTH).optional(),
@@ -106,6 +117,7 @@ export const vocabularyDetailsSchema = z.object({
   note: z.string().trim().min(1).max(12000).optional(),
   favorite: z.boolean().optional(),
   important: z.boolean().optional(),
+  aiUndo: z.partialRecord(z.enum(VOCABULARY_AI_FIELDS), vocabularyAiUndoValueSchema).optional(),
 })
 
 export const vocabularySaveSchema = vocabularyLookupSchema.extend({

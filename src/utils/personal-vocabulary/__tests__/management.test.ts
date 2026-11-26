@@ -134,6 +134,10 @@ describe("vocabulary management", () => {
         lemmaSource: "user",
         note: "Personal note",
         memoryTips: "词源：Old English blōstm。\n搭配：cherry blossom",
+        examples: "A manual example.\n\nAn AI example.",
+        aiUndo: {
+          examples: { before: "A manual example.", after: "A manual example.\n\nAn AI example." },
+        },
         collectionIds: [collection],
         tagIds: [tag],
       },
@@ -171,6 +175,10 @@ describe("vocabulary management", () => {
           encounterCount: 1,
           note: "Personal note",
           memoryTips: "词源：Old English blōstm。\n搭配：cherry blossom",
+          examples: "A manual example.\n\nAn AI example.",
+          aiUndo: {
+            examples: { before: "A manual example.", after: "A manual example.\n\nAn AI example." },
+          },
         },
         contexts: [
           { sentence: "The blossoms opened early.", source: { url: "https://example.com/a" } },
