@@ -774,9 +774,27 @@ options:
     versionUpdates:
       title: "Version and updates"
       current: "Installed version $1"
-      instructions: "Extract the new ZIP into the current installation folder, then reload the extension on the browser’s Extensions page. Keep the same browser profile and extension ID to retain your vocabulary, settings and API keys."
-      releases: "View latest release"
       vocabularyBackup: "Back up vocabulary"
+      instructions: "Check GitHub Releases for a new version. Updating in the existing installation folder keeps your vocabulary, settings, and API keys."
+      releases: "GitHub Releases"
+      check: "Check for updates"
+      currentLatest: "You have the latest version."
+      available: "Version $1 is available"
+      folderHint: "On the first update, select the folder containing the installed manifest.json. The extension reloads when the update is complete."
+      manualHint: "Download the ZIP, extract it into the existing installation folder, then reload the extension."
+      install: "Update now"
+      reselect: "Choose another folder"
+      download: "Download update ZIP"
+      notes: "Release notes"
+      checking: "Checking GitHub Releases…"
+      installing: "Downloading and installing. Keep this page open."
+      error:
+        network: "Could not retrieve the update from GitHub. Check your connection or open the release page."
+        package: "The update package could not be verified. Check the release page or try again later."
+        folder: "Cannot access the installed folder. Select the original folder or download and install the ZIP manually."
+        permission: "The update requires additional browser permissions. Review the release and install it manually."
+        write: "Could not install the update. The original files were kept or restored."
+        restore: "Some files could not be restored. Copy the files from the read-frog-backup folder back to the installation folder, then reload."
   shortcuts:
     title: Shortcuts
     pageDescription: Set the keys that translate, read aloud and run AI actions while you read.

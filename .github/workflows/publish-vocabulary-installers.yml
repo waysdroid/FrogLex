@@ -47,7 +47,8 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm type-check
           pnpm test --pool=threads --maxWorkers=2 \
-            src/utils/personal-vocabulary src/utils/webdav-sync src/utils/config/__tests__/init.test.ts \
+            src/utils/personal-vocabulary src/utils/webdav-sync src/utils/release-update \
+            src/utils/config/__tests__/init.test.ts \
             src/utils/config/__tests__/migration-scripts src/components/custom-action \
             src/components/ui/selection-popover src/entrypoints/options/app-sidebar
           pnpm zip
@@ -63,6 +64,8 @@ jobs:
             zip -jq "$archive" LICENSE "$RUNNER_TEMP/LICENSE.layout-engine.txt"
             unzip -tq "$archive"
             cmp <(unzip -p "$archive" manifest.json) ".output/${browser}-mv3/manifest.json"
+            node --input-type=module -e 'import {readFileSync} from "node:fs"; if (JSON.parse(readFileSync(process.argv[1])).version_name !== process.argv[2].slice(1)) process.exit(1)' \
+              ".output/${browser}-mv3/manifest.json" "$RELEASE_TAG"
             sha256sum "$archive"
           done
       - name: Prepare release notes
@@ -81,16 +84,32 @@ jobs:
 
           在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
 
-          升级时保留现有扩展，将新版文件解压到原安装目录，再在扩展管理页点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
+          从 V1.1.8 起可在「偏好设置 → 版本与更新」检查并安装新版。首次从较旧版本升级时，将文件解压到原安装目录，再点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
           MARKDOWN
       - name: Attach the Chrome and Edge installers to the release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          write_update_catalog() {
+            node --input-type=module - "$RELEASE_TAG" "$1" <<'JS'
+          import { createHash } from "node:crypto"
+          import { readFileSync, writeFileSync } from "node:fs"
+          import { join } from "node:path"
+          const [, , tag, directory] = process.argv
+          const update = { format: 1, version: tag.slice(1) }
+          for (const browser of ["chrome", "edge"]) {
+            const payload = readFileSync(join(directory, `read-frog-personal-vocabulary-${tag}-${browser}.zip`))
+            update[browser] = { size: payload.length, sha256: createHash("sha256").update(payload).digest("hex") }
+          }
+          writeFileSync(join(directory, "read-frog-update.json"), JSON.stringify(update) + "\n")
+          JS
+          }
+
           if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             version="V${RELEASE_TAG#v}"
-            gh release create "$RELEASE_TAG" release-assets/*.zip --verify-tag \
+            write_update_catalog release-assets
+            gh release create "$RELEASE_TAG" release-assets/* --verify-tag \
               --repo "$GITHUB_REPOSITORY" --title "个人词库 $version" \
               --notes-file "$RUNNER_TEMP/vocabulary-new-release-notes.md"
             exit 0
@@ -104,5 +123,12 @@ jobs:
           done
           if ((${#pending[@]})); then
             gh release upload "$RELEASE_TAG" "${pending[@]}" --repo "$GITHUB_REPOSITORY"
+          fi
+          if ! grep -Fxq -- 'read-frog-update.json' <<< "$existing"; then
+            published=$(mktemp -d)
+            gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
+              --pattern "read-frog-personal-vocabulary-$RELEASE_TAG-*.zip" --dir "$published"
+            write_update_catalog "$published"
+            gh release upload "$RELEASE_TAG" "$published/read-frog-update.json" --repo "$GITHUB_REPOSITORY"
           fi
           gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].url'

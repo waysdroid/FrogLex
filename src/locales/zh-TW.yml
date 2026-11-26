@@ -774,9 +774,27 @@ options:
     versionUpdates:
       title: "版本與更新"
       current: "目前版本 $1"
-      instructions: "將新版 ZIP 解壓縮到原安裝目錄，再到瀏覽器的擴充功能管理頁重新載入。使用同一個瀏覽器設定檔與擴充功能 ID，即可保留個人詞庫、設定和 API 金鑰。"
-      releases: "查看最新版本"
       vocabularyBackup: "備份個人詞庫"
+      instructions: "從 GitHub Releases 檢查新版本。在原安裝資料夾更新可保留詞庫、設定和 API 金鑰。"
+      releases: "開啟 GitHub 發佈頁"
+      check: "檢查更新"
+      currentLatest: "目前已是最新版本。"
+      available: "可更新至 $1"
+      folderHint: "首次更新時選擇目前擴充功能的安裝資料夾，其中應有 manifest.json。完成後會自動重新載入。"
+      manualHint: "可下載 ZIP，解壓縮到原安裝資料夾，再到瀏覽器的擴充功能管理頁重新載入。"
+      install: "立即更新"
+      reselect: "重新選擇安裝資料夾"
+      download: "下載更新套件"
+      notes: "更新日誌"
+      checking: "正在檢查 GitHub Releases…"
+      installing: "正在下載並安裝更新，請保持此頁面開啟。"
+      error:
+        network: "無法從 GitHub 取得更新，請檢查網路或開啟發佈頁。"
+        package: "驗證更新套件失敗，請查看發佈頁或稍後重試。"
+        folder: "無法存取目前的安裝資料夾。請選擇原資料夾，或下載 ZIP 手動更新。"
+        permission: "新版需要額外的瀏覽器權限。請查看版本說明後手動安裝。"
+        write: "更新未完成，原有安裝檔案已保留或復原。"
+        restore: "部分檔案復原失敗。請將安裝資料夾中的 read-frog-backup 內的檔案複製回原位置，再重新載入擴充功能。"
   shortcuts:
     title: 快速鍵
     pageDescription: 設定閱讀時觸發翻譯、朗讀和 AI 指令的按鍵。

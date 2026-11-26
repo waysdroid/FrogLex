@@ -4,13 +4,13 @@
 
 ## 安装
 
-[V1.1.7 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.7) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.7/read-frog-personal-vocabulary-v1.1.7-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.7/read-frog-personal-vocabulary-v1.1.7-edge.zip)
+[V1.1.8 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.8) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.8/read-frog-personal-vocabulary-v1.1.8-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.8/read-frog-personal-vocabulary-v1.1.8-edge.zip)
 
 1. 下载并解压对应的 ZIP。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
 3. 选择「加载已解压的扩展程序」，打开包含 `manifest.json` 的目录。
 
-升级时保留现有扩展，将新版文件解压到原安装目录，再在扩展管理页点击「重新加载」。使用同一个浏览器配置和扩展 ID，即可继续使用原有词库和设置。
+从 V1.1.8 起可在「偏好设置 → 版本与更新」检查并安装 GitHub 发布版。从老版本升级时，将新版文件解压到原安装目录，再在扩展管理页点击「重新加载」。使用同一个浏览器配置和扩展 ID，即可继续使用原有词库和设置。
 
 ## 二开说明
 

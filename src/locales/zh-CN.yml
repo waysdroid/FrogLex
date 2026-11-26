@@ -774,9 +774,27 @@ options:
     versionUpdates:
       title: "版本与更新"
       current: "当前版本 $1"
-      instructions: "将新版 ZIP 解压到原安装目录，在浏览器的扩展管理页重新加载。使用同一个浏览器配置和扩展 ID，即可保留个人词库、设置和 API 密钥。"
-      releases: "查看最新版本"
       vocabularyBackup: "备份个人词库"
+      instructions: "从 GitHub Releases 检查新版本。在原安装目录更新可保留词库、设置和 API 密钥。"
+      releases: "打开 GitHub 发布页"
+      check: "检查更新"
+      currentLatest: "当前已是最新版本。"
+      available: "可更新至 $1"
+      folderHint: "首次更新时选择当前扩展所在的目录，其中应有 manifest.json。完成后扩展会自动重新加载。"
+      manualHint: "可下载 ZIP，解压到原安装目录，再到浏览器的扩展管理页重新加载。"
+      install: "立即更新"
+      reselect: "重新选择安装目录"
+      download: "下载更新包"
+      notes: "更新日志"
+      checking: "正在检查 GitHub Releases…"
+      installing: "正在下载并安装更新，请保持此页面打开。"
+      error:
+        network: "无法从 GitHub 获取更新，请检查网络或打开发布页。"
+        package: "更新包校验失败，请查看发布页或稍后重试。"
+        folder: "无法访问当前安装目录。请选择原目录，或下载 ZIP 手动更新。"
+        permission: "新版需要额外的浏览器权限。请查看版本说明后手动安装。"
+        write: "更新未完成，原有安装文件已保留或恢复。"
+        restore: "部分文件恢复失败。请将安装目录中 read-frog-backup 文件夹里的文件复制回原位置，再重新加载扩展。"
   shortcuts:
     title: 快捷键
     pageDescription: 设置阅读时触发翻译、朗读和 AI 指令的按键。
