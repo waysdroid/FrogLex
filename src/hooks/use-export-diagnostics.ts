@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
-import { kebabCase } from "case-anything"
 import { saveAs } from "file-saver"
 import { toastManager } from "@/components/ui/base-ui/toast"
-import { APP_NAME } from "@/utils/constants/app"
+import { APP_EXPORT_PREFIX } from "@/utils/constants/app"
 import { buildDiagnosticsReport } from "@/utils/diagnostics/report"
 import { i18n } from "@/utils/i18n"
 import { createLogger } from "@/utils/logging/logger"
@@ -28,7 +27,7 @@ export function useExportDiagnostics() {
       const report = await getDiagnosticsReport()
       const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" })
       const date = report.generatedAt.slice(0, 10)
-      saveAs(blob, `${kebabCase(APP_NAME)}-diagnostics-${date}.json`)
+      saveAs(blob, `${APP_EXPORT_PREFIX}-diagnostics-${date}.json`)
     },
     onSuccess: () => {
       toastManager.add({

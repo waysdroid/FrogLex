@@ -84,7 +84,7 @@ jobs:
 
           在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
 
-          从 V1.1.8 起可在「偏好设置 → 版本与更新」检查并安装新版。首次从较旧版本升级时，将文件解压到原安装目录，再点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
+          使用 V1.1.8 时，从「偏好设置 → 版本与更新」检查并安装新版。蛙词库的更新入口在「功能」组最底端。手动升级时，将文件解压到原安装目录，再点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
           MARKDOWN
       - name: Attach the Chrome and Edge installers to the release
         env:
@@ -110,7 +110,7 @@ jobs:
             version="V${RELEASE_TAG#v}"
             write_update_catalog release-assets
             gh release create "$RELEASE_TAG" release-assets/* --verify-tag \
-              --repo "$GITHUB_REPOSITORY" --title "个人词库 $version" \
+              --repo "$GITHUB_REPOSITORY" --title "蛙词库 $version" \
               --notes-file "$RUNNER_TEMP/vocabulary-new-release-notes.md"
             exit 0
           fi

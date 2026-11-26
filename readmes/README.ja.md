@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary は Read Frog を元にした Chrome と Edge 向けの拡張機能です。
+
+[インストールと使い方](../README.md) · [Chrome と Edge のリリース](https://github.com/waysdroid/read-frog/releases)
+
+[元のプロジェクト](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Read Frog の上流ドキュメント</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Made with [contrib.rocks](https://contrib.rocks).
 [docs-selection-translation]: https://www.readfrog.app/ja/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ja
 [docs-tts]: https://www.readfrog.app/ja/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ja
 [video-subtitles]: https://www.readfrog.app/ja/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ja
+
+</details>

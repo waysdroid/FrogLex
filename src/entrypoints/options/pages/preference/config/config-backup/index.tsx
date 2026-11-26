@@ -28,11 +28,11 @@ export function ConfigBackupPage() {
 
   return (
     <PageLayout
-      title={i18n.t("options.preference.title")}
-      description={i18n.t("options.preference.pageDescription")}
+      title={i18n.t("options.dataManagement.title")}
+      description={i18n.t("options.dataManagement.description")}
     >
       <ConfigDetailSection
-        backTo="/preference"
+        backTo="/data-management"
         title={<span id="config-backup">{i18n.t("options.preference.config.backup.title")}</span>}
       >
         <div className="space-y-4">

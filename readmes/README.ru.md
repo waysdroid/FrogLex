@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary — расширение для Chrome и Edge на основе Read Frog.
+
+[Установка и использование](../README.md) · [Выпуски для Chrome и Edge](https://github.com/waysdroid/read-frog/releases)
+
+[Исходный проект](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Документация исходного проекта Read Frog</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Made with [contrib.rocks](https://contrib.rocks).
 [docs-selection-translation]: https://www.readfrog.app/ru/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ru
 [docs-tts]: https://www.readfrog.app/ru/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ru
 [video-subtitles]: https://www.readfrog.app/ru/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ru
+
+</details>

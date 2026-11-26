@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary, Read Frog tabanlı bir Chrome ve Edge uzantısıdır.
+
+[Kurulum ve kullanım](../README.md) · [Chrome ve Edge sürümleri](https://github.com/waysdroid/read-frog/releases)
+
+[Özgün proje](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Read Frog özgün proje belgeleri</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Her bağış daha iyi bir dil öğrenme deneyimi oluşturmamıza yardımcı olur
 [docs-selection-translation]: https://www.readfrog.app/tr/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=tr
 [docs-tts]: https://www.readfrog.app/tr/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=tr
 [video-subtitles]: https://www.readfrog.app/tr/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=tr
+
+</details>

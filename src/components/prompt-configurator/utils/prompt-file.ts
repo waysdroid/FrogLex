@@ -1,11 +1,11 @@
 import type { TranslatePromptObj } from "@/types/config/translate"
 import { saveAs } from "file-saver"
-import { APP_NAME } from "@/utils/constants/app"
+import { APP_EXPORT_PREFIX } from "@/utils/constants/app"
 
 export type PromptConfig = Omit<TranslatePromptObj, "id">
 export type PromptConfigList = PromptConfig[]
 
-const PROMPTS_FILE = `${APP_NAME}_prompts`
+const PROMPTS_FILE = `${APP_EXPORT_PREFIX}-prompts`
 
 export function checkPromptConfig(list: PromptConfig[]) {
   if (!Array.isArray(list)) {

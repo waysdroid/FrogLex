@@ -15,7 +15,6 @@ import { useIsFullscreen } from "@/hooks/use-is-fullscreen"
 import { ANALYTICS_FEATURE, ANALYTICS_SURFACE } from "@/types/analytics"
 import { createFeatureUsageContext } from "@/utils/analytics"
 import { configAtom, configFieldsAtomMap } from "@/utils/atoms/config"
-import { APP_NAME } from "@/utils/constants/app"
 import { isFeatureOn } from "@/utils/features"
 import { i18n } from "@/utils/i18n"
 import { sendMessage } from "@/utils/message"
@@ -454,7 +453,7 @@ export default function FloatingButton() {
         >
           <img
             src={readFrogLogoUrl}
-            alt={APP_NAME}
+            alt={i18n.t("name")}
             className={cn(
               "h-8 w-8 rounded-full",
               !isDraggingButton && (floatingButtonSide === "right" ? "ml-1" : "mr-1"),

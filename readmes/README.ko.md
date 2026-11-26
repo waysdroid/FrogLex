@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary는 Read Frog를 기반으로 한 Chrome 및 Edge 확장 프로그램입니다.
+
+[설치 및 사용 방법](../README.md) · [Chrome 및 Edge 릴리스](https://github.com/waysdroid/read-frog/releases)
+
+[원본 프로젝트](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Read Frog 원본 문서</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Made with [contrib.rocks](https://contrib.rocks).
 [docs-selection-translation]: https://www.readfrog.app/ko/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ko
 [docs-tts]: https://www.readfrog.app/ko/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ko
 [video-subtitles]: https://www.readfrog.app/ko/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=ko
+
+</details>

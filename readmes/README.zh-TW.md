@@ -1,3 +1,14 @@
+# 蛙词库
+
+蛙词库是基於 Read Frog 二次開發的 Chrome 和 Edge 擴充功能。
+
+[安裝與使用說明](../README.md) · [Chrome 和 Edge 發佈頁](https://github.com/waysdroid/read-frog/releases)
+
+[上游原始碼](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Read Frog 上游文件</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -294,3 +305,5 @@ Made with [contrib.rocks](https://contrib.rocks).
 [docs-selection-translation]: https://www.readfrog.app/zh-TW/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=zh-TW
 [docs-tts]: https://www.readfrog.app/zh-TW/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=zh-TW
 [video-subtitles]: https://www.readfrog.app/zh-TW/features/youtube-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=zh-TW
+
+</details>

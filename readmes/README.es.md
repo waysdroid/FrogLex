@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary es una extensión para Chrome y Edge basada en Read Frog.
+
+[Instalación y uso](../README.md) · [Versiones para Chrome y Edge](https://github.com/waysdroid/read-frog/releases)
+
+[Código del proyecto original](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Documentación original de Read Frog</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Cada donación nos ayuda a crear una mejor experiencia de aprendizaje de idiomas
 [docs-selection-translation]: https://www.readfrog.app/es/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=es
 [docs-tts]: https://www.readfrog.app/es/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=es
 [video-subtitles]: https://www.readfrog.app/es/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=es
+
+</details>

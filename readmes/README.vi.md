@@ -1,3 +1,14 @@
+# Frog Vocabulary
+
+Frog Vocabulary là tiện ích mở rộng cho Chrome và Edge dựa trên Read Frog.
+
+[Cài đặt và sử dụng](../README.md) · [Các bản phát hành Chrome và Edge](https://github.com/waysdroid/read-frog/releases)
+
+[Dự án gốc](https://github.com/mengxi-ream/read-frog) · [GPL-3.0](../LICENSE)
+
+<details>
+<summary>Tài liệu dự án gốc Read Frog</summary>
+
 <div align="center"><a name="readme-top"></a>
 
 [![Read Frog banner][image-banner]][website]
@@ -276,3 +287,5 @@ Mỗi khoản đóng góp giúp chúng tôi xây dựng trải nghiệm học ng
 [docs-selection-translation]: https://www.readfrog.app/vi/docs/selection-translation?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=vi
 [docs-tts]: https://www.readfrog.app/vi/docs/tts?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=vi
 [video-subtitles]: https://www.readfrog.app/vi/docs/video-subtitles?utm_source=github&utm_medium=readme&utm_campaign=read-frog&utm_content=vi
+
+</details>

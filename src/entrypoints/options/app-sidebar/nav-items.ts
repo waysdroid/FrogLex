@@ -13,6 +13,9 @@ import type { FeatureTag } from "@/utils/features"
 export const ROUTE_DEFS = [
   { path: "/" },
   { path: "/preference" },
+  { path: "/data-management" },
+  { path: "/version-updates" },
+  { path: "/data-management/config-backup" },
   { path: "/shortcuts" },
   { path: "/api-providers" },
   { path: "/custom-actions" },

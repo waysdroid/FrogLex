@@ -259,6 +259,17 @@ export function FeaturesNav() {
               </CollapsibleContent>
             </SidebarMenuItem>
           </CollapsibleNavGroup>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              render={<Link to="/version-updates" />}
+              isActive={pathname === "/version-updates"}
+              tooltip={i18n.t("options.preference.versionUpdates.title")}
+            >
+              <Icon icon="tabler:refresh" />
+              <span>{i18n.t("options.preference.versionUpdates.title")}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

@@ -1,5 +1,5 @@
-name: 陪讀蛙
-extName: "陪讀蛙 · 個人詞庫版"
+name: "蛙词库"
+extName: "蛙词库"
 extDescription: "翻譯網頁和影片字幕，支援自行設定 AI 模型。選取生詞後收錄到本機詞庫。"
 account:
   login: 登入
@@ -18,7 +18,7 @@ contextMenu:
   readAloudSelection: 朗讀「%s」
   showOriginal: 顯示原文
 sidePanel:
-  firefoxUserActionHint: 在 Firefox 中，請從瀏覽器側邊欄開啟陪讀蛙。
+  firefoxUserActionHint: 在 Firefox 中，請從瀏覽器側邊欄開啟蛙词库。
   firefoxUserActionHelpText: 檢視 Firefox 側邊欄說明
   firefoxUserActionHelpUrl: https://support.mozilla.org/zh-TW/kb/use-sidebar-access-tools-and-vertical-tabs
 popup:
@@ -51,12 +51,12 @@ popup:
   hub:
     tooltip: 一次使用多個翻譯模型翻譯文字
   blog:
-    notification: 陪讀蛙更新動態
+    notification: 蛙词库更新動態
   aiSmartContext: AI 智慧上下文
   aiSmartContextDescription: 結合網頁前後文提升翻譯品質。需要使用 LLM 提供者。
   storeReview:
     title: 用得還順手嗎？
-    description: 到商店留個評價，能幫助更多人發現陪讀蛙。
+    description: 到商店留個評價，能幫助更多人發現蛙词库。
     action: 去評價
     dismiss: 關閉
   more:
@@ -291,12 +291,12 @@ options:
     roadmap: 產品路線圖
   helpAndCommunity:
     title: 說明與社群
-    pageDescription: 了解怎麼使用陪讀蛙、向團隊尋求協助，或加入社群和其他使用者交流。
+    pageDescription: 了解怎麼使用蛙词库、向團隊尋求協助，或加入社群和其他使用者交流。
     help:
       title: 說明
     tutorial:
       title: 使用教學
-      description: 閱讀文件，了解怎麼使用陪讀蛙
+      description: 閱讀文件，了解怎麼使用蛙词库
     email:
       title: 電子郵件聯絡
       description: 透過 contact@readfrog.app 直接聯絡團隊
@@ -335,8 +335,8 @@ options:
       upgradeAction: 升級會員
   apiProviders:
     title: API 提供者
-    pageDescription: 使用 Read Frog 內建模型或接入第三方 AI 服務，並為每項功能指定使用哪一個。
-    description: 使用 Read Frog 內建模型，或新增第三方提供者。已預設 20 多個常見提供者，也可以新增相容 Chat Completions 的自訂 API 和 Open Responses 自訂 API。
+    pageDescription: 使用 蛙词库 內建模型或接入第三方 AI 服務，並為每項功能指定使用哪一個。
+    description: 使用 蛙词库 內建模型，或新增第三方提供者。已預設 20 多個常見提供者，也可以新增相容 Chat Completions 的自訂 API 和 Open Responses 自訂 API。
     configTitle: 提供者設定
     addProvider: 新增提供者
     builtInProvider: 內建模型
@@ -461,8 +461,8 @@ options:
         customChatComplete: 自訂 Chat Complete
         customResponses: 自訂 Responses
       attribution:
-        builtInAi: 由 Read Frog 託管的標準模型，登入後即可免費使用，消耗每週額度。
-        builtInAiAdvance: 由 Read Frog 託管的進階模型，Ultra 會員專屬，額度消耗比標準模型更快。
+        builtInAi: 由 蛙词库 託管的標準模型，登入後即可免費使用，消耗每週額度。
+        builtInAiAdvance: 由 蛙词库 託管的進階模型，Ultra 會員專屬，額度消耗比標準模型更快。
       description:
         openai: OpenAI 官方 API，提供 GPT 系列模型
         azure: 透過 Azure 部署使用 OpenAI 模型
@@ -546,14 +546,20 @@ options:
     duplicate: 該模式已在列表中
     gluedWildcard: '"*" 必須代表位址中完整的一段，例如 *.example.com 或 example.*'
     unsupported: 無法比對這個位址。不支援連接埠，也不支援 http 與 https 以外的協定。
+  dataManagement:
+    title: "資料管理"
+    description: "管理本機匯入、匯出與備份，或使用 WebDAV 同步設定和個人詞庫。"
+    local: "本機匯入、匯出與備份"
+    vocabulary: "個人詞庫檔案"
+    vocabularyDescription: "開啟詞庫匯入、匯出和完整備份。"
   preference:
     title: 偏好設定
-    pageDescription: 設定陪讀蛙的外觀與生效範圍，以及設定檔的同步與備份方式。
+    pageDescription: "設定蛙词库的外觀、閱讀語言與生效範圍。"
     appearanceAndLanguage:
       title: 外觀與語言
       theme:
         title: 主題
-        description: 為陪讀蛙選擇主題。
+        description: 為蛙词库選擇主題。
         system: 依照系統設定
         light: 淺色
         dark: 深色
@@ -565,7 +571,7 @@ options:
       title: 翻譯語言
       sourceCode:
         title: 來源語言
-        description: 網頁原文的語言。選擇「自動偵測」則由陪讀蛙從頁面本身判斷。
+        description: 網頁原文的語言。選擇「自動偵測」則由蛙词库從頁面本身判斷。
         auto: 自動偵測
       targetCode:
         title: 目標語言
@@ -647,7 +653,7 @@ options:
           accountChangedRetry: 對話框開啟期間登入的 Google 帳號發生變化，未上傳任何內容，請重新同步。
           busy: 另一個分頁正在同步你的術語庫。
           malformed: 雲端的術語庫檔案無法讀取，本次未做任何變更。
-          versionTooNew: 該術語庫檔案由較新版本的 Read Frog 寫入，請先更新擴充功能。
+          versionTooNew: 該術語庫檔案由較新版本的 蛙词库 寫入，請先更新擴充功能。
           duplicateFiles: 你的雲端有多個術語庫檔案，本次未做任何變更，請先刪除多餘的那個。
           capExceeded: "合併後會超出術語庫上限 $1 筆，本次未做任何變更。"
           failed: 術語庫同步失敗
@@ -674,7 +680,7 @@ options:
         glossaryUndone: 術語庫已還原成匯入前的樣子
         glossaryUndoUnavailable: 該復原已失效 — 之後詞彙庫已發生變化。
         glossaryMalformed: 那個檔案裡的術語庫無法讀取，本次未做任何變更。
-        glossaryVersionTooNew: 那個檔案裡的術語庫由較新版本的 Read Frog 寫入，請先更新擴充功能。
+        glossaryVersionTooNew: 那個檔案裡的術語庫由較新版本的 蛙词库 寫入，請先更新擴充功能。
         glossaryCapExceeded: "那個檔案的術語庫資料比上限 $2 筆多出 $1 筆，本次未做任何變更。"
         exportOptions:
           title: 選擇匯出選項
@@ -1420,7 +1426,7 @@ options:
       importModeMerge: 附加到清單
       importModeReplace: 取代清單
       importEmpty: 該檔案中找不到術語。
-      importMissingHeader: 該檔案不是 Read Frog 的詞彙庫匯出檔。它需要這些欄位：
+      importMissingHeader: 該檔案不是 蛙词库 的詞彙庫匯出檔。它需要這些欄位：
       importOverflow: "本次匯入會超出上限 $1 條術語，未做任何變更。"
       importSuccess: "已匯入 $1 條新術語，更新 $2 條。"
       importSkipped: "已略過 $1 列無效資料和 $2 筆重複項目。"
@@ -1442,7 +1448,7 @@ options:
           description: "全部 $1 筆術語將被永久刪除。此操作無法復原。"
   contextMenu:
     title: 右鍵選單
-    pageDescription: 控制瀏覽器右鍵選單裡的 Read Frog 選項。
+    pageDescription: 控制瀏覽器右鍵選單裡的 蛙词库 選項。
     demoImageAlt: 右鍵選單示範
   translation:
     title: 網頁翻譯
@@ -1663,9 +1669,9 @@ options:
       noVoicesFound: 找不到語音
       language:
         title: 語言語音
-        description: 先選擇一種語言，再挑選朗讀它時使用的語音。重設會換回陪讀蛙為該語言選定的語音。
+        description: 先選擇一種語言，再挑選朗讀它時使用的語音。重設會換回蛙词库為該語言選定的語音。
         reset: 重設
-        previewSample: 陪讀蛙向你問好！這是朗讀功能的語音。
+        previewSample: 蛙词库向你問好！這是朗讀功能的語音。
       fallback:
         title: 備用語音
         description: 你還沒有單獨指定語音的語言，都用這個語音朗讀。
@@ -1832,7 +1838,7 @@ options:
         description: "在任何輸入欄位中快速連按 3 次空白鍵，即可翻譯你輸入的內容"
       floatingButton:
         title: "懸浮按鈕"
-        description: "在網頁上顯示懸浮按鈕，快速存取陪讀蛙功能"
+        description: "在網頁上顯示懸浮按鈕，快速存取蛙词库功能"
       selectionToolbar:
         title: "選取工具列"
         description: "在網頁上選取文字時顯示工具列，快速翻譯、朗讀和使用 AI 指令"
@@ -1850,7 +1856,7 @@ options:
           description: "在工具列中顯示朗讀按鈕，用於朗讀選取的文字"
       contextMenu:
         title: "右鍵選單"
-        description: "瀏覽器右鍵選單裡的陪讀蛙選項"
+        description: "瀏覽器右鍵選單裡的蛙词库選項"
       translationHub:
         title: "翻譯中心"
         description: "一次使用多個翻譯模型翻譯文字"
@@ -1865,7 +1871,7 @@ options:
   rateUs:
     title: 給予好評
   configMigration:
-    versionTooNew: 匯入的設定版本較新，請將陪讀蛙升級到最新版本
+    versionTooNew: 匯入的設定版本較新，請將蛙词库升級到最新版本
     validationError: 設定驗證失敗
 side:
   sourceLang: 來源語言
@@ -1910,7 +1916,7 @@ pageDiagnosis:
   framesNotIncluded: "嵌入框架（iframe）中的文字不在此統計範圍內。"
   hint: "點選原因，在頁面上框出對應段落。"
   close: "關閉"
-  unavailable: "陪讀蛙無法在此頁面執行"
+  unavailable: "蛙词库無法在此頁面執行"
   reasons:
     noProse: "沒有可翻譯的文字"
     tooShort: "太短，不翻譯"
@@ -1982,8 +1988,8 @@ action:
   saveToNotebaseMissingNotebaseDescription: 舊筆記庫不存在，或目前帳號無法開啟。可以建立新的筆記庫並儲存目前結果，或到自訂 AI 指令連線既有筆記庫。
   saveToNotebaseAccountUnavailableDescription: 目前登入帳號和下方已連線帳號不同。選擇建立並儲存會替換先前的連線設定和欄位對應；也可以到自訂 AI 指令連線既有筆記庫。
   saveToNotebasePendingLogin: 登入後繼續儲存
-  saveToNotebasePendingLoginDescription: 登入完成後，陪讀蛙會自動建立筆記庫並儲存目前結果。
-  saveToNotebasePendingConnectedLoginDescription: 登入完成後，陪讀蛙會優先儲存到已連線的筆記庫；如果目前帳號無法使用它，會建立新的筆記庫並儲存目前結果。
+  saveToNotebasePendingLoginDescription: 登入完成後，蛙词库會自動建立筆記庫並儲存目前結果。
+  saveToNotebasePendingConnectedLoginDescription: 登入完成後，蛙词库會優先儲存到已連線的筆記庫；如果目前帳號無法使用它，會建立新的筆記庫並儲存目前結果。
   upgrade: 升級
   updatePayment: 更新付款方式
   openCustomActions: 開啟自訂 AI 指令
@@ -2050,7 +2056,7 @@ subtitles:
     downloadTranslatedComplete: 翻譯字幕已下載
     downloadSource: 下載原始字幕
   state:
-    loading: 陪讀蛙字幕載入中
+    loading: 蛙词库字幕載入中
     translating: 翻譯中…
     error: 發生錯誤
   errors:

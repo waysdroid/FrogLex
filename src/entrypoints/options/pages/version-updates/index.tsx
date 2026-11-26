@@ -19,7 +19,7 @@ import {
   UpdateError,
 } from "@/utils/release-update/release"
 import { ConfigItem } from "../../components/config-item"
-import { ConfigSection } from "../../components/config-section"
+import { PageLayout } from "../../components/page-layout"
 
 const linkClassName = buttonVariants({ size: "sm", variant: "outline" })
 const key = "options.preference.versionUpdates"
@@ -31,7 +31,7 @@ function updateTarget(): UpdateBrowser | undefined {
   return undefined
 }
 
-export function VersionUpdatesSection() {
+export function VersionUpdatesPage() {
   const manifest = browser.runtime.getManifest()
   const version = manifest.version_name ?? manifest.version
   const target = updateTarget()
@@ -58,16 +58,6 @@ export function VersionUpdatesSection() {
     }
   }, [target])
 
-  useEffect(() => {
-    if (working !== "install") return undefined
-    function beforeUnload(event: BeforeUnloadEvent) {
-      event.preventDefault()
-      event.returnValue = ""
-    }
-    window.addEventListener("beforeunload", beforeUnload)
-    return () => window.removeEventListener("beforeunload", beforeUnload)
-  }, [working])
-
   async function check() {
     if (!target) return
     setWorking("check")
@@ -92,7 +82,16 @@ export function VersionUpdatesSection() {
     try {
       // The picker must run as part of the click, before fetching the package.
       const chosen = await authorizeUpdateFolder(reselect ? undefined : folder)
-      await applyRelease(release, chosen)
+      const guardPageClose = (event: BeforeUnloadEvent) => {
+        event.preventDefault()
+        event.returnValue = ""
+      }
+      window.addEventListener("beforeunload", guardPageClose)
+      try {
+        await applyRelease(release, chosen)
+      } finally {
+        window.removeEventListener("beforeunload", guardPageClose)
+      }
       browser.runtime.reload()
     } catch (error) {
       if (!(error instanceof DOMException && error.name === "AbortError")) {
@@ -105,11 +104,11 @@ export function VersionUpdatesSection() {
   }
 
   return (
-    <ConfigSection id="version-updates" title={i18n.t(`${key}.title`)}>
+    <PageLayout title={i18n.t(`${key}.title`)} description={i18n.t(`${key}.instructions`)}>
       <ConfigItem
+        id="version-updates"
         orientation="vertical"
         title={i18n.t(`${key}.current`, [version])}
-        description={i18n.t(`${key}.instructions`)}
       >
         <div className="space-y-3">
           <div className="flex flex-wrap gap-2">
@@ -133,7 +132,7 @@ export function VersionUpdatesSection() {
             >
               {i18n.t(`${key}.vocabularyBackup`)}
             </Link>
-            <Link to="/preference/config-backup" className={linkClassName}>
+            <Link to="/data-management/config-backup" className={linkClassName}>
               {i18n.t("options.preference.config.backup.title")}
             </Link>
           </div>
@@ -194,6 +193,6 @@ export function VersionUpdatesSection() {
           </div>
         </div>
       </ConfigItem>
-    </ConfigSection>
+    </PageLayout>
   )
 }

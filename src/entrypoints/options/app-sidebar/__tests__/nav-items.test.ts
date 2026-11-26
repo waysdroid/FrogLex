@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { SEARCH_ITEMS } from "../../command-palette/search-items"
 import { getRouteFeature, ROUTE_DEFS } from "../nav-items"
 
 describe("which options pages simple mode takes away", () => {
@@ -20,4 +21,18 @@ describe("which options pages simple mode takes away", () => {
     expect(getRouteFeature("/selection-toolbar")).toBe("selectionToolbar")
     expect(getRouteFeature("/advanced/glossary")).toBe("glossary")
   })
+})
+
+it("keeps version updates and data pages available and points search to their new sections", () => {
+  const allPaths = ROUTE_DEFS.map(({ path }) => path)
+  for (const [sectionId, route] of [
+    ["version-updates", "/version-updates"],
+    ["manual-config-sync", "/data-management"],
+    ["webdav-sync", "/data-management"],
+    ["config-backup", "/data-management/config-backup"],
+  ] as const) {
+    expect(allPaths).toContain(route)
+    expect(getRouteFeature(route)).toBeUndefined()
+    expect(SEARCH_ITEMS.find((item) => item.sectionId === sectionId)?.route).toBe(route)
+  }
 })

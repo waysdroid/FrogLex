@@ -1,10 +1,9 @@
 import type { Config } from "@/types/config/config"
 import { useMutation } from "@tanstack/react-query"
-import { kebabCase } from "case-anything"
 import { saveAs } from "file-saver"
 import { toastManager } from "@/components/ui/base-ui/toast"
 import { getObjectWithoutAPIKeys } from "@/utils/config/api"
-import { APP_NAME } from "@/utils/constants/app"
+import { APP_EXPORT_PREFIX } from "@/utils/constants/app"
 import { buildGlossaryDocument } from "@/utils/glossary/sync/document"
 import { readLocalGlossary } from "@/utils/glossary/sync/local-store"
 import { i18n } from "@/utils/i18n"
@@ -72,7 +71,7 @@ export function useExportConfig({
         2,
       )
       const blob = new Blob([json], { type: "text/json" })
-      saveAs(blob, `${kebabCase(APP_NAME)}-config-v${schemaVersion}.json`)
+      saveAs(blob, `${APP_EXPORT_PREFIX}-config-v${schemaVersion}.json`)
       return { glossaryFailed }
     },
     onSuccess: ({ glossaryFailed }) => {

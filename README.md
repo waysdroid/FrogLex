@@ -1,16 +1,16 @@
-# 陪读蛙 · 个人词库版
+# 蛙词库
 
-基于 Read Frog 二次开发的 Chrome 和 Edge 扩展，V1.1 可脱离官方账号使用。在阅读网页时划词查询，一键收录到本地词库。
+蛙词库是基于 Read Frog 二次开发的 Chrome 和 Edge 扩展。支持网页翻译、划词查询和本地词库，无需登录上游账号。
 
 ## 安装
 
-[V1.1.8 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.8) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.8/read-frog-personal-vocabulary-v1.1.8-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.8/read-frog-personal-vocabulary-v1.1.8-edge.zip)
+[V1.1.9 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.9) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-edge.zip)
 
 1. 下载并解压对应的 ZIP。
 2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
 3. 选择「加载已解压的扩展程序」，打开包含 `manifest.json` 的目录。
 
-从 V1.1.8 起可在「偏好设置 → 版本与更新」检查并安装 GitHub 发布版。从老版本升级时，将新版文件解压到原安装目录，再在扩展管理页点击「重新加载」。使用同一个浏览器配置和扩展 ID，即可继续使用原有词库和设置。
+在「功能 → 版本与更新」可检查并安装 GitHub 发布版。V1.1.8 用户可从旧版的「偏好设置 → 版本与更新」直接升级。手动升级时，把新版解压到原安装目录并重新加载扩展，即可继续使用原有词库和设置。
 
 ## 二开说明
 
@@ -18,7 +18,7 @@
 - 在扩展设置的「功能 → 个人词库」管理词库、标签、收藏和笔记，支持搜索筛选、批量移动和删除。
 - 词条释义按语言归并。英文释义、补充例句、常用搭配、近义词、反义词和派生词支持 AI 预览追加、撤销和自定义提示词。
 - 支持 TXT、CSV、JSON 和粘贴文本导入，以及 TXT、CSV、JSON 导出和完整备份恢复。
-- 可在「偏好设置 → WebDAV 同步」手动覆盖或定时增量同步扩展配置和完整词库。
+- 「设置 → 数据管理」集中提供配置导入、导出和备份，并支持通过 WebDAV 手动覆盖或定时增量同步配置和完整词库。
 - 个人词库无需登录，默认保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译可使用免登录服务，AI 查询使用自己配置的 API 和模型。
 
 [使用与备份说明](./PERSONAL_VOCABULARY.md) · [更新日志](./CHANGELOG.personal-vocabulary.md)

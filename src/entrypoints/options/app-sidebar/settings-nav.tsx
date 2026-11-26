@@ -43,6 +43,17 @@ export function SettingsNav() {
 
           <SidebarMenuItem>
             <SidebarMenuButton
+              render={<Link to="/data-management" />}
+              isActive={pathname === "/data-management" || pathname.startsWith("/data-management/")}
+              tooltip={i18n.t("options.dataManagement.title")}
+            >
+              <Icon icon="tabler:database" />
+              <span>{i18n.t("options.dataManagement.title")}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton
               render={<Link to="/shortcuts" />}
               isActive={pathname === "/shortcuts"}
               tooltip={i18n.t("options.shortcuts.title")}

@@ -87,19 +87,26 @@ export const SEARCH_ITEMS: SearchItem[] = [
     pageKey: "options.preference.title",
   },
   {
-    sectionId: "manual-config-sync",
-    route: "/preference",
-    titleKey: "options.preference.config.manualSync.title",
-    descriptionKey: "options.preference.config.manualSync.description",
-    pageKey: "options.preference.title",
+    sectionId: "data-management",
+    route: "/data-management",
+    titleKey: "options.dataManagement.title",
+    descriptionKey: "options.dataManagement.description",
+    pageKey: "options.dataManagement.title",
   },
   {
-    // Its own page, drilled into from the Preference page's Config section.
+    sectionId: "manual-config-sync",
+    route: "/data-management",
+    titleKey: "options.preference.config.manualSync.title",
+    descriptionKey: "options.preference.config.manualSync.description",
+    pageKey: "options.dataManagement.title",
+  },
+  {
+    // Configuration history is a detail page of Data Management.
     sectionId: "config-backup",
-    route: "/preference/config-backup",
+    route: "/data-management/config-backup",
     titleKey: "options.preference.config.backup.title",
     descriptionKey: "options.preference.config.backup.description",
-    pageKey: "options.preference.title",
+    pageKey: "options.dataManagement.title",
   },
   {
     sectionId: "reset-config",
@@ -110,17 +117,17 @@ export const SEARCH_ITEMS: SearchItem[] = [
   },
   {
     sectionId: "webdav-sync",
-    route: "/preference",
+    route: "/data-management",
     titleKey: "options.preference.webdav.title",
     descriptionKey: "options.preference.webdav.description",
-    pageKey: "options.preference.title",
+    pageKey: "options.dataManagement.title",
   },
   {
     sectionId: "version-updates",
-    route: "/preference",
+    route: "/version-updates",
     titleKey: "options.preference.versionUpdates.title",
     descriptionKey: "options.preference.versionUpdates.instructions",
-    pageKey: "options.preference.title",
+    pageKey: "options.preference.versionUpdates.title",
   },
 
   {

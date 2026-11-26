@@ -5,7 +5,7 @@ import { useHydrateAtoms } from "jotai/utils"
 import readFrogLogo from "@/assets/icons/read-frog.png?url&no-inline"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { baseThemeModeAtom } from "@/utils/atoms/theme"
-import { APP_NAME } from "@/utils/constants/app"
+import { i18n, initI18n } from "@/utils/i18n"
 import { setupExtensionPageLogging } from "@/utils/logging/setup"
 import { renderPersistentReactRoot } from "@/utils/react-root"
 import { getLocalThemeMode } from "@/utils/theme"
@@ -27,12 +27,13 @@ function HydrateAtoms({
 }
 
 function SidePanelShell() {
+  const name = i18n.t("name")
   return (
     <main className="flex min-h-screen flex-col bg-background px-5 py-6 text-foreground">
       <section className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        <img src={readFrogLogo} alt={APP_NAME} className="size-16 rounded-full" />
+        <img src={readFrogLogo} alt={name} className="size-16 rounded-full" />
         <div className="space-y-2">
-          <h1 className="text-xl font-semibold tracking-tight">{APP_NAME}</h1>
+          <h1 className="text-xl font-semibold tracking-tight">{name}</h1>
           <p className="text-sm text-muted-foreground">Side Panel is coming soon.</p>
         </div>
       </section>
@@ -44,7 +45,7 @@ async function initApp() {
   const root = document.getElementById("root")!
   root.className = "min-h-screen bg-background text-base antialiased"
 
-  const themeMode = await getLocalThemeMode()
+  const [themeMode] = await Promise.all([getLocalThemeMode(), initI18n()])
 
   renderPersistentReactRoot(
     root,

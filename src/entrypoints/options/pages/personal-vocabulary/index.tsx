@@ -609,7 +609,7 @@ export function PersonalVocabularyPage() {
     >
       {!entryId && !params.has("new") && (
         <Link
-          to="/preference?section=webdav-sync"
+          to="/data-management?section=webdav-sync"
           className="mb-4 inline-flex text-sm text-link hover:underline"
         >
           {i18n.t("options.preference.webdav.title")}

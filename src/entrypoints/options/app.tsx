@@ -3,7 +3,7 @@ import type { RoutePath } from "./app-sidebar/nav-items"
 import type { FeatureTag } from "@/utils/features"
 import { useAtomValue } from "jotai"
 import { lazy, Suspense } from "react"
-import { Navigate, Route, Routes } from "react-router"
+import { Navigate, Route, Routes, useLocation } from "react-router"
 import { configAtom } from "@/utils/atoms/config"
 import { switchedOffFeature } from "@/utils/features"
 import { getRouteFeature, ROUTE_DEFS } from "./app-sidebar/nav-items"
@@ -12,6 +12,18 @@ import { buildSimpleModeRowLink } from "./pages/advanced/simple-mode/links"
 const PreferencePage = lazy(() =>
   import("./pages/preference").then((module) => ({ default: module.PreferencePage })),
 )
+const DataManagementPage = lazy(() =>
+  import("./pages/data-management").then((module) => ({ default: module.DataManagementPage })),
+)
+const VersionUpdatesPage = lazy(() =>
+  import("./pages/version-updates").then((module) => ({ default: module.VersionUpdatesPage })),
+)
+
+function ConfigBackupRedirect() {
+  const { search } = useLocation()
+  return <Navigate to={{ pathname: "/data-management/config-backup", search }} replace />
+}
+
 const ShortcutsPage = lazy(() =>
   import("./pages/shortcuts").then((module) => ({ default: module.ShortcutsPage })),
 )
@@ -140,6 +152,9 @@ const SubtitlesQueuePage = lazy(() =>
 const ROUTE_COMPONENTS: Record<RoutePath, ComponentType> = {
   "/": PreferencePage,
   "/preference": PreferencePage,
+  "/data-management": DataManagementPage,
+  "/version-updates": VersionUpdatesPage,
+  "/data-management/config-backup": ConfigBackupPage,
   "/shortcuts": ShortcutsPage,
   "/api-providers": ApiProvidersPage,
   "/custom-actions": CustomActionsPage,
@@ -155,7 +170,7 @@ const ROUTE_COMPONENTS: Record<RoutePath, ComponentType> = {
   "/advanced/glossary": GlossaryPage,
   "/advanced/glossary/:glossaryId": GlossaryEditorPage,
   "/advanced/simple-mode": SimpleModePage,
-  "/preference/config-backup": ConfigBackupPage,
+  "/preference/config-backup": ConfigBackupRedirect,
   "/preference/extension-activation": ExtensionActivationPage,
   "/page-translation/custom-css": CustomCssPage,
   "/page-translation/prompts": PersonalizedPromptsPage,
