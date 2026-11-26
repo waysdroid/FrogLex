@@ -1,29 +1,69 @@
-# 蛙词库
+<h1 align="center">蛙词库</h1>
 
-蛙词库是基于 Read Frog 二次开发的 Chrome 和 Edge 扩展。支持网页翻译、划词查询和本地词库，无需登录上游账号。
+<p align="center"><strong>划词查释义，随手保存生词与阅读原句。</strong></p>
 
-## 安装
+<p align="center">
+  适用于 Chrome 和 Edge 的开源词库扩展，支持网页翻译和 WebDAV 同步
+</p>
 
-[V1.1.9 发布说明](https://github.com/waysdroid/read-frog/releases/tag/v1.1.9) · [Chrome 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-chrome.zip) · [Edge 安装包](https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-edge.zip)
+<p align="center">
+  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-chrome.zip"><strong>下载 Chrome 版</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/waysdroid/read-frog/releases/download/v1.1.9/read-frog-personal-vocabulary-v1.1.9-edge.zip"><strong>下载 Edge 版</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/waysdroid/read-frog/releases/latest">最新发布</a>
+</p>
 
-1. 下载并解压对应的 ZIP。
-2. 打开 `chrome://extensions` 或 `edge://extensions`，开启开发者模式。
-3. 选择「加载已解压的扩展程序」，打开包含 `manifest.json` 的目录。
+<p align="center">
+  <img src="./assets/frog-vocabulary-hero.webp" alt="一只小青蛙从摊开的笔记本里探出头，旁边放着几张词汇卡片" width="840" />
+</p>
 
-在「功能 → 版本与更新」可检查并安装 GitHub 发布版。V1.1.8 用户可从旧版的「偏好设置 → 版本与更新」直接升级。手动升级时，把新版解压到原安装目录并重新加载扩展，即可继续使用原有词库和设置。
+<p align="center">
+  <a href="#功能说明">功能说明</a>
+  &nbsp;·&nbsp;
+  <a href="#安装与更新">安装与更新</a>
+  &nbsp;·&nbsp;
+  <a href="#数据与隐私">数据与隐私</a>
+  &nbsp;·&nbsp;
+  <a href="./PERSONAL_VOCABULARY.md">使用手册</a>
+</p>
 
 ## 功能说明
 
-- 划词时可预览编辑并收录，保存记忆技巧、原句和来源，重复收录会累计遇见次数。
-- 在扩展设置的「功能 → 个人词库」管理词库、标签、收藏和笔记，支持搜索筛选、批量移动和删除。
-- 词条释义按语言归并。英文释义、补充例句、常用搭配、近义词、反义词和派生词支持 AI 预览追加、撤销和自定义提示词。
-- 支持 TXT、CSV、JSON 和粘贴文本导入，以及 TXT、CSV、JSON 导出和完整备份恢复。
-- 「设置 → 数据管理」集中提供配置导入、导出和备份，并支持通过 WebDAV 手动覆盖或定时增量同步配置和完整词库。
-- 个人词库无需登录，默认保存在当前浏览器。已移除扩展使用遥测与远程调查。翻译可使用免登录服务，AI 查询使用自己配置的 API 和模型。
+| 功能                 | 你可以用它做什么                                                                                                     |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| **划词查词与收录**   | 查询网页中的英文单词或短语。收录时可预览编辑，并保留释义、记忆技巧、阅读原句和网页来源。再次收录会累计遇见次数。     |
+| **个人词库**         | 用多个词库、标签、收藏和笔记整理词条，按条件搜索和筛选，也可以批量移动和删除。                                       |
+| **AI 词条补充**      | 使用自己的模型补充英文释义、例句、搭配、近义词、反义词和派生词。支持自定义提示词、预览建议及撤销最近一次追加。       |
+| **网页与字幕翻译**   | 翻译网页、选中文本、输入内容和视频字幕。可使用免登录翻译服务，也可选择自己配置的 AI 模型。                           |
+| **导入、导出与备份** | 导入 TXT、CSV、JSON 或粘贴的文本，导出常用文件格式。完整词库备份还包含阅读语境、标签和词库归属，扩展配置可单独备份。 |
+| **WebDAV 同步**      | 同步扩展配置和个人词库，支持手动覆盖、双向增量与定时增量。可连接坚果云或兼容的 WebDAV 服务。                         |
 
-[使用与备份说明](./PERSONAL_VOCABULARY.md) · [更新日志](./CHANGELOG.personal-vocabulary.md)
+## 安装与更新
 
-## 构建
+1. 下载对应浏览器的 ZIP 安装包并解压。
+2. 打开 `chrome://extensions` 或 `edge://extensions`，开启**开发者模式**。
+3. 点击「加载已解压的扩展程序」，选择包含 `manifest.json` 的目录。
+
+> [!TIP]
+> 在「功能 → 版本与更新」检查新版。首次点击「立即更新」时，授权扩展的**原安装目录**。手动更新也可将新版解压到同一目录，再在扩展管理页点击「重新加载」。沿用同一浏览器配置和扩展 ID，即可保留词库和设置。
+
+[查看更新日志](./CHANGELOG.personal-vocabulary.md)
+
+## 快速上手
+
+1. **遇见生词**。选中单词或短语，打开词典，点「收录到个人词库」。要改词形或释义时，先点「预览与编辑」。
+2. **集中整理**。在「功能 → 个人词库」补充笔记、标签和例句。使用 AI 词典或 AI 补充前，在「设置 → API 提供商」配置自己的模型。
+3. **定期备份**。在「设置 → 数据管理」打开「个人词库文件」创建完整备份，也可以在这里配置 WebDAV。
+
+[查看导入、备份和 WebDAV 操作说明](./PERSONAL_VOCABULARY.md)
+
+## 数据与隐私
+
+个人词库默认保存在当前浏览器，无需注册账号。WebDAV 同步可按需启用，WebDAV 密码和模型 API 密钥保留在本机。使用翻译或 AI 时，相关文本会发送给所选服务。项目已移除上游的使用遥测和远程调查。
+
+<details>
+<summary><strong>从源码构建</strong></summary>
 
 使用 Node.js 26.13.1 和 pnpm 12.21.0。
 
@@ -33,7 +73,9 @@ WXT_SKIP_ENV_VALIDATION=true pnpm zip
 WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
 ```
 
-两份 ZIP 生成在 `.output/`。[GitHub Actions 构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
+安装包生成在 `.output/`。[GitHub Actions 构建记录](https://github.com/waysdroid/read-frog/actions/workflows/vocabulary-ci.yml)
+
+</details>
 
 ## Contributors
 
@@ -41,10 +83,8 @@ WXT_SKIP_ENV_VALIDATION=true pnpm zip:edge
   <img src="https://avatars.githubusercontent.com/u/153904242?s=96&amp;v=4" alt="@waysdroid" width="48" height="48" />
 </a>
 
-二开维护者 [@waysdroid](https://github.com/waysdroid)。[本仓库贡献记录](https://github.com/waysdroid/read-frog/graphs/contributors)
-
-原项目由 [@mengxi-ream](https://github.com/mengxi-ream) 和上游社区开发。[Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
+蛙词库由 [@waysdroid](https://github.com/waysdroid) 维护，基于 [@mengxi-ream](https://github.com/mengxi-ream) 和社区开发的 Read Frog。[本仓库贡献记录](https://github.com/waysdroid/read-frog/graphs/contributors) · [Read Frog 上游仓库](https://github.com/mengxi-ream/read-frog) · [上游贡献者](https://github.com/mengxi-ream/read-frog/graphs/contributors)
 
 ## 许可证
 
-本仓库源码沿用 [GPL-3.0](./LICENSE)。安装包中的上游布局引擎沿用其独立许可证，声明随 ZIP 附带。
+源码沿用 [GPL-3.0](./LICENSE)。随安装包分发的上游布局引擎使用独立许可证，许可声明附在 ZIP 内。
