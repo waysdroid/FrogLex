@@ -140,6 +140,12 @@ describe("vocabulary management", () => {
       entryId,
     )
     const backup = await repository.createBackup()
+    repository.close()
+    repository = new PersonalVocabularyRepository(database)
+    expect(await repository.createBackup()).toEqual({
+      ...backup,
+      exportedAt: expect.any(Number),
+    })
     expect(parseVocabularyBackup({ ...backup, apiKey: "private" })).not.toHaveProperty("apiKey")
     const destination = new PersonalVocabularyRepository(restoredDatabase)
     try {

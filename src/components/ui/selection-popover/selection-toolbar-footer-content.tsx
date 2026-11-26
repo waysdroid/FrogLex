@@ -150,6 +150,7 @@ export function RegenerateButton({
 }
 
 export function SelectionToolbarFooterContent({
+  actions,
   children,
   className,
   paragraphsText,
@@ -159,6 +160,7 @@ export function SelectionToolbarFooterContent({
   titleText,
   value,
 }: {
+  actions?: React.ReactNode
   children?: React.ReactNode
   className?: string
   paragraphsText: string | null | undefined
@@ -177,9 +179,11 @@ export function SelectionToolbarFooterContent({
         // buttons alone fit a 320px popover in every locale.
         children && "@container/footer",
         "justify-between gap-3 border-t",
+        actions && "flex-wrap gap-y-2",
         className,
       )}
     >
+      {actions && <div className="flex w-full flex-wrap items-center gap-2">{actions}</div>}
       <div className="max-w-52 min-w-0 flex-1">
         <ProviderSelector
           providers={providers}

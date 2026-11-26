@@ -1,7 +1,7 @@
 import type { FormEvent } from "react"
 import type { VocabularyReceipt } from "@/utils/personal-vocabulary/repository"
 import type { VocabularyDraft } from "@/utils/personal-vocabulary/schema"
-import { IconBook2, IconCheck, IconExternalLink, IconPencil } from "@tabler/icons-react"
+import { IconBook2, IconCheck } from "@tabler/icons-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/base-ui/button"
 import { Checkbox } from "@/components/ui/base-ui/checkbox"
@@ -150,41 +150,23 @@ export function SaveToPersonalVocabulary({
 
   return (
     <>
-      {existingEntryId && (
-        <Button
-          size="icon-sm"
-          variant="ghost-secondary"
-          aria-label={viewLabel}
-          title={viewLabel}
-          onClick={() => void viewEntry(existingEntryId)}
-        >
-          <IconExternalLink aria-hidden="true" />
-        </Button>
-      )}
       {saved ? (
         <span
           role="status"
-          title={savedLabel ?? undefined}
-          className="grid size-7 shrink-0 place-items-center text-muted-foreground"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground"
         >
-          <IconCheck aria-hidden="true" className="size-4" />
-          <span className="sr-only">{savedLabel}</span>
+          <IconCheck aria-hidden="true" className="size-4 shrink-0" />
+          {savedLabel}
         </span>
       ) : (
         <>
+          <Button size="sm" disabled={pending} onClick={() => void save(draft)}>
+            <IconBook2 aria-hidden="true" />
+            {saveLabel}
+          </Button>
           <Popover open={open} onOpenChange={changeOpen}>
-            <PopoverTrigger
-              render={
-                <Button
-                  size="icon-sm"
-                  variant="ghost-secondary"
-                  disabled={pending}
-                  aria-label={previewLabel}
-                  title={previewLabel}
-                />
-              }
-            >
-              <IconPencil aria-hidden="true" />
+            <PopoverTrigger render={<Button size="sm" variant="outline" disabled={pending} />}>
+              {previewLabel}
             </PopoverTrigger>
             <PopoverContent
               container={overlay.container}
@@ -270,17 +252,12 @@ export function SaveToPersonalVocabulary({
               )}
             </PopoverContent>
           </Popover>
-          <Button
-            size="icon-sm"
-            variant="ghost-secondary"
-            disabled={pending}
-            aria-label={saveLabel}
-            title={saveLabel}
-            onClick={() => void save(draft)}
-          >
-            <IconBook2 aria-hidden="true" />
-          </Button>
         </>
+      )}
+      {existingEntryId && (
+        <Button size="sm" variant="ghost" onClick={() => void viewEntry(existingEntryId)}>
+          {viewLabel}
+        </Button>
       )}
     </>
   )

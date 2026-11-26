@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react"
-import type { VocabularyGroup } from "@/utils/personal-vocabulary/records"
+import type { VocabularyEntry, VocabularyGroup } from "@/utils/personal-vocabulary/records"
 import { useQuery } from "@tanstack/react-query"
 import { i18n } from "@/utils/i18n"
 import { DEFAULT_COLLECTION_ID } from "@/utils/personal-vocabulary/records"
@@ -9,6 +9,29 @@ import { cn } from "@/utils/styles/utils"
 export const vocabularyPath = "/personal-vocabulary"
 export const vocabularyQueryKey = ["personal-vocabulary"] as const
 export const vocabularyRepository = personalVocabularyRepository
+
+export const longFields = [
+  "meaningsZh",
+  "meaningsEn",
+  "memoryTips",
+  "note",
+  "examples",
+  "collocations",
+  "synonyms",
+  "antonyms",
+  "derivatives",
+] as const
+
+export function getVocabularyTextFields(entry?: VocabularyEntry) {
+  return [
+    {
+      name: "definition" as const,
+      text: entry?.definition?.text,
+      language: entry?.definition?.language,
+    },
+    ...longFields.map((name) => ({ name, text: entry?.[name], language: undefined })),
+  ].sort((a, b) => (b.text?.length ?? 0) - (a.text?.length ?? 0))
+}
 
 export function useVocabularyGroups() {
   return useQuery({

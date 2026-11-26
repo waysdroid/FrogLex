@@ -118,6 +118,7 @@ personalVocabulary:
   updated: "更新於 $1"
   unconfirmedTerm: "原形待確認"
   contexts: "閱讀語境"
+  entryDetails: "詞條資訊"
   errors:
     invalid: "無法收錄這個選取區域或詞形。"
     storage: "無法存取本機詞庫，請重試。"
@@ -162,6 +163,7 @@ personalVocabulary:
   conflictStrategy: "重複詞條處理"
   importEntries: "匯入詞條"
   exportEntries: "匯出詞條"
+  exportScope: "TXT 僅匯出詞條文字。CSV 和 JSON 匯出詞條欄位，省略閱讀語境、遇見記錄、詞庫、標籤及歸屬關係。如需保留完整詞庫資料，請使用完整備份。"
   chooseFile: "選擇檔案"
   clearFile: "清除檔案選擇"
   fileFormat: "檔案格式"
@@ -181,6 +183,7 @@ personalVocabulary:
   importCanceled: "已取消，完成的批次會保留。"
   importStats: "有效 $1 項，重複 $2 項，無效 $3 項，已寫入 $4 項，失敗 $5 項"
   backup: "完整備份與還原"
+  backupScope: "包含所有詞條、閱讀語境、遇見記錄、詞庫、標籤及歸屬關係。擴充功能設定和 API 金鑰可另外備份。"
   createBackup: "下載完整 JSON 備份"
   restore: "選擇備份檔案進行預覽"
   backupStats: "備份版本 $1，詞條 $2 個，詞庫 $3 個，標籤 $4 個，語境 $5 筆，重複 $6 個"
@@ -682,11 +685,12 @@ options:
           confirm: 確認
           cancel: 取消
           description: 此操作將清空您所有的自訂設定，並重設為預設值。詞彙庫會保留 — 如需刪除請至詞彙庫頁面操作。請確認。
-    userExperience:
-      title: 使用體驗
-      beta:
-        title: Beta 體驗
-        description: 開啟可能還不穩定的實驗性功能
+    versionUpdates:
+      title: "版本與更新"
+      current: "目前版本 $1"
+      instructions: "將新版 ZIP 解壓縮到原安裝目錄，再到瀏覽器的擴充功能管理頁重新載入。使用同一個瀏覽器設定檔與擴充功能 ID，即可保留個人詞庫、設定和 API 金鑰。"
+      releases: "查看最新版本"
+      vocabularyBackup: "備份個人詞庫"
   shortcuts:
     title: 快速鍵
     pageDescription: 設定閱讀時觸發翻譯、朗讀和 AI 指令的按鍵。

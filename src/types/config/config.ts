@@ -130,10 +130,12 @@ const translationHubSchema = z
     promptId: null,
   })
 
-// beta experience schema
-const betaExperienceSchema = z.object({
-  enabled: z.boolean(),
-})
+// Retain the legacy flag so older versions can read settings after a downgrade.
+const betaExperienceSchema = z
+  .object({
+    enabled: z.boolean(),
+  })
+  .default({ enabled: false })
 
 // context menu schema
 const contextMenuSchema = z.object({

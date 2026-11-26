@@ -34,8 +34,6 @@ vi.mock("../migration", () => ({
 
 function buildStableConfig(): Config {
   const config = structuredClone(DEFAULT_CONFIG)
-  // In DEV mode, beta experience is enabled. Keep it true so no extra write is introduced.
-  config.betaExperience.enabled = true
   config.providersConfig = config.providersConfig.map((providerConfig) => {
     if (!isAPIProviderConfig(providerConfig)) {
       return providerConfig
@@ -132,6 +130,19 @@ describe("initializeConfig", () => {
 
   it("does not report a fresh install when a stored config is reused", async () => {
     const config = buildStableConfig()
+    config.uiLanguage = "zh-CN"
+    config.selectionToolbar.opacity = 65
+    config.betaExperience.enabled = true
+    config.providersConfig.push({
+      id: "personal-llm",
+      provider: "openai-compatible",
+      name: "Personal provider",
+      enabled: true,
+      baseURL: "https://example.com/v1",
+      apiKey: "local-test-key",
+      model: { model: "use-custom-model", isCustomModel: true, customModel: "test-model" },
+    })
+    config.selectionToolbar.builtInActions.dictionary.providerId = "personal-llm"
     getItemMock.mockResolvedValueOnce(config)
     getMetaMock.mockResolvedValueOnce({
       schemaVersion: CONFIG_SCHEMA_VERSION,
@@ -142,6 +153,8 @@ describe("initializeConfig", () => {
     const { isFreshInstall } = await initializeConfig()
 
     expect(isFreshInstall).toBe(false)
+    expect(setItemMock).not.toHaveBeenCalled()
+    expect(setMetaMock).not.toHaveBeenCalled()
   })
 
   it("reports recovery from an unparseable config as a fresh install so the provider probe reruns", async () => {

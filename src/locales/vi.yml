@@ -547,11 +547,6 @@ options:
           confirm: Xác nhận
           cancel: Hủy
           description: Thao tác này sẽ xoá toàn bộ cấu hình tuỳ chỉnh và đặt lại về mặc định. Bộ thuật ngữ của bạn được giữ lại — hãy xoá chúng từ trang bộ thuật ngữ. Vui lòng xác nhận.
-    userExperience:
-      title: Trải nghiệm người dùng
-      beta:
-        title: Trải nghiệm Beta
-        description: Bật các tính năng thử nghiệm có thể chưa ổn định
   shortcuts:
     title: Phím tắt
     pageDescription: Đặt các phím để dịch, đọc to và chạy hành động AI khi bạn đọc.

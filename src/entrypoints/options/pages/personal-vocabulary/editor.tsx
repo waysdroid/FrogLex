@@ -14,7 +14,9 @@ import {
   vocabularyEditSchema,
 } from "@/utils/personal-vocabulary/schema"
 import {
+  getVocabularyTextFields,
   groupLabel,
+  longFields,
   useVocabularyGroups,
   vocabularyError,
   vocabularyPath,
@@ -24,17 +26,6 @@ import {
 } from "./controls"
 
 const shortFields = ["phonetic", "phoneticUk", "phoneticUs", "partOfSpeech"] as const
-export const longFields = [
-  "meaningsZh",
-  "meaningsEn",
-  "memoryTips",
-  "note",
-  "examples",
-  "collocations",
-  "synonyms",
-  "antonyms",
-  "derivatives",
-] as const
 
 function GroupChoices({
   field,
@@ -128,7 +119,7 @@ export function VocabularyEditor({
       <h2 className="text-lg font-medium">
         {i18n.t(entry ? "personalVocabulary.editEntry" : "personalVocabulary.addEntry")}
       </h2>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 @md:grid-cols-2">
         <label className="grid gap-1.5 text-sm">
           {i18n.t("personalVocabulary.term")}
           <Input name="term" required defaultValue={entry?.term} maxLength={MAX_TERM_LENGTH} />
@@ -141,6 +132,21 @@ export function VocabularyEditor({
             maxLength={MAX_TERM_LENGTH}
           />
         </label>
+      </div>
+      <div className="space-y-4">
+        {getVocabularyTextFields(entry).map(({ name, text }) => (
+          <label key={name} className="grid gap-1.5 text-sm">
+            {i18n.t(`personalVocabulary.fields.${name}`)}
+            <Textarea
+              name={name}
+              defaultValue={text}
+              maxLength={name === "note" ? 12000 : MAX_VOCABULARY_TEXT_LENGTH}
+              className="max-h-72 overflow-y-auto"
+            />
+          </label>
+        ))}
+      </div>
+      <div className="grid gap-3 border-t pt-4 @md:grid-cols-2">
         {shortFields.map((field) => (
           <label key={field} className="grid gap-1.5 text-sm">
             {i18n.t(`personalVocabulary.fields.${field}`)}
@@ -164,24 +170,6 @@ export function VocabularyEditor({
             maxLength={35}
           />
         </label>
-        <label className="grid gap-1.5 text-sm sm:col-span-2">
-          {i18n.t("personalVocabulary.definition")}
-          <Textarea
-            name="definition"
-            defaultValue={entry?.definition?.text}
-            maxLength={MAX_VOCABULARY_TEXT_LENGTH}
-          />
-        </label>
-        {longFields.map((field) => (
-          <label key={field} className="grid gap-1.5 text-sm">
-            {i18n.t(`personalVocabulary.fields.${field}`)}
-            <Textarea
-              name={field}
-              defaultValue={entry?.[field]}
-              maxLength={field === "note" ? 12000 : MAX_VOCABULARY_TEXT_LENGTH}
-            />
-          </label>
-        ))}
       </div>
       <div className="flex flex-wrap gap-4 text-sm">
         <label className="flex items-center gap-2">

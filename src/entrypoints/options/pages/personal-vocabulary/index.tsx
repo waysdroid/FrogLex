@@ -6,6 +6,7 @@ import type {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router"
+import { Badge } from "@/components/ui/base-ui/badge"
 import { Button } from "@/components/ui/base-ui/button"
 import { Input } from "@/components/ui/base-ui/input"
 import { useDebouncedValue } from "@/hooks/use-debounced-value"
@@ -17,6 +18,7 @@ import {
 import { vocabularyDifficultySchema } from "@/utils/personal-vocabulary/schema"
 import { PageLayout } from "../../components/page-layout"
 import {
+  getVocabularyTextFields,
   groupLabel,
   useVocabularyGroups,
   vocabularyError,
@@ -25,7 +27,7 @@ import {
   vocabularyRepository,
   VocabularySelect,
 } from "./controls"
-import { longFields, VocabularyContextEditor, VocabularyEditor } from "./editor"
+import { VocabularyContextEditor, VocabularyEditor } from "./editor"
 import { VocabularyGroups } from "./groups"
 import { VocabularyTransfer } from "./transfer"
 
@@ -88,29 +90,26 @@ function VocabularyList() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap gap-2">
-        <Button render={<Link to="?new=1" />}>{i18n.t("personalVocabulary.addEntry")}</Button>
-        <Button variant="outline" render={<Link to="?transfer=1" />}>
-          {i18n.t("personalVocabulary.transfer")}
-        </Button>
-      </div>
-      <details className="rounded-lg border p-4">
-        <summary className="cursor-pointer font-medium">
-          {i18n.t("personalVocabulary.manageGroups")}
-        </summary>
-        <div className="mt-3">
-          <VocabularyGroups />
+      <section
+        id="personal-vocabulary-search"
+        className="space-y-3"
+        aria-label={i18n.t("personalVocabulary.filters")}
+      >
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            value={filters.search}
+            type="search"
+            className="w-full @xl:min-w-52 @xl:flex-1"
+            aria-label={i18n.t("personalVocabulary.search")}
+            placeholder={i18n.t("personalVocabulary.search")}
+            onChange={(event) => updateFilter("search", event.target.value)}
+          />
+          <Button render={<Link to="?new=1" />}>{i18n.t("personalVocabulary.addEntry")}</Button>
+          <Button variant="outline" render={<Link to="?transfer=1" />}>
+            {i18n.t("personalVocabulary.transfer")}
+          </Button>
         </div>
-      </details>
-      <section className="space-y-3" aria-label={i18n.t("personalVocabulary.filters")}>
-        <Input
-          value={filters.search}
-          type="search"
-          aria-label={i18n.t("personalVocabulary.search")}
-          placeholder={i18n.t("personalVocabulary.search")}
-          onChange={(event) => updateFilter("search", event.target.value)}
-        />
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 gap-2 @xl:grid-cols-3">
           <VocabularySelect
             aria-label={i18n.t("personalVocabulary.collections")}
             value={filters.collectionId}
@@ -192,6 +191,9 @@ function VocabularyList() {
       {!!result.data && (
         <section className="space-y-3">
           <div className="flex flex-wrap items-center gap-3">
+            <p className="mr-auto text-sm text-muted-foreground">
+              {i18n.t("personalVocabulary.entryCount", [result.data.total])}
+            </p>
             {!!rows.length && (
               <label className="flex items-center gap-2 text-sm">
                 <input
@@ -202,9 +204,6 @@ function VocabularyList() {
                 {i18n.t("personalVocabulary.selectPage")}
               </label>
             )}
-            <p className="text-sm text-muted-foreground">
-              {i18n.t("personalVocabulary.entryCount", [result.data.total])}
-            </p>
             {!!selected.length && (
               <>
                 <span className="text-sm">
@@ -280,21 +279,21 @@ function VocabularyList() {
                       to={`?entry=${entry.id}`}
                       className="grid min-w-0 flex-1 gap-1 rounded focus-visible:outline-ring"
                     >
-                      <div className="flex flex-wrap items-baseline gap-x-2">
+                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                         <EntryHeading entry={entry} />
                         {entry.favorite && (
-                          <span className="text-xs text-primary">
+                          <Badge variant="secondary">
                             {i18n.t("personalVocabulary.fields.favorite")}
-                          </span>
+                          </Badge>
                         )}
                         {entry.important && (
-                          <span className="text-xs text-primary">
+                          <Badge variant="outline">
                             {i18n.t("personalVocabulary.fields.important")}
-                          </span>
+                          </Badge>
                         )}
                       </div>
                       {meaning && (
-                        <span className="line-clamp-2 text-sm text-muted-foreground">
+                        <span className="line-clamp-2 text-sm wrap-anywhere text-muted-foreground">
                           {meaning}
                         </span>
                       )}
@@ -341,6 +340,14 @@ function VocabularyList() {
           )}
         </section>
       )}
+      <details className="rounded-lg border p-4">
+        <summary className="cursor-pointer text-sm font-medium">
+          {i18n.t("personalVocabulary.manageGroups")}
+        </summary>
+        <div className="mt-3">
+          <VocabularyGroups />
+        </div>
+      </details>
     </div>
   )
 }
@@ -368,6 +375,7 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
     },
   })
   const detail = result.data
+  const textFields = getVocabularyTextFields(detail?.entry).filter(({ text }) => text)
   const date = new Intl.DateTimeFormat(getUiLocale(), { dateStyle: "medium" })
   if (editing && detail)
     return <VocabularyEditor entry={detail.entry} onCancel={() => setEditing(false)} />
@@ -402,83 +410,35 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
       {detail && (
         <>
           <section className="space-y-4 rounded-lg border p-4">
-            <h2 className="flex flex-wrap items-baseline gap-x-3 text-xl">
-              <EntryHeading entry={detail.entry} />
-            </h2>
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground">
-              {detail.entry.partOfSpeech && <span>{detail.entry.partOfSpeech}</span>}
-              {detail.entry.difficulty && <span>{detail.entry.difficulty}</span>}
-              <span>{i18n.t("personalVocabulary.encounters", [detail.entry.encounterCount])}</span>
-              <span>
-                {i18n.t("personalVocabulary.created", [date.format(detail.entry.createdAt)])}
-              </span>
-              <span>
-                {i18n.t("personalVocabulary.updated", [date.format(detail.entry.updatedAt)])}
-              </span>
-              {detail.entry.favorite && <span>{i18n.t("personalVocabulary.fields.favorite")}</span>}
+            <div className="flex flex-wrap items-baseline gap-2">
+              <h2 className="flex flex-wrap items-baseline gap-x-3 text-xl">
+                <EntryHeading entry={detail.entry} />
+              </h2>
+              {detail.entry.favorite && (
+                <Badge variant="secondary">{i18n.t("personalVocabulary.fields.favorite")}</Badge>
+              )}
               {detail.entry.important && (
-                <span>{i18n.t("personalVocabulary.fields.important")}</span>
+                <Badge variant="outline">{i18n.t("personalVocabulary.fields.important")}</Badge>
               )}
             </div>
-            <p className="text-sm wrap-anywhere">
-              {i18n.t("personalVocabulary.selectedTerm", [detail.entry.originalTerm])}
-            </p>
-            {detail.entry.lemmaSource === "selection" && (
-              <p className="text-sm text-muted-foreground">
-                {i18n.t("personalVocabulary.unconfirmedTerm")}
-              </p>
+            {!!textFields.length && (
+              <dl className="divide-y">
+                {textFields.map(({ name, text, language }) => (
+                  <div key={name} className="space-y-1 py-3 first:pt-0 last:pb-0">
+                    <dt className="text-sm font-medium">
+                      {i18n.t(`personalVocabulary.fields.${name}`)}
+                    </dt>
+                    <dd
+                      lang={language}
+                      className="text-sm leading-relaxed wrap-anywhere whitespace-pre-wrap"
+                    >
+                      {text}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             )}
-            {detail.entry.definition && (
-              <p
-                lang={detail.entry.definition.language}
-                className="wrap-anywhere whitespace-pre-wrap"
-              >
-                {detail.entry.definition.text}
-              </p>
-            )}
-            <dl className="grid gap-3 sm:grid-cols-2">
-              {(["phoneticUk", "phoneticUs", ...longFields] as const).map(
-                (field) =>
-                  detail.entry[field] && (
-                    <div key={field}>
-                      <dt className="text-xs text-muted-foreground">
-                        {i18n.t(`personalVocabulary.fields.${field}`)}
-                      </dt>
-                      <dd className="text-sm wrap-anywhere whitespace-pre-wrap">
-                        {detail.entry[field]}
-                      </dd>
-                    </div>
-                  ),
-              )}
-              {!!membership.data?.collectionIds.length && (
-                <div>
-                  <dt className="text-xs text-muted-foreground">
-                    {i18n.t("personalVocabulary.collections")}
-                  </dt>
-                  <dd className="text-sm wrap-anywhere">
-                    {groups.data?.collections
-                      .filter(({ id }) => membership.data.collectionIds.includes(id))
-                      .map(groupLabel)
-                      .join(" · ")}
-                  </dd>
-                </div>
-              )}
-              {!!membership.data?.tagIds.length && (
-                <div>
-                  <dt className="text-xs text-muted-foreground">
-                    {i18n.t("personalVocabulary.tags")}
-                  </dt>
-                  <dd className="text-sm wrap-anywhere">
-                    {groups.data?.tags
-                      .filter(({ id }) => membership.data.tagIds.includes(id))
-                      .map(({ name }) => name)
-                      .join(" · ")}
-                  </dd>
-                </div>
-              )}
-            </dl>
           </section>
-          <VocabularyContextEditor entryId={entryId} />
           {!!detail.contexts.length && (
             <section className="space-y-3">
               <h3 className="text-lg font-medium">{i18n.t("personalVocabulary.contexts")}</h3>
@@ -526,6 +486,69 @@ function VocabularyDetail({ entryId }: { entryId: string }) {
               </ul>
             </section>
           )}
+          <VocabularyContextEditor entryId={entryId} />
+          <section className="space-y-3 rounded-lg border p-4">
+            <h3 className="font-medium">{i18n.t("personalVocabulary.entryDetails")}</h3>
+            <dl className="grid grid-cols-2 gap-x-3 gap-y-4 text-sm @xl:grid-cols-3">
+              <div>
+                <dt className="text-xs text-muted-foreground">
+                  {i18n.t("personalVocabulary.fields.originalTerm")}
+                </dt>
+                <dd className="wrap-anywhere">{detail.entry.originalTerm}</dd>
+                {detail.entry.lemmaSource === "selection" && (
+                  <dd className="text-xs text-muted-foreground">
+                    {i18n.t("personalVocabulary.unconfirmedTerm")}
+                  </dd>
+                )}
+              </div>
+              {(["partOfSpeech", "difficulty", "phoneticUk", "phoneticUs"] as const).map(
+                (field) =>
+                  detail.entry[field] && (
+                    <div key={field}>
+                      <dt className="text-xs text-muted-foreground">
+                        {i18n.t(`personalVocabulary.fields.${field}`)}
+                      </dt>
+                      <dd className="wrap-anywhere">{detail.entry[field]}</dd>
+                    </div>
+                  ),
+              )}
+              {!!membership.data?.collectionIds.length && (
+                <div>
+                  <dt className="text-xs text-muted-foreground">
+                    {i18n.t("personalVocabulary.collections")}
+                  </dt>
+                  <dd className="wrap-anywhere">
+                    {groups.data?.collections
+                      .filter(({ id }) => membership.data.collectionIds.includes(id))
+                      .map(groupLabel)
+                      .join(" · ")}
+                  </dd>
+                </div>
+              )}
+              {!!membership.data?.tagIds.length && (
+                <div>
+                  <dt className="text-xs text-muted-foreground">
+                    {i18n.t("personalVocabulary.tags")}
+                  </dt>
+                  <dd className="wrap-anywhere">
+                    {groups.data?.tags
+                      .filter(({ id }) => membership.data.tagIds.includes(id))
+                      .map(({ name }) => name)
+                      .join(" · ")}
+                  </dd>
+                </div>
+              )}
+            </dl>
+            <div className="flex flex-wrap gap-x-3 gap-y-1 border-t pt-3 text-xs text-muted-foreground">
+              <span>{i18n.t("personalVocabulary.encounters", [detail.entry.encounterCount])}</span>
+              <span>
+                {i18n.t("personalVocabulary.created", [date.format(detail.entry.createdAt)])}
+              </span>
+              <span>
+                {i18n.t("personalVocabulary.updated", [date.format(detail.entry.updatedAt)])}
+              </span>
+            </div>
+          </section>
         </>
       )}
     </div>

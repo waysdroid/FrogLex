@@ -109,11 +109,19 @@ export const SEARCH_ITEMS: SearchItem[] = [
     pageKey: "options.preference.title",
   },
   {
-    sectionId: "beta-experience",
+    sectionId: "version-updates",
     route: "/preference",
-    titleKey: "options.preference.userExperience.beta.title",
-    descriptionKey: "options.preference.userExperience.beta.description",
+    titleKey: "options.preference.versionUpdates.title",
+    descriptionKey: "options.preference.versionUpdates.instructions",
     pageKey: "options.preference.title",
+  },
+
+  {
+    sectionId: "personal-vocabulary-search",
+    route: "/personal-vocabulary",
+    titleKey: "personalVocabulary.title",
+    descriptionKey: "personalVocabulary.description",
+    pageKey: "personalVocabulary.title",
   },
 
   // Shortcuts page

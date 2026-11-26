@@ -46,7 +46,10 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm type-check
-          pnpm test --pool=threads --maxWorkers=2 src/utils/personal-vocabulary src/utils/config/__tests__/migration-scripts src/components/custom-action src/components/ui/selection-popover
+          pnpm test --pool=threads --maxWorkers=2 \
+            src/utils/personal-vocabulary src/utils/config/__tests__/init.test.ts \
+            src/utils/config/__tests__/migration-scripts src/components/custom-action \
+            src/components/ui/selection-popover src/entrypoints/options/app-sidebar
           pnpm zip
           pnpm zip:edge
           mkdir release-assets
@@ -76,7 +79,9 @@ jobs:
 
           ### 安装扩展
 
-          在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。升级时，在原目录替换文件后刷新扩展，以继续使用已有词库。
+          在下方 Assets 下载对应浏览器的 ZIP 并解压。在 Chrome 或 Edge 的扩展管理页开启开发者模式，选择「加载已解压的扩展程序」，然后选择包含 `manifest.json` 的目录。
+
+          升级时保留现有扩展，将新版文件解压到原安装目录，再在扩展管理页点击「重新加载」。使用同一浏览器配置和扩展 ID，可保留已有词库、设置和 API 密钥。
           MARKDOWN
       - name: Attach the Chrome and Edge installers to the release
         env:

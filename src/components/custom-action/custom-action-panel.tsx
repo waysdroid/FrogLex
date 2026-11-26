@@ -191,6 +191,18 @@ export function CustomActionPanel() {
         <SelectionToolbarErrorAlert error={error} />
       </SelectionPopover.Body>
       <CustomActionFooterContent
+        actions={
+          request.vocabularySelection &&
+          vocabularyDraft && (
+            <SaveToPersonalVocabulary
+              key={request.vocabularySelection.operationId}
+              operationId={request.vocabularySelection.operationId}
+              draft={vocabularyDraft}
+              targetLanguage={language.targetCode}
+              waitingForDictionary={isRunning}
+            />
+          )
+        }
         paragraphsText={request.contextText}
         providers={providers}
         titleText={titleText}
@@ -198,15 +210,6 @@ export function CustomActionPanel() {
         onProviderChange={changeProvider}
         onRegenerate={regenerate}
       >
-        {request.vocabularySelection && vocabularyDraft && (
-          <SaveToPersonalVocabulary
-            key={request.vocabularySelection.operationId}
-            operationId={request.vocabularySelection.operationId}
-            draft={vocabularyDraft}
-            targetLanguage={language.targetCode}
-            waitingForDictionary={isRunning}
-          />
-        )}
         {action && <CustomActionToolButton action={action} />}
       </CustomActionFooterContent>
     </>

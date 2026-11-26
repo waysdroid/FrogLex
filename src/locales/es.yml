@@ -548,11 +548,6 @@ options:
           confirm: Confirmar
           cancel: Cancelar
           description: Esta operación borrará toda tu configuración personalizada y la restablecerá a los valores por defecto. Tus glosarios se conservan; elimínalos desde la página de glosarios. Confirma, por favor.
-    userExperience:
-      title: Experiencia de usuario
-      beta:
-        title: Experiencia beta
-        description: Activa funciones experimentales que todavía pueden ser inestables
   shortcuts:
     title: Atajos
     pageDescription: Define las teclas que traducen, leen en voz alta y ejecutan acciones AI mientras lees.

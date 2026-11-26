@@ -118,6 +118,7 @@ personalVocabulary:
   updated: "Updated $1"
   unconfirmedTerm: "Base form pending confirmation"
   contexts: "Reading contexts"
+  entryDetails: "Entry details"
   errors:
     invalid: "This selection or word form could not be saved."
     storage: "Could not access local vocabulary. Please try again."
@@ -162,6 +163,7 @@ personalVocabulary:
   conflictStrategy: "On duplicate"
   importEntries: "Import vocabulary"
   exportEntries: "Export vocabulary"
+  exportScope: "TXT exports the headwords only. CSV and JSON include entry fields and omit reading contexts, encounter history, collections, tags and their assignments. Use a full backup to keep all vocabulary data."
   chooseFile: "Choose file"
   clearFile: "Clear file"
   fileFormat: "File format"
@@ -181,6 +183,7 @@ personalVocabulary:
   importCanceled: "Import canceled. Completed batches are kept."
   importStats: "$1 valid · $2 duplicates · $3 invalid · $4 written · $5 failed"
   backup: "Full backup and restore"
+  backupScope: "Includes all vocabulary entries, reading contexts, encounter history, collections, tags and their assignments. Extension settings and API keys are backed up separately."
   createBackup: "Download complete JSON backup"
   restore: "Select a backup to preview"
   backupStats: "Version $1 · $2 entries · $3 collections · $4 tags · $5 contexts · $6 duplicates"
@@ -682,11 +685,12 @@ options:
           confirm: Confirm
           cancel: Cancel
           description: This operation will clear all your custom configurations and reset them to default values. Your glossaries are kept — delete those from the glossary page. Please confirm.
-    userExperience:
-      title: User experience
-      beta:
-        title: Beta experience
-        description: Turn on experimental features that may still be unstable
+    versionUpdates:
+      title: "Version and updates"
+      current: "Installed version $1"
+      instructions: "Extract the new ZIP into the current installation folder, then reload the extension on the browser’s Extensions page. Keep the same browser profile and extension ID to retain your vocabulary, settings and API keys."
+      releases: "View latest release"
+      vocabularyBackup: "Back up vocabulary"
   shortcuts:
     title: Shortcuts
     pageDescription: Set the keys that translate, read aloud and run AI actions while you read.

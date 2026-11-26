@@ -46,7 +46,9 @@ describe("save to personal vocabulary", () => {
       />,
     )
 
-    fireEvent.click(screen.getByRole("button", { name: "personalVocabulary.saveSelection" }))
+    const saveButton = screen.getByRole("button", { name: "personalVocabulary.saveSelection" })
+    expect(saveButton).toHaveTextContent("personalVocabulary.saveSelection")
+    fireEvent.click(saveButton)
     expect(await screen.findByRole("status")).toHaveTextContent("personalVocabulary.saved")
     expect(sendMessage).toHaveBeenCalledWith("savePersonalVocabularyEncounter", {
       ...draft,
@@ -71,7 +73,9 @@ describe("save to personal vocabulary", () => {
       />,
     )
 
-    fireEvent.click(screen.getByRole("button", { name: "personalVocabulary.preview" }))
+    const previewButton = screen.getByRole("button", { name: "personalVocabulary.preview" })
+    expect(previewButton).toHaveTextContent("personalVocabulary.preview")
+    fireEvent.click(previewButton)
     fireEvent.change(await screen.findByRole("textbox", { name: "personalVocabulary.term" }), {
       target: { value: "blossom" },
     })

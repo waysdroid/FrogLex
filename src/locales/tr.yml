@@ -547,11 +547,6 @@ options:
           confirm: Onayla
           cancel: İptal
           description: Bu işlem tüm özel ayarlarınızı silip varsayılan değerlere döndürür. Sözlükleriniz korunur — silmek için sözlük sayfasını kullanın. Lütfen onaylayın.
-    userExperience:
-      title: Kullanıcı deneyimi
-      beta:
-        title: Beta deneyimi
-        description: Henüz kararsız olabilecek deneysel özellikleri açın
   shortcuts:
     title: Kısayollar
     pageDescription: Okurken çeviri, sesli okuma ve AI eylemlerini başlatan tuşları belirleyin.

@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react"
-import { IconBook2 } from "@tabler/icons-react"
 import { Link, useLocation } from "react-router"
 import {
   SidebarGroup,
@@ -50,17 +49,6 @@ export function SettingsNav() {
             >
               <Icon icon="tabler:command" />
               <span>{i18n.t("options.shortcuts.title")}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              render={<Link to="/personal-vocabulary" />}
-              isActive={pathname === "/personal-vocabulary"}
-              tooltip={i18n.t("personalVocabulary.title")}
-            >
-              <IconBook2 />
-              <span>{i18n.t("personalVocabulary.title")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

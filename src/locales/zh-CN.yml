@@ -118,6 +118,7 @@ personalVocabulary:
   updated: "更新于 $1"
   unconfirmedTerm: "原形待确认"
   contexts: "阅读语境"
+  entryDetails: "词条信息"
   errors:
     invalid: "无法收录这个选区或词形。"
     storage: "无法访问本地词库，请重试。"
@@ -162,6 +163,7 @@ personalVocabulary:
   conflictStrategy: "重复词条处理"
   importEntries: "导入词条"
   exportEntries: "导出词条"
+  exportScope: "TXT 仅导出词条文本。CSV 和 JSON 导出词条字段，省略阅读语境、遇见记录、词库、标签及归属关系。如需保留全部词库数据，请使用完整备份。"
   chooseFile: "选择文件"
   clearFile: "清除文件选择"
   fileFormat: "文件格式"
@@ -181,6 +183,7 @@ personalVocabulary:
   importCanceled: "已取消，完成的批次会保留。"
   importStats: "有效 $1 项，重复 $2 项，无效 $3 项，已写入 $4 项，失败 $5 项"
   backup: "完整备份与恢复"
+  backupScope: "包含所有词条、阅读语境、遇见记录、词库、标签及归属关系。扩展设置和 API 密钥可单独备份。"
   createBackup: "下载完整 JSON 备份"
   restore: "选择备份文件进行预览"
   backupStats: "备份版本 $1，词条 $2 个，词库 $3 个，标签 $4 个，语境 $5 条，重复 $6 个"
@@ -682,11 +685,12 @@ options:
           confirm: 确认
           cancel: 取消
           description: 该操作将清空您的所有自定义配置，并将其重置为默认值。术语库会保留 — 如需删除请到术语库页面操作。请确认是否清除。
-    userExperience:
-      title: 使用体验
-      beta:
-        title: Beta 体验
-        description: 开启可能还不稳定的实验性功能
+    versionUpdates:
+      title: "版本与更新"
+      current: "当前版本 $1"
+      instructions: "将新版 ZIP 解压到原安装目录，在浏览器的扩展管理页重新加载。使用同一个浏览器配置和扩展 ID，即可保留个人词库、设置和 API 密钥。"
+      releases: "查看最新版本"
+      vocabularyBackup: "备份个人词库"
   shortcuts:
     title: 快捷键
     pageDescription: 设置阅读时触发翻译、朗读和 AI 指令的按键。

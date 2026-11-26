@@ -547,11 +547,6 @@ options:
           confirm: 확인
           cancel: 취소
           description: 이 작업은 모든 사용자 설정을 지우고 기본값으로 되돌립니다. 용어집은 유지됩니다 — 삭제하려면 용어집 페이지에서 진행하세요. 확인해 주세요.
-    userExperience:
-      title: 사용자 경험
-      beta:
-        title: Beta 체험
-        description: 아직 불안정할 수 있는 실험적 기능을 켭니다
   shortcuts:
     title: 단축키
     pageDescription: 읽는 중에 번역, 읽기, AI 액션을 실행하는 키를 설정합니다.

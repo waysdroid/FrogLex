@@ -417,6 +417,9 @@ function VocabularyExport() {
   return (
     <section className="space-y-3 rounded-lg border p-4">
       <h2 className="text-lg font-medium">{i18n.t("personalVocabulary.exportEntries")}</h2>
+      <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
+        {i18n.t("personalVocabulary.exportScope")}
+      </p>
       <div className="flex flex-wrap gap-2">
         {formats.map((format) => (
           <Button
@@ -476,8 +479,11 @@ function VocabularyBackupPanel() {
   })
 
   return (
-    <section className="space-y-3 rounded-lg border p-4">
+    <section id="vocabulary-backup" className="space-y-3 rounded-lg border p-4">
       <h2 className="text-lg font-medium">{i18n.t("personalVocabulary.backup")}</h2>
+      <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
+        {i18n.t("personalVocabulary.backupScope")}
+      </p>
       <Button
         variant="outline"
         size="sm"
@@ -559,9 +565,9 @@ export function VocabularyTransfer() {
       <Button variant="outline" render={<Link to={vocabularyPath} />}>
         {i18n.t("personalVocabulary.back")}
       </Button>
-      <VocabularyImport />
       <VocabularyExport />
       <VocabularyBackupPanel />
+      <VocabularyImport />
     </div>
   )
 }

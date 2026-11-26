@@ -55,7 +55,6 @@ describe("SettingsNav", () => {
       "/api-providers",
       "/preference",
       "/shortcuts",
-      "/personal-vocabulary",
     ])
     expect(screen.queryByRole("link", { name: "options.usage.title" })).toBeNull()
   })

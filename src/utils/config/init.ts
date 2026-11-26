@@ -83,10 +83,6 @@ export async function initializeConfig(): Promise<InitializeConfigResult> {
     const apiKeyResult = applyAPIKeysFromEnv(config)
     config = apiKeyResult.config
     didConfigChange = didConfigChange || apiKeyResult.changed
-
-    const betaResult = applyDevBetaExperience(config)
-    config = betaResult.config
-    didConfigChange = didConfigChange || betaResult.changed
   }
 
   const didMetaNeedUpdate =
@@ -135,23 +131,6 @@ function applyAPIKeysFromEnv(config: Config): { config: Config; changed: boolean
     config: {
       ...config,
       providersConfig,
-    },
-    changed: true,
-  }
-}
-
-function applyDevBetaExperience(config: Config): { config: Config; changed: boolean } {
-  if (config.betaExperience.enabled) {
-    return { config, changed: false }
-  }
-
-  return {
-    config: {
-      ...config,
-      betaExperience: {
-        ...config.betaExperience,
-        enabled: true,
-      },
     },
     changed: true,
   }

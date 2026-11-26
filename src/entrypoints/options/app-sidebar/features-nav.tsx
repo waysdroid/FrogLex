@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { RoutePath } from "./nav-items"
 import { Icon } from "@iconify/react"
+import { IconBook2 } from "@tabler/icons-react"
 import { useAtomValue } from "jotai"
 import { useState } from "react"
 import { Link, useLocation } from "react-router"
@@ -56,6 +57,16 @@ export function FeaturesNav() {
       <SidebarGroupLabel>{i18n.t("options.sidebar.features")}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              render={<Link to="/personal-vocabulary" />}
+              isActive={pathname === "/personal-vocabulary"}
+              tooltip={i18n.t("personalVocabulary.title")}
+            >
+              <IconBook2 />
+              <span>{i18n.t("personalVocabulary.title")}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton
               render={<Link to="/custom-actions" />}

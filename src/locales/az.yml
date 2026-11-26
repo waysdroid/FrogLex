@@ -548,11 +548,6 @@ options:
           confirm: Təsdiqlə
           cancel: Ləğv et
           description: Bu əməliyyat bütün fərdi parametrlərinizi silib ilkin dəyərlərə qaytaracaq. Lüğətləriniz saxlanılır — silmək üçün lüğət səhifəsindən istifadə edin. Zəhmət olmasa təsdiqləyin.
-    userExperience:
-      title: İstifadəçi təcrübəsi
-      beta:
-        title: Beta imkanları
-        description: Hələ qeyri-sabit ola biləcək sınaq funksiyalarını aktiv edin
   shortcuts:
     title: Qısayollar
     pageDescription: Oxuyarkən tərcümə, səsləndirmə və süni intellekt əməliyyatlarını başladan düymələri təyin edin.

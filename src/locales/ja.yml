@@ -547,11 +547,6 @@ options:
           confirm: 確認
           cancel: キャンセル
           description: この操作はすべてのカスタム設定を消去し、既定値に戻します。用語集は保持されます — 削除する場合は用語集ページから行ってください。確認してください。
-    userExperience:
-      title: ユーザー体験
-      beta:
-        title: Beta 体験
-        description: まだ不安定な可能性がある実験的機能を有効にします
   shortcuts:
     title: ショートカット
     pageDescription: 読みながら翻訳・読み上げ・AI アクションを実行するキーを設定します。
